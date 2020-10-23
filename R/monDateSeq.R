@@ -10,7 +10,7 @@
 #' @return A sequence of dates
 #' @export
 monDateSeq <- function(st, en, freq) {
-  st <- as.Date(as.yearmon(st))
-  en <- as.Date(as.yearmon(en))
-  as.Date(as.yearmon(seq(st, en, by = paste(as.character(12/freq), "months"))), frac = 1)
+  st <- zoo::as.Date(zoo::as.yearmon(st))
+  en <- zoo::as.Date(zoo::as.yearmon(en))
+  zoo::as.Date(zoo::as.yearmon(seq(st, en, by = paste(as.character(12/freq), "months"))), frac = 1)
 }

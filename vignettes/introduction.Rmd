@@ -1,5 +1,5 @@
 ---
-title: "Tntroduction to Ri-C-Asia Package"
+title: "Introduction to riversCentralAsia Package"
 output: rmarkdown::html_vignette
 vignette: >
   %\VignetteIndexEntry{introduction}

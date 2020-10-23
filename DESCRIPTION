@@ -6,11 +6,15 @@ Author: Tobias Siegfried
 Maintainer: Tobias Siegfried <siegfried@hydrosolutions.ch>
 Description: More about what it does (maybe more than one line)
     Use four spaces when indenting paragraphs within the Description.
-License: What license is it under?
+License: GPL (>=3)
 Encoding: UTF-8
 LazyData: true
 Imports:
   zoo,
+  timetk,
+  tidyverse,
+  lubridate,
+  pracma,
 RoxygenNote: 7.1.1
 Suggests: 
     knitr,
