@@ -12,7 +12,7 @@
 #' @return A matrix of the infile
 #' @export
 loadTabularData <- function(fPath,fName,code){
-  Q_mat <- read_csv(strcat(fPath,fName),col_names = FALSE, col_types = cols())
+  Q_mat <- read_csv(strcat(fPath,fName), col_names = FALSE, col_types = cols())
   if (dim(Q_mat)[2] == 13){type = 'mon'} else {type = 'dec'}
   yS <- Q_mat$X1 %>% first()
   yE <- Q_mat$X1 %>% last()
@@ -25,10 +25,10 @@ loadTabularData <- function(fPath,fName,code){
   if (type=='dec'){
     dates <- riversCentralAsia::decadeMaker(s,e,'end') %>% tk_tbl()
     dates <- dates %>% dplyr::select(-value)
-    dates <- dplyr::rename(dates,date = index)
+    dates <- dplyr::rename(dates, date = index)
   } else {
     dates <- riversCentralAsia::monDateSeq(s,e,12) %>% tk_tbl(preserve_index = FALSE)
-    dates <- dplyr::rename(dates,date = data)
+    dates <- dplyr::rename(dates, date = data)
   }
   dates$Q <- Q$value
   dates$Qnorm <- Q_norm
