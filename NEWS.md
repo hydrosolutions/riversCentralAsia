@@ -1,5 +1,17 @@
 # riversCentralAsia (Development Version)
 
+## riversCentralAsia 0.1.2
+
+-   Package extension to also load meteorological data, including precipitation `P` and temperature `T`, apart from the discharge data `Q`. Fort this , the function `loadTabularData` got a new argument `dataType` which can take now one of the following values: `{Q,P,T}`.
+
+-   Added a `unit` column that stores units of the data loaded in `char` format which the user can specify, e.g.
+
+    -   'degC' for temperature in degrees Celsius,
+
+    -   'mm' for cumulative precipitation over the interval period, i.e. 10-days (decadal) or monthly, and
+
+    -   'm3s' for average discharge over the interval period.
+
 ## riversCentralAsia 0.1.1
 
 ### Improvements

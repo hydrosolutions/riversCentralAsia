@@ -1,7 +1,7 @@
 Package: riversCentralAsia
 Type: Package
 Title: Load, process and visualize data from Central Asian Hydromets
-Version: 0.1.1
+Version: 0.1.2
 Author: Tobias Siegfried
 Maintainer: Tobias Siegfried <siegfried@hydrosolutions.ch>
 Description: Package with helper functions to load, manage and analyze hydrometeorological data from Central Asia.

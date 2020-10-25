@@ -12,5 +12,6 @@
 monDateSeq <- function(st, en, freq) {
   st <- zoo::as.Date(zoo::as.yearmon(st))
   en <- zoo::as.Date(zoo::as.yearmon(en))
-  zoo::as.Date(zoo::as.yearmon(seq(st, en, by = paste(as.character(12/freq), "months"))), frac = 1)
+  zoo::as.Date(zoo::as.yearmon(seq(st, en, by = paste(as.character(12/freq),
+                                                      "months"))), frac = 1)
 }
