@@ -37,6 +37,7 @@ loadTabularData <- function(fPath,fName,code,rName,rBasin,dataType,units){
   dates$data <- data$value
   dates$norm <- norm
   dates$units <- units
+  dates$type <- dataType
   dates$code <- code
   dates$river <- rName
   dates$basin <- rBasin
