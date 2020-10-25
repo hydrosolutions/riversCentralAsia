@@ -4,22 +4,41 @@
 \alias{loadTabularData}
 \title{Load Tabular Hydro-Meteorological Data}
 \usage{
-loadTabularData(fPath, fName, code)
+loadTabularData(
+  fPath,
+  fName,
+  code,
+  stationName,
+  rName,
+  rBasin,
+  dataType,
+  units
+)
 }
 \arguments{
 \item{fPath}{Path to the input file}
 
 \item{fName}{File name}
 
-\item{code}{Station code}
+\item{code}{Hydrometeorological station code}
+
+\item{stationName}{Hydrometeorological station name/location}
+
+\item{rName}{Name of river}
+
+\item{rBasin}{Name of basin}
+
+\item{dataType}{Type of data, either `Q`, `T` or `P`}
+
+\item{units}{Data units}
 }
 \value{
-A matrix of the infile
+Time-aware tibble with relevant data
 }
 \description{
-Loads csv files with tabular hydrometerological data where years are in rows
+Loads csv files with tabular hydrometeorological data where years are in rows
 and decades or months are in columns. The function automatically detects if
-monthly or decadal (10-day) data is provided. The function automatiaclly computes
+monthly or decadal (10-day) data is provided. The function automatically computes
 the long-term norm of the data provided and returns a time aware tibble with
 date, data, data norm columns and code columns.
 }

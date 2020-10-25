@@ -9,13 +9,14 @@
 #' @param fPath Path to the input file
 #' @param fName File name
 #' @param code Hydrometeorological station code
+#' @param stationName Hydrometeorological station name/location
 #' @param rName Name of river
 #' @param rBasin Name of basin
 #' @param dataType Type of data, either `Q`, `T` or `P`
 #' @param units Data units
-#' @return A matrix of the infile
+#' @return Time-aware tibble with relevant data
 #' @export
-loadTabularData <- function(fPath,fName,code,rName,rBasin,dataType,units){
+loadTabularData <- function(fPath,fName,code,stationName,rName,rBasin,dataType,units){
   dataMat <- read_csv(strcat(fPath,fName), col_names = FALSE, col_types = cols())
   if (dim(dataMat)[2] == 13){type = 'mon'} else {type = 'dec'}
   yS <- dataMat$X1 %>% first()
@@ -37,9 +38,11 @@ loadTabularData <- function(fPath,fName,code,rName,rBasin,dataType,units){
   dates$data <- data$value
   dates$norm <- norm
   dates$units <- units
-  dates$type <- dataType
+  dates$type <- factor(dataType,levels = c("Q","P","T"))
   dates$code <- code
+  dates$station <- stationName
   dates$river <- rName
   dates$basin <- rBasin
+  dates$resolution <- factor(type,levels = c("dec","mon"))
   df <- dates %>% return()
 }

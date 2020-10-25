@@ -19,6 +19,6 @@ A sequence of decadal dates
 \description{
 This function creates a decadal 10-days dates vector that allows date tagging
 for decadal (10-days) time series. This type of timeseries is usually used for
-hydro-meteorological data in the former Soviet Republics. The intra months decades
+hydro-meteorological data in the former Soviet Republics. The intra-months decades
 can be configured as dates at the beginning or end of the decade.
 }
