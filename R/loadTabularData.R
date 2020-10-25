@@ -10,17 +10,19 @@
 #' @param fName File name
 #' @param code Hydrometeorological station code
 #' @param rName Name of river
+#' @param dataType Type of data, either `Q`, `T` or `P`
+#' @param units Data units
 #' @return A matrix of the infile
 #' @export
-loadTabularData <- function(fPath,fName,code,rName){
-  Q_mat <- read_csv(strcat(fPath,fName), col_names = FALSE, col_types = cols())
-  if (dim(Q_mat)[2] == 13){type = 'mon'} else {type = 'dec'}
-  yS <- Q_mat$X1 %>% first()
-  yE <- Q_mat$X1 %>% last()
-  Q_mat <- Q_mat %>% dplyr::select(-X1)
-  Q_norm <- Q_mat %>% dplyr::summarise_all(mean,na.rm=TRUE) %>% as.matrix() %>%
-    unname() %>% t() %>% pracma::repmat(dim(Q_mat)[1],1) %>% as.vector
-  Q <- Q_mat %>% t() %>% dplyr::as_tibble() %>% gather()
+loadTabularData <- function(fPath,fName,code,rName, dataType, units){
+  dataMat <- read_csv(strcat(fPath,fName), col_names = FALSE, col_types = cols())
+  if (dim(dataMat)[2] == 13){type = 'mon'} else {type = 'dec'}
+  yS <- dataMat$X1 %>% first()
+  yE <- dataMat$X1 %>% last()
+  dataMat <- dataMat %>% dplyr::select(-X1)
+  norm <- dataMat %>% dplyr::summarise_all(mean,na.rm=TRUE) %>% as.matrix() %>%
+    unname() %>% t() %>% pracma::repmat(dim(dataMat)[1],1) %>% as.vector
+  data <- dataMat %>% t() %>% dplyr::as_tibble() %>% gather()
   s <- strcat(as.character(yS),"-01-01")
   e <- strcat(as.character(yE),"-12-31")
   if (type=='dec'){
@@ -31,9 +33,10 @@ loadTabularData <- function(fPath,fName,code,rName){
     dates <- riversCentralAsia::monDateSeq(s,e,12) %>% tk_tbl(preserve_index = FALSE)
     dates <- dplyr::rename(dates, date = data)
   }
-  dates$Q <- Q$value
-  dates$Qnorm <- Q_norm
+  dates$data <- data$value
+  dates$norm <- norm
+  dates$units <- units
   dates$code <- code
-  date$name <- rName
-  Q <- dates
+  dates$name <- rName
+  df <- dates %>% return()
 }

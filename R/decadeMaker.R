@@ -16,7 +16,8 @@ decadeMaker <- function(s,e,type){
   decade <- rep(decade, times = ydiff)
   #decade <- as.vector(repmat(decade, 1, ydiff))
   temp <- zoo::zooreg(decade, frequency = 36, start=zoo::as.yearmon(s))
-  eom <- seq.Date(zoo::as.Date(s),by='month',length.out = ydiff * 12) %>% zoo::as.yearmon() %>% zoo::as.Date(,frac=1) %>% format('%d') %>% as.numeric
+  eom <- seq.Date(zoo::as.Date(s),by='month',length.out = ydiff * 12) %>%
+    zoo::as.yearmon() %>% zoo::as.Date(,frac=1) %>% format('%d') %>% as.numeric
   if (strcmp(type,'end')){
     daysV <- cbind(10,20,eom) %>% t %>% as.vector()
   } else if (strcmp(type,'start')){
