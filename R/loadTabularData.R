@@ -38,11 +38,12 @@ loadTabularData <- function(fPath,fName,code,stationName,rName,rBasin,dataType,u
   dates$data <- data$value
   dates$norm <- norm
   dates$units <- units
-  dates$type <- factor(dataType,levels = c("Q","P","T"))
-  dates$code <- code
+  dates$type <- factor(dataType, levels = c("Q","P","T"))
+  dates$code <- factor(toString(code), levels = c('16279', '16290', '16294', '16298',
+                                        '16300', '16275', '38462', '38464', '38471'))
   dates$station <- stationName
   dates$river <- rName
   dates$basin <- rBasin
-  dates$resolution <- factor(type,levels = c("dec","mon"))
+  dates$resolution <- factor(type, levels = c("dec","mon"))
   df <- dates %>% return()
 }
