@@ -40,7 +40,8 @@ loadTabularData <- function(fPath,fName,code,stationName,rName,rBasin,dataType,u
   dates$units <- units
   dates$type <- factor(dataType, levels = c("Q","P","T"))
   dates$code <- factor(toString(code), levels = c('16279', '16290', '16294', '16298',
-                                        '16300', '16275', '38462', '38464', '38471'))
+                                        '16300', '16275', '38462', '38464', '38471',
+                                        '16262'))
   dates$station <- stationName
   dates$river <- rName
   dates$basin <- rBasin
