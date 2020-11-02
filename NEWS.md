@@ -1,5 +1,11 @@
 # riversCentralAsia (Development Version)
 
+## riversCentralAsia 0.1.3
+
+- Now, the station code is a factor.
+
+- Added gauging station locations and corresponding contributing catchment sizes to the pre-packaged Chirchik river data.
+
 ## riversCentralAsia 0.1.2
 
 -   Package extension to also load meteorological data, including precipitation `P` and temperature `T`, apart from the discharge data `Q`. Fort this , the function `loadTabularData` got a new argument `dataType` which can take now one of the following values: `{Q,P,T}`.

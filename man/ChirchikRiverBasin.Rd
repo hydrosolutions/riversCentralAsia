@@ -19,6 +19,10 @@ A data frame with columns:
  \item{basin}{Name of river basin.}
  \item{resolution}{Factor describing temporal resolution of data, either
  10-days decadal 'dec' or monthly 'mon'.}
+ \item{lon_UTM42}{Longitude of station in UTM 42 coordinates.}
+ \item{lat_UTM42}{Latitude of station in UTM 42 coordinates.}
+ \item{altitude_masl}{Station elevation in meters above sea level.}
+ \item{basinSize_sqkm}{Size of upstream contributing catchment.}
 }
 }
 \source{
