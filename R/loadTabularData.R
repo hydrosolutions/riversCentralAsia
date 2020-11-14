@@ -12,21 +12,21 @@
 #' @param stationName Hydrometeorological station name/location
 #' @param rName Name of river
 #' @param rBasin Name of basin
-#' @param dataType Type of data, either `Q`, `T` or `P`
+#' @param dataType Type of data, either `Q` (discharge data), `T` (temperature data) or `P` (precipitation data)
 #' @param units Data units
 #' @return Time-aware tibble with relevant data
 #' @export
 loadTabularData <- function(fPath,fName,code,stationName,rName,rBasin,dataType,units){
-  dataMat <- read_csv(strcat(fPath,fName), col_names = FALSE, col_types = cols())
+  dataMat <- read_csv(paste(fPath,fName,sep=""), col_names = FALSE, col_types = cols())
   if (dim(dataMat)[2] == 13){type = 'mon'} else {type = 'dec'}
   yS <- dataMat$X1 %>% first()
   yE <- dataMat$X1 %>% last()
   dataMat <- dataMat %>% dplyr::select(-X1)
-  norm <- dataMat %>% dplyr::summarise_all(mean,na.rm=TRUE) %>% as.matrix() %>%
-    unname() %>% t() %>% pracma::repmat(dim(dataMat)[1],1) %>% as.vector
+  norm <- dataMat %>% dplyr::summarise_all(mean,na.rm=TRUE) %>% as.numeric() %>%
+    kronecker(matrix(1,1,dim(dataMat)[1])) %>% as.numeric()
   data <- dataMat %>% t() %>% dplyr::as_tibble() %>% gather()
-  s <- strcat(as.character(yS),"-01-01")
-  e <- strcat(as.character(yE),"-12-31")
+  s <- paste(as.character(yS),"-01-01",sep="")
+  e <- paste(as.character(yE),"-12-31",sep="")
   if (type=='dec'){
     dates <- riversCentralAsia::decadeMaker(s,e,'end') %>% tk_tbl()
     dates <- dates %>% dplyr::select(-value)
@@ -39,9 +39,11 @@ loadTabularData <- function(fPath,fName,code,stationName,rName,rBasin,dataType,u
   dates$norm <- norm
   dates$units <- units
   dates$type <- factor(dataType, levels = c("Q","P","T"))
-  dates$code <- factor(toString(code), levels = c('16279', '16290', '16924', '16298',
-                                        '16300', '16275', '38462', '38464', '38471',
-                                        '16262'))
+  # Let's not use factors just now.
+  # dates$code <- factor(toString(code), levels = c('16279', '16290', '16924', '16298',
+  #                                       '16300', '16275', '38462', '38464', '38471',
+  #                                       '16262'))
+  dates$code <- code %>% toString()
   dates$station <- stationName
   dates$river <- rName
   dates$basin <- rBasin

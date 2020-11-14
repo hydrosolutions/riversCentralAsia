@@ -12,15 +12,15 @@
 #' @export
 decadeMaker <- function(s,e,type){
   decade <- 1 : 36 # Preparation of decade indicators
-  ydiff <- as.Date(e) %>% year() - as.Date(s) %>% year() + 1
+  ydiff <- as.Date(e) %>% lubridate::year() - as.Date(s) %>% lubridate::year() + 1
   decade <- rep(decade, times = ydiff)
   #decade <- as.vector(repmat(decade, 1, ydiff))
   temp <- zoo::zooreg(decade, frequency = 36, start=zoo::as.yearmon(s))
   eom <- seq.Date(zoo::as.Date(s),by='month',length.out = ydiff * 12) %>%
     zoo::as.yearmon() %>% zoo::as.Date(,frac=1) %>% format('%d') %>% as.numeric
-  if (strcmp(type,'end')){
+  if (all(type=='end')){
     daysV <- cbind(10,20,eom) %>% t %>% as.vector()
-  } else if (strcmp(type,'start')){
+  } else if (all(type=='start')){
     daysV <- cbind(1,11,21) %>% t %>% as.vector()
   }
   temp.Date <- zoo::as.Date(time(temp)) + daysV - 1
