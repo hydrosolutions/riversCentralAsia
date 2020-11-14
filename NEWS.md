@@ -1,5 +1,12 @@
 # riversCentralAsia (Development Version)
 
+## riverCentralAsia 0.2
+
+Release 0.2 include various improvements.
+- No more pracma package dependencies in functions.
+- Removed factors from loadTabularData so as to allow for the loading of any station data.
+- Added monthly station data of precipitation of Oygaing station.
+
 ## riversCentralAsia 0.1.3
 
 - Now, the station code is a factor.

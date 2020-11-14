@@ -28,7 +28,7 @@ loadTabularData(
 
 \item{rBasin}{Name of basin}
 
-\item{dataType}{Type of data, either `Q`, `T` or `P`}
+\item{dataType}{Type of data, either `Q` (discharge data), `T` (temperature data) or `P` (precipitation data)}
 
 \item{units}{Data units}
 }
