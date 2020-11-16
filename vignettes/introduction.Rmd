@@ -15,6 +15,10 @@ knitr::opts_chunk$set(
 ```
 
 ```{r setup}
+library(devtools)
+library(tidyverse)
+library(lubridate)    
+library(timetk)       
 library(riversCentralAsia)
 ```
 
@@ -22,4 +26,26 @@ library(riversCentralAsia)
 
 Central Asia has a rich hydrometeorological record. Discharge at selected important rivers started to be measured round the beginning of the 20th century. These data are archived in the hydrometeorological agencies of the region. The goal of this package is to make these data available to students from Central Asia to learn about the fascinating hydrology in their region and to make quantitative analyses possible using these data.
 
-# Output
+# Version 0.2 Data
+
+Currently, various data from the Chirchik River Basin are available for analysis. The data can be loaded and viewed in the following way.
+
+```{r}
+data <- ChirchikRiverBasin # load data
+data
+```
+
+Discharge data and data from meteorological stations is included. Each station has a unqieu 5-digit code identifier together with the type of data. The complete set of discharge stations from which data is available can be obtained.
+
+```{r}
+data %>% filter(type=='Q') %>% select(code,station,resolution,lon_UTM42.x,lat_UTM42.x,altitude_masl.x) %>% unique()
+```
+
+Using the package `timetk`, these data can be easily visualized.
+
+```{r}
+data %>% filter(type=='Q') %>% 
+  plot_time_series(date,data,.smooth = FALSE,.interactive = FALSE,.facet_vars = 'code',.facet_ncol = 2)
+```
+
+The same holds true for meteorological data. For meteorological stations, however, it should be noted that they measure temperature and percipition at the same time.
