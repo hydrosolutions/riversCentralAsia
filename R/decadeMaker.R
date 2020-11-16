@@ -26,5 +26,5 @@ decadeMaker <- function(s,e,type){
   decade <- zoo::zoo(decade, temp.Date) %>%
     tk_tbl() %>%
     rename(date=index,dec=value) %>%
-    filter(date<=e)
+    filter(date<=e) %>% filter(date>=s)
 }
