@@ -1,3 +1,4 @@
+
 <!-- README.md is generated from README.Rmd. Please edit that file -->
 
 # riversCentralAsia
@@ -5,18 +6,17 @@
 <!-- badges: start -->
 <!-- badges: end -->
 
-The goal of riversCentralAsia is to …
+riversCentralAsia is an R Package with helper functions to load, manage
+and analyze hydrometeorological data from Central Asia. Currently, a
+relatively complete dataset of the Chirchik River Basin with decadal and
+monthly data on discharge, precipitation and temperature is included.
+The plan is to extend the data record to also include data from Chu and
+Talas rivers and from Amu Darya and Syr Darya, etc.
 
 ## Installation
 
-You can install the released version of riversCentralAsia from
-[CRAN](https://CRAN.R-project.org) with:
-
-``` r
-install.packages("riversCentralAsia")
-```
-
-And the development version from [GitHub](https://github.com/) with:
+You can install the development version from
+[GitHub](https://github.com/) with:
 
 ``` r
 # install.packages("devtools")
@@ -25,7 +25,8 @@ devtools::install_github("hydrosolutions/riversCentralAsia")
 
 ## Example
 
-This is a basic example which shows you how to solve a common problem:
+This is a basic example which shows you how to visualize the included
+data
 
 ``` r
 library(riversCentralAsia)
@@ -58,7 +59,10 @@ ChirchikRiverBasin # load data
 #> #   lat_UTM42.x <dbl>, altitude_masl.x <dbl>, basinSize_sqkm.x <dbl>,
 #> #   lon_UTM42.y <dbl>, lat_UTM42.y <dbl>, altitude_masl.y <dbl>,
 #> #   basinSize_sqkm.y <dbl>
-ChirchikRiverBasin %>% group_by(code) %>% plot_time_series(date,data,.interactive = FALSE,.facet_ncol = 2,.smooth = FALSE)
+ChirchikRiverBasin %>% group_by(code) %>% plot_time_series(date,data,
+                                                           .interactive = FALSE,
+                                                           .facet_ncol  = 2,
+                                                           .smooth      = FALSE)
 #> Warning: Removed 3 row(s) containing missing values (geom_path).
 ```
 
