@@ -13,8 +13,7 @@
 decadeMaker <- function(s,e,type){
   decade <- 1 : 36 # Preparation of decade indicators
   ydiff <- as.Date(e) %>% lubridate::year() - as.Date(s) %>% lubridate::year() + 1
-  decade <- rep(decade, times = ydiff)
-  #decade <- as.vector(repmat(decade, 1, ydiff))
+  decade <- rep(decade, times = ydiff) # this replicates decades for exactly the number of years
   temp <- zoo::zooreg(decade, frequency = 36, start=zoo::as.yearmon(s))
   eom <- seq.Date(zoo::as.Date(s),by='month',length.out = ydiff * 12) %>%
     zoo::as.yearmon() %>% zoo::as.Date(,frac=1) %>% format('%d') %>% as.numeric
@@ -24,5 +23,8 @@ decadeMaker <- function(s,e,type){
     daysV <- cbind(1,11,21) %>% t %>% as.vector()
   }
   temp.Date <- zoo::as.Date(time(temp)) + daysV - 1
-  decade <- zoo::zoo(decade, temp.Date) %>% return
+  decade <- zoo::zoo(decade, temp.Date) %>%
+    tk_tbl() %>%
+    rename(date=index,dec=value) %>%
+    filter(date<=e)
 }

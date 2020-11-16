@@ -28,18 +28,19 @@ loadTabularData <- function(fPath,fName,code,stationName,rName,rBasin,dataType,u
   s <- paste(as.character(yS),"-01-01",sep="")
   e <- paste(as.character(yE),"-12-31",sep="")
   if (type=='dec'){
-    dates <- riversCentralAsia::decadeMaker(s,e,'end') %>% tk_tbl()
+    dates <- riversCentralAsia::decadeMaker(s,e,'end') #%>% tk_tbl()
     dates <- dates %>% dplyr::select(-value)
-    dates <- dplyr::rename(dates, date = index)
+    #dates <- dplyr::rename(dates, date = index) # removed as of Release 0.2.2 due to improvements in decadeMaker()
   } else {
-    dates <- riversCentralAsia::monDateSeq(s,e,12) %>% tk_tbl(preserve_index = FALSE)
-    dates <- dplyr::rename(dates, date = data)
+    dates <- riversCentralAsia::monDateSeq(s,e,12) #%>% tk_tbl(preserve_index = FALSE)
+    #dates <- dplyr::rename(dates, date = data) # removed as of Release 0.2.2 due to improvements in decadeMaker()
   }
   dates$data <- data$value
   dates$norm <- norm
   dates$units <- units
   dates$type <- factor(dataType, levels = c("Q","P","T"))
-  # Let's not use factors just now.
+  # Let's not use factors just now. This creates problems if a user wants to read in a
+  #generic time series that is at her/his disposition.
   # dates$code <- factor(toString(code), levels = c('16279', '16290', '16924', '16298',
   #                                       '16300', '16275', '38462', '38464', '38471',
   #                                       '16262'))
