@@ -30,10 +30,9 @@ loadTabularData <- function(fPath,fName,code,stationName,rName,rBasin,dataType,u
   if (type=='dec'){
     dates <- riversCentralAsia::decadeMaker(s,e,'end') #%>% tk_tbl()
     dates <- dates %>% dplyr::select(-dec)
-    #dates <- dplyr::rename(dates, date = index) # removed as of Release 0.2.2 due to improvements in decadeMaker()
   } else {
-    dates <- riversCentralAsia::monDateSeq(s,e,12) #%>% tk_tbl(preserve_index = FALSE)
-    #dates <- dplyr::rename(dates, date = data) # removed as of Release 0.2.2 due to improvements in decadeMaker()
+    dates <- riversCentralAsia::monDateSeq(s,e,12) %>% tk_tbl(preserve_index = FALSE)
+    dates <- dplyr::rename(dates, date = data)
   }
   dates$data <- data$value
   dates$norm <- norm
