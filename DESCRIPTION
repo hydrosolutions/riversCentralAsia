@@ -1,22 +1,10 @@
 Package: riversCentralAsia
 Type: Package
-Title: Load, process and visualize data from Central Asian Hydromets
-Version: 0.2.0
-Author: Tobias Siegfried
-Maintainer: Tobias Siegfried <siegfried@hydrosolutions.ch>
-Description: Package with helper functions to load, manage and analyze hydrometeorological data from Central Asia. Currently, a relatively complete dataset of the Chirchik River Basin with decadal and monthly data on discharge, precipitation and temperature is included.
-License: GPL (>=3)
-Encoding: UTF-8
-LazyData: true
-Imports:
-  zoo,
-  timetk,
-  tidyverse,
-  lubridate
+Title: What the package does (short line)
+Version: 1.0
+Date: 2020-12-01
+Author: Who wrote it
+Maintainer: Who to complain to <yourfault@somewhere.net>
+Description: More about what it does (maybe more than one line)
+License: What license is it under?
 RoxygenNote: 7.1.1
-Suggests: 
-    knitr,
-    rmarkdown
-VignetteBuilder: knitr
-Depends: 
-    R (>= 2.10)
