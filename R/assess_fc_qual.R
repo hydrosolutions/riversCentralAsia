@@ -63,6 +63,9 @@ assess_fc_qual <- function(df,plot){
   numb_good_nperc <- (numb_good_n / numb_good_nYearObs[1] *100) %>% t() %>% tibble::as.tibble() %>%
     dplyr::rename(good_qual_perc = 'V1') %>% add_column(per = 1:per_max)
 
+  yintercept <-  numb_good_nperc$good_qual_perc %>% mean()
+
+
   if (plot==TRUE){
 
     p1 <- res %>% ggplot(aes(x=per,y=fc_qual,group=per)) +
@@ -79,8 +82,6 @@ assess_fc_qual <- function(df,plot){
                 color          = "red") +
       ylim(0,2) +
       theme_minimal()
-
-    yintercept <-  numb_good_nperc$good_qual_perc %>% mean()
 
     p2 <- numb_good_nperc %>% ggplot(aes(x=per,y=good_qual_perc)) +
       geom_bar(stat            = "identity",
@@ -104,8 +105,11 @@ assess_fc_qual <- function(df,plot){
                      yAxisLabels        = c("scaled forecast error [-]","perc. aceptable forecasts [%]"),
                      showAxisPlotLabels = TRUE)
 
+    returnObject <- list(numb_good_nperc,yintercept,fin_plot)
+  } else {
+    returnObject <- list(numb_good_nperc,yintercept)
   }
 
-  returnObject <- list(numb_good_nperc,yintercept,fin_plot)
+
   return(returnObject)
 }
