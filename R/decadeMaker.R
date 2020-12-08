@@ -23,9 +23,9 @@ decadeMaker <- function(s,e,type){
   } else if (all(type=='start')){
     daysV <- cbind(1,11,21) %>% t %>% as.vector()
   }
-  temp.Date <- zoo::as.Date(time(temp)) + daysV - 1
+  temp.Date <- zoo::as.Date(stats::time(temp)) + daysV - 1
   decade <- zoo::zoo(decade, temp.Date) %>%
-    tk_tbl() %>%
-    rename(date=index,dec=value) %>%
-    filter(date<=e & date>=s)
+    timetk::tk_tbl() %>%
+    dplyr::rename(date=index,dec=value) %>%
+    dplyr::filter(date<=e & date>=s)
 }

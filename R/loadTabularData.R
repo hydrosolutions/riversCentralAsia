@@ -17,21 +17,21 @@
 #' @return Time-aware tibble with relevant data
 #' @export
 loadTabularData <- function(fPath,fName,code,stationName,rName,rBasin,dataType,units){
-  dataMat <- read_csv(paste(fPath,fName,sep=""), col_names = FALSE, col_types = cols())
+  dataMat <- readr::read_csv(paste(fPath,fName,sep=""), col_names = FALSE, col_types = readr::cols())
   if (dim(dataMat)[2] == 13){type = 'mon'} else {type = 'dec'}
-  yS <- dataMat$X1 %>% first()
-  yE <- dataMat$X1 %>% last()
+  yS <- dataMat$X1 %>% dplyr::first()
+  yE <- dataMat$X1 %>% dplyr::last()
   dataMat <- dataMat %>% dplyr::select(-X1)
   norm <- dataMat %>% dplyr::summarise_all(mean,na.rm=TRUE) %>% as.numeric() %>%
     kronecker(matrix(1,1,dim(dataMat)[1])) %>% as.numeric()
-  data <- dataMat %>% t() %>% dplyr::as_tibble() %>% gather()
+  data <- dataMat %>% t() %>% dplyr::as_tibble() %>% tidyr::gather()
   s <- paste(as.character(yS),"-01-01",sep="")
   e <- paste(as.character(yE),"-12-31",sep="")
   if (type=='dec'){
     dates <- riversCentralAsia::decadeMaker(s,e,'end') #%>% tk_tbl()
     dates <- dates %>% dplyr::select(-dec)
   } else {
-    dates <- riversCentralAsia::monDateSeq(s,e,12) %>% tk_tbl(preserve_index = FALSE)
+    dates <- riversCentralAsia::monDateSeq(s,e,12) %>% timetk::tk_tbl(preserve_index = FALSE)
     dates <- dplyr::rename(dates, date = data)
   }
   dates$data <- data$value
