@@ -17,21 +17,21 @@ assess_fc_qual <- function(df,plot){
   if (per_max==12){
     sd_calc <- df %>%
       dplyr::select(-pred,-errs) %>%
-      dplyr::mutate(date = year(date)) %>%
+      dplyr::mutate(date = lubridate::year(date)) %>%
       tidyr::pivot_wider(names_from = per, values_from = obs, names_sort = T) %>%
-      na.omit() %>%
-      dplyr::summarise(across(-date,sd)) %>%
+      stats::na.omit() %>%
+      dplyr::summarise(dplyr::across(-date,stats::sd)) %>%
       t() %>%
       tibble::as_tibble_col(.,column_name = "sd") %>%
       tibble::add_column(per = 1:12)
   } else if (per_max==36) {
     sd_calc <- df %>%
-      dplyr::mutate(obs = obs - lag(obs)) %>%
+      dplyr::mutate(obs = obs - dplyr::lag(obs)) %>%
       dplyr::select(-pred,-errs) %>%
-      dplyr::mutate(date = year(date)) %>%
+      dplyr::mutate(date = lubridate::year(date)) %>%
       tidyr::pivot_wider(names_from = per,values_from = obs,names_sort = T) %>%
-      na.omit() %>%
-      dplyr::summarise(across(-date,sd)) %>%
+      stats::na.omit() %>%
+      dplyr::summarise(dplyr::across(-date,stats::sd)) %>%
       t() %>%
       tibble::as_tibble_col(.,column_name = "sd") %>%
       tibble::add_column(per=1:36)
@@ -44,18 +44,18 @@ assess_fc_qual <- function(df,plot){
     dplyr::mutate(good = as.integer(fc_qual<=0.674)) # Add percentage number of predictions that are <= qual. criterion.
   numb_good <- res %>%
     dplyr::select(date,per,good) %>%
-    dplyr::mutate(date = year(date)) %>%
+    dplyr::mutate(date = lubridate::year(date)) %>%
     tidyr::pivot_wider(names_from = per,
                        values_from = good,
                        names_sort = T) %>%
-    na.omit()
+    stats::na.omit()
   numb_good_nYearObs <- numb_good %>% dim()
-  numb_good_n <- numb_good %>% dplyr::summarize(across(-date,sum))
+  numb_good_n <- numb_good %>% dplyr::summarize(dplyr::across(-date,sum))
   numb_good_nperc <- (numb_good_n / numb_good_nYearObs[1] *100) %>% t() %>% tibble::as.tibble() %>%
-    dplyr::rename(good_qual_perc = 'V1') %>% add_column(per = 1:per_max)
+    dplyr::rename(good_qual_perc = 'V1') %>% tibble::add_column(per = 1:per_max)
   yintercept <-  numb_good_nperc$good_qual_perc %>% mean()
   if (plot==TRUE){
-    p1 <- res %>% ggplot2::ggplot(aes(x=per,y=fc_qual,group=per)) +
+    p1 <- res %>% ggplot2::ggplot(ggplot2::aes(x=per,y=fc_qual,group=per)) +
       ggplot2::geom_boxplot(fill        = "aliceblue",
                             color       = "darkgrey") +
       ggplot2::geom_hline(yintercept    = 0.674,
@@ -69,7 +69,7 @@ assess_fc_qual <- function(df,plot){
                          color          = "red") +
       ggplot2::ylim(0,2) +
       ggplot2::theme_minimal()
-    p2 <- numb_good_nperc %>% ggplot2::ggplot(aes(x=per,y=good_qual_perc)) +
+    p2 <- numb_good_nperc %>% ggplot2::ggplot(ggplot2::aes(x=per,y=good_qual_perc)) +
       ggplot2::geom_bar(stat            = "identity",
                         fill            = "cornsilk",
                         color           = "grey",
