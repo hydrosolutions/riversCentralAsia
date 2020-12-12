@@ -37,12 +37,9 @@ loadTabularData <- function(fPath,fName,code,stationName,rName,rBasin,dataType,u
   dates$data <- data$value
   dates$norm <- norm
   dates$units <- units
-  dates$type <- factor(dataType, levels = c("Q","P","T"))
-  # Let's not use factors just now. This creates problems if a user wants to read in a
-  #generic time series that is at her/his disposition.
-  # dates$code <- factor(toString(code), levels = c('16279', '16290', '16924', '16298',
-  #                                       '16300', '16275', '38462', '38464', '38471',
-  #                                       '16262'))
+  #dates$type <- factor(dataType, levels = c("Q","P","T")) # Removed since we can have different type of temperature
+  # time series, i.e. monthly abs. minimum, monthly mean minimum, etc.
+  dates$type <- dataType
   dates$code <- code %>% toString()
   dates$station <- stationName
   dates$river <- rName
