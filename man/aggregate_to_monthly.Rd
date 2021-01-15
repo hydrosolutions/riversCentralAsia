@@ -5,11 +5,11 @@
 \title{Aggregates the sub-monthly data in a riversCentralAsia data set to monthly
 data.}
 \usage{
-aggregate_to_monthly(data, funcTypeLib)
+aggregate_to_monthly(dataTable, funcTypeLib)
 }
 \arguments{
-\item{data}{A tibble of the format \code{ChirchikRiverBasin}. Must contain at
-least the columns date, data, type and code.}
+\item{dataTable}{A tibble of the format \code{ChirchikRiverBasin}. Must contain at
+least the columns date, data, norm, type and code.}
 
 \item{funcTypeLib}{is a list of functions with associated data types that
 will be applied to the data. Currently, the aggregation functions
@@ -23,6 +23,11 @@ Returns a tibble of the same format as \code{data} with data
             aggregated to monthly time steps and "mon" in the resolution
             column.
             Returns 1 if aggregation fails.
+
+examples
+dataTable <- ChirchikRiverBasin
+funcTypeLib <- list(mean = c("Q", "T"), sum= "P")
+data_mon <- aggregate_to_monthly(dataTable, funcTypeLib)
 }
 \description{
 A riversCentralAsia data set can be of type discharge, precipitation, and

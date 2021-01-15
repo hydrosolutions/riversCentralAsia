@@ -9,8 +9,8 @@
 #' timetk's summarise_by_time.
 #' To do this, aggregate_to_monthly
 #'
-#' @param data A tibble of the format \code{ChirchikRiverBasin}. Must contain at
-#'             least the columns date, data, type and code.
+#' @param dataTable A tibble of the format \code{ChirchikRiverBasin}. Must contain at
+#'             least the columns date, data, norm, type and code.
 #' @param funcTypeLib is a list of functions with associated data types that
 #'             will be applied to the data. Currently, the aggregation functions
 #'             \code{mean} and \code{sum} are supported. The user specifies the
@@ -23,29 +23,29 @@
 #'             column.
 #'             Returns 1 if aggregation fails.
 #'
-#' @examples
-#' data <- ChirchikRiverBasin
+#' examples
+#' dataTable <- ChirchikRiverBasin
 #' funcTypeLib <- list(mean = c("Q", "T"), sum= "P")
-#' data_mon <- aggregate_to_monthly(data, funcTypeLib)
+#' data_mon <- aggregate_to_monthly(dataTable, funcTypeLib)
 #'
 #' @author Beatrice Marti, hydrosolutions
 #' @export
 
-aggregate_to_monthly <- function(data, funcTypeLib) {
+aggregate_to_monthly <- function(dataTable, funcTypeLib) {
 
   # Make sure data contains the required columns in the required format.
-  required_columns <- c("date", "data", "type", "code")
-  required_classes <- c("date", "dbl", "fct", "chr")
+  required_columns <- c("date", "data", "type", "code", "norm")
+  required_classes <- c("date", "dbl", "fct", "chr", "dbl")
   temp_error_code <- 0
   for (column in required_columns) {
-    if (!(column %in% colnames(data))) {
-      cat(paste0("Error: Did not find column ", column, "in data. \n",
+    if (!(column %in% colnames(dataTable))) {
+      cat(paste0("Error: Did not find column ", column, " in data. \n",
                  "       See the documentation of the ChirchikRiverBasin \n",
                  "       data set for a more detailed description of data."))
       temp_error_code = 1
     } else {
       # If the column is available, test that the class is appropriate.
-      if (!(data[1,column] %>% purrr::map_chr(pillar::type_sum) %in% required_classes)) {
+      if (!(dataTable[1,column] %>% purrr::map_chr(pillar::type_sum) %in% required_classes)) {
         cat(paste0("Error: ", column, "in data does not have the required class. \n",
                    "       See the documentation of the ChirchikRiverBasin \n",
                    "       data set for a more detailed description of data."))
@@ -57,40 +57,38 @@ aggregate_to_monthly <- function(data, funcTypeLib) {
 
   # Test if all data types are included in funcTypeLib and print a warning if
   # not.
-  if (FALSE %in% (unique(data$type) %in% unlist(funcTypeLib))) {
+  if (FALSE %in% (unique(dataTable$type) %in% unlist(funcTypeLib))) {
     cat("Warning: Not all data types are declared in funcTypeLib.\nOnly part of your data will be aggregated.\n")
   }
 
   # Aggregation
-  data_mon <- data %>%
-    dplyr::group_by(.data$type, .data$code) %>%
-    dplyr::filter(.data$type %in% unlist(funcTypeLib[1])) %>%
-    timetk::summarise_by_time(.date_var = .data$date,
+  data_mon <- dataTable %>%
+    dplyr::group_by(., .data$type, .data$code) %>%
+    dplyr::filter(., .data$type %in% unlist(funcTypeLib[1])) %>%
+    timetk::summarise_by_time(.date_var = date,
                               .by = "month",
-                              data = mean(.data$data, na.rm = TRUE),
-                              norm = mean(.data$norm, na.rm = TRUE)) %>%
-    ungroup() %>%
-    dplyr::add_row(data %>%
-                     dplyr::group_by(.data$type, .data$code) %>%
-                     dplyr::filter(.data$type %in% unlist(funcTypeLib[2])) %>%
-                     timetk::summarise_by_time(.date_var = .data$date,
+                              data = mean(data, na.rm = TRUE),
+                              norm = mean(norm, na.rm = TRUE)) %>%
+    dplyr::ungroup() %>%
+    tibble::add_row(., dataTable %>%
+                     dplyr::group_by(., .data$type, .data$code) %>%
+                     dplyr::filter(., .data$type %in% unlist(funcTypeLib[2])) %>%
+                     timetk::summarise_by_time(., .date_var = date,
                                                .by = "month",
-                                               data = sum(.data$data, na.rm = TRUE),
-                                               norm = sum(.data$norm, na.rm = TRUE)) %>%
-                     ungroup()) %>%
-    dplyr::mutate(resolution = "mon") %>%
-    tidyr::drop_na(data)
+                                               data = sum(data, na.rm = TRUE),
+                                               norm = sum(norm, na.rm = TRUE)) %>%
+                     dplyr::ungroup()) %>%
+    dplyr::mutate(., resolution = "mon") %>%
+    tidyr::drop_na(., .data$data)
 
   # Add remaining columns from data.
-  temp <- timetk::summarise_by_time(.data = (data %>%
-                                               dplyr::select(-.data$data,
-                                                             -.data$norm,
-                                                             -.data$resolution) %>%
-                                               dplyr::group_by(.data$type,
-                                                               .data$code)),
-                                    .date_var = date,
+  temp <- dataTable %>%
+    dplyr::select(-dplyr::any_of(c("data", "norm", "resolution"))) %>%
+    dplyr::group_by(.data$type,
+                    .data$code) %>%
+    timetk::summarise_by_time(.,.date_var = date,
                                     .by = "month",
-                                    across(everything(), first))
+                                    dplyr::across(dplyr::everything(), dplyr::first))
   data_mon <- dplyr::left_join(data_mon, temp, by = c("date", "type", "code"))
 
   return(data_mon)
