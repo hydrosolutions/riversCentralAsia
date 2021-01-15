@@ -15,8 +15,7 @@
 #'             will be applied to the data. Currently, the aggregation functions
 #'             \code{mean} and \code{sum} are supported. The user specifies the
 #'             data types which are to be aggregated with either \code{mean} or
-#'             \code{sum}. Both functions are implemented with the na.rm option
-#'             set to TRUE.
+#'             \code{sum}.
 #'
 #' @return Returns a tibble of the same format as \code{data} with data
 #'             aggregated to monthly time steps and "mon" in the resolution
@@ -67,16 +66,16 @@ aggregate_to_monthly <- function(dataTable, funcTypeLib) {
     dplyr::filter(., .data$type %in% unlist(funcTypeLib[1])) %>%
     timetk::summarise_by_time(.date_var = date,
                               .by = "month",
-                              data = mean(data, na.rm = TRUE),
-                              norm = mean(norm, na.rm = TRUE)) %>%
+                              data = mean(data),
+                              norm = mean(norm)) %>%
     dplyr::ungroup() %>%
     tibble::add_row(., dataTable %>%
                      dplyr::group_by(., .data$type, .data$code) %>%
                      dplyr::filter(., .data$type %in% unlist(funcTypeLib[2])) %>%
                      timetk::summarise_by_time(., .date_var = date,
                                                .by = "month",
-                                               data = sum(data, na.rm = TRUE),
-                                               norm = sum(norm, na.rm = TRUE)) %>%
+                                               data = sum(data),
+                                               norm = sum(norm)) %>%
                      dplyr::ungroup()) %>%
     dplyr::mutate(., resolution = "mon") %>%
     tidyr::drop_na(., .data$data)

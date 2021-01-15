@@ -15,8 +15,7 @@ least the columns date, data, norm, type and code.}
 will be applied to the data. Currently, the aggregation functions
 \code{mean} and \code{sum} are supported. The user specifies the
 data types which are to be aggregated with either \code{mean} or
-\code{sum}. Both functions are implemented with the na.rm option
-set to TRUE.}
+\code{sum}.}
 }
 \value{
 Returns a tibble of the same format as \code{data} with data
