@@ -1,5 +1,8 @@
 # riversCentralAsia (Development Version)
 
+## riverCentralAsia 0.2.2
+- Refined decadeMaker.R to accomodate non-full year data ranges
+
 ## riverCentralAsia 0.2
 
 Release 0.2 include various improvements.
