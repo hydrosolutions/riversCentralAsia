@@ -16,7 +16,7 @@
 gen_basinElevationBands <- function(dem_PathN,dem_FileN,demAggFact,band_interval,holeSize_km2,smoothFact){
   # Load DEM & define bands
   dem <- raster::raster(paste0(dem_PathN,dem_FileN))
-  dem <- raster::aggregate(Gunt_DEM,fact=demAggFact) # this is in UTM 42N
+  dem <- raster::aggregate(dem,fact=demAggFact) # this is in UTM 42N
   bands <- seq(raster::minValue(dem), raster::maxValue(dem), band_interval)
   # Classification
   dem_classes <- raster::cut(dem, breaks = bands)
