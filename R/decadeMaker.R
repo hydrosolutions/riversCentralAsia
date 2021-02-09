@@ -24,7 +24,7 @@ decadeMaker <- function(s,e,type){
   }
   temp.Date <- zoo::as.Date(time(temp)) + daysV - 1
   decade <- zoo::zoo(decade, temp.Date) %>%
-    tk_tbl() %>%
-    rename(date=index,dec=value) %>%
-    filter(date<=e) %>% filter(date>=s)
+    timetk::tk_tbl() %>%
+    dplyr::rename(date=index,dec=value) %>%
+    dplyr::filter(date<=e) %>% filter(date>=s)
 }
