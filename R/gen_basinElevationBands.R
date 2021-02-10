@@ -20,7 +20,7 @@ gen_basinElevationBands <- function(dem_PathN,dem_FileN,demAggFact,band_interval
   bands <- seq(raster::minValue(dem), raster::maxValue(dem), band_interval)
   # Classification
   dem_classes <- raster::cut(dem, breaks = bands)
-  raster::res(dem_classes) <- dem_classes %>% raster::res() %>% dplyr::first() %>% dplyr::round(.,3)
+  raster::res(dem_classes) <- dem_classes %>% raster::res() %>% dplyr::first() %>% base::round(.,3)
   # Create Shapes
   dem_classes_poly <- raster::rasterToPolygons(dem_classes,dissolve = TRUE) %>% sf::st_as_sf()
   # Clean up
