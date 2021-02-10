@@ -2,9 +2,12 @@
 
 export(assess_fc_qual)
 export(biasCorrect_ERA5_CHELSA)
+export(convert2HYY)
+export(cutRaster2Basin)
 export(decadeMaker)
 export(gen_basinElevationBands)
 export(generate_ERA5_Subbasin_CSV)
 export(loadTabularData)
 export(monDateSeq)
+export(plotNormDevHYY)
 export(posixct2rsminerveChar)
