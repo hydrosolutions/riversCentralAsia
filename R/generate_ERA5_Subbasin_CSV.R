@@ -34,7 +34,7 @@ generate_ERA5_Subbasin_CSV <- function(dir_ERA5_hourly,catchmentName,dataType,el
     tibble::as_tibble() %>% dplyr::rename(Date=value)
   # Now, solve that obnoxious time formatting problem for compatibility with RSMinerve (see function posixct2rsminerveChar() for more details)
   datesChar <- posixct2rsminerveChar(dateElBands$Date)
-  datesChar <- datesChar %>% rename(Station=value)
+  datesChar <- datesChar %>% dplyr::rename(Station=value)
 
   namesElBands <- elBands_shp$name
   dataElBands_df <- namesElBands %>% purrr::map_dfc(setNames, object = base::list(base::logical())) # fancy trick
@@ -49,7 +49,7 @@ generate_ERA5_Subbasin_CSV <- function(dir_ERA5_hourly,catchmentName,dataType,el
     subbasin_data <- subbasin_data %>% tibble::as_tibble(.,.name_repair = "unique")
     if (dataType=='tp'){subbasin_data <- subbasin_data * 1000} # this converts the precipitation to mm/h
     base::names(subbasin_data) <- base::names(dataElBands_df)
-    dataElBands_df <- dataElBands_df %>% add_row(subbasin_data)
+    dataElBands_df <- dataElBands_df %>% tibble::add_row(subbasin_data)
   }
 
   # Final data tibble
@@ -61,10 +61,16 @@ generate_ERA5_Subbasin_CSV <- function(dir_ERA5_hourly,catchmentName,dataType,el
   dataElbands_df_header_Station <- tibble::tibble(Station = c('X','Y','Z','Sensor','Category','Unit','Interpolation'))
   dataElBands_df_body <- namesElBands %>% purrr::map_dfc(setNames, object = base::list(base::logical()))
   # get XY (via centroids) and Z (mean alt. band elevation)
+  #elBands_XY <- sf::st_transform(elBands_shp,crs = sf::st_crs(32642)) %>%
+  #  sf::st_centroid() %>% sf::st_coordinates() %>% base::t()
+  #elBands_Z <- elBands_shp$Z %>% base::t()
+  #elBands_XYZ <- base::rbind(elBands_XY, elBands_Z) %>% base::unname() %>% tibble::as_tibble() %>% dplyr::mutate_all(as.character)
+  # =
   elBands_XY <- sf::st_transform(elBands_shp,crs = sf::st_crs(32642)) %>%
-    sf::st_centroid() %>% sf::st_coordinates() %>% base::t()
-  elBands_Z <- elBands_shp$Z %>% base::t()
-  elBands_XYZ <- base::rbind(elBands_XY, elBands_Z) %>% base::unname() %>% tibble::as_tibble() %>% dplyr::mutate_all(as.character)
+    sf::st_centroid() %>% sf::st_coordinates() %>% as_tibble()
+  elBands_Z <- elBands_shp$Z %>% as_tibble() %>% rename(Z = value)
+  elBands_XYZ <- base::cbind(elBands_XY, elBands_Z) %>% base::as.matrix() %>% base::t() %>% tibble::as_tibble() %>% dplyr::mutate_all(as.character)
+  # =
   base::names(elBands_XYZ) <- base::names(dataElBands_df_body)
   # Sensor (P or T), Category, Unit and Interpolation
   nBands <- elBands_XYZ %>% base::dim() %>% dplyr::last()
@@ -81,11 +87,11 @@ generate_ERA5_Subbasin_CSV <- function(dir_ERA5_hourly,catchmentName,dataType,el
     interpolation <- 'Linear' %>% base::rep(.,nBands)
     sensor <- base::rbind(sensorType,category,unit,interpolation) %>% tibble::as_tibble()
   }
-  names(sensor) <- names(dataElBands_df_body)
+  base::names(sensor) <- base::names(dataElBands_df_body)
   # Put everything together
-  file2write <- elBands_XYZ %>% add_row(sensor)
-  file2write <- dataElbands_df_header_Station %>% add_column(file2write)
-  file2write <- file2write %>% add_row(dataElBands_df_data %>% mutate_all(as.character))
-  file2write <- rbind(names(file2write),file2write)
-  return(file2write)
+  file2write <- elBands_XYZ %>% tibble::add_row(sensor)
+  file2write <- dataElbands_df_header_Station %>% tibble::add_column(file2write)
+  file2write <- file2write %>% tibble::add_row(dataElBands_df_data %>% dplyr::mutate_all(as.character))
+  file2write <- base::rbind(base::names(file2write),file2write)
+  base::return(file2write)
 }
