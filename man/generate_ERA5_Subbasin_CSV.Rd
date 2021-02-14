@@ -27,7 +27,7 @@ generate_ERA5_Subbasin_CSV(
 \item{endY}{Ending year from which data should be extracted (assuming data 'is' actually available until the end of that year)}
 }
 \value{
-Dataframe tibble with
+Dataframe tibble with temperature in deg. C. or precipitation in mm/h
 }
 \description{
 Function extracts precipitation (tp) or temperature (t2m) data from raster bricks and prepares a dataframe for
