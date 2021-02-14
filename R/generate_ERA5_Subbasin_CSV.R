@@ -10,7 +10,7 @@
 #' @param elBands_shp Subbasin-level shapefile with elevation bands
 #' @param startY Starting year for which data should be made available (assuming data 'is' available from the start of that year)
 #' @param endY Ending year from which data should be extracted (assuming data 'is' actually available until the end of that year)
-#' @return Dataframe tibble with
+#' @return Dataframe tibble with temperature in deg. C. or precipitation in mm/h
 #' @export
 generate_ERA5_Subbasin_CSV <- function(dir_ERA5_hourly,catchmentName,dataType,elBands_shp,startY,endY){
 
@@ -45,8 +45,8 @@ generate_ERA5_Subbasin_CSV <- function(dir_ERA5_hourly,catchmentName,dataType,el
     base::print(base::paste0('Processing File: ', fileList$fName[yr]))
     file2Process_ERA <- fileList$fName[yr]
     era_data <- raster::brick(base::paste0(dir_ERA5_hourly,dataType,'/',catchmentName,'/',file2Process_ERA))
-    subbasin_data <- raster::extract(era_data,elBands_shp_latlon) %>%
-      base::lapply(.,colMeans) %>% tibble::as_tibble(.,.name_repair = "unique")
+    subbasin_data <- raster::extract(era_data,elBands_shp_latlon) %>% base::lapply(.,colMeans)
+    subbasin_data <- subbasin_data %>% tibble::as_tibble(.,.name_repair = "unique")
     if (dataType=='tp'){subbasin_data <- subbasin_data * 1000} # this converts the precipitation to mm/h
     base::names(subbasin_data) <- base::names(dataElBands_df)
     dataElBands_df <- dataElBands_df %>% add_row(subbasin_data)
@@ -63,7 +63,7 @@ generate_ERA5_Subbasin_CSV <- function(dir_ERA5_hourly,catchmentName,dataType,el
   # get XY (via centroids) and Z (mean alt. band elevation)
   elBands_XY <- sf::st_transform(elBands_shp,crs = sf::st_crs(32642)) %>%
     sf::st_centroid() %>% sf::st_coordinates() %>% base::t()
-  elBands_Z <- elBands_shp$X_mean %>% t()
+  elBands_Z <- elBands_shp$Z %>% base::t()
   elBands_XYZ <- base::rbind(elBands_XY, elBands_Z) %>% base::unname() %>% tibble::as_tibble() %>% dplyr::mutate_all(as.character)
   base::names(elBands_XYZ) <- base::names(dataElBands_df_body)
   # Sensor (P or T), Category, Unit and Interpolation
@@ -87,7 +87,5 @@ generate_ERA5_Subbasin_CSV <- function(dir_ERA5_hourly,catchmentName,dataType,el
   file2write <- dataElbands_df_header_Station %>% add_column(file2write)
   file2write <- file2write %>% add_row(dataElBands_df_data %>% mutate_all(as.character))
   file2write <- rbind(names(file2write),file2write)
-  # note, P units still in m/h - to correct. but first try export and import...
   return(file2write)
-
 }
