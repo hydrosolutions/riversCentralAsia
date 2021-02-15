@@ -25,5 +25,5 @@ posixct2rsminerveChar <- function(dateVec){
   hmsCol <- base::do.call(sprintf, c(datesChar[4:6], '%s:%s:%s'))
   datesChar <- base::cbind(dmyCol,hmsCol) %>% tibble::as_tibble()
   datesChar <- base::do.call(sprintf, c(datesChar[1:2], '%s %s')) %>% tibble::as_tibble()
-  return(datesChar)
+  base::return(datesChar)
 }

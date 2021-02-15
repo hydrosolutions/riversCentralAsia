@@ -33,7 +33,7 @@ generate_ERA5_Subbasin_CSV <- function(dir_ERA5_hourly,catchmentName,dataType,el
                                   base::as.POSIXct(eTime,format="%d.%m.%Y %H:%M:%S"), by="hour") %>%
     tibble::as_tibble() %>% dplyr::rename(Date=value)
   # Now, solve that obnoxious time formatting problem for compatibility with RSMinerve (see function posixct2rsminerveChar() for more details)
-  datesChar <- posixct2rsminerveChar(dateElBands$Date)
+  datesChar <- riversCentralAsia::posixct2rsminerveChar(dateElBands$Date)
   datesChar <- datesChar %>% dplyr::rename(Station=value)
 
   namesElBands <- elBands_shp$name
@@ -61,13 +61,9 @@ generate_ERA5_Subbasin_CSV <- function(dir_ERA5_hourly,catchmentName,dataType,el
   dataElbands_df_header_Station <- tibble::tibble(Station = c('X','Y','Z','Sensor','Category','Unit','Interpolation'))
   dataElBands_df_body <- namesElBands %>% purrr::map_dfc(setNames, object = base::list(base::logical()))
   # get XY (via centroids) and Z (mean alt. band elevation)
-  print("L64")
   elBands_XY <- sf::st_transform(elBands_shp,crs = sf::st_crs(32642)) %>% sf::st_centroid() %>% sf::st_coordinates() %>% tibble::as_tibble()
-  print("L66")
   elBands_Z <- elBands_shp$Z %>% tibble::as_tibble() %>% dplyr::rename(Z = value)
-  print("L68")
   elBands_XYZ <- base::cbind(elBands_XY, elBands_Z) %>% base::as.matrix() %>% base::t() %>% tibble::as_tibble() %>% dplyr::mutate_all(as.character)
-  print("L70")
   base::names(elBands_XYZ) <- base::names(dataElBands_df_body)
   # Sensor (P or T), Category, Unit and Interpolation
   nBands <- elBands_XYZ %>% base::dim() %>% dplyr::last()
