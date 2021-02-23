@@ -1,5 +1,5 @@
-#' Extracts ERA5 basin domain from ERA5 raster bricks and bias corrects fields with CHELSA data.
-#' Writes resulting bias corrected data bricks to a (newly) created subdirectory where ERA5 data files are stored.
+#' Extracts ERA5 basin domain from ERA5 raster bricks and scales fields with PBCORR CHELSA data so that monthly totals match.
+#' Writes resulting bias corrected (scaled) data bricks to a (newly) created subdirectory where the raw ERA5 data files are stored.
 #'
 #'
 #' @param dir_ERA5_hourly Directory where hourly ERA5 data annual NetCDF files are stored.
@@ -12,6 +12,7 @@
 #' @return Dateframe with dates in dd.mm.yyyy hh:mm:ss representation
 #' @export
 biasCorrect_ERA5_CHELSA <- function(dir_ERA5_hourly,dataType_ERA5,dir_CHELSA,startY,endY,basinName,basin_shape_LatLon){
+
   # Derive area of interest shape
   aoi_Basin_LatLon <- raster::extent(basin_shape_LatLon)
   # Function body from above
@@ -22,7 +23,7 @@ biasCorrect_ERA5_CHELSA <- function(dir_ERA5_hourly,dataType_ERA5,dir_CHELSA,sta
   dateSeq_ERA <- tibble::tibble(date=dateSeq_ERA, data_bcorr=NA, data_orig=NA)
   dateSeq_ERA <- dateSeq_ERA %>% dplyr::mutate(month = lubridate::month(date)) %>%
     dplyr::mutate(year = lubridate::year(date))
-  # Create Basin subdirectory (if not already existing) to store dedicated annual files there
+  # Create basin subdirectory (if not already existing) to store dedicated annual files there
   mainDir <- base::paste0(dir_ERA5_hourly,dataType_ERA5,'/')
   subDir <- basinName
   base::ifelse(!base::dir.exists(base::file.path(mainDir, subDir)),
@@ -38,7 +39,7 @@ biasCorrect_ERA5_CHELSA <- function(dir_ERA5_hourly,dataType_ERA5,dir_CHELSA,sta
     # create date-time tibble with all hours in the corresponding year
     dateSeq_ERA_year <- dateSeq_ERA %>% dplyr::filter(year == yr)
 
-    # start the month-by-month business
+    # start the month-by-month scaling
     for (mon in 1:12){
 
       # sort out files paths as a function of dataType_ERA5
@@ -62,16 +63,15 @@ biasCorrect_ERA5_CHELSA <- function(dir_ERA5_hourly,dataType_ERA5,dir_CHELSA,sta
         # has a lower resolutions of 0.05 x 0.05
         # Convert CHELSA tmean from 10*K to K. We wait with the conversion to deg. C so as to avoid issues with T=0 in certain cells at certain times.
         chelsa_monthly_data_aoi <- chelsa_monthly_data_aoi / 10
-      } else {
+      } else { # precipitation
         chelsa_monthly_data_aoi <- chelsa_monthly_data_aoi / 1000 # now, CHELSA P is in m, as is by default ERA5.
       }
 
       ## ERA5
       aoi_Basin_LatLon_buffer <- aoi_Basin_LatLon + 1
       era_data_orig_aoi <- raster::crop(era_data_orig,aoi_Basin_LatLon_buffer)
-      era_data_orig_aoi_noBuffer <- raster::crop(era_data_orig,aoi_Basin_LatLon)
 
-      # Subset ERA to selected month
+      # Subset ERA5 to selected month
       monthID_ERA <- (dateSeq_ERA_year$month == mon) %>%  base::which()
       era_data_orig_aoi_subset <- raster::subset(era_data_orig_aoi,monthID_ERA)
 
@@ -116,5 +116,5 @@ biasCorrect_ERA5_CHELSA <- function(dir_ERA5_hourly,dataType_ERA5,dir_CHELSA,sta
                         overwrite = TRUE,
                         zname = 'time')
   }
-  base::print('Bias Correction of hourly ERA 5 Data using CHELSA data correctly terminated.')
+  base::print('Monthly level scaling of hourly ERA5 data using PBCORR CHELSA v1.2.1 data correctly terminated.')
 }
