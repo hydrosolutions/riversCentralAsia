@@ -23,7 +23,7 @@ Returns a tibble of the same format as \code{data} with data
             column.
             Returns 1 if aggregation fails.
 
-examples
+Examples
 dataTable <- ChirchikRiverBasin
 funcTypeLib <- list(mean = c("Q", "T"), sum= "P")
 data_mon <- aggregate_to_monthly(dataTable, funcTypeLib)

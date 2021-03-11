@@ -7,7 +7,6 @@
 #' data, according to the type-function pair given in the second argument.
 #' The user specifies which aggregation function to use for each data type using
 #' timetk's summarise_by_time.
-#' To do this, aggregate_to_monthly
 #'
 #' @param dataTable A tibble of the format \code{ChirchikRiverBasin}. Must contain at
 #'             least the columns date, data, norm, type and code.
@@ -22,7 +21,7 @@
 #'             column.
 #'             Returns 1 if aggregation fails.
 #'
-#' examples
+#' Examples
 #' dataTable <- ChirchikRiverBasin
 #' funcTypeLib <- list(mean = c("Q", "T"), sum= "P")
 #' data_mon <- aggregate_to_monthly(dataTable, funcTypeLib)
