@@ -9,9 +9,7 @@
 #'         in hourly (climate) to decadal or monthly (discharge) time steps.
 #'
 #' examples
-#' dataTable <- ChirchikRiverBasin
-#' funcTypeLib <- list(mean = c("Q", "T"), sum= "P")
-#' data_mon <- aggregate_to_monthly(dataTable, funcTypeLib)
+#' load_minerve_input_csv("path_to_file.csv")
 #'
 #' @author Beatrice Marti, hydrosolutions
 #' @export
