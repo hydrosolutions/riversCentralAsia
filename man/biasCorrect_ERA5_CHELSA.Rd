@@ -2,8 +2,8 @@
 % Please edit documentation in R/biasCorrect_ERA5_CHELSA.R
 \name{biasCorrect_ERA5_CHELSA}
 \alias{biasCorrect_ERA5_CHELSA}
-\title{Extracts ERA5 basin domain from ERA5 raster bricks and bias corrects fields with CHELSA data.
-Writes resulting bias corrected data bricks to a (newly) created subdirectory where ERA5 data files are stored.}
+\title{Extracts ERA5 basin domain from ERA5 raster bricks and scales fields with PBCORR CHELSA data so that monthly totals match.
+Writes resulting bias corrected (scaled) data bricks to a (newly) created subdirectory where the raw ERA5 data files are stored.}
 \usage{
 biasCorrect_ERA5_CHELSA(
   dir_ERA5_hourly,
@@ -34,6 +34,6 @@ biasCorrect_ERA5_CHELSA(
 Dateframe with dates in dd.mm.yyyy hh:mm:ss representation
 }
 \description{
-Extracts ERA5 basin domain from ERA5 raster bricks and bias corrects fields with CHELSA data.
-Writes resulting bias corrected data bricks to a (newly) created subdirectory where ERA5 data files are stored.
+Extracts ERA5 basin domain from ERA5 raster bricks and scales fields with PBCORR CHELSA data so that monthly totals match.
+Writes resulting bias corrected (scaled) data bricks to a (newly) created subdirectory where the raw ERA5 data files are stored.
 }
