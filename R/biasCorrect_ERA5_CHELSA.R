@@ -90,7 +90,7 @@ biasCorrect_ERA5_CHELSA <- function(dir_ERA5_hourly,dataType_ERA5,dir_CHELSA,sta
       # Again, for P, we back-convert to 0 where there is NA in the cells.
       corrFact_ERA[base::is.na(corrFact_ERA[])] <- 0
 
-      # Bias correction
+      # Scaling / Bias correction
       era_data_bcorr_aoi_subset_resamp <-
         raster::overlay(era_data_orig_aoi_subset_resamp,corrFact_ERA,fun=function(x,y){return(x*y)},unstack=TRUE)
 
