@@ -1,17 +1,13 @@
-#' Load Tabular Hydro-Meteorological Data
+#' Downscaling monthly climate predicitons to basin elevation bands
 #'
-#' Loads csv files with tabular hydrometeorological data where years are in rows
-#' and decades or months are in columns. The function automatically detects if
-#' monthly or decadal (10-day) data is provided. The function automatically computes
-#' the long-term norm of the data provided and returns a time aware tibble with
-#' date, data, data norm columns and code columns.
+#' Function that processes climate projection raster bricks with precipitation_flux and air_temperature (tasmin, tasmean and tasmax) and computes elevation band statistics
 #'
 #' @param pathN Path to climate projection files.
 #' @param fileListSearchpattern Search pattern in climate projection files to filter climate projection scenarios. E.g. "2006-2100" for the joined CHELSA climate projection files that include the 'ACCESS1-3','CMCC-CM' and 'MIROC5' models.
 #' @param startY Starting year of the climate projections.
 #' @param endY Last year of climate projections.
 #' @param basinElBandsShape Basin shapefile with elevation bands and subbasins that are implemented in the the semi-distributed rainfall-runoff model.
-#' @return List with 4 elements, including downscaled monthly precipitation (pr), monthly mean minimum temperature (tasmean), monthly mean temperature (tasmean) and monthly mean maximum temperature (tasmax).
+#' @return List with 4 elements (tibbles), including downscaled monthly precipitation (pr), monthly mean minimum temperature (tasmean), monthly mean temperature (tasmean) and monthly mean maximum temperature (tasmax).
 #' @export
 downscale_ClimPred_monthly_BasinElBands <- function(pathN,fileListSearchpattern,startY,endY,basinElBandsShape){
   # Preparatory work
@@ -68,30 +64,30 @@ downscale_ClimPred_monthly_BasinElBands <- function(pathN,fileListSearchpattern,
   # add month, day, year columns
   ## pr_bcorr
   pr_bcorr_elBands <- pr_bcorr_elBands %>%
-    add_column(month=month(pr_bcorr_elBands$Date),.before=1) %>%
-    add_column(day=day(pr_bcorr_elBands$Date),.before=2) %>%
-    add_column(year=year(pr_bcorr_elBands$Date),.before=3)
+    tibble::add_column(month=month(pr_bcorr_elBands$Date),.before=1) %>%
+    tibble::add_column(day=day(pr_bcorr_elBands$Date),.before=2) %>%
+    tibble::add_column(year=year(pr_bcorr_elBands$Date),.before=3)
   pr_bcorr_elBands_date <- pr_bcorr_elBands
   pr_bcorr_elBands <- pr_bcorr_elBands %>% dplyr::select(-Date)
   ## tasmax
   tasmax_elBands <- tasmax_elBands %>%
-    add_column(month=month(tasmax_elBands$Date),.before=1) %>%
-    add_column(day=day(tasmax_elBands$Date),.before=2) %>%
-    add_column(year=year(tasmax_elBands$Date),.before=3)
+    tibble::add_column(month=month(tasmax_elBands$Date),.before=1) %>%
+    tibble::add_column(day=day(tasmax_elBands$Date),.before=2) %>%
+    tibble::add_column(year=year(tasmax_elBands$Date),.before=3)
   tasmax_elBands_date <- tasmax_elBands
   tasmax_elBands <- tasmax_elBands %>% dplyr::select(-Date)
   ## tasmean
   tasmean_elBands <- tasmean_elBands %>%
-    add_column(month=month(tasmean_elBands$Date),.before=1) %>%
-    add_column(day=day(tasmean_elBands$Date),.before=2) %>%
-    add_column(year=year(tasmean_elBands$Date),.before=3)
+    tibble::add_column(month=month(tasmean_elBands$Date),.before=1) %>%
+    tibble::add_column(day=day(tasmean_elBands$Date),.before=2) %>%
+    tibble::add_column(year=year(tasmean_elBands$Date),.before=3)
   tasmean_elBands_date <- tasmean_elBands
   tasmean_elBands <- tasmean_elBands %>% dplyr::select(-Date)
   ## tasmin
   tasmin_elBands <- tasmin_elBands %>%
-    add_column(month=month(tasmin_elBands$Date),.before=1) %>%
-    add_column(day=day(tasmin_elBands$Date),.before=2) %>%
-    add_column(year=year(tasmin_elBands$Date),.before=3)
+    tibble::add_column(month=month(tasmin_elBands$Date),.before=1) %>%
+    tibble::add_column(day=day(tasmin_elBands$Date),.before=2) %>%
+    tibble::add_column(year=year(tasmin_elBands$Date),.before=3)
   tasmin_elBands_date <- tasmin_elBands
   tasmin_elBands <- tasmin_elBands %>% dplyr::select(-Date)
 

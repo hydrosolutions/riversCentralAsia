@@ -2,7 +2,7 @@
 % Please edit documentation in R/downscale_ClimPred_monthly_BasinElBands.R
 \name{downscale_ClimPred_monthly_BasinElBands}
 \alias{downscale_ClimPred_monthly_BasinElBands}
-\title{Load Tabular Hydro-Meteorological Data}
+\title{Downscaling monthly climate predicitons to basin elevation bands}
 \usage{
 downscale_ClimPred_monthly_BasinElBands(
   pathN,
@@ -24,12 +24,8 @@ downscale_ClimPred_monthly_BasinElBands(
 \item{basinElBandsShape}{Basin shapefile with elevation bands and subbasins that are implemented in the the semi-distributed rainfall-runoff model.}
 }
 \value{
-List with 4 elements, including downscaled monthly precipitation (pr), monthly mean minimum temperature (tasmean), monthly mean temperature (tasmean) and monthly mean maximum temperature (tasmax).
+List with 4 elements (tibbles), including downscaled monthly precipitation (pr), monthly mean minimum temperature (tasmean), monthly mean temperature (tasmean) and monthly mean maximum temperature (tasmax).
 }
 \description{
-Loads csv files with tabular hydrometeorological data where years are in rows
-and decades or months are in columns. The function automatically detects if
-monthly or decadal (10-day) data is provided. The function automatically computes
-the long-term norm of the data provided and returns a time aware tibble with
-date, data, data norm columns and code columns.
+Function that processes climate projection raster bricks with precipitation_flux and air_temperature (tasmin, tasmean and tasmax) and computes elevation band statistics
 }
