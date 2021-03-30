@@ -14,9 +14,7 @@ Returns a tibble of the same format as \code{data} with data
         in hourly (climate) to decadal or monthly (discharge) time steps.
 
 examples
-dataTable <- ChirchikRiverBasin
-funcTypeLib <- list(mean = c("Q", "T"), sum= "P")
-data_mon <- aggregate_to_monthly(dataTable, funcTypeLib)
+load_minerve_input_csv("path_to_file.csv")
 }
 \description{
 The data is in a csv file that can also be imported to RS Minerve to form a

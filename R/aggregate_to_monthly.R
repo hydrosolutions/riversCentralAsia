@@ -31,6 +31,8 @@
 
 aggregate_to_monthly <- function(dataTable, funcTypeLib) {
 
+  . = NULL
+
   # Make sure data contains the required columns in the required format.
   required_columns <- c("date", "data", "type", "code", "norm")
   required_classes <- c("date", "dbl", "fct", "chr", "dbl")

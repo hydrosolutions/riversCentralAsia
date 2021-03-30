@@ -35,7 +35,6 @@ aggregate_data aggregates all sub-monthly data in the data tibble to monthly
 data, according to the type-function pair given in the second argument.
 The user specifies which aggregation function to use for each data type using
 timetk's summarise_by_time.
-To do this, aggregate_to_monthly
 }
 \author{
 Beatrice Marti, hydrosolutions
