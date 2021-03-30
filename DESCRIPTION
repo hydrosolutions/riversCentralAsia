@@ -24,7 +24,7 @@ Imports:
     tibble,
     tidyr,
     zoo,
-    stats
+    stats,
     readr,
     purrr,
     pillar

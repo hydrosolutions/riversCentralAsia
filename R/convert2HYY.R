@@ -116,9 +116,9 @@ convert2HYY <- function(data2convert,stationCode,typeSel){
   }
 
   # everything together
-  dataHYY <- full_join(dataHYY, dataHYY_cs, by="monHYdate")
-  dataHYY <- full_join(dataHYY, dataHYY_ws, by='monHYdate') %>%
-    rename(hyYear = monHYdate)
+  dataHYY <- dplyr::full_join(dataHYY, dataHYY_cs, by="monHYdate")
+  dataHYY <- dplyr::full_join(dataHYY, dataHYY_ws, by='monHYdate') %>%
+    dplyr::rename(hyYear = monHYdate)
 
   # 6. Return Object
   return(dataHYY)
