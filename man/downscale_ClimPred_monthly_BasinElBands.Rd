@@ -27,5 +27,5 @@ downscale_ClimPred_monthly_BasinElBands(
 List with 4 elements (tibbles), including downscaled monthly precipitation (pr), monthly mean minimum temperature (tasmean), monthly mean temperature (tasmean) and monthly mean maximum temperature (tasmax).
 }
 \description{
-Function that processes climate projection raster bricks with precipitation_flux and air_temperature (tasmin, tasmean and tasmax) and computes elevation band statistics
+Function that processes climate projection raster bricks with precipitation_flux and air_temperature (tasmin, tasmean and tasmax) and computes elevation band statistics. The precipitation flux is converted from kg/m2/s to mm/month.
 }
