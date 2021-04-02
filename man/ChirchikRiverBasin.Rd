@@ -12,7 +12,7 @@ A data frame with 29892 rows and 14 variables:
   \item{data}{num: Value of variable.}
   \item{norm}{num: Multi-year average of values.}
   \item{units}{chr: Unit of values. Can be m^3/s (m3s) for discharge, mm (mm)
-               for precipitation or ºC (degC) for temperature.}
+               for precipitation or degrees Celsius (degC) for temperature.}
   \item{type}{Factor: Parameter measured. Can be "Q" for discharge, "P" for
               precipitation or "T" for temperature.}
   \item{code}{chr: Unique station identifier issued by Uzbek HydroMet.}

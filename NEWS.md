@@ -1,9 +1,19 @@
 # riversCentralAsia (Development Version)
 
-## riverCentralAsia 0.2.2
-- Refined decadeMaker.R to accomodate non-full year data ranges
+## riversCentralAsia 0.3 with several new functions that facilitate a) ERA5 data handling, bias correction, donwscaling, etc., b) prepare data for the stochastic weather generator RMAWGEN and c) handle importing and exporting files to the hydrological-hydraulic RS MINERVE model.
+- function biasCorrect_ERA5_CHELSA()
+- function climateScenarioPreparation_RMAWGEN()
+- function downscale_ClimPred_monthly_BasinElBands()
+- function generate_ERA5_Subbasin_CSV()
+- function load_minerve_input_csv
+- function posixct2rsminerveCHar()
+- function prepare_RMAWGEN_input_data()
 
-## riverCentralAsia 0.2
+
+## riversCentralAsia 0.2.2
+- Refined decadeMaker.R to accommodate non-full year data ranges
+
+## riversCentralAsia 0.2
 
 Release 0.2 include various improvements.
 - No more pracma package dependencies in functions.

@@ -32,7 +32,11 @@ downscale_ClimPred_monthly_BasinElBands <- function(pathN,fileListSearchpattern,
   subbasin_data <- raster::extract(pr_bcorr,elBands_shp_latlon) %>% base::lapply(.,colMeans)
   subbasin_data <- subbasin_data %>% tibble::as_tibble(.,.name_repair = "unique")
   base::names(subbasin_data) <- base::names(dataElBands_df)
-  pr_bcorr_elBands <- base::cbind(dateElBands,subbasin_data) %>% tibble::as_tibble()
+  pr_bcorr_elBands <- base::cbind(dateElBands,subbasin_data) %>%
+    tibble::as_tibble() %>%
+    mutate(monthDays = days_in_month(Date),.before=2) %>%
+    mutate(across(c(-Date,-monthDays), ~ . * monthDays * 86400)) %>%
+    select(-monthDays)
 
   # TASMAX: Mean Temperature (air_temperature)
   tasmax <- raster::brick(paste0(pathN,fileList[2]),varname = "air_temperature")
