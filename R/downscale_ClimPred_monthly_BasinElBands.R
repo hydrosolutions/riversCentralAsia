@@ -1,6 +1,6 @@
 #' Downscaling monthly climate predicitons to basin elevation bands
 #'
-#' Function that processes climate projection raster bricks with precipitation_flux and air_temperature (tasmin, tasmean and tasmax) and computes elevation band statistics
+#' Function that processes climate projection raster bricks with precipitation_flux and air_temperature (tasmin, tasmean and tasmax) and computes elevation band statistics. The precipitation flux is converted from kg/m2/s to mm/month.
 #'
 #' @param pathN Path to climate projection files.
 #' @param fileListSearchpattern Search pattern in climate projection files to filter climate projection scenarios. E.g. "2006-2100" for the joined CHELSA climate projection files that include the 'ACCESS1-3','CMCC-CM' and 'MIROC5' models.
@@ -34,9 +34,9 @@ downscale_ClimPred_monthly_BasinElBands <- function(pathN,fileListSearchpattern,
   base::names(subbasin_data) <- base::names(dataElBands_df)
   pr_bcorr_elBands <- base::cbind(dateElBands,subbasin_data) %>%
     tibble::as_tibble() %>%
-    mutate(monthDays = days_in_month(Date),.before=2) %>%
-    mutate(across(c(-Date,-monthDays), ~ . * monthDays * 86400)) %>%
-    select(-monthDays)
+    dplyr::mutate(monthDays = lubridate::days_in_month(Date),.before=2) %>%
+    dplyr::mutate(across(c(-Date,-monthDays), ~ . * monthDays * 86400)) %>%
+    dplyr::select(-monthDays)
 
   # TASMAX: Mean Temperature (air_temperature)
   tasmax <- raster::brick(paste0(pathN,fileList[2]),varname = "air_temperature")
