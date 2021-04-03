@@ -146,6 +146,7 @@ climateScenarioPreparation_RMAWGEN <- function(pathN,fileN,param){
                              tasmax = tasmax_RCP45_MIROC5_51_60,
                              year_min = 2051,
                              year_max = 2060)
+  rcp45_MIROC5_51_60 <- monthlyNorms_ClimateScenario(rcp45_MIROC5_51_60)
   ## RCP45, MIROC5, 2091 - 2100
   rcp45_MIROC5_91_00 <- list(scen = 'rcp45_MIROC5_91_00',
                              prec = prec_RCP45_MIROC5_91_00,
@@ -153,6 +154,7 @@ climateScenarioPreparation_RMAWGEN <- function(pathN,fileN,param){
                              tasmax = tasmax_RCP45_MIROC5_91_00,
                              year_min = 2091,
                              year_max = 2100)
+  rcp45_MIROC5_91_00 <- monthlyNorms_ClimateScenario(rcp45_MIROC5_91_00)
   ## RCP45, ACCESS1_3, 2051 - 2060
   rcp45_ACCESS1_3_51_60 <- list(scen = 'rcp45_ACCESS1_3_51_60',
                                 prec = prec_RCP45_ACCESS1_3_51_60,
@@ -160,6 +162,7 @@ climateScenarioPreparation_RMAWGEN <- function(pathN,fileN,param){
                                 tasmax = tasmax_RCP45_ACCESS1_3_51_60,
                                 year_min = 2051,
                                 year_max = 2060)
+  rcp45_ACCESS1_3_51_60 <- monthlyNorms_ClimateScenario(rcp45_ACCESS1_3_51_60)
   ## RCP45, ACCESS1_3, 2091 - 2100
   rcp45_ACCESS1_3_91_00 <- list(scen = 'rcp45_ACCESS1_3_91_00',
                                 prec = prec_RCP45_ACCESS1_3_91_00,
@@ -167,6 +170,7 @@ climateScenarioPreparation_RMAWGEN <- function(pathN,fileN,param){
                                 tasmax = tasmax_RCP45_ACCESS1_3_91_00,
                                 year_min = 2091,
                                 year_max = 2100)
+  rcp45_ACCESS1_3_91_00 <- monthlyNorms_ClimateScenario(rcp45_ACCESS1_3_91_00)
   ## RCP45, CMCC_CM, 2051 - 2060
   rcp45_CMCC_CM_51_60 <- list(scen = 'rcp45_CMCC_CM_51_60',
                               prec = prec_RCP45_CMCC_CM_51_60,
@@ -174,6 +178,7 @@ climateScenarioPreparation_RMAWGEN <- function(pathN,fileN,param){
                               tasmax = tasmax_RCP45_CMCC_CM_51_60,
                               year_min = 2051,
                               year_max = 2060)
+  rcp45_CMCC_CM_51_60 <- monthlyNorms_ClimateScenario(rcp45_CMCC_CM_51_60)
   ## RCP45, CMCC_CM, 2091 - 2100
   rcp45_CMCC_CM_91_00 <- list(scen = 'rcp45_CMCC_CM_91_00',
                               prec = prec_RCP45_CMCC_CM_91_00,
@@ -181,7 +186,7 @@ climateScenarioPreparation_RMAWGEN <- function(pathN,fileN,param){
                               tasmax = tasmax_RCP45_CMCC_CM_91_00,
                               year_min = 2091,
                               year_max = 2100)
-
+  rcp45_CMCC_CM_91_00 <- monthlyNorms_ClimateScenario(rcp45_CMCC_CM_91_00)
   ## RCP85, MIROC5, 2051 - 2060
   rcp85_MIROC5_51_60 <- list(scen = 'rcp85_MIROC5_51_60',
                              prec = prec_RCP85_MIROC5_51_60,
@@ -189,6 +194,7 @@ climateScenarioPreparation_RMAWGEN <- function(pathN,fileN,param){
                              tasmax = tasmax_RCP85_MIROC5_51_60,
                              year_min = 2051,
                              year_max = 2060)
+  rcp85_MIROC5_51_60 <- monthlyNorms_ClimateScenario(rcp85_MIROC5_51_60)
   ## RCP85, MIROC5, 2091 - 2100
   rcp85_MIROC5_91_00 <- list(scen = 'rcp85_MIROC5_91_00',
                              prec = prec_RCP85_MIROC5_91_00,
@@ -196,6 +202,7 @@ climateScenarioPreparation_RMAWGEN <- function(pathN,fileN,param){
                              tasmax = tasmax_RCP85_MIROC5_91_00,
                              year_min = 2091,
                              year_max = 2100)
+  rcp85_MIROC5_91_00 <- monthlyNorms_ClimateScenario(rcp85_MIROC5_91_00)
   ## RCP85, ACCESS1_3, 2051 - 2060
   rcp85_ACCESS1_3_51_60 <- list(scen = 'rcp85_ACCESS1_3_51_60',
                                 prec = prec_RCP85_ACCESS1_3_51_60,
@@ -203,6 +210,7 @@ climateScenarioPreparation_RMAWGEN <- function(pathN,fileN,param){
                                 tasmax = tasmax_RCP85_ACCESS1_3_51_60,
                                 year_min = 2051,
                                 year_max = 2060)
+  rcp85_ACCESS1_3_51_60 <- monthlyNorms_ClimateScenario(rcp85_ACCESS1_3_51_60)
   ## RCP85, ACCESS1_3, 2091 - 2100
   rcp85_ACCESS1_3_91_00 <- list(scen = 'rcp85_ACCESS1_3_91_00',
                                 prec = prec_RCP85_ACCESS1_3_91_00,
@@ -210,6 +218,7 @@ climateScenarioPreparation_RMAWGEN <- function(pathN,fileN,param){
                                 tasmax = tasmax_RCP85_ACCESS1_3_91_00,
                                 year_min = 2091,
                                 year_max = 2100)
+  rcp85_ACCESS1_3_91_00 <- monthlyNorms_ClimateScenario(rcp85_ACCESS1_3_91_00)
   ## RCP85, CMCC_CM, 2051 - 2060
   rcp85_CMCC_CM_51_60 <- list(scen = 'rcp85_CMCC_CM_51_60',
                               prec = prec_RCP85_CMCC_CM_51_60,
@@ -217,6 +226,7 @@ climateScenarioPreparation_RMAWGEN <- function(pathN,fileN,param){
                               tasmax = tasmax_RCP85_CMCC_CM_51_60,
                               year_min = 2051,
                               year_max = 2060)
+  rcp85_CMCC_CM_51_60 <- monthlyNorms_ClimateScenario(rcp85_CMCC_CM_51_60)
   ## RCP85, CMCC_CM, 2091 - 2100
   rcp85_CMCC_CM_91_00 <- list(scen = 'rcp85_CMCC_CM_91_00',
                               prec = prec_RCP85_CMCC_CM_91_00,
@@ -224,6 +234,7 @@ climateScenarioPreparation_RMAWGEN <- function(pathN,fileN,param){
                               tasmax = tasmax_RCP85_CMCC_CM_91_00,
                               year_min = 2091,
                               year_max = 2100)
+  rcp85_CMCC_CM_91_00 <- monthlyNorms_ClimateScenario(rcp85_CMCC_CM_91_00)
 
   clim_scen <- list()
 
