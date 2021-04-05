@@ -10,7 +10,7 @@
 #' @export
 wgen_daily_PT <- function(param, station_data, station_subset, clim_scen){
 
-  if (is.null(clim_scen)){
+  if (base::is.null(clim_scen)){
     prec_norm = NULL
     tasmin_norm = NULL
     tasmax_norm = NULL
@@ -25,21 +25,21 @@ wgen_daily_PT <- function(param, station_data, station_subset, clim_scen){
     year_max_sim = clim_scen$year_max
   }
 
-  if (is.null(station_subset)){
+  if (base::is.null(station_subset)){
     station = param$station
   } else {
     station = station_subset
   }
 
   # Set random generator seed
-  set.seed(param$seed)
+  base::set.seed(param$seed)
 
   # A. Precipitation Generator
   exogen <- NULL
   exogen_sim <- exogen
 
   P_gen <-
-    ComprehensivePrecipitationGenerator(station = station,
+    RMAWGEN::ComprehensivePrecipitationGenerator(station = station,
                                         prec_all = station_data$PRECIPITATION,
                                         year_min = param$year_min,
                                         year_max = param$year_max,
@@ -63,7 +63,7 @@ wgen_daily_PT <- function(param, station_data, station_subset, clim_scen){
 
   # B. Generation of temperature max and min
   T_gen <-
-    ComprehensiveTemperatureGenerator(station = station,
+    RMAWGEN::ComprehensiveTemperatureGenerator(station = station,
                                       Tx_all = station_data$TEMPERATURE_MAX,
                                       Tn_all = station_data$TEMPERATURE_MIN,
                                       year_min = param$year_min,
