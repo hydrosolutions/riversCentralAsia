@@ -12,13 +12,15 @@ prepare_RMAWGEN_input_data <- function(rsMinerve_data_csv_tibble){
   rsMinerve_data_csv_tibble <- rsMinerve_data_csv_tibble %>% dplyr::select(-which(rsMinerve_data_csv_tibble[5,]=='Q'))
   # Delete rows with NA in them (takes care of the padded NAs that was introduced by adding the Q Column)
   rsMinerve_data_csv_tibble <- rsMinerve_data_csv_tibble %>% na.omit()
+  # list to return
+  station_data <- list()
 
   base:: names(rsMinerve_data_csv_tibble) <- rsMinerve_data_csv_tibble[1,] %>% base::as.character()
   stationSelection <- rsMinerve_data_csv_tibble %>% dplyr::select(which(rsMinerve_data_csv_tibble[5,]=='T'))
-  STATION_NAMES <- stationSelection %>% base::names()
-  ELEVATION <- stationSelection[4,]
-  STATION_LATLON <- stationSelection[2:3,] %>% readr::type_convert() %>% t()
-  LOCATION <- STATION_NAMES
+  station_data$STATION_NAMES <- stationSelection %>% base::names()
+  station_data$ELEVATION <- stationSelection[4,]
+  station_data$STATION_LATLON <- stationSelection[2:3,] %>% readr::type_convert() %>% t()
+  station_data$LOCATION <- station_data$STATION_NAMES
 
   # Create date sequence
   dateSeq <- rsMinerve_data_csv_tibble %>% dplyr::select(Station)
@@ -34,7 +36,7 @@ prepare_RMAWGEN_input_data <- function(rsMinerve_data_csv_tibble){
   ## Convert to daily
   PRECIPITATION <- PRECIPITATION %>% tidyr::pivot_longer(-date) %>% dplyr::group_by(name) %>%
     timetk::summarize_by_time(.date_var = date,.by="day",dailyP = sum(value)) %>% tidyr::pivot_wider(names_from = name,values_from = dailyP)
-  PRECIPITATION <- PRECIPITATION %>% tibble::add_column(month=month(PRECIPITATION$date),.before = 1) %>%
+  station_data$PRECIPITATION <- PRECIPITATION %>% tibble::add_column(month=month(PRECIPITATION$date),.before = 1) %>%
     tibble::add_column(day=day(PRECIPITATION$date),.before = 2) %>% tibble::add_column(year=year(PRECIPITATION$date),.before = 3) %>% dplyr::select(-date)
 
   # Generate TEMPERATURE dataframes
@@ -49,12 +51,12 @@ prepare_RMAWGEN_input_data <- function(rsMinerve_data_csv_tibble){
     timetk::summarize_by_time(.date_var = date,.by="day",dailyMaxT = max(value)) %>% tidyr::pivot_wider(names_from = name,values_from = dailyMaxT)
 
   ## final dfs
-  TEMPERATURE_MIN <- TEMPERATURE_MIN %>%
+  station_data$TEMPERATURE_MIN <- TEMPERATURE_MIN %>%
     tibble::add_column(month=month(TEMPERATURE_MIN$date),.before = 1) %>%
     tibble::add_column(day=day(TEMPERATURE_MIN$date),.before = 2) %>%
     tibble::add_column(year=year(TEMPERATURE_MIN$date),.before = 3) %>% dplyr::select(-date)
 
-  TEMPERATURE_MAX <- TEMPERATURE_MAX %>%
+  station_data$TEMPERATURE_MAX <- TEMPERATURE_MAX %>%
     tibble::add_column(month=month(TEMPERATURE_MAX$date),.before = 1) %>%
     tibble::add_column(day=day(TEMPERATURE_MAX$date),.before = 2) %>%
     tibble::add_column(year=year(TEMPERATURE_MAX$date),.before = 3) %>% dplyr::select(-date)
@@ -65,17 +67,19 @@ prepare_RMAWGEN_input_data <- function(rsMinerve_data_csv_tibble){
   #    tibble::add_column(year=year(TEMPERATURE$date),.before = 3)
   #  TEMPERATURE <- TEMPERATURE %>% dplyr::select(-date)
 
-  list2Return <- list(
-    STATION_NAMES = STATION_NAMES,
-    ELEVATION = ELEVATION,
-    STATION_LATLON = STATION_LATLON,
-    LOCATION = LOCATION,
-    PRECIPITATION = PRECIPITATION,
-    #TEMPERATURE = TEMPERATURE,
-    TEMPERATURE_MIN = TEMPERATURE_MIN,
-    TEMPERATURE_MAX = TEMPERATURE_MAX
-  )
+  # list2Return <- list(
+  #   STATION_NAMES = STATION_NAMES,
+  #   ELEVATION = ELEVATION,
+  #   STATION_LATLON = STATION_LATLON,
+  #   LOCATION = LOCATION,
+  #   PRECIPITATION = PRECIPITATION,
+  #   #TEMPERATURE = TEMPERATURE,
+  #   TEMPERATURE_MIN = TEMPERATURE_MIN,
+  #   TEMPERATURE_MAX = TEMPERATURE_MAX
+  # )
 
-  return(list2Return)
+
+
+  return(station_data)
 
 }
