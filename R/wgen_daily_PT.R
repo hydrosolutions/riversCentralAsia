@@ -83,7 +83,9 @@ wgen_daily_PT <- function(param, station_data, station_subset, clim_scen){
 
 
   # Prepare output
-  results2return <- list(P_gen = P_gen,T_gen = T_gen)
+  results2return <- list(P_gen = P_gen,T_gen = T_gen,
+                         year_min = param$year_min, year_max = param$year_max,
+                         year_min_sim = year_min_sim, year_max_sim = year_max_sim)
 
   return(results2return)
 }
