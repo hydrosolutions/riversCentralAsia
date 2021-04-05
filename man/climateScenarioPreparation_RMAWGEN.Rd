@@ -11,7 +11,7 @@ climateScenarioPreparation_RMAWGEN(pathN, fileN, param)
 
 \item{fileN}{File name where climate projections are stored (.rda file)}
 
-\item{param}{RMAWGEN parameters stored as list}
+\item{param}{RMAWGEN parameters stored as list with param$year_min_sim_Period1, param$year_max_sim_Period1, param$year_min_sim_Period2 and param$year_max_sim_Period2 specified.}
 }
 \value{
 List of 12 climate scenarios, i.e. RCP45 and RCP85, climate models ACCESS1_3, CMCC-CM and MIROC5, two periods of interest (2051-2060 and 2091-2100). Scenario name, monthly precipitation (prec), minimum (tasmin) and maximum (tasmax) temperatures, year_min and year_max are stored in scenario list entires.
