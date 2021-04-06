@@ -18,7 +18,16 @@ knitr::opts_chunk$set(
 <!-- badges: start -->
 <!-- badges: end -->
 
-riversCentralAsia is an R Package with helper functions to load, manage and analyze hydrometeorological data from Central Asia. Currently, a relatively complete dataset of the Chirchik River Basin with decadal and monthly data on discharge, precipitation and temperature is included. Continue reading [here](doc/data_documentation.Rmd) for a more detailed description of the available data. The plan is to extend the data record to also include data from Chu and Talas rivers and from Amu Darya and Syr Darya, etc.
+riversCentralAsia is an R Package with helper functions to 
+- load, manage and analyze hydrometeorological data from Central Asia,
+- process and analyze as well as downscale ERA5 reanalysis data for arbitrary basins in the region (shapefile required),
+- process and analyze high-resolution past, current and future monthly CHELSA climatologies
+- generate daily/hourly climate scenarios using the stochastic weather generator RMAWGEN, and
+- prepare export files for hydrological-hydraulic modeling using the RS MINERVE software.  
+
+Currently, a relatively complete dataset of the Chirchik River Basin with decadal and monthly data on discharge, precipitation and temperature is included. Continue reading [here](doc/data_documentation.Rmd) for a more detailed description of the available data. The plan is to extend the data record to also include data from Chu and Talas rivers and from Amu Darya and Syr Darya, etc.
+
+[![DOI](https://zenodo.org/badge/DOI/10.5281/zenodo.4667422.svg)](https://doi.org/10.5281/zenodo.4667422)
 
 ## Installation
 
@@ -30,7 +39,7 @@ devtools::install_github("hydrosolutions/riversCentralAsia")
 ```
 ## Example
 
-This is a basic example which shows you how to visualize the included data
+This is a basic example which shows you how to visualize the included data.
 
 ```{r example}
 library(riversCentralAsia)
