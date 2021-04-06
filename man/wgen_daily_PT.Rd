@@ -4,7 +4,7 @@
 \alias{wgen_daily_PT}
 \title{Compute stochastic daily weather time series using RMAWGEN and a climate scenario}
 \usage{
-wgen_daily_PT(param, station_data, station_subset, clim_scen)
+wgen_daily_PT(param, station_data, station_subset, clim_scen, returnVAR)
 }
 \arguments{
 \item{param}{List with RMAWGEN parameters (see ?RMAWGEN::RMAWGEN for mroe infomation)}
@@ -12,6 +12,8 @@ wgen_daily_PT(param, station_data, station_subset, clim_scen)
 \item{station_data}{List with key station statistics, including STATION_NAMES, ELEVATION, STATION_LATLONG, LOCATION, PRECIPITATION, TEMPERATURE_MIN and TEMPERATURE_MAX. This is output of the function prepare_RMAWGEN_input_data()}
 
 \item{station_subset}{Optional subset of station names that should be modeled. If NULL, the entire set as given by station_data$STATION_NAMES will be used.}
+
+\item{returnVAR}{Return the var models? If this option is set to FALSE, the P_gen and T_gen files become more manageable.}
 
 \item{climScen}{Optional climate scenario that conditions the generation of future stochastic weather variables on norm climate (output from GMCs) for the individual stations. If NULL, the simulated period will cover the observation periuod.}
 }

@@ -6,9 +6,10 @@
 #' @param station_data List with key station statistics, including STATION_NAMES, ELEVATION, STATION_LATLONG, LOCATION, PRECIPITATION, TEMPERATURE_MIN and TEMPERATURE_MAX. This is output of the function prepare_RMAWGEN_input_data()
 #' @param station_subset Optional subset of station names that should be modeled. If NULL, the entire set as given by station_data$STATION_NAMES will be used.
 #' @param climScen Optional climate scenario that conditions the generation of future stochastic weather variables on norm climate (output from GMCs) for the individual stations. If NULL, the simulated period will cover the observation periuod.
+#' @param returnVAR Return the var models? If this option is set to FALSE, the P_gen and T_gen files become more manageable.
 #' @return Stochastic multi-site weather generator RMAWGEN precipitation and temperature models.
 #' @export
-wgen_daily_PT <- function(param, station_data, station_subset, clim_scen){
+wgen_daily_PT <- function(param, station_data, station_subset, clim_scen,returnVAR){
 
   if (base::is.null(clim_scen)){
     prec_norm = NULL
@@ -82,7 +83,21 @@ wgen_daily_PT <- function(param, station_data, station_subset, clim_scen){
     )
 
 
-  # Prepare output
+  # Prepare output by minimizing output size
+  if (returnVAR==FALSE){
+    # Precipitation
+    P_gen$var = NULL
+    P_gen$prec_spline = NULL
+    P_gen$prec_spline_sim = NULL
+    P_gen$data_prec = NULL
+    # Temperature
+    T_gen$var = NULL
+    T_gen$input = NULL
+    T_gen$temporary = NULL
+    T_gen$output$Tx_spline = NULL
+    T_gen$output$Tn_spline = NULL
+  }
+
   results2return <- list(P_gen = P_gen,T_gen = T_gen,
                          year_min = param$year_min, year_max = param$year_max,
                          year_min_sim = year_min_sim, year_max_sim = year_max_sim)
