@@ -14,8 +14,8 @@ generateSeqDates(startY, endY, freq)
 \item{freq}{"hour", "day", "week", "month", "quarter" or "year"}
 }
 \value{
-Tibble with date sequence with date frequency as specified.
+Tibble with date sequence with date frequency as specified. The date sequence starts at 00:00:00
 }
 \description{
-Simple helper function that generates a simple sequence of POSIXct dates between a specified starting year and an ending year. The frequency can be specified.
+Simple helper function that generates a simple sequence of POSIXct dates between a specified starting year and an ending year. The frequency can be specified. The date sequence starts at 00:00:00.
 }

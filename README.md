@@ -10,20 +10,27 @@ riversCentralAsia is an R Package with helper functions to - load,
 manage and analyze hydrometeorological data from Central Asia, - process
 and analyze as well as downscale ERA5 reanalysis data for arbitrary
 basins in the region (shapefile required), - process and analyze
-high-resolution past, current and future monthly CHELSA climatologies -
+high-resolution past, current and future monthly CHELSA climatologies, -
 generate daily/hourly climate scenarios using the stochastic weather
-generator RMAWGEN, and - prepare export files for hydrological-hydraulic
-modeling using the RS MINERVE software.
+generator RMAWGEN, - prepare export files for hydrological-hydraulic
+modeling using the RS MINERVE software, and - analyze climate impact
+scenarios.
 
 Currently, a relatively complete dataset of the Chirchik River Basin
 with decadal and monthly data on discharge, precipitation and
 temperature is included. Continue reading
 [here](doc/data_documentation.Rmd) for a more detailed description of
-the available data. The plan is to extend the data record to also
-include data from Chu and Talas rivers and from Amu Darya and Syr Darya,
-etc.
+the available data. More data will be made available in upcoming
+iterations of the package
 
 [![DOI](https://zenodo.org/badge/DOI/10.5281/zenodo.4667422.svg)](https://doi.org/10.5281/zenodo.4667422)
+
+## License Information
+
+<a rel="license" href="http://creativecommons.org/licenses/by-sa/4.0/"><img alt="Creative Commons License" style="border-width:0" src="https://i.creativecommons.org/l/by-sa/4.0/88x31.png" /></a><br />This
+work is licensed under a
+<a rel="license" href="http://creativecommons.org/licenses/by-sa/4.0/">Creative
+Commons Attribution-ShareAlike 4.0 International License</a>.
 
 ## Installation
 
@@ -37,8 +44,8 @@ devtools::install_github("hydrosolutions/riversCentralAsia")
 
 ## Example
 
-This is a basic example which shows you how to visualize the included
-data.
+This is a basic example which shows you how to visualize some of the
+included data.
 
 ``` r
 library(riversCentralAsia)

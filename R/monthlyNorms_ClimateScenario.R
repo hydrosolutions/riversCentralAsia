@@ -13,11 +13,17 @@ monthlyNorms_ClimateScenario <- function(climScenario){
   # prec
   prec <- climScenario$prec %>% tibble::as_tibble()
   prec <- dateSeq %>% tibble::add_column(prec)
-  climScenario$prec_norm <-
+  prec_norm <-
     prec %>% pivot_longer(-date) %>% mutate(month = month(date),.before = 2) %>%
     group_by(month,name) %>% summarize(prec_norm = mean(value)) %>%
     pivot_wider(names_from = name,values_from = prec_norm) %>% ungroup() %>%
     dplyr::select(-month) %>% as.matrix()
+  # These monthly norms are in mm/month. We need the norms though in mm/day. Let us convert it carefully.
+  nDaysMonth <- matrix(c(31, 28.25, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31))
+  cols <- prec_norm %>% ncol()
+  nDaysMonth <- matrix(rep(nDaysMonth,each=cols), ncol=cols, byrow=TRUE)
+  prec_norm <- prec_norm / nDaysMonth
+  climScenario$prec_norm <- prec_norm
   # tasmin
   tasmin <- climScenario$tasmin %>% tibble::as_tibble()
   tasmin <- dateSeq %>% tibble::add_column(tasmin)
