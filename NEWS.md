@@ -1,5 +1,10 @@
 # riversCentralAsia (Development Version)
 
+## riversCentralAsia 0.4 with numerous additions and improvements. The following new functions are available:
+- computeDiurnalTemperatureCycle()
+- generateHourlyFromDaily_PT()
+
+
 ## riversCentralAsia 0.3 with several new functions that facilitate a) ERA5 data handling, bias correction, donwscaling, etc., b) prepare data for the stochastic weather generator RMAWGEN and c) handle importing and exporting files to the hydrological-hydraulic RS MINERVE model.
 - function biasCorrect_ERA5_CHELSA()
 - function climateScenarioPreparation_RMAWGEN()
