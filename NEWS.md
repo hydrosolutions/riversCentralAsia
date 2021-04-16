@@ -1,5 +1,8 @@
 # riversCentralAsia (Development Version)
 
+## riversCentralAsia 0.4.1. Added import function of iEasyHydro .csv files
+- import_iEasyHydro_data()
+
 ## riversCentralAsia 0.4 with numerous additions and improvements. The following new functions are available:
 - computeDiurnalTemperatureCycle()
 - generateHourlyFromDaily_PT()

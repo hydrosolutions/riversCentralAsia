@@ -40,10 +40,10 @@ loadTabularData <- function(fPath,fName,code,stationName,rName,rBasin,dataType,u
   #dates$type <- factor(dataType, levels = c("Q","P","T")) # Removed since we can have different type of temperature
   # time series, i.e. monthly abs. minimum, monthly mean minimum, etc.
   dates$type <- dataType
-  dates$code <- code %>% toString()
+  dates$code <- code %>% base::toString()
   dates$station <- stationName
   dates$river <- rName
   dates$basin <- rBasin
-  dates$resolution <- factor(type, levels = c("dec","mon"))
+  dates$resolution <- base::factor(type, levels = c("dec","mon"))
   df <- dates %>% return()
 }
