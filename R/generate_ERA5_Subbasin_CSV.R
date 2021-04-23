@@ -25,15 +25,10 @@ generate_ERA5_Subbasin_CSV <- function(dir_ERA5_hourly,catchmentName,dataType,el
   fileList <- fileList %>% stats::na.omit()
   # Since the brick raster data is in +longlat, ensure elBands_shp is in the same crs.
   elBands_shp_latlon <- sf::st_transform(elBands_shp,crs = sf::st_crs(4326))
-
   # Generate date sequence (Note: Dates sequence in accordance with RSMinerve Requirements)
-  sTime <- base::paste0('01.01.',startY,' 01:00:00')
-  eTime <- base::paste0('31.12.',endY,' 23:00:00')
-  dateElBands <- base::seq.POSIXt(base::as.POSIXct(sTime,format="%d.%m.%Y %H:%M:%S"),
-                                  base::as.POSIXct(eTime,format="%d.%m.%Y %H:%M:%S"), by="hour") %>%
-    tibble::as_tibble() %>% dplyr::rename(Date=value)
+  dateElBands <- generateSeqDates(startY,endY,'hour') %>% dplyr::slice(-1)
   # Now, solve that obnoxious time formatting problem for compatibility with RSMinerve (see function posixct2rsminerveChar() for more details)
-  datesChar <- riversCentralAsia::posixct2rsminerveChar(dateElBands$Date)
+  datesChar <- riversCentralAsia::posixct2rsminerveChar(dateElBands$date)
   datesChar <- datesChar %>% dplyr::rename(Station=value)
 
   namesElBands <- elBands_shp$name
@@ -45,7 +40,7 @@ generate_ERA5_Subbasin_CSV <- function(dir_ERA5_hourly,catchmentName,dataType,el
     base::print(base::paste0('Processing File: ', fileList$fName[yr]))
     file2Process_ERA <- fileList$fName[yr]
     era_data <- raster::brick(base::paste0(dir_ERA5_hourly,dataType,'/',catchmentName,'/',file2Process_ERA))
-    subbasin_data <- raster::extract(era_data,elBands_shp_latlon) %>% base::lapply(.,colMeans)
+    subbasin_data <- raster::extract(era_data,elBands_shp_latlon) %>% base::lapply(.,colMeans,na.rm=TRUE)
     subbasin_data <- subbasin_data %>% tibble::as_tibble(.,.name_repair = "unique")
     if (dataType=='tp'){subbasin_data <- subbasin_data * 1000} # this converts the precipitation to mm/h
     base::names(subbasin_data) <- base::names(dataElBands_df)
