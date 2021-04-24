@@ -43,14 +43,14 @@ biasCorrect_ERA5_CHELSA <- function(dir_ERA5_hourly,dataType_ERA5,dir_CHELSA,sta
     for (mon in 1:12){
 
       # sort out files paths as a function of dataType_ERA5
-      if (dataType_ERA5=='t2m'){chlFName='/CHELSA_tmean_'} else {chlFName='/CHELSA_tp_bcorr_'}
+      if (dataType_ERA5=='t2m'){chlFName='t2m/CHELSA_tmean_'} else {chlFName='pbcorr_tp/CHELSA_tp_bcorr_'}
       # Load corresponding tmean CHELSA Central Asia File
       if (mon<10){
         chelsa_monthly_data <-
-          raster::raster(base::paste0(dir_CHELSA,dataType_ERA5,chlFName,yr,'_0',mon,'_CA_V1.2.1.tif'))
+          raster::raster(base::paste0(dir_CHELSA,chlFName,yr,'_0',mon,'_CA_V1.2.1.tif'))
       } else {
         chelsa_monthly_data <-
-          raster::raster(base::paste0(dir_CHELSA,dataType_ERA5,chlFName,yr,'_',mon,'_CA_V1.2.1.tif'))
+          raster::raster(base::paste0(dir_CHELSA,chlFName,yr,'_',mon,'_CA_V1.2.1.tif'))
       }
       # Cut to basin
       ## CHELSA
