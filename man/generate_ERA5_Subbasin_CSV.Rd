@@ -14,7 +14,7 @@ generate_ERA5_Subbasin_CSV(
 )
 }
 \arguments{
-\item{dir_ERA5_hourly}{Path to original stored DEM file}
+\item{dir_ERA5_hourly}{Path to original stored DEM file (generate_ERA5_Subbasin_CSV assumes the following folder structure: <dir_ERA5_hourly>/<tp or t2m>/<catchmentName>/*.nc)}
 
 \item{catchmentName}{Name of catchment for which data should be extracted (depends on proper local file storage)}
 
