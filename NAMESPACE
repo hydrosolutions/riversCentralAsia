@@ -2,6 +2,7 @@
 
 export("%>%")
 export(AizensGlacierFunctions)
+export(OerlemansGlacierLengthModel)
 export(aggregate_to_monthly)
 export(assess_fc_qual)
 export(biasCorrect_ERA5_CHELSA)

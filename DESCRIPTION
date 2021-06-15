@@ -31,7 +31,8 @@ Imports:
     raster,
     rgdal,
     sf,
-    smoothr
+    smoothr, 
+    tidyselect
 VignetteBuilder: knitr
 Suggests: 
     testthat (>= 3.0.0)
