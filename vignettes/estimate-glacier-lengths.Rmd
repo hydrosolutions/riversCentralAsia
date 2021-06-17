@@ -60,9 +60,9 @@ Note that the relationships above have been derived from annual glacier length d
 
 # How to estimate glacier lengths for climate scenarios
 ## Load example data
-The example data set for this vignette contains an subset of the Randolph Glacier Inventory 6.0 [@randolph_2017] and average temperatures and precipitation for each glacier between 2006 and 2100. The climate prediction data has been downloaded from @karger_high-resolution_2020 and bias correction following @beck_bias_2020 is applied. A more detailed description of how this was done is given in the course book  [Applied Modeling of Hydrological Systems in Central Asia](https://tobiassiegfried.github.io/HydrologicalModeling_CentralAsia/data-on-climate-projections.html)
+The example data set for this vignette contains an subset of the Randolph Glacier Inventory 6.0 [@rgi_consortium_randolph_2017] and average temperatures and precipitation for each glacier between 2006 and 2100. The climate prediction data has been downloaded from @karger_high-resolution_2020 and bias correction following @beck_bias_2020 is applied. A more detailed description of how this was done is given in the course book  [Applied Modeling of Hydrological Systems in Central Asia](https://tobiassiegfried.github.io/HydrologicalModeling_CentralAsia/data-on-climate-projections.html)
 ```{r load-data}
-riversCentralAsia::vignette_estimate_glacier_lengths
+data("vignette_estimate_glacier_lengths")
 # Subset of the Randolph Glacier Inventory 6.0
 rgi6 <- vignette_estimate_glacier_lengths[[1]]
 # Precipitation data per glacier, over time for 3 climate prediction models and 2 RCP scenarios. 
@@ -109,9 +109,68 @@ tannomaly <- temp %>%
   dplyr::select(-`T [deg C].x`, -`T [deg C].y`)
 ```
 
+## Calculate glacier length
+This may take a while.  
+```{r oerlemans, warning=FALSE,message=FALSE}
+test <- riversCentralAsia::OerlemansGlacierLengthModel_FormatLong(tannomaly, prec, 10, rgi6)
+dL <- test[[1]]
+L <- test[[2]]
+```
 
+```{r plot-length-change, warning=FALSE,message=FALSE}
+ggplot(dL) + 
+  geom_line(aes(Year, `dL(t) [km]`, group = Glacier), alpha = 0.2) +
+  geom_smooth(aes(Year, `dL(t) [km]`), alpha = 0.6, method = "lm", se = FALSE, 
+              weight = 0.6) + 
+  facet_wrap(c("RCP", "Model")) + 
+  theme_bw()
+```
 
+```{r plot-length, warning=FALSE,message=FALSE}
+ggplot(L) + 
+  geom_line(aes(Year, `L(t) [km]`, group = Glacier), alpha = 0.2) +
+  geom_smooth(aes(Year, `L(t) [km]`), alpha = 0.6, method = "lm", se = FALSE, 
+              weight = 0.6) + 
+  facet_wrap(c("RCP", "Model")) + 
+  theme_bw()
+```
 
+## Calculate glacier volume
+```{r aizen}
+glacier_volumes <- riversCentralAsia::AizensGlacierFunctions((L %>% dplyr::filter(L$`L(t) [km]`>0)))
+```
+
+## Volume change
+```{r volume-change}
+glacier_volumes <- glacier_volumes %>%
+ dplyr::group_by(Glacier, RCP, Model)%>%
+ dplyr::mutate(VolumeChange_km3 = c(0,diff(Volume_Aizen_km3)))
+
+```
+
+Filter out the largest glacier and sum up the negative volume change. 
+```{r plot-glacier-volume, message=FALSE,warning=FALSE}
+glacier_volumes_min <- glacier_volumes %>%
+  dplyr::filter(Glacier != "V314")
+
+total_glacier_melt <- glacier_volumes %>%
+  dplyr::group_by(Year, RCP, Model) %>%
+  dplyr::mutate(NegChange_km2 = base::ifelse(VolumeChange_km3 <= 0, VolumeChange_km3, 0), 
+         PosChange_km2 = base::ifelse(VolumeChange_km3 >= 0, VolumeChange_km3, 0)) %>%
+  dplyr::summarise(av_Length_km = base::mean(`L(t) [km]`, na.rm = TRUE), 
+            av_Area_km2 = base::mean(Area_Aizen_km2, na.rm = TRUE), 
+            av_NegVolChange_km3 = base::abs(base::sum(NegChange_km2, na.rm = TRUE)), 
+            av_PosVolChange_km3 = base::sum(PosChange_km2, na.rm = TRUE))
+
+ggplot(total_glacier_melt) + 
+  geom_col(aes(Year, av_NegVolChange_km3)) + 
+  geom_smooth(aes(Year, av_NegVolChange_km3), method = "lm") + 
+  facet_wrap(c("RCP", "Model")) + 
+  theme_bw()
+
+```
+
+Note that these empirical relationships are not suitable for applications on individual glaciers. 
 
 # References
 
