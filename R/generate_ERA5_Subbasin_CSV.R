@@ -4,7 +4,7 @@
 #' later import in RSMinerve (use write.table() function to export as csv). If tp and t2m have to be exported,
 #' the function has to be called twice and the resulting tibble columns added.
 #'
-#' @param dir_ERA5_hourly Path to original stored DEM file
+#' @param dir_ERA5_hourly Path to original stored DEM file (generate_ERA5_Subbasin_CSV assumes the following folder structure: <dir_ERA5_hourly>/<tp or t2m>/<catchmentName>/*.nc)
 #' @param catchmentName Name of catchment for which data should be extracted (depends on proper local file storage)
 #' @param dataType Currently, only 'tp' or 't2m' as valid options
 #' @param elBands_shp Subbasin-level shapefile with elevation bands

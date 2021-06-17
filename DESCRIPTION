@@ -1,16 +1,16 @@
 Package: riversCentralAsia
 Type: Package
-Title: riversCentralAsia is an R Package for hydrological modeling of rivers in Central Asia and faciliates the handling of hydrological and meteorological data (including station data, ERA5 data and climate projection data) 
+Title: Hydrological modelling in Central Asia
 Version: 0.4.1
 Date: 2021-04-16
 Author: Tobias Siegfried and Beatrice Marti, hydrosolutions GmbH, Zurich, Switzerland
 Maintainer:  <siegfried@hydrosolutions.ch>
-Description: Currently, a relatively complete dataset of the Chirchik River Basin with decadal and monthly data on discharge, precipitation and temperature is included. Data for additional river basins will be made available in the next package release.
+Description: riversCentralAsia is an R Package for hydrological modeling of rivers in Central Asia and faciliates the handling of hydrological and meteorological data (including station data, ERA5 data and climate projection data). Currently, a relatively complete dataset of the Chirchik River Basin with decadal and monthly data on discharge, precipitation and temperature is included. Data for additional river basins will be made available in the next package release.
 License: GPL (>=3)
 RoxygenNote: 7.1.1
 LazyData: true
 Depends: 
-    R (>= 2.10)
+    R (>= 3.5)
 Imports: 
     knitr,
     magrittr,
@@ -31,7 +31,8 @@ Imports:
     raster,
     rgdal,
     sf,
-    smoothr
+    smoothr, 
+    tidyselect
 VignetteBuilder: knitr
 Suggests: 
     testthat (>= 3.0.0)
