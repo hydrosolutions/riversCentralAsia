@@ -1,5 +1,3 @@
-context("Aggregation of sub-monthly time series data")
-
 misssing_norm_data_tibble_only_Q <- tibble::tribble(
   ~type, ~code, ~date, ~data,
   "Q",   "123", as.Date("2019-01-15"), 10,

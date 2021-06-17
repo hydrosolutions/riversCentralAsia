@@ -1,0 +1,117 @@
+---
+title: "Estimating glacier lengths in Central Asia"
+output: rmarkdown::html_vignette
+vignette: >
+  %\VignetteIndexEntry{estimate-glacier-lengths}
+  %\VignetteEngine{knitr::rmarkdown}
+  %\VignetteEncoding{UTF-8}
+bibliography: references.bib
+---
+
+```{r, include = FALSE}
+knitr::opts_chunk$set(
+  collapse = TRUE,
+  comment = "#>"
+)
+```
+
+```{r setup}
+library(riversCentralAsia)
+library(ggplot2)
+library(sf)
+```
+
+# Background & Motivation
+Melt from glaciers ist the most important contributor of discharge in most of the larger rivers in Central Asia. However, measurements of discharge from glaciers are generally not available. To estimate the contribution from glacier melt to discharge under different climate scenarios, we use empirial relationships published by @oerlemans_extracting_2005 and @aizen_glaciers_2007 which are described below.    
+
+## Glacier length model by Oerlemans
+@oerlemans_extracting_2005 analysed a global glacier length time series and relate glacier length to temperature as follows: 
+
+$$\frac{dL'(t)}{dt}=-\frac{1}{\tau} \cdot \left( c \cdot T'(t) + L'(t) \right)$$
+where the glacier length of year $t$, $L(t)$ is defined as the glacier length in the reference year $L_0$ plus the change of the glacier length with respect to the reference year $L'(t)$ (see below). $T'(t)$ is the mean annual temperature perturbance with respect to a baseline mean temperature.     
+
+$$L(t) = L_0 + L'(t)$$
+The response time $\tau$ [a] is parameterised as proposed by @oerlemans_extracting_2005 as 
+
+$$\tau = \frac{2266.67}{s \cdot \sqrt{L_0 \cdot (1+20 \cdot s) \cdot P(t)}}$$
+$s$ is the average glacier slope [-] that is available from @rgi_consortium_randolph_2017^[The RGI6 dataset is roughly compatible with the GLIMS data set in the Sokh river catchment but much easier to handle.]. $P(t)$ is the annual precipitation [m].  
+The climate sensitivity $c$ [m/$^{\circ}$C] is given by  
+
+$$c=2.3 \cdot \frac{P(t)^{0.6}}{s}$$
+
+## Glaciers volume - length relationships by Aizen et al. 
+@aizen_glaciers_2007 reports scaling relationships between glacier length and surface area and between glacier surface area and volume in the Tien Shan mountains. They are:  
+
+$$S=\left(\frac{L}{1.6724}\right)^{\frac{1}{0.561}}$$
+
+
+$$V=0.03782 \cdot S^{1.23}\text{ }\text{ }\text{ for }\text{ }\text{ } S<0.1\text{ km}^2$$ 
+
+$$V=\frac{\left(0.03332 \cdot S^{1.08} \cdot e^{0.1219 \cdot L}\right)}{L^{0.08846}}\text{ }\text{ }\text{ for }\text{ }\text{ } 0.1 < S < 25\text{ km}^2$$ 
+
+$$V=0.018484 \cdot S + 0.021875 \cdot S^{1.3521}\text{ }\text{ }\text{ for }\text{ }\text{ } S > 25\text{ km}^2$$ 
+
+with the glacier surface area $S$ in [km$^2$] and the glacier volume $V$ [km$^3$].  
+
+The method was applied in @siegfried_will_2012 with the following extensions. They found that the glacier area reported in the GLIMS data set corresponds well to the data reported in Aizen (2007).    
+
+Note that the relationships above have been derived from annual glacier length data.   
+
+
+# How to estimate glacier lengths for climate scenarios
+## Load example data
+The example data set for this vignette contains an subset of the Randolph Glacier Inventory 6.0 [@randolph_2017] and average temperatures and precipitation for each glacier between 2006 and 2100. The climate prediction data has been downloaded from @karger_high-resolution_2020 and bias correction following @beck_bias_2020 is applied. A more detailed description of how this was done is given in the course book  [Applied Modeling of Hydrological Systems in Central Asia](https://tobiassiegfried.github.io/HydrologicalModeling_CentralAsia/data-on-climate-projections.html)
+```{r load-data}
+riversCentralAsia::vignette_estimate_glacier_lengths
+# Subset of the Randolph Glacier Inventory 6.0
+rgi6 <- vignette_estimate_glacier_lengths[[1]]
+# Precipitation data per glacier, over time for 3 climate prediction models and 2 RCP scenarios. 
+prec <- vignette_estimate_glacier_lengths[[2]]
+# Temperature data per glacier, over time for 3 climate prediction models and 2 RCP scenarios. 
+temp <- vignette_estimate_glacier_lengths[[3]]
+rm(vignette_estimate_glacier_lengths)
+```
+
+```{r plot-rgi6, message=FALSE,warning=FALSE}
+plot(rgi6["Lmax"])
+```
+
+```{r plot-precipitation, message=FALSE,warning=FALSE}
+ggplot(prec) + 
+  geom_line(aes(Year, `P [m/a]`, group = Glacier), alpha = 0.02) + 
+  geom_smooth(aes(Year, `P [m/a]`), alpha = 0.4, method = "lm", se = TRUE, 
+              weight = 0.6) +
+  facet_wrap(c("RCP", "Model")) + 
+  theme_bw()
+```
+
+```{r plot-temperature, message=FALSE,warning=FALSE}
+ggplot(temp) + 
+  geom_line(aes(Year, `T [deg C]`, group = Glacier), alpha = 0.02) +
+  geom_smooth(aes(Year, `T [deg C]`), alpha = 0.6, method = "lm", se = FALSE, 
+              weight = 0.6) + 
+  facet_wrap(c("RCP", "Model")) + 
+  theme_bw()
+```
+
+## Calculate temperature annomaly
+Oerlemans function use temperature deviations from the baseline period as model forcing. 
+```{r temp-annomaly, warning=FALSE,message=FALSE}
+baseline <- 10  # 10 years of baseline, i.e. 2006 - 2016
+yearbase <- min(temp$Year) + baseline
+tbaseline <- temp %>%
+  dplyr::filter(Year <= yearbase) %>%
+  dplyr::group_by(Model, RCP, Glacier) %>% 
+  dplyr::summarise(`T [deg C]` = mean(`T [deg C]`))
+tannomaly <- temp %>%
+  dplyr::left_join(tbaseline, by = c("Model", "RCP", "Glacier")) %>%
+  dplyr::mutate(`Ta [deg K]` = `T [deg C].x` - `T [deg C].y`) %>%
+  dplyr::select(-`T [deg C].x`, -`T [deg C].y`)
+```
+
+
+
+
+
+# References
+

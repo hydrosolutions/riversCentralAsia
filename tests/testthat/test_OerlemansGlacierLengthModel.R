@@ -1,5 +1,3 @@
-#context("Run Oerlemans Glacier Length Model")
-
 test_that("Oerlemans Model runs with correct input", {
   glaciers <- dplyr::tibble(ID = c(1, 2, 3),
                            Lmax = c(500, 5000, 13000),
