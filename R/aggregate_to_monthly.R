@@ -21,12 +21,11 @@
 #'             column.
 #'             Returns 1 if aggregation fails.
 #'
-#' Examples
+#' @examples
 #' dataTable <- ChirchikRiverBasin
 #' funcTypeLib <- list(mean = c("Q", "T"), sum= "P")
 #' data_mon <- aggregate_to_monthly(dataTable, funcTypeLib)
 #'
-#' @author Beatrice Marti, hydrosolutions
 #' @export
 
 aggregate_to_monthly <- function(dataTable, funcTypeLib) {
