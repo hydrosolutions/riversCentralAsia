@@ -2,7 +2,7 @@
 % Please edit documentation in R/gen_basinElevationBands.R
 \name{gen_basinElevationBands}
 \alias{gen_basinElevationBands}
-\title{Generate basin elevation bands from shapefile}
+\title{Generate basin elevation bands from DEM}
 \usage{
 gen_basinElevationBands(
   dem_PathN,
@@ -14,11 +14,11 @@ gen_basinElevationBands(
 )
 }
 \arguments{
-\item{dem_PathN}{Path to original stored DEM file}
+\item{dem_PathN}{Path to original stored DEM file. Can be path to directory containing the DEM file or the path to the DEM file directly.}
 
 \item{dem_FileN}{DEM file name}
 
-\item{demAggFact}{Aggregation factor to downsample DEM (greatly improves computational efficiency)}
+\item{demAggFact}{Aggregation factor to down-sample DEM (greatly improves computational efficiency)}
 
 \item{band_interval}{Elevation bands interval / spacing (in meters)}
 
@@ -27,11 +27,11 @@ gen_basinElevationBands(
 \item{smoothFact}{smoothness of final elevation bands (smoothness parameter of smoothr::smooth() function)}
 }
 \value{
-Simple feature (sf) multipolygon
+Simple feature (sf) multi-polygon. Returns NULL if not successfull.
 }
 \description{
 This function takes a DEM and generates altitude bands according to the interval spacing chosen.
 It also applies different clean up operations that require user specified values for the
-smoothr::drop_crumbs() and smoothr::fill_holes() functions. These subbasins, once stored as a
-Shapefile can then be further edited in QGIS.
+smoothr::drop_crumbs() and smoothr::fill_holes() functions. These sub-basins, once stored as a
+shape file can then be further edited in QGIS.
 }
