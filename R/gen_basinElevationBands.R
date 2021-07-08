@@ -16,11 +16,11 @@
 gen_basinElevationBands <- function(dem_PathN, dem_FileN, demAggFact, band_interval, holeSize_km2, smoothFact){
 
   # Load DEM & define bands
-  if (file.exists(dem_PathN)) {
+  if (file_test("-f", dem_PathN)) {
     filepath <- dem_PathN
   } else {
     filepath <- normalizePath(file.path(dem_PathN, dem_FileN))
-    if (!file.exists(filepath)) {
+    if (!file_test("-f", filepath)) {
       cat("Error: Cannot find file", dem_PathN, "nor", filepath, ".")
       return(NULL)
     }
