@@ -16,12 +16,15 @@ A list of objects
 RGI6 data set, Karger et al., 2020, Beck et al., 2020
 }
 \usage{
+vignette_estimate_glacier_lengths
+}
+\description{
+Example data for vignette Estimateing glacier lengths in Central Asia
+}
+\examples{
 data(vignette_estimate_glacier_lengths)
 rgi6 <- vignette_estimate_glacier_lengths[[1]]
 prec <- vignette_estimate_glacier_lengths[[2]]
 temp <- vignette_estimate_glacier_lengths[[3]]
-}
-\description{
-Example data for vignette Estimateing glacier lengths in Central Asia
 }
 \keyword{datasets}

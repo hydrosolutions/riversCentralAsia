@@ -5,8 +5,8 @@ test_that("Elevation bands are correctly generated", {
   band_interval <- 500 # in meters
   holeSize_km2 <- 10 # cleaning holes smaller than that size
   smoothFact <- 2 # level of band smoothing
-  demAggFact <- 10 # dem aggregation factor
+  demAggFact <- 2 # dem aggregation factor
   test_data <- gen_basinElevationBands(dem_PathN, dem_FileN, demAggFact,
                                        band_interval, holeSize_km2, smoothFact)
-
+  expect_equal(1, test_data$layer[1])
 })

@@ -12,13 +12,16 @@ load_minerve_input_csv(filename)
 \value{
 Returns a tibble of the same format as \code{data} with data
         in hourly (climate) to decadal or monthly (discharge) time steps.
-
-examples
-load_minerve_input_csv("path_to_file.csv")
 }
 \description{
 The data is in a csv file that can also be imported to RS Minerve to form a
 database.
+}
+\examples{
+\dontrun{
+load_minerve_input_csv("path_to_file.csv")
+}
+
 }
 \author{
 Beatrice Marti, hydrosolutions

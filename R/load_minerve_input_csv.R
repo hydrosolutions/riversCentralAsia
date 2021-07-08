@@ -8,8 +8,10 @@
 #' @return Returns a tibble of the same format as \code{data} with data
 #'         in hourly (climate) to decadal or monthly (discharge) time steps.
 #'
-#' examples
+#' @examples
+#' \dontrun{
 #' load_minerve_input_csv("path_to_file.csv")
+#' }
 #'
 #' @author Beatrice Marti, hydrosolutions
 #' @export

@@ -22,11 +22,6 @@ Returns a tibble of the same format as \code{data} with data
             aggregated to monthly time steps and "mon" in the resolution
             column.
             Returns 1 if aggregation fails.
-
-Examples
-dataTable <- ChirchikRiverBasin
-funcTypeLib <- list(mean = c("Q", "T"), sum= "P")
-data_mon <- aggregate_to_monthly(dataTable, funcTypeLib)
 }
 \description{
 A riversCentralAsia data set can be of type discharge, precipitation, and
@@ -36,6 +31,9 @@ data, according to the type-function pair given in the second argument.
 The user specifies which aggregation function to use for each data type using
 timetk's summarise_by_time.
 }
-\author{
-Beatrice Marti, hydrosolutions
+\examples{
+dataTable <- ChirchikRiverBasin
+funcTypeLib <- list(mean = c("Q", "T"), sum= "P")
+data_mon <- aggregate_to_monthly(dataTable, funcTypeLib)
+
 }
