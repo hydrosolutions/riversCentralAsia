@@ -32,7 +32,8 @@ Imports:
     rgdal,
     sf,
     smoothr, 
-    tidyselect
+    tidyselect, 
+    numform
 VignetteBuilder: knitr
 Suggests: 
     testthat (>= 3.0.0)
