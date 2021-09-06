@@ -5,10 +5,14 @@
 \title{Function to convert POSIXCT-dates to a character representation as required
 by RSminerve}
 \usage{
-posixct2rsminerveChar(dateVec)
+posixct2rsminerveChar(dateVec, tz = "")
 }
 \arguments{
 \item{dateVec}{Date vector}
+
+\item{tz}{Optional character indicating time zone for as.POSIXct. Default is
+system internal time zone (""). "GTM" or known local time zone of
+data recommended.}
 }
 \value{
 Dateframe with dates in dd.mm.yyyy hh:mm:ss representation

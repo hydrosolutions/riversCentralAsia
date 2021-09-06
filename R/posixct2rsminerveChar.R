@@ -6,10 +6,13 @@
 #' This is the format that RSMinerve accepts for time series.
 #'
 #' @param dateVec Date vector
+#' @param tz Optional character indicating time zone for as.POSIXct. Default is
+#'           system internal time zone (""). "GTM" or known local time zone of
+#'           data recommended.
 #' @return Dateframe with dates in dd.mm.yyyy hh:mm:ss representation
 #' @export
-posixct2rsminerveChar <- function(dateVec){
-  da <- dateVec |> base::as.POSIXct()
+posixct2rsminerveChar <- function(dateVec, tz = ""){
+  da <- dateVec |> base::as.POSIXct(tz = tz)
   datesChar <- tibble::tibble(day = da |> lubridate::day(),
                               mon = da |> lubridate::month(),
                               year = da |> lubridate::year(),
