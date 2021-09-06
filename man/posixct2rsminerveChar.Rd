@@ -22,3 +22,7 @@ Reformats a POSIXct date formats to a string (vec) with the format
 dd.mm.yyyy hh:mm:ss.
 This is the format that RSMinerve accepts for time series.
 }
+\examples{
+date_vec <- c("2018-01-01 01:00:00", "2018-01-01 02:00:00", "2018-01-01 03:00:00")
+rsminerve_date_vec <- posixct2rsminerveChar(date_vec, "GMT")
+}
