@@ -138,7 +138,7 @@ shape file can then be further edited in QGIS.</p>
 
     <pre class="usage"><span class='fu'>gen_basinElevationBands</span><span class='op'>(</span>
   <span class='va'>dem_PathN</span>,
-  <span class='va'>dem_FileN</span>,
+  dem_FileN <span class='op'>=</span> <span class='st'>"DEM.tif"</span>,
   <span class='va'>demAggFact</span>,
   <span class='va'>band_interval</span>,
   <span class='va'>holeSize_km2</span>,
@@ -150,11 +150,13 @@ shape file can then be further edited in QGIS.</p>
     <colgroup><col class="name" /><col class="desc" /></colgroup>
     <tr>
       <th>dem_PathN</th>
-      <td><p>Path to original stored DEM file. Can be path to directory containing the DEM file or the path to the DEM file directly.</p></td>
+      <td><p>Path to original stored DEM file. Can be path to directory
+containing the DEM file or the path to the DEM file directly. Can also be
+a raster object.</p></td>
     </tr>
     <tr>
       <th>dem_FileN</th>
-      <td><p>DEM file name</p></td>
+      <td><p>DEM file name (optional, defaults to DEM.tif)</p></td>
     </tr>
     <tr>
       <th>demAggFact</th>

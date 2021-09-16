@@ -5,27 +5,34 @@
 #' smoothr::drop_crumbs() and smoothr::fill_holes() functions. These sub-basins, once stored as a
 #' shape file can then be further edited in QGIS.
 #'
-#' @param dem_PathN Path to original stored DEM file. Can be path to directory containing the DEM file or the path to the DEM file directly.
-#' @param dem_FileN DEM file name
+#' @param dem_PathN Path to original stored DEM file. Can be path to directory
+#'   containing the DEM file or the path to the DEM file directly. Can also be
+#'   a raster object.
+#' @param dem_FileN DEM file name (optional, defaults to DEM.tif)
 #' @param demAggFact Aggregation factor to down-sample DEM (greatly improves computational efficiency)
 #' @param band_interval Elevation bands interval / spacing (in meters)
 #' @param holeSize_km2 Minimum Size of holes that will be kept during cleaning operation (in square kilometers)
 #' @param smoothFact smoothness of final elevation bands (smoothness parameter of smoothr::smooth() function)
 #' @return Simple feature (sf) multi-polygon. Returns NULL if not successfull.
 #' @export
-gen_basinElevationBands <- function(dem_PathN, dem_FileN, demAggFact, band_interval, holeSize_km2, smoothFact){
+gen_basinElevationBands <- function(dem_PathN, dem_FileN = "DEM.tif", demAggFact, band_interval, holeSize_km2, smoothFact){
 
   # Load DEM & define bands
-  if (file_test("-f", dem_PathN)) {
+  if (class(dem_PathN) == "RasterLayer") {
+    dem <- dem_PathN
+  } else if (file_test("-f", dem_PathN)) {
     filepath <- dem_PathN
+    dem <- raster::raster(filepath)
   } else {
     filepath <- normalizePath(file.path(dem_PathN, dem_FileN))
     if (!file_test("-f", filepath)) {
-      cat("Error: Cannot find file", dem_PathN, "nor", filepath, ".")
+      cat("Error: Cannot find file", dem_PathN, "nor", filepath,
+          "and dem_PathN is not of class RasterLayer.")
       return(NULL)
+    } else {
+      dem <- raster::raster(filepath)
     }
   }
-  dem <- raster::raster(filepath)
   dem <- raster::aggregate(dem, fact = demAggFact) # this is in UTM 42N
   bands <- seq(raster::minValue(dem), raster::maxValue(dem), band_interval)
 

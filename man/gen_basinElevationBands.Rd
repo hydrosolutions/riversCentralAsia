@@ -6,7 +6,7 @@
 \usage{
 gen_basinElevationBands(
   dem_PathN,
-  dem_FileN,
+  dem_FileN = "DEM.tif",
   demAggFact,
   band_interval,
   holeSize_km2,
@@ -14,9 +14,11 @@ gen_basinElevationBands(
 )
 }
 \arguments{
-\item{dem_PathN}{Path to original stored DEM file. Can be path to directory containing the DEM file or the path to the DEM file directly.}
+\item{dem_PathN}{Path to original stored DEM file. Can be path to directory
+containing the DEM file or the path to the DEM file directly. Can also be
+a raster object.}
 
-\item{dem_FileN}{DEM file name}
+\item{dem_FileN}{DEM file name (optional, defaults to DEM.tif)}
 
 \item{demAggFact}{Aggregation factor to down-sample DEM (greatly improves computational efficiency)}
 
