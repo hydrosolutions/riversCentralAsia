@@ -7,7 +7,7 @@
 #' date, data, data norm columns and code columns.
 #'
 #' @param fPath Path to the input file
-#' @param fName File name
+#' @param fName File name (.csv file as input required)
 #' @param code Hydrometeorological station code
 #' @param stationName Hydrometeorological station name/location
 #' @param rName Name of river
