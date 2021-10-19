@@ -18,9 +18,7 @@ scenarios.
 
 Currently, a relatively complete dataset of the Chirchik River Basin
 with decadal and monthly data on discharge, precipitation and
-temperature is included. Continue reading
-[here](doc/data_documentation.Rmd) for a more detailed description of
-the available data. More data will be made available in upcoming
+temperature is included. More data will be made available in upcoming
 iterations of the package
 
 [![DOI](https://zenodo.org/badge/DOI/10.5281/zenodo.4667422.svg)](https://doi.org/10.5281/zenodo.4667422)
