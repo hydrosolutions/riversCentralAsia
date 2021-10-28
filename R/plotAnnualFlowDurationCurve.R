@@ -3,7 +3,8 @@
 #' @param data tibble output of computeAnnualFlowDurationCurve
 #' @param column str name of column with discharge data to plot (same as in
 #'   computeAnnualFlowDurationCurve()).
-#' @return NULL produces a plot.
+#' @return A figure with the yearly average rating curve (black line) and the 
+#'   data of the individual years in grey. 
 #' @seealso [computeAnnualFlowDurationCurve()]
 #' @export
 
