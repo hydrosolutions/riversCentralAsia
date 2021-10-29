@@ -18,7 +18,7 @@ loadTabularData(
 \arguments{
 \item{fPath}{Path to the input file}
 
-\item{fName}{File name}
+\item{fName}{File name (.csv file as input required)}
 
 \item{code}{Hydrometeorological station code}
 

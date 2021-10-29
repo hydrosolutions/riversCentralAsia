@@ -13,7 +13,8 @@ plotAnnualFlowDurationCurve(data, column)
 computeAnnualFlowDurationCurve()).}
 }
 \value{
-NULL produces a plot.
+A figure with the yearly average rating curve (black line) and the 
+  data of the individual years in grey.
 }
 \description{
 plot the annual flow duration curve of a river discharge data set.

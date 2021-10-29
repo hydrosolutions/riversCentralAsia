@@ -52,7 +52,11 @@ $$V=\frac{\left(0.03332 \cdot S^{1.08} \cdot e^{0.1219 \cdot L}\right)}{L^{0.088
 $$V=0.018484 \cdot S + 0.021875 \cdot S^{1.3521}\text{ }\text{ }\text{ for }\text{ }\text{ } S > 25\text{ km}^2$$ 
 
 with the glacier surface area $S$ in [km$^2$] and the glacier volume $V$ [km$^3$].  
+Instead of Aizens relationships, Erazovs glacier area-volume relationship [@erasov_1968]:  
 
+$$V = 0.027 * S^{1.5}$$  
+With S being the glacier area in km2.   
+  
 The method was applied in @siegfried_will_2012 with the following extensions. They found that the glacier area reported in the GLIMS data set corresponds well to the data reported in Aizen (2007).    
 
 Note that the relationships above have been derived from annual glacier length data.   
