@@ -21,7 +21,8 @@ Central Asia.
 }
 \examples{
 glacier <- dplyr::tibble(Year = c(2000:2010),
-                         Area = c(0.57, 0.56, 0.55, 0.55, 0.54, 0.53, 0.53, 0.52, 0.051, 0.05, 0.048))
+                         Area = c(0.57, 0.56, 0.55, 0.55, 0.54, 0.53, 0.53,
+                                  0.52, 0.051, 0.05, 0.048))
 ErazovsGlacierFunction(glacier)
 }
 \references{

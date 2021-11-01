@@ -11,7 +11,8 @@
 #' @references Erazov, N. V. (1968). Method for determining of volume of mountain glaciers. MGI 14, pp 307-308.
 #' @examples
 #' glacier <- dplyr::tibble(Year = c(2000:2010),
-#'                          Area = c(0.57, 0.56, 0.55, 0.55, 0.54, 0.53, 0.53, 0.52, 0.051, 0.05, 0.048))
+#'                          Area = c(0.57, 0.56, 0.55, 0.55, 0.54, 0.53, 0.53,
+#'                                   0.52, 0.051, 0.05, 0.048))
 #' ErazovsGlacierFunction(glacier)
 #' @export
 ErazovsGlacierFunction <- function(glaciers) {
