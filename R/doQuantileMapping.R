@@ -75,23 +75,23 @@ doQuantileMapping <- function(hist_obs, hist_sim, fut_sim){
 
   # Make sure hist_sim spans the same period as hist_obs
   hist_sim <- hist_sim |>
-    dplyr::filter(as.POSIXct(Date, tz = "UCT") >=
+    dplyr::filter(as.POSIXct(.data$Date, tz = "UCT") >=
                     base::max(base::min(base::as.POSIXct(hist_obs$Date,
                                                                tz = "UTC")),
                                     base::min(base::as.POSIXct(hist_sim$Date,
                                                                tz = "UTC"))) &
-                    as.POSIXct(Date, tz = "UCT") <=
+                    as.POSIXct(.data$Date, tz = "UCT") <=
                     base::min(base::max(base::as.POSIXct(hist_obs$Date,
                                                                  tz = "UTC")),
                                       base::max(base::as.POSIXct(hist_sim$Date,
                                                                  tz = "UTC"))))
   hist_obs <- hist_obs |>
-    dplyr::filter(as.POSIXct(Date, tz = "UCT") >=
+    dplyr::filter(as.POSIXct(.data$Date, tz = "UCT") >=
                     base::max(base::min(base::as.POSIXct(hist_obs$Date,
                                                                tz = "UTC")),
                                     base::min(base::as.POSIXct(hist_sim$Date,
                                                                tz = "UTC"))) &
-                               as.POSIXct(Date, tz = "UCT") <=
+                               as.POSIXct(.data$Date, tz = "UCT") <=
                     base::min(base::max(base::as.POSIXct(hist_obs$Date,
                                                                  tz = "UTC")),
                                       base::max(base::as.POSIXct(hist_sim$Date,
@@ -99,9 +99,9 @@ doQuantileMapping <- function(hist_obs, hist_sim, fut_sim){
 
   # Temperature conversion to deg K
   if (datatype == "Ta") {
-    hist_obs <- hist_obs |> dplyr::mutate(Ta = Ta + 273.15)
-    hist_sim <- hist_sim |> dplyr::mutate(Ta = Ta + 273.15)
-    fut_sim <- fut_sim |> dplyr::mutate(Ta = Ta + 273.15)
+    hist_obs <- hist_obs |> dplyr::mutate(Ta = .data$Ta + 273.15)
+    hist_sim <- hist_sim |> dplyr::mutate(Ta = .data$Ta + 273.15)
+    fut_sim <- fut_sim |> dplyr::mutate(Ta = .data$Ta + 273.15)
   }
 
   climateModels <- fut_sim$Model |> base::unique()
@@ -113,18 +113,18 @@ doQuantileMapping <- function(hist_obs, hist_sim, fut_sim){
   # Re-formatting input
   if (datatype == "Ta") {
     hist_obs_wide <- hist_obs |>
-      tidyr::pivot_wider(names_from = Basin, values_from = Ta)
+      tidyr::pivot_wider(names_from = .data$Basin, values_from = .data$Ta)
     hist_sim_wide <- hist_sim |>
-      tidyr::pivot_wider(names_from = Model, values_from = Ta)
+      tidyr::pivot_wider(names_from = .data$Model, values_from = .data$Ta)
     fut_sim_wide <- fut_sim |>
-      tidyr::pivot_wider(names_from = Model, values_from = Ta)
+      tidyr::pivot_wider(names_from = .data$Model, values_from = .data$Ta)
   } else {
     hist_obs_wide <- hist_obs |>
-      tidyr::pivot_wider(names_from = Basin, values_from = Pr)
+      tidyr::pivot_wider(names_from = .data$Basin, values_from = .data$Pr)
     hist_sim_wide <- hist_sim |>
-      tidyr::pivot_wider(names_from = Model, values_from = Pr)
+      tidyr::pivot_wider(names_from = .data$Model, values_from = .data$Pr)
     fut_sim_wide <- fut_sim |>
-      tidyr::pivot_wider(names_from = Model, values_from = Pr)
+      tidyr::pivot_wider(names_from = .data$Model, values_from = .data$Pr)
   }
 
   # Quantile mapping for hist_sim. Do one mapping for each hydrol. response unit.
@@ -134,7 +134,7 @@ doQuantileMapping <- function(hist_obs, hist_sim, fut_sim){
     # Replicate columns of ..._sim_... data
     hist_obs_model <- hist_obs_wide
     hist_sim_model <- hist_sim_wide |>
-      dplyr::select(Date, climateModels[idx]) |>
+      dplyr::select(.data$Date, climateModels[idx]) |>
       dplyr::rename(var = climateModels[idx])
     temp_mat <- base::matrix(hist_sim_model$var) |>
       base::apply(1, base::rep, base::length(subbasinNames)) |> base::t() |>
@@ -143,8 +143,10 @@ doQuantileMapping <- function(hist_obs, hist_sim, fut_sim){
     hist_sim_model <- dplyr::bind_cols(Date = hist_sim_model$Date, temp_mat)
 
     # Convert to df
-    hist_sim_df <- hist_sim_model |> dplyr::select(-Date) |> base::as.data.frame()
-    hist_obs_df <- hist_obs_model |> dplyr::select(-Date) |> base::as.data.frame()
+    hist_sim_df <- hist_sim_model |> dplyr::select(-.data$Date) |>
+      base::as.data.frame()
+    hist_obs_df <- hist_obs_model |> dplyr::select(-.data$Date) |>
+      base::as.data.frame()
     base::row.names(hist_sim_df) <- hist_date_char
     base::row.names(hist_obs_df) <- hist_date_char
     # now ready to qmap
@@ -156,20 +158,20 @@ doQuantileMapping <- function(hist_obs, hist_sim, fut_sim){
       tibble::add_column(Date = hist_date_char, .before = 1)
     if (datatype == "Ta") {
       hist_sim_qmapped_wide <- hist_sim_qmapped_wide |>
-        dplyr::mutate(across(-Date, ~ . - 273.15))
+        dplyr::mutate(dplyr::across(-.data$Date, ~ . - 273.15))
     }
     # this is now for one climate model
     hist_sim_qmapped_long_model <- hist_sim_qmapped_wide |>
       tidyr::pivot_longer(-"Date", names_to = "Basin", values_to = datatype) |>
       tibble::add_column(Model = climateModels[idx]) |>
-      dplyr::mutate(Date = base::as.Date(Date))
+      dplyr::mutate(Date = base::as.Date(.data$Date))
     if (idx > 1){
       hist_sim_qmapped_long <- hist_sim_qmapped_long |>
         dplyr::bind_rows(hist_sim_qmapped_long_model)
     } else {
       if (datatype == "Ta") {
         hist_obs <- hist_obs |>
-          dplyr::mutate(Ta = Ta - 273.15) |>
+          dplyr::mutate(Ta = .data$Ta - 273.15) |>
           tibble::add_column(Model = "ERA5-CHELSA")
       } else {
         hist_obs <- hist_obs |>
@@ -188,33 +190,35 @@ doQuantileMapping <- function(hist_obs, hist_sim, fut_sim){
       # Replicate columns of ..._sim_... data
       hist_obs_model <- hist_obs_wide
       fut_sim_model <- fut_sim_wide |>
-        dplyr::filter(Scenario == climateScenarios[idxScen]) |>
-        dplyr::select(Date, climateModels[idxModel]) |>
+        dplyr::filter(.data$Scenario == climateScenarios[idxScen]) |>
+        dplyr::select(.data$Date, climateModels[idxModel]) |>
         dplyr::rename(var = climateModels[idxModel])
       temp_mat <- base::matrix(fut_sim_model$var) |>
         base::apply(1, base::rep, base::length(subbasinNames)) |> base::t() |>
-        tibble::as_tibble()
+        tibble::as_tibble(.name_repair = "minimal")
       base::colnames(temp_mat) <- subbasinNames
       fut_sim_model <- dplyr::bind_cols(Date = fut_sim_model$Date, temp_mat)
       # Convert to df
-      fut_sim_df <- fut_sim_model |> dplyr::select(-Date) |> base::as.data.frame()
+      fut_sim_df <- fut_sim_model |> dplyr::select(-.data$Date) |>
+        base::as.data.frame()
       base::row.names(fut_sim_df) <- fut_date_char
       # now ready to qmap
       fut_sim_df_qmapped <- qmap::doQmapPTF(fut_sim_df, qmap_param[[idxModel]])
-      fut_sim_qmapped_wide <- fut_sim_df_qmapped |> tibble::as_tibble() |>
+      fut_sim_qmapped_wide <- fut_sim_df_qmapped |>
+        tibble::as_tibble(.name_repair = "minimal") |>
         tibble::add_column(Date = fut_date_char,.before = 1)
       # go back to tibble and convert back to deg. C
       if (datatype == "Ta") {
         fut_sim_qmapped_wide <- fut_sim_qmapped_wide |>
-          dplyr::mutate(dplyr::across(-Date, ~ . - 273.15))
+          dplyr::mutate(dplyr::across(-.data$Date, ~ . - 273.15))
       }
 
       # this is now for one climate model
       fut_sim_qmapped_long_model <- fut_sim_qmapped_wide |>
-        tidyr::pivot_longer(-"Date", names_to = "Basin", values_to = datatype) |>
+        tidyr::pivot_longer(-.data$Date, names_to = "Basin", values_to = datatype) |>
         tibble::add_column(Model = climateModels[idxModel],
-                          Scenario = climateScenarios[idxScen]) |>
-        dplyr::mutate(Date = as.Date(Date))
+                           Scenario = climateScenarios[idxScen]) |>
+        dplyr::mutate(Date = as.Date(.data$Date))
       if (counter > 1){
         fut_sim_qmapped_long <- fut_sim_qmapped_long |>
           dplyr::bind_rows(fut_sim_qmapped_long_model)
