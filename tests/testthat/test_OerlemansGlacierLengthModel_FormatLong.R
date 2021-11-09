@@ -77,3 +77,27 @@ test_that("Oerlemans Model (format long) runs with correct input", {
   expect_equal(dL$`dL(t) [km]`[1], 0)
   expect_equal(L$`L(t) [km]`[1], glaciers$Lmax[1]/1000)
 })
+
+
+test_that("Oerlemans Model (format long) runs with realistic glacier names", {
+
+  load("test_OerlemansGlacierLengthModel_FormatLong.RData")
+
+  test_data <- OerlemansGlacierLengthModel_FormatLong(
+    annual_temperature_annomaly = annual_temperature_annomaly,
+    annual_precipitation = annual_precipitation,
+    years_baseline_period = 0,
+    rgi_data_set = rgi)
+
+  dL <- test_data[[1]]
+  L <- test_data[[2]]
+  expect_equal(dL$`dL(t) [km]`[1], 0)
+  expect_equal(L$`L(t) [km]`[1], rgi$Lmax[1]/1000)
+
+})
+
+
+
+
+
+

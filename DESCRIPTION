@@ -33,7 +33,8 @@ Imports:
     sf,
     smoothr, 
     tidyselect, 
-    numform
+    numform, 
+    qmap
 VignetteBuilder: knitr
 Suggests: 
     testthat (>= 3.0.0)

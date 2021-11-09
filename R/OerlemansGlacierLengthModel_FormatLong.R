@@ -99,32 +99,34 @@ OerlemansGlacierLengthModel_FormatLong <- function(annual_temperature_annomaly,
 
   for (m in c(1:no_models)) {
     for (r in c(1:no_rcps)) {
-      temp <- annual_temperature_annomaly %>%
-        dplyr::ungroup() %>%
-        dplyr::filter(Model == base::unique(annual_temperature_annomaly$Model)[m],
-                      RCP == base::unique(annual_temperature_annomaly$RCP)[r],
-                      Year > baseyear) %>%
-        dplyr::select(-Model, -RCP) %>%
-        tidyr::pivot_wider(id_cols = Year, names_from = Glacier,
-                           values_from = `Ta [deg K]`) %>%
+      temp <- annual_temperature_annomaly |>
+        dplyr::ungroup() |>
+        dplyr::filter(.data$Model == base::unique(annual_temperature_annomaly$Model)[m],
+                      .data$RCP == base::unique(annual_temperature_annomaly$RCP)[r],
+                      .data$Year > baseyear) |>
+        dplyr::select(-.data$Model, -.data$RCP) |>
+        tidyr::pivot_wider(id_cols = .data$Year, names_from = .data$Glacier,
+                           values_from = .data$`Ta [deg K]`) |>
         dplyr::ungroup()
-      prcp <- annual_precipitation %>%
-        dplyr::ungroup() %>%
-        dplyr::filter(Model == base::unique(annual_temperature_annomaly$Model)[m],
-                      RCP == base::unique(annual_temperature_annomaly$RCP)[r],
-                      Year > baseyear) %>%
-        dplyr::select(-Model, -RCP) %>%
-        tidyr::pivot_wider(id_cols = Year, names_from = Glacier,
-                           values_from = `P [m/a]`) %>%
+      prcp <- annual_precipitation |>
+        dplyr::ungroup() |>
+        dplyr::filter(.data$Model == base::unique(annual_temperature_annomaly$Model)[m],
+                      .data$RCP == base::unique(annual_temperature_annomaly$RCP)[r],
+                      .data$Year > baseyear) |>
+        dplyr::select(-.data$Model, -.data$RCP) |>
+        tidyr::pivot_wider(id_cols = .data$Year, names_from = .data$Glacier,
+                           values_from = .data$`P [m/a]`) |>
         dplyr::ungroup()
 
       tmp <- riversCentralAsia::OerlemansGlacierLengthModel(temp, prcp, 0, rgi_data_set)
-      dLttmp <- tmp[[1]] %>%
-        tidyr::pivot_longer(-Year, names_to = "Glacier", values_to = "dL(t) [km]") %>%
+      dLttmp <- tmp[[1]] |>
+        tidyr::pivot_longer(-.data$Year, names_to = "Glacier",
+                            values_to = "dL(t) [km]") |>
         dplyr::mutate(Model = base::unique(annual_temperature_annomaly$Model)[m],
                       RCP = base::unique(annual_temperature_annomaly$RCP)[r])
-      Lttmp <- tmp[[2]]  %>%
-        tidyr::pivot_longer(-Year, names_to = "Glacier", values_to = "L(t) [km]") %>%
+      Lttmp <- tmp[[2]]  |>
+        tidyr::pivot_longer(-.data$Year, names_to = "Glacier",
+                            values_to = "L(t) [km]") |>
         dplyr::mutate(Model = base::unique(annual_temperature_annomaly$Model)[m],
                       RCP = base::unique(annual_temperature_annomaly$RCP)[r])
 
