@@ -52,21 +52,30 @@ convert2HYY <- function(data2convert,stationCode,typeSel){
     # Summarize using the 'fake' month dates and convert back to mean per second discharge
     ## full year
     dataHYY <- dataSel_mon_aug %>%
-      dplyr::select(monHYdate,dataMon) %>%
-      timetk::summarise_by_time(.date_var = monHYdate,.by = "year", data = base::sum(dataMon)) %>%
-      dplyr::mutate(data = data / 365.25 / 24 / 3600)
+      dplyr::select(monHYdate,dataMon,daysMonth) %>%
+      timetk::summarise_by_time(.date_var = monHYdate,.by = "year",
+                                Q_mean_ann = base::sum(dataMon),
+                                n_days = base::sum(daysMonth)) %>%
+      dplyr::mutate(Q_mean_ann = Q_mean_ann / n_days / 24 / 3600) %>%
+      dplyr::select(-n_days)
     ## cold season
     dataHYY_cs <- dataSel_mon_aug %>%
       dplyr::filter(qtr==1 | qtr==2) %>%
-      dplyr::select(monHYdate,dataMon) %>%
-      timetk::summarise_by_time(.date_var = monHYdate,.by = "year", data_cs = base::sum(dataMon)) %>%
-      dplyr::mutate(data_cs = data_cs / 365.25 / 24 / 3600)
+      dplyr::select(monHYdate,dataMon,daysMonth) %>%
+      timetk::summarise_by_time(.date_var = monHYdate,.by = "year",
+                                Q_mean_cs = base::sum(dataMon),
+                                n_days = base::sum(daysMonth)) %>%
+      dplyr::mutate(Q_mean_cs = Q_mean_cs / n_days / 24 / 3600) %>%
+      dplyr::select(-n_days)
     ## warm season
     dataHYY_ws <- dataSel_mon_aug %>%
       dplyr::filter(qtr==3 | qtr==4) %>%
-      dplyr::select(monHYdate,dataMon) %>%
-      timetk::summarise_by_time(.date_var = monHYdate,.by = "year", data_ws = base::sum(dataMon)) %>%
-      dplyr::mutate(data_ws = data_ws / 365.25 / 24 / 3600)
+      dplyr::select(monHYdate,dataMon,daysMonth) %>%
+      timetk::summarise_by_time(.date_var = monHYdate,.by = "year",
+                                Q_mean_ws = base::sum(dataMon),
+                                n_days = base::sum(daysMonth)) %>%
+      dplyr::mutate(Q_mean_ws = Q_mean_ws / n_days / 24 / 3600) %>%
+      dplyr::select(-n_days)
   } else if (typeSel=='mean(T)'){
     # Summarize using the 'fake' month dates and take the mean
     ## full year
