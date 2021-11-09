@@ -113,17 +113,23 @@ doQuantileMapping <- function(hist_obs, hist_sim, fut_sim){
   # Re-formatting input
   if (datatype == "Ta") {
     hist_obs_wide <- hist_obs |>
+      dplyr::select(.data$Date, .data$Basin, .data$Ta) |>
       tidyr::pivot_wider(names_from = .data$Basin, values_from = .data$Ta)
     hist_sim_wide <- hist_sim |>
+      dplyr::select(.data$Date, .data$Model, .data$Ta) |>
       tidyr::pivot_wider(names_from = .data$Model, values_from = .data$Ta)
     fut_sim_wide <- fut_sim |>
+      dplyr::select(.data$Date, .data$Model, .data$Scenario, .data$Ta) |>
       tidyr::pivot_wider(names_from = .data$Model, values_from = .data$Ta)
   } else {
     hist_obs_wide <- hist_obs |>
+      dplyr::select(.data$Date, .data$Basin, .data$Pr) |>
       tidyr::pivot_wider(names_from = .data$Basin, values_from = .data$Pr)
     hist_sim_wide <- hist_sim |>
+      dplyr::select(.data$Date, .data$Model, .data$Pr) |>
       tidyr::pivot_wider(names_from = .data$Model, values_from = .data$Pr)
     fut_sim_wide <- fut_sim |>
+      dplyr::select(.data$Date, .data$Model, .data$Scenario, .data$Pr) |>
       tidyr::pivot_wider(names_from = .data$Model, values_from = .data$Pr)
   }
 
