@@ -30,12 +30,12 @@ OerlemansGlacierLengthModel <- function(annual_temperature_annomaly,
                                      years_baseline_period,
                                      rgi_data_set) {
 
-  Lt <- (annual_precipitation %>% dplyr::select(tidyselect::starts_with("V"))) * NA
+  Lt <- (annual_precipitation |> dplyr::select(-Year)) * NA
   Lt <- Lt[(years_baseline_period+1):base::dim(Lt)[1],]
   L0 <- rgi_data_set$Lmax / 1000  # [km]
-  Pt <- (annual_precipitation %>% dplyr::select(tidyselect::starts_with("V")))
+  Pt <- (annual_precipitation |> dplyr::select(-Year))
   Pt <- Pt[(years_baseline_period+1):base::dim(Pt)[1],]
-  mTp <- annual_temperature_annomaly %>% dplyr::select(tidyselect::starts_with("V"))
+  mTp <- annual_temperature_annomaly |> dplyr::select(-Year)
   mTp <- mTp[(years_baseline_period+1):base::dim(mTp)[1],]
   dt <- 1
   s <- rgi_data_set$Slope
