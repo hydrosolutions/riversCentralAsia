@@ -40,7 +40,8 @@ generate_ERA5_Subbasin_CSV <- function(dir_ERA5_hourly,catchmentName,dataType,el
     base::print(base::paste0('Processing File: ', fileList$fName[yr]))
     file2Process_ERA <- fileList$fName[yr]
     era_data <- raster::brick(base::paste0(dir_ERA5_hourly,dataType,'/',catchmentName,'/',file2Process_ERA))
-    subbasin_data <- raster::extract(era_data,elBands_shp_latlon) %>% base::lapply(.,colMeans,na.rm=TRUE)
+    #subbasin_data <- raster::extract(era_data,elBands_shp_latlon) %>% base::lapply(.,colMeans,na.rm=TRUE)
+    subbasin_data <- exactextractr::exactextract(era_data,elBands_shp_latlon) %>% base::lapply(.,colMeans,na.rm=TRUE)
     subbasin_data <- subbasin_data %>% tibble::as_tibble(.,.name_repair = "unique")
     if (dataType=='tp'){subbasin_data <- subbasin_data * 1000} # this converts the precipitation to mm/h
     base::names(subbasin_data) <- base::names(dataElBands_df)
