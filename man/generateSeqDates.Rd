@@ -4,7 +4,7 @@
 \alias{generateSeqDates}
 \title{POSIXct date sequence generator}
 \usage{
-generateSeqDates(startY, endY, freq)
+generateSeqDates(startY, endY, freq, tz = "UTC")
 }
 \arguments{
 \item{startY}{Starting year for sequence of dates}
