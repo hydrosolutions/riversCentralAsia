@@ -7,10 +7,10 @@
 #' @param freq "hour", "day", "week", "month", "quarter" or "year"
 #' @return Tibble with date sequence with date frequency as specified. The date sequence starts at 00:00:00
 #' @export
-generateSeqDates <- function(startY,endY,freq){
+generateSeqDates <- function(startY,endY,freq,tz="UTC"){
   sTime <- base::paste0(startY,'-01-01 00:00:00')
-  eTime <- base::paste0(endY,'-12-31 23:00:00')
-  dateSeq <- base::seq(base::as.POSIXct(sTime), base::as.POSIXct(eTime), by=freq)
+  eTime <- base::paste0(endY,'-12-31 00:00:00')
+  dateSeq <- base::seq(base::as.POSIXct(sTime,tz=tz), base::as.POSIXct(eTime,tz=tz), by=freq)
   dateSeq <- tibble::tibble(date=dateSeq)
   return(dateSeq)
 }
