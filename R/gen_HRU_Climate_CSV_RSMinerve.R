@@ -8,7 +8,7 @@
 #' @param climate_files List of either temperature or precipitation climate .nc files to process (do not mix!).
 #' @param catchmentName Name of catchment for which data should be extracted
 #' @param dataType Either 'Temperature' or 'Precipitation'
-#' @param elBands_shp Shapefile with hydrological response units
+#' @param elBands_shp Shapefile with hydrological response units. The column containing the names of the hydrological response units must be \code{name}. 
 #' @param startY Starting year for which data should be made available (assuming data 'is' available from the start of that year)
 #' @param endY Ending year from which data should be extracted (assuming data 'is' actually available until the end of that year)
 #' @param obs_frequency Climate observation frequency ('hour', 'day', 'month')
