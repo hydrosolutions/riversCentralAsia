@@ -5,7 +5,7 @@
 #' later import in RSMinerve (use readr::write_csv(.,col_names=FALSE)). tp and tas_ have to be exported,
 #' the function has to be called twice and the resulting tibble columns added.
 #'
-#' @param climate_files List of either temperature or precipitation climate .nc files to process (do not mix!).
+#' @param climate_files List of either temperature or precipitation climate .nc files to process (do not mix!). Make sure the file list time interval is consistent with startY and endY. 
 #' @param catchmentName Name of catchment for which data should be extracted
 #' @param dataType Either 'Temperature' or 'Precipitation'
 #' @param elBands_shp Shapefile with hydrological response units. The column containing the names of the hydrological response units must be \code{name}. 
