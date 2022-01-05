@@ -14,12 +14,20 @@ computeAnnualFlowDurationCurve(data, column, date = Date)
 \item{date}{Name of the date column}
 }
 \value{
-Input tibble with sorted data and duration stats in columns.
+Input tibble with sorted data and duration stats in columns, namely  \cr
+  Q: Discharge in descending order  \cr
+  Ma: A day counter between 1 and 365/366  \cr
+  Pa: Exceedance probability in percent
 }
 \description{
 Computes the annual flow duration curve of a river discharge data set.
 }
+\note{
+If the input data tibble is grouped, the duration stats will be computed
+  within each group.
+}
 \examples{
+# Monthly flow duration curve
 Qdf <- tibble::tibble(
   Date = seq.Date(from = lubridate::as_date("2020-01-01"),
                   to = lubridate::as_date("2022-12-13"),
@@ -27,4 +35,14 @@ Qdf <- tibble::tibble(
   Q = rep(c(1:6, 6:1), 3)
 )
 DurationCurve <- computeAnnualFlowDurationCurve(Qdf, "Q", "Date")
+plot(DurationCurve$Ma, DurationCurve$Q)
+
+# Daily flow duration curve
+Date = seq.Date(from = lubridate::as_date("2019-10-01"),
+                to = lubridate::as_date("2040-09-30"), by = "day")
+Qdfdaily <- tibble::tibble(Date = Date,
+  Q = sin(2*pi/365*c(1:length(Date))) * stats::runif(length(Date)) +
+    cos(2*pi/365*c(1:length(Date))) * runif(length(Date)) +
+    runif(length(Date))*2)
+DurationCurve <- computeAnnualFlowDurationCurve(Qdfdaily, "Q", "Date")
 }

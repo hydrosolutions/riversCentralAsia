@@ -6,7 +6,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>Example data for vignette Estimateing glacier lengths in Central Asia — vignette_estimate_glacier_lengths • riversCentralAsia</title>
+<title>Extract hydrological response unit HRU specific climate time series from nc-files. — gen_HRU_Climate_CSV_RSMinerve • riversCentralAsia</title>
 
 
 <!-- jquery -->
@@ -39,8 +39,11 @@
 
 
 
-<meta property="og:title" content="Example data for vignette Estimateing glacier lengths in Central Asia — vignette_estimate_glacier_lengths" />
-<meta property="og:description" content="Example data for vignette Estimateing glacier lengths in Central Asia" />
+<meta property="og:title" content="Extract hydrological response unit HRU specific climate time series from nc-files. — gen_HRU_Climate_CSV_RSMinerve" />
+<meta property="og:description" content="Function extracts precipitation (tp) or temperature (tas_) data from climate raster bricks (observed history obs_hist,
+GCM-simulated history hist_sim and GCM-simulated future fut_sim) and prepares a dataframe for
+later import in RSMinerve (use readr::write_csv(.,col_names=FALSE)). tp and tas_ have to be exported,
+the function has to be called twice and the resulting tibble columns added." />
 
 
 
@@ -121,37 +124,87 @@
 <div class="row">
   <div class="col-md-9 contents">
     <div class="page-header">
-    <h1>Example data for vignette Estimateing glacier lengths in Central Asia</h1>
+    <h1>Extract hydrological response unit HRU specific climate time series from nc-files.</h1>
     
-    <div class="hidden name"><code>vignette_estimate_glacier_lengths.Rd</code></div>
+    <div class="hidden name"><code>gen_HRU_Climate_CSV_RSMinerve.Rd</code></div>
     </div>
 
     <div class="ref-description">
-    <p>Example data for vignette Estimateing glacier lengths in Central Asia</p>
+    <p>Function extracts precipitation (tp) or temperature (tas_) data from climate raster bricks (observed history obs_hist,
+GCM-simulated history hist_sim and GCM-simulated future fut_sim) and prepares a dataframe for
+later import in RSMinerve (use readr::write_csv(.,col_names=FALSE)). tp and tas_ have to be exported,
+the function has to be called twice and the resulting tibble columns added.</p>
     </div>
 
-    <pre class="usage"><span class='va'>vignette_estimate_glacier_lengths</span></pre>
+    <pre class="usage"><span class='fu'>gen_HRU_Climate_CSV_RSMinerve</span><span class='op'>(</span>
+  <span class='va'>climate_files</span>,
+  <span class='va'>catchmentName</span>,
+  <span class='va'>temp_or_precip</span>,
+  <span class='va'>elBands_shp</span>,
+  <span class='va'>startY</span>,
+  <span class='va'>endY</span>,
+  <span class='va'>obs_frequency</span>,
+  <span class='va'>climate_data_type</span>,
+  <span class='va'>crs_in_use</span>,
+  output_file_dir <span class='op'>=</span> <span class='fl'>0</span>,
+  gcm_model <span class='op'>=</span> <span class='fl'>0</span>,
+  gcm_scenario <span class='op'>=</span> <span class='fl'>0</span>,
+  tz <span class='op'>=</span> <span class='st'>"UTC"</span>
+<span class='op'>)</span></pre>
 
+    <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
+    <table class="ref-arguments">
+    <colgroup><col class="name" /><col class="desc" /></colgroup>
+    <tr>
+      <th>climate_files</th>
+      <td><p>List of either temperature or precipitation climate .nc files to process (do not mix!).</p></td>
+    </tr>
+    <tr>
+      <th>catchmentName</th>
+      <td><p>Name of catchment for which data should be extracted</p></td>
+    </tr>
+    <tr>
+      <th>elBands_shp</th>
+      <td><p>Shapefile with hydrological response units</p></td>
+    </tr>
+    <tr>
+      <th>startY</th>
+      <td><p>Starting year for which data should be made available (assuming data 'is' available from the start of that year)</p></td>
+    </tr>
+    <tr>
+      <th>endY</th>
+      <td><p>Ending year from which data should be extracted (assuming data 'is' actually available until the end of that year)</p></td>
+    </tr>
+    <tr>
+      <th>obs_frequency</th>
+      <td><p>Climate observation frequency ('hour', 'day', 'month')</p></td>
+    </tr>
+    <tr>
+      <th>climate_data_type</th>
+      <td><p>String of denoting observation type. Either 'hist_obs' (historical observations, i.e. CHELSA V21 high resolution climate data), 'hist_sim' (GCM model output data over the historical period) and 'fut_sim' (fture GCM simulations)</p></td>
+    </tr>
+    <tr>
+      <th>crs_in_use</th>
+      <td><p>4 digit crs code to ensure projection consistency between raster and shapefile.</p></td>
+    </tr>
+    <tr>
+      <th>output_file_dir</th>
+      <td><p>Path to output file dir (if empty, file will not be written)</p></td>
+    </tr>
+    <tr>
+      <th>tz</th>
+      <td><p>Time zone information. Default "UTC" which can be overridden.</p></td>
+    </tr>
+    <tr>
+      <th>dataType</th>
+      <td><p>Either 'Temperature' or 'Precipitation'</p></td>
+    </tr>
+    </table>
 
-    <h2 class="hasAnchor" id="format"><a class="anchor" href="#format"></a>Format</h2>
+    <h2 class="hasAnchor" id="value"><a class="anchor" href="#value"></a>Value</h2>
 
-    <p>A list of objects</p><dl>
-  <dt>rgi6</dt><dd><p>sf: A subset of the Randolph Glacier Inventory 6.0 in the Sokh river catchment.</p></dd>
-  <dt>annual_precipitation_glaciers_sokh</dt><dd><p>tibble: Annual precipitation sum averaged over the glaciers areas in the rgi6 dataset.</p></dd>
-  <dt>average_temperature_glaciers_sokh</dt><dd><p>tibble: Average annual temperature over the glaciers areas in the rgi6 dataset.</p></dd>
+    <p>Dataframe tibble with temperature in deg. C. or precipitation in mm/h</p>
 
-</dl>
-
-    <h2 class="hasAnchor" id="source"><a class="anchor" href="#source"></a>Source</h2>
-
-    <p>RGI6 data set, Karger et al., 2020, Beck et al., 2020</p>
-
-    <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
-    <pre class="examples"><div class='input'><span class='fu'><a href='https://rdrr.io/r/utils/data.html'>data</a></span><span class='op'>(</span><span class='va'>vignette_estimate_glacier_lengths</span><span class='op'>)</span>
-<span class='va'>rgi6</span> <span class='op'>&lt;-</span> <span class='va'>vignette_estimate_glacier_lengths</span><span class='op'>[[</span><span class='fl'>1</span><span class='op'>]</span><span class='op'>]</span>
-<span class='va'>prec</span> <span class='op'>&lt;-</span> <span class='va'>vignette_estimate_glacier_lengths</span><span class='op'>[[</span><span class='fl'>2</span><span class='op'>]</span><span class='op'>]</span>
-<span class='va'>temp</span> <span class='op'>&lt;-</span> <span class='va'>vignette_estimate_glacier_lengths</span><span class='op'>[[</span><span class='fl'>3</span><span class='op'>]</span><span class='op'>]</span>
-</div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
     <nav id="toc" data-toggle="toc" class="sticky-top">

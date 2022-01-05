@@ -3,8 +3,14 @@
 #' @param data Tibble with date and discharge in columns.
 #' @param column Name of the column with data to calculate duration curve from.
 #' @param date Name of the date column
-#' @return Input tibble with sorted data and duration stats in columns.
+#' @return Input tibble with sorted data and duration stats in columns, namely  \cr
+#'   Q: Discharge in descending order  \cr
+#'   Ma: A day counter between 1 and 365/366  \cr
+#'   Pa: Exceedance probability in percent
+#' @note If the input data tibble is grouped, the duration stats will be computed
+#'   within each group.
 #' @examples
+#' # Monthly flow duration curve
 #' Qdf <- tibble::tibble(
 #'   Date = seq.Date(from = lubridate::as_date("2020-01-01"),
 #'                   to = lubridate::as_date("2022-12-13"),
@@ -12,6 +18,16 @@
 #'   Q = rep(c(1:6, 6:1), 3)
 #' )
 #' DurationCurve <- computeAnnualFlowDurationCurve(Qdf, "Q", "Date")
+#' plot(DurationCurve$Ma, DurationCurve$Q)
+#'
+#' # Daily flow duration curve
+#' Date = seq.Date(from = lubridate::as_date("2019-10-01"),
+#'                 to = lubridate::as_date("2040-09-30"), by = "day")
+#' Qdfdaily <- tibble::tibble(Date = Date,
+#'   Q = sin(2*pi/365*c(1:length(Date))) * stats::runif(length(Date)) +
+#'     cos(2*pi/365*c(1:length(Date))) * runif(length(Date)) +
+#'     runif(length(Date))*2)
+#' DurationCurve <- computeAnnualFlowDurationCurve(Qdfdaily, "Q", "Date")
 #' @export
 
 computeAnnualFlowDurationCurve <- function(data, column, date = Date){
@@ -34,23 +50,13 @@ computeAnnualFlowDurationCurve <- function(data, column, date = Date){
   }
 
   output <- data |>
-    dplyr::mutate(HYear = base::ifelse(.data$Month >= 10, .data$Year + 1, .data$Year),
-                  yearday = lubridate::yday(.data$Date),
-                  cutday = lubridate::yday(lubridate::as_date(base::paste0(
-                    .data$Year, "-10-01"))),
-                  ndaysperyear = base::as.numeric((lubridate::ceiling_date(
-                    .data$Date, "year") - 1) -
-                      lubridate::floor_date(.data$Date, "year")) + 1,
-                  Hyearday = ifelse(.data$yearday >= .data$cutday,
-                                    .data$yearday - .data$cutday + 1,
-                                    .data$yearday + .data$ndaysperyear - .data$cutday)) |>
-    dplyr::group_by(.data$HYear) |>
+    dplyr::mutate(yearday = lubridate::yday(.data$Date)) |>
+    dplyr::group_by(.data$Year, .add = TRUE) |>
     dplyr::arrange(desc(.data[[column]]), .by_group = TRUE) |>
     dplyr::mutate(na = dplyr::n(),
                   Ma = dplyr::row_number(),
                   Pa = 100 * (.data$Ma / (.data$na + 1))) |>
-    dplyr::ungroup() |>
-    dplyr::select(-c(.data$cutday, .data$ndaysperyear))
+    dplyr::ungroup()
 
   return(output)
 
