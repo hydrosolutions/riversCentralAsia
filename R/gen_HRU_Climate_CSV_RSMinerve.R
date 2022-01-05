@@ -47,7 +47,7 @@ gen_HRU_Climate_CSV_RSMinerve <- function(climate_files,
   for (yrIDX in 1:base::length(climate_files)){
     base::print(base::paste0('Processing File: ', climate_files[yrIDX]))
     histobs_data <- raster::brick(base::paste0(climate_files[yrIDX]))
-    raster::crs(histobs_data) <- base::paste0("EPSG:",crs_in_use)
+    #raster::crs(histobs_data) <- base::paste0("EPSG:",crs_in_use)
     subbasin_data <- exactextractr::exact_extract(histobs_data,elBands_shp_latlon,'mean') %>% t() %>% tibble::as_tibble(.,.name_repair = "unique") %>% dplyr::slice(1:base::nrow(dateElBands))
     # if endY is not corresponding to end date of .nc-file, we need to slice it!
     base::names(subbasin_data) <- base::names(dataElBands_df)

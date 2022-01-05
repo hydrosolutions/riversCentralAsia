@@ -33,6 +33,8 @@ gen_basinElevationBands <- function(dem_PathN, dem_FileN = "DEM.tif", demAggFact
       dem <- raster::raster(filepath)
     }
   }
+  # Set minmax values of raster
+  dem <- dem %>% raster::setMinMax()
   dem <- raster::aggregate(dem, fact = demAggFact) # this is in UTM 42N
   bands <- seq(raster::minValue(dem), raster::maxValue(dem), band_interval)
 
