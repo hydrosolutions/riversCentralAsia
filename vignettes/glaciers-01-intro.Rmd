@@ -1,0 +1,58 @@
+---
+title: "Introduction to glacier melt"
+output: rmarkdown::html_vignette
+vignette: >
+  %\VignetteIndexEntry{glaciers-01-intro}
+  %\VignetteEngine{knitr::rmarkdown}
+  %\VignetteEncoding{UTF-8}
+bibliography: references.bib
+---
+
+```{r, include = FALSE}
+knitr::opts_chunk$set(
+  collapse = TRUE,
+  comment = "#>"
+)
+```
+
+```{r setup}
+library(riversCentralAsia)
+library(ggplot2)
+library(sf)
+```
+
+# Background & Motivation
+Melt from glaciers is the most important contributor of discharge in most of the larger rivers in Central Asia. However, measurements of discharge from glaciers are generally not available. There are several possible ways to estimate glacier contribution to discharge. We present a short introduction to glaciers in water resources and a workflow for an empirical method and one via a temperature index model and a simple glacier mass balance. 
+
+# Glaciers in water resources modelling
+Glaciers consist of compacted snow. Many processes contribute to the glacier mass balance but we focus on a simplified mass balance as we have data only for accumulated mass balance outcomes (i.e. glacier thinning rates and glacier discharge, see below).  
+Glaciers accumulate mass in the cold period and at higher altitudes through snow fall. Glaciers loose mass to melt caused by radiation. Typically, larger glaciers loose mass at lower altitudes (ablation zone) and accumulate mass at higher altitudes (accumulation zone). The mass loss in the lower altitudes is compensated by the downstream movement of ice from the accumulation zone. The boundary between the accumulation and the ablation zone is called the equilibrium line altitude (ELA).   
+Naturally, glaciers accumulate mass in the cold season and loose mass to ablation in the warm season. Therefore, overall mass balance of a glacier thus should be calculated over a year or, better, over the average of several years.  
+If the glaciers on average accumulates as much snow as it looses to melt, it is in balance. The average annual glacier discharge is equivalent to the average annual snow fall and called balance ablation. The ELA does not move. If the glacier produces more discharge than it accumulates from snow fall, it is not in balance. The ELA moves upwards. The excess melt is called imbalance ablation. If more snow falls that melts, the ELA moves downstream and the glacier grows.    
+Most glaciers worldwide are not in equilibrium with the warmer than long-term average climate and thus produce excess melt. In the short term, this is good for agriculture as more water is temporarily available for irrigation. However, the glaciers produce excess melt only until they reach a new equilibrium at higher altitudes or until they disappear. This means that the excess melt will also disappear and ultimately less water will be available for downstream users.   
+The graphics in the gifs below illustrate the processes described above. 
+  
+![Glacier graphics by Anne Maussion, Atelier les Gros yeux, for Open Global Glacier Model (OGGM).](OGGM_glacier.gif){width=90%}  
+
+
+# Availability on glacier-related data
+Recent advances in glacier research yielded a stupendous amount of novel data sets that can be used to map glaciers and to force glacier melt models. The following section gives an overview over the data used in the models, status January 2022.  
+
+## Randolph glacier inventory
+The Randolph glacier inventory (RGI) v6.0 [@rgi60] makes a consistent glacier data base publicly available. It includes geo-located glacier geometry and some additional parameters like elevation, length, slope and aspect. A new version (v7) is under review at the time of writing. For Central Asian water resources modelling, RGI regions 13 and 14 are relevant. 
+
+## Glacier thickness
+@farinotti_consensus_2019 make distributed glacier thickness maps available for each glacier in the RGI v6 data set. 
+
+## Glacier thinning rates
+@hugonnet_accelerated_2021 provide annual estimates of glacier thinning rates for each glacier in the RGI v6.0 data set. It is advised to not use the annual data though but an average over at least 5 years to get reliable thinning rates. 
+
+## Glacier discharge
+@miles_health_2021 ran specific mass balance calculations over the glaciers larger than 2 km2 of High Mountain Asia. They provide the average glacier discharge between 2000 and 2016.
+
+
+
+
+
+# References
+

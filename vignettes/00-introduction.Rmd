@@ -1,8 +1,8 @@
 ---
-title: "introduction"
+title: "Introduction to the package"
 output: rmarkdown::html_vignette
 vignette: >
-  %\VignetteIndexEntry{introduction}
+  %\VignetteIndexEntry{00-introduction}
   %\VignetteEngine{knitr::rmarkdown}
   %\VignetteEncoding{UTF-8}
 ---
@@ -17,3 +17,5 @@ knitr::opts_chunk$set(
 ```{r setup}
 library(riversCentralAsia)
 ```
+
+This package aims at streamlining pre-and post-processing for hydrological modelling in Central Asia. It is under continuous development. 

@@ -21,11 +21,12 @@ gen_HRU_Climate_CSV_RSMinerve(
 )
 }
 \arguments{
-\item{climate_files}{List of either temperature or precipitation climate .nc files to process (do not mix!).}
+\item{climate_files}{List of either temperature or precipitation climate .nc files to process (do not mix!). Make sure the file list time interval is consistent with startY and endY.}
 
 \item{catchmentName}{Name of catchment for which data should be extracted}
 
-\item{elBands_shp}{Shapefile with hydrological response units}
+\item{elBands_shp}{Shapefile with hydrological response units. The column containing the names of the hydrological response 
+units must be \code{name} and the column containing the average elevation of the elevation band must be \code{Z}.}
 
 \item{startY}{Starting year for which data should be made available (assuming data 'is' available from the start of that year)}
 

@@ -12,22 +12,38 @@ OerlemansGlacierLengthModel(
 )
 }
 \arguments{
-\item{annual_temperature_annomaly}{A tibble with dimensions [Number of years x number of glaciers in rgi_data_set] with "years" (int) in the first column and the annual temperature annomaly per glacier in the other columns. The model assumes that the glacier columns start with "V".}
+\item{annual_temperature_annomaly}{A tibble with dimensions [Number of years x number 
+of glaciers in rgi_data_set] with "years" (int) in the first column and the annual 
+temperature annomaly per glacier in the other columns. The model assumes that the 
+glacier columns start with "V".}
 
-\item{annual_precipitation}{A tibble analogue to annual_temperature_annomaly but for absolute annual precipitation sums in meters.}
+\item{annual_precipitation}{A tibble analogue to annual_temperature_annomaly but for 
+absolute annual precipitation sums in meters.}
 
-\item{years_baseline_period}{The number of years at the beginning of the dataset which were used to calculate the average temperature baseline. They are substracted from the glacier length analysis. If the tibbles do not include the baseline years, set years_baseline_period to 0.}
+\item{years_baseline_period}{The number of years at the beginning of the dataset which 
+were used to calculate the average temperature baseline. They are substracted from the 
+glacier length analysis. If the tibbles do not include the baseline years, set 
+years_baseline_period to 0.}
 
-\item{rgi_data_set}{An sf object, a data frame or a tibble, for example a subset of the Randolph Glacier Inventory 6.0 in the area of interest. Must contain a glacier length attribute (Lmax) and a glacier slope attribute (Slope).}
+\item{rgi_data_set}{An sf object, a data frame or a tibble, for example a subset of the 
+Randolph Glacier Inventory 6.0 in the area of interest. Must contain a glacier length 
+attribute (Lmax) and a glacier slope attribute (Slope).}
 }
 \value{
-A list with dLt and Lt. dLt is a tibble with dimensions [Number of years - years baseline period x number of glaciers in the rgi data set]. It contains the change of glacier length in km. Lt is a tibble of the same dimensions as dLt containing absolute glacier lengths over time in km.
+A list with dLt and Lt. dLt is a tibble with dimensions [Number of years - years 
+  baseline period x number of glaciers in the rgi data set]. It contains the change of 
+  glacier length in km. Lt is a tibble of the same dimensions as dLt containing absolute 
+  glacier lengths over time in km.
 }
 \description{
-The function is used to calculate the length of glaciers over time given an initial length and climate forcing (mean annual temperature and annual precipitation). This is an annual model.
+The function is used to calculate the length of glaciers over time given an initial 
+length and climate forcing (mean annual temperature and annual precipitation). This 
+is an annual model.
 }
 \note{
-This function is suitable if you have the climate data in a wide table format with the forcing per glacier in columns. If you have the climate data in a long table format use \code{\link{OerlemansGlacierLengthModel_FormatLong}} instead.
+This function is suitable if you have the climate data in a wide table format with 
+  the forcing per glacier in columns. If you have the climate data in a long table format 
+  use \code{\link{OerlemansGlacierLengthModel_FormatLong}} instead.
 }
 \examples{
   glaciers <- dplyr::tibble(ID = c(1, 2, 3),
@@ -46,5 +62,6 @@ This function is suitable if you have the climate data in a wide table format wi
   L <- test_data[[2]]
 }
 \references{
-Oerlemans (2005) Extracting a Climate Signal from 169 Glacier Records. Science. DOI: 10.1126/science.1107046.
+Oerlemans (2005) Extracting a Climate Signal from 169 Glacier Records. 
+  Science. DOI: 10.1126/science.1107046.
 }

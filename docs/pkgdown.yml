@@ -2,7 +2,8 @@ pandoc: 2.11.4
 pkgdown: 1.6.1
 pkgdown_sha: ~
 articles:
-  estimate-glacier-lengths: estimate-glacier-lengths.html
-  introduction: introduction.html
-last_built: 2021-11-19T14:25Z
+  00-introduction: 00-introduction.html
+  glaciers-01-intro: glaciers-01-intro.html
+  glaciers-02-oerlemans: glaciers-02-oerlemans.html
+last_built: 2022-01-25T09:43Z
 
