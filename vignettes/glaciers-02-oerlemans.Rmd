@@ -2,7 +2,7 @@
 title: "Estimating glacier lengths in Central Asia"
 output: rmarkdown::html_vignette
 vignette: >
-  %\VignetteIndexEntry{estimate-glacier-lengths}
+  %\VignetteIndexEntry{glaciers-02-oerlemans}
   %\VignetteEngine{knitr::rmarkdown}
   %\VignetteEncoding{UTF-8}
 bibliography: references.bib
@@ -21,8 +21,9 @@ library(ggplot2)
 library(sf)
 ```
 
-# Background & Motivation
-Melt from glaciers ist the most important contributor of discharge in most of the larger rivers in Central Asia. However, measurements of discharge from glaciers are generally not available. To estimate the contribution from glacier melt to discharge under different climate scenarios, we use empirial relationships published by @oerlemans_extracting_2005 and @aizen_glaciers_2007 which are described below.    
+
+# The empirical method
+To estimate the contribution from glacier melt to discharge under different climate scenarios, we use empiric relationships published by @oerlemans_extracting_2005 and @aizen_glaciers_2007 which are described below.    
 
 ## Glacier length model by Oerlemans
 @oerlemans_extracting_2005 analysed a global glacier length time series and relate glacier length to temperature as follows: 
