@@ -1,0 +1,12 @@
+#' Calculates the hydrological year for a given date
+#'
+#' In Central Asia the hydrological year starts in October of the previous year.
+#' @param date as_date or as.POSIXct
+#' @return Hyear as numeric
+#' @export
+hyear <- function(date) {
+  hyear <- ifelse(lubridate::month(date) >= 10,
+                  lubridate::year(date) + 1,
+                  lubridate::year(date))
+  return(hyear)
+}
