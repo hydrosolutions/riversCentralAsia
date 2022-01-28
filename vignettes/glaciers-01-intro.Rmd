@@ -28,11 +28,16 @@ Melt from glaciers is the most important contributor of discharge in most of the
 Glaciers consist of compacted snow. Many processes contribute to the glacier mass balance but we focus on a simplified mass balance as we have data only for accumulated mass balance outcomes (i.e. glacier thinning rates and glacier discharge, see below).  
 Glaciers accumulate mass in the cold period and at higher altitudes through snow fall. Glaciers loose mass to melt caused by radiation. Typically, larger glaciers loose mass at lower altitudes (ablation zone) and accumulate mass at higher altitudes (accumulation zone). The mass loss in the lower altitudes is compensated by the downstream movement of ice from the accumulation zone. The boundary between the accumulation and the ablation zone is called the equilibrium line altitude (ELA).   
 Naturally, glaciers accumulate mass in the cold season and loose mass to ablation in the warm season. Therefore, overall mass balance of a glacier thus should be calculated over a year or, better, over the average of several years.  
-If the glaciers on average accumulates as much snow as it looses to melt, it is in balance. The average annual glacier discharge is equivalent to the average annual snow fall and called balance ablation. The ELA does not move. If the glacier produces more discharge than it accumulates from snow fall, it is not in balance. The ELA moves upwards. The excess melt is called imbalance ablation. If more snow falls that melts, the ELA moves downstream and the glacier grows.    
-Most glaciers worldwide are not in equilibrium with the warmer than long-term average climate and thus produce excess melt. In the short term, this is good for agriculture as more water is temporarily available for irrigation. However, the glaciers produce excess melt only until they reach a new equilibrium at higher altitudes or until they disappear. This means that the excess melt will also disappear and ultimately less water will be available for downstream users.   
-The graphics in the gifs below illustrate the processes described above. 
+If the glaciers on average accumulates as much snow as it looses to melt, it is in balance. The average annual glacier discharge is equivalent to the average annual snow fall and called balance ablation. The ELA does not move. If the glacier produces more discharge than it accumulates from snow fall, it is not in balance. The ELA moves upwards. The excess melt is called imbalance ablation. If more snow falls that melts, the ELA moves downstream and the glacier grows.   
+
+![Glacier graphics by Anne Maussion, Atelier les Gros yeux, for Open Global Glacier Model (OGGM).](OGGM_glacier.gif){width=90%} 
+
+Most glaciers worldwide are not in equilibrium with the warmer than long-term average climate and thus produce excess melt. In the short term, this is good for agriculture as more water is temporarily available for irrigation. However, the glaciers produce excess melt only until they reach a new equilibrium at higher altitudes or until they disappear. This means that the excess melt will also disappear and ultimately less water will be available for downstream users. This phenomenon is called peak water [@huss_global-scale_2018].   
+
+
+![An illustration of peak water by @huss_global-scale_2018](HussHockPeakWater.png){width=90%} 
   
-![Glacier graphics by Anne Maussion, Atelier les Gros yeux, for Open Global Glacier Model (OGGM).](OGGM_glacier.gif){width=90%}  
+ 
 
 
 # Availability on glacier-related data
