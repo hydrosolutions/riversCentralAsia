@@ -18,12 +18,16 @@ scenarios.
 
 Currently, a relatively complete dataset of the Chirchik River Basin
 with decadal and monthly data on discharge, precipitation and
-temperature is included. Continue reading
-[here](doc/data_documentation.Rmd) for a more detailed description of
-the available data. More data will be made available in upcoming
+temperature is included. More data will be made available in upcoming
 iterations of the package
 
 [![DOI](https://zenodo.org/badge/DOI/10.5281/zenodo.4667422.svg)](https://doi.org/10.5281/zenodo.4667422)
+
+We now have a
+[web-site](https://hydrosolutions.github.io/riversCentralAsia/index.html)
+for the package where you can find vignettes on how to use the
+functions. Please note that the web-site is work in progress and
+continuously being updated.
 
 ## License Information
 
@@ -47,11 +51,14 @@ devtools::install_github("hydrosolutions/riversCentralAsia")
 This is a basic example which shows you how to visualize some of the
 included data.
 
-    #> ── Attaching packages ─────────────────────────────────────── tidyverse 1.3.1 ──
-    #> ✓ ggplot2 3.3.5     ✓ purrr   0.3.4
-    #> ✓ tibble  3.1.6     ✓ dplyr   1.0.7
-    #> ✓ tidyr   1.1.4     ✓ stringr 1.4.0
-    #> ✓ readr   2.1.0     ✓ forcats 0.5.1
-    #> ── Conflicts ────────────────────────────────────────── tidyverse_conflicts() ──
+    #> -- Attaching packages --------------------------------------- tidyverse 1.3.1 --
+    #> v ggplot2 3.3.5     v purrr   0.3.4
+    #> v tibble  3.1.2     v dplyr   1.0.7
+    #> v tidyr   1.1.3     v stringr 1.4.0
+    #> v readr   1.4.0     v forcats 0.5.1
+    #> -- Conflicts ------------------------------------------ tidyverse_conflicts() --
     #> x dplyr::filter() masks stats::filter()
     #> x dplyr::lag()    masks stats::lag()
+    #> Registered S3 method overwritten by 'tune':
+    #>   method                   from   
+    #>   required_pkgs.model_spec parsnip
