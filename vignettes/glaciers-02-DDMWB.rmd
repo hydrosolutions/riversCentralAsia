@@ -1,0 +1,35 @@
+---
+title: "Glaciers 02 - Temperature index model"
+editor: visual
+bibliography: references.bib
+output: rmarkdown::html_vignette
+vignette: >
+  %\VignetteIndexEntry{Glaciers 02 - Temperature index model}
+  %\VignetteEngine{knitr::rmarkdown}
+  %\VignetteEncoding{UTF-8}
+---
+
+```{r, include = FALSE}
+knitr::opts_chunk$set(
+  collapse = TRUE,
+  comment = "#>"
+)
+options(rmarkdown.html_vignette.check_title = FALSE)
+
+library(riversCentralAsia)
+library(ggplot2)
+library(sf)
+```
+
+# Temperature index model
+
+\@hock_temperature_2003 describes several variants of the temperature index model for simulating glacier melt. The riversCentralAsia package implements the temperature index melt model described in [@hock_temperature_2003] in the function \code{glacierMelt_TI}.
+
+$$
+M = \biggl\{ \begin{array}{l, l}
+0, & T < T_{threshold} \\
+MF \cdot \left( T - T_{threshold} \right), & T >= T_{threshold}
+\end{array} 
+$$
+
+# References

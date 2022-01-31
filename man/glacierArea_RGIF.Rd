@@ -21,7 +21,9 @@ with the glacier thickness derived by Farinotti et al. 2019.
 
 Other glacier functions: 
 \code{\link{glacierArea_Erasov}()},
+\code{\link{glacierDischarge_HM}()},
 \code{\link{glacierImbalAbl}()},
+\code{\link{glacierMelt_TI}()},
 \code{\link{glacierVolume_Erasov}()},
 \code{\link{glacierVolume_RGIF}()}
 }

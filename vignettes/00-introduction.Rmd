@@ -2,7 +2,7 @@
 title: "Introduction to the package"
 output: rmarkdown::html_vignette
 vignette: >
-  %\VignetteIndexEntry{00-introduction}
+  %\VignetteIndexEntry{Introduction to the package}
   %\VignetteEngine{knitr::rmarkdown}
   %\VignetteEncoding{UTF-8}
 ---
@@ -12,7 +12,9 @@ knitr::opts_chunk$set(
   collapse = TRUE,
   comment = "#>"
 )
-options(rmarkdown.html_vignette.check_title = FALSE)
+knitr::opts_knit$set(
+  rmarkdown.html_vignette.check_title = FALSE
+)
 ```
 
 ```{r setup}

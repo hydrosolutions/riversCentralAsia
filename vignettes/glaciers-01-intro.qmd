@@ -1,8 +1,12 @@
 ---
-title: "glaciers-01-intro"
-format: html
+title: "Glaciers 01 - Intro"
 editor: visual
 bibliography: references.bib
+output: rmarkdown::html_vignette
+vignette: >
+  %\VignetteIndexEntry{Glaciers 01 - Intro}
+  %\VignetteEngine{knitr::rmarkdown}
+  %\VignetteEncoding{UTF-8}
 ---
 
 ```{r, include = FALSE}
@@ -22,9 +26,20 @@ Melt from glaciers is the most important contributor of discharge in most of the
 
 # Glaciers in water resources modelling
 
-Glaciers consist of compacted snow. Many processes contribute to the glacier mass balance but we focus on a simplified mass balance as we have data only for accumulated mass balance outcomes (i.e. glacier thinning rates and glacier discharge, see below).\
-Glaciers accumulate mass in the cold period and at higher altitudes through snow fall. Glaciers loose mass to melt caused by radiation. Typically, larger glaciers loose mass at lower altitudes (ablation zone) and accumulate mass at higher altitudes (accumulation zone). The mass loss in the lower altitudes is compensated by the downstream movement of ice from the accumulation zone. The boundary between the accumulation and the ablation zone is called the equilibrium line altitude (ELA).\
-Naturally, glaciers accumulate mass in the cold season and loose mass to ablation in the warm season. Therefore, overall mass balance of a glacier thus should be calculated over a year or, better, over the average of several years.\
+Glaciers consist of compacted snow. Many processes contribute to the glacier mass balance but we focus on a simplified mass balance as we have data only for accumulated mass balance outcomes (i.e. glacier thinning rates and glacier discharge, see below).
+
+Glaciers accumulate mass in the cold period and at higher altitudes through snow fall. Glaciers loose mass to melt caused by radiation. Typically, larger glaciers loose mass at lower altitudes (ablation zone) and accumulate mass at higher altitudes (accumulation zone). The mass loss in the lower altitudes is compensated by the downstream movement of ice from the accumulation zone. The boundary between the accumulation and the ablation zone is called the equilibrium line altitude (ELA).
+
+Naturally, glaciers accumulate mass in the cold season and loose mass to ablation in the warm season. Therefore, overall mass balance of a glacier thus should be calculated over a year or, better, over the average of several years.
+
+A simplified multi-year-average glacier mass balance can be expressed as:
+
+$$
+\Delta S = P - M
+$$
+
+where $\Delta S$ is the change of water storage in the glacier, $P$ is the precipitation over the glacier (assumed to be solid precipitation) and $M$ is the glacier melt. If $\Delta S$ is larger than 0 ($P>M$), the glacier accumulates solid water and is growing. If $\Delta S$ is smaller than 0 ($P<M$), we have imbalance ablation and the glacier shrinks. Glacier melt $M$ can be modeled using full energy balance models or simplifications thereof, e.g. temperature index models. We'll introduce a temperature index model in (this glaciers vignette)\[glaciers-02-DDMWB.html\].
+
 If the glaciers on average accumulates as much snow as it looses to melt, it is in balance. The average annual glacier discharge is equivalent to the average annual snow fall and called balance ablation. The ELA does not move. If the glacier produces more discharge than it accumulates from snow fall, it is not in balance. The ELA moves upwards. The excess melt is called imbalance ablation. If more snow falls that melts, the ELA moves downstream and the glacier grows.
 
 ![Glacier graphics by Anne Maussion, Atelier les Gros yeux, for Open Global Glacier Model (OGGM).](OGGM_glacier.gif){width="90%"}

@@ -1,8 +1,8 @@
 ---
-title: "Estimating glacier lengths in Central Asia"
+title: "Glaciers 03 - Estimating glacier lengths in Central Asia"
 output: rmarkdown::html_vignette
 vignette: >
-  %\VignetteIndexEntry{glaciers-02-oerlemans}
+  %\VignetteIndexEntry{Glaciers 03 - Estimating glacier lengths in Central Asia}
   %\VignetteEngine{knitr::rmarkdown}
   %\VignetteEncoding{UTF-8}
 bibliography: references.bib
