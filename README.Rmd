@@ -26,9 +26,11 @@ riversCentralAsia is an R Package with helper functions to
 - prepare export files for hydrological-hydraulic modeling using the RS MINERVE software, and 
 - analyze climate impact scenarios.
 
-Currently, a relatively complete dataset of the Chirchik River Basin with decadal and monthly data on discharge, precipitation and temperature is included. Continue reading [here](doc/data_documentation.Rmd) for a more detailed description of the available data. More data will be made available in upcoming iterations of the package
+Currently, a relatively complete dataset of the Chirchik River Basin with decadal and monthly data on discharge, precipitation and temperature is included. More data will be made available in upcoming iterations of the package
 
 [![DOI](https://zenodo.org/badge/DOI/10.5281/zenodo.4667422.svg)](https://doi.org/10.5281/zenodo.4667422)
+
+We now have a [web-site](https://hydrosolutions.github.io/riversCentralAsia/index.html) for the package where you can find vignettes on how to use the functions. Please note that the web-site is work in progress and continuously being updated.  
 
 ## License Information
 
