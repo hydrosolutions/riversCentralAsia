@@ -6,7 +6,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>Glacier melt computed with a temperature index model — glacierMelt_TI • riversCentralAsia</title>
+<title>Estimates the total glacier discharge based on glacier thinning rates — glacierDischarge_HM • riversCentralAsia</title>
 
 
 <!-- jquery -->
@@ -39,14 +39,9 @@
 
 
 
-<meta property="og:title" content="Glacier melt computed with a temperature index model — glacierMelt_TI" />
-<meta property="og:description" content="Glacier melt (M) is produced by multiplying the melt factor
-  (MF) with the amount of energy available for melting which is
-  approximated with the difference between the measured temperature (T)
-  and a threshold temperature above which melt occurs (Tth). 
-  The formula is given as: 
-  M = MF * (T - Tth) if T is above Tth. 
-  No melt occurs at temperatures below the threshold temperature." />
+<meta property="og:title" content="Estimates the total glacier discharge based on glacier thinning rates — glacierDischarge_HM" />
+<meta property="og:description" content="Regression derived from the data set by Hugonnet et al., 2021 and Miles et
+al., 2021." />
 
 
 
@@ -138,74 +133,43 @@
 <div class="row">
   <div class="col-md-9 contents">
     <div class="page-header">
-    <h1>Glacier melt computed with a temperature index model</h1>
-    <small class="dont-index">Source: <a href='https://github.com/hydrosolutions/riversCentralAsia/blob/master/R/glacierMelt_TI.R'><code>R/glacierMelt_TI.R</code></a></small>
-    <div class="hidden name"><code>glacierMelt_TI.Rd</code></div>
+    <h1>Estimates the total glacier discharge based on glacier thinning rates</h1>
+    <small class="dont-index">Source: <a href='https://github.com/hydrosolutions/riversCentralAsia/blob/master/R/glacierDischarge_HM.R'><code>R/glacierDischarge_HM.R</code></a></small>
+    <div class="hidden name"><code>glacierDischarge_HM.Rd</code></div>
     </div>
 
     <div class="ref-description">
-    <p>Glacier melt (<code>M</code>) is produced by multiplying the melt factor
-  (<code>MF</code>) with the amount of energy available for melting which is
-  approximated with the difference between the measured temperature (<code>T</code>)
-  and a threshold temperature above which melt occurs (<code>Tth</code>). <br />
-  The formula is given as: <br />
-  <code>M = MF * (T - Tth) if T is above Tth</code>. <br />
-  No melt occurs at temperatures below the threshold temperature.</p>
+    <p>Regression derived from the data set by Hugonnet et al., 2021 and Miles et
+al., 2021.</p>
     </div>
 
-    <pre class="usage"><span class='fu'>glacierMelt_TI</span><span class='op'>(</span><span class='va'>temperature</span>, MF <span class='op'>=</span> <span class='fl'>4</span>, threshold_temperature <span class='op'>=</span> <span class='fl'>0</span><span class='op'>)</span></pre>
+    <pre class="usage"><span class='fu'>glacierDischarge_HM</span><span class='op'>(</span><span class='va'>dhdt</span><span class='op'>)</span></pre>
 
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
     <colgroup><col class="name" /><col class="desc" /></colgroup>
     <tr>
-      <th>temperature</th>
-      <td><p>A matrix with daily temperatures over time (rows) for each
-glacier and/or elevation band (columns).</p></td>
-    </tr>
-    <tr>
-      <th>MF</th>
-      <td><p>is a scalar or a named vector with temperature index factors which
-contains one melt factor for each glacier/elevation band in the
-temperature matrix.</p></td>
-    </tr>
-    <tr>
-      <th>threshold_temperature</th>
-      <td><p>temperature above which glacier melt is produced.</p></td>
+      <th>dhdt</th>
+      <td><p>Glacier thinning rates in meters per year (m/a).
+dhdt &lt; 0: glacier is loosing mass,
+dhdt &gt; 0: glacier is gaining mass.</p></td>
     </tr>
     </table>
 
-    <h2 class="hasAnchor" id="source"><a class="anchor" href="#source"></a>Source</h2>
-
-    <p>Hock R. (2003): Temperature index melt modelling in mountain areas.
-  Journal of Hydrology 282, pp 104--115, DOI: 10.1016/S0022-1694(03)00257-9.</p>
     <h2 class="hasAnchor" id="value"><a class="anchor" href="#value"></a>Value</h2>
 
-    <p>A matrix with daily melt rates per glacier/elevation band.</p>
+    <p>Total glacier melt in m3/a.
+  Negative for glacier melt and positive for glacier gain.</p>
     <h2 class="hasAnchor" id="see-also"><a class="anchor" href="#see-also"></a>See also</h2>
 
     <div class='dont-index'><p>Other glacier functions: 
 <code><a href='glacierArea_Erasov.html'>glacierArea_Erasov</a>()</code>,
 <code><a href='glacierArea_RGIF.html'>glacierArea_RGIF</a>()</code>,
-<code><a href='glacierDischarge_HM.html'>glacierDischarge_HM</a>()</code>,
 <code><a href='glacierImbalAbl.html'>glacierImbalAbl</a>()</code>,
+<code><a href='glacierMelt_TI.html'>glacierMelt_TI</a>()</code>,
 <code><a href='glacierVolume_Erasov.html'>glacierVolume_Erasov</a>()</code>,
 <code><a href='glacierVolume_RGIF.html'>glacierVolume_RGIF</a>()</code></p></div>
 
-    <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
-    <pre class="examples"><div class='input'><span class='co'># Generate random temperature forcing</span>
-<span class='va'>number_of_glaciers</span> <span class='op'>&lt;-</span> <span class='fl'>10</span>
-<span class='va'>number_of_days</span> <span class='op'>&lt;-</span> <span class='fl'>50</span><span class='op'>*</span><span class='fl'>365</span>
-<span class='va'>temperature</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/matrix.html'>matrix</a></span><span class='op'>(</span>
-  <span class='fu'><a href='https://rdrr.io/r/stats/Uniform.html'>runif</a></span><span class='op'>(</span><span class='va'>number_of_glaciers</span> <span class='op'>*</span> <span class='va'>number_of_days</span>, min <span class='op'>=</span> <span class='op'>-</span><span class='fl'>10</span>, max <span class='op'>=</span> <span class='fl'>10</span><span class='op'>)</span>,
-  nrow <span class='op'>=</span> <span class='va'>number_of_days</span>, ncol <span class='op'>=</span> <span class='va'>number_of_glaciers</span><span class='op'>)</span>
-<span class='fu'><a href='https://rdrr.io/r/base/colnames.html'>colnames</a></span><span class='op'>(</span><span class='va'>temperature</span><span class='op'>)</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/paste.html'>paste0</a></span><span class='op'>(</span><span class='st'>"Gl"</span>, <span class='fl'>1</span><span class='op'>:</span><span class='va'>number_of_glaciers</span><span class='op'>)</span>
-<span class='co'># Generate random melt factors</span>
-<span class='va'>MF</span> <span class='op'>&lt;-</span> <span class='va'>temperature</span><span class='op'>[</span><span class='fl'>1</span>, <span class='op'>]</span> <span class='op'>*</span> <span class='fl'>0</span> <span class='op'>+</span> <span class='fl'>1</span><span class='op'>:</span><span class='va'>number_of_glaciers</span>
-<span class='co'># Calculate glacier melt assuming a threshold temperature for glacier melt of</span>
-<span class='co'># 1 degree Celcius.</span>
-<span class='va'>melt</span> <span class='op'>&lt;-</span> <span class='fu'>glacierMelt_DD</span><span class='op'>(</span><span class='va'>temperature</span>, <span class='va'>MF</span>, threshold_temperature <span class='op'>=</span> <span class='fl'>1</span><span class='op'>)</span>
-</div><div class='output co'>#&gt; <span class='error'>Error in glacierMelt_DD(temperature, MF, threshold_temperature = 1): konnte Funktion "glacierMelt_DD" nicht finden</span></div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
     <nav id="toc" data-toggle="toc" class="sticky-top">
