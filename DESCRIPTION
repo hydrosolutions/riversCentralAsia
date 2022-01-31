@@ -3,10 +3,18 @@ Type: Package
 Title: Accompanying R Package to Applied Modeling of Hydrological Systems in Central Asia Course
 Version: 1.0.1
 Date: 2021-11-18
-Author: Tobias Siegfried & Beatrice Marti, hydrosolutions GmbH, www.hydrosolutions.ch
-Maintainer:  <siegfried@hydrosolutions.ch>
+Authors@R: c(
+  person("Tobias", "Siegfried", 
+         email = "siegfried@hydrosolutions.ch", 
+         comment = "hydrosolutions GmbH, www.hydrosolutions.ch", 
+         role = c("cre", "aut")), 
+  person("Beatrice", "Marti", 
+         email = "marti@hydrosolutions.ch", 
+         role = "aut"))
 Description: riversCentralAsia is an R Package with helper functions to load, manage and analyze hydrometeorological data from Central Asia. Furthermore, it contains some workhorse function to prepare input data for RSMINERVE (www.crealp.ch) which is a hydrological-hydraulic modeling suite that can be used for river basin planning and management purposes and climate impact analysis, among other things. It also contains a bias correction and downscaling workflow of the CHELSA V21 high resolution climatologies and CMIP6 climate projections.
 License: This work is licensed under a Creative Commons Attribution-ShareAlike 4.0 International License.
 RoxygenNote: 7.1.2
+URL: https://hydrosolutions.github.io/riversCentralAsia/index.html
+BugReports: https://github.com/hydrosolutions/riversCentralAsia/issues
 Imports: magrittr
 LazyData: true
