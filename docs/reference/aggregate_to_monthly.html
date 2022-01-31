@@ -183,9 +183,11 @@ data types which are to be aggregated with either <code>mean</code> or
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
     <pre class="examples"><div class='input'><span class='va'>dataTable</span> <span class='op'>&lt;-</span> <span class='va'>ChirchikRiverBasin</span>
-</div><div class='output co'>#&gt; <span class='error'>Error in eval(expr, envir, enclos): Objekt 'ChirchikRiverBasin' nicht gefunden</span></div><div class='input'><span class='va'>funcTypeLib</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/list.html'>list</a></span><span class='op'>(</span>mean <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='st'>"Q"</span>, <span class='st'>"T"</span><span class='op'>)</span>, sum<span class='op'>=</span> <span class='st'>"P"</span><span class='op'>)</span>
+<span class='va'>funcTypeLib</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/list.html'>list</a></span><span class='op'>(</span>mean <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='st'>"Q"</span>, <span class='st'>"T"</span><span class='op'>)</span>, sum<span class='op'>=</span> <span class='st'>"P"</span><span class='op'>)</span>
 <span class='va'>data_mon</span> <span class='op'>&lt;-</span> <span class='fu'>aggregate_to_monthly</span><span class='op'>(</span><span class='va'>dataTable</span>, <span class='va'>funcTypeLib</span><span class='op'>)</span>
-</div><div class='output co'>#&gt; <span class='error'>Error in is.data.frame(x): Objekt 'dataTable' nicht gefunden</span></div><div class='input'>
+</div><div class='output co'>#&gt; <span class='message'>Registered S3 method overwritten by 'tune':</span>
+#&gt; <span class='message'>  method                   from   </span>
+#&gt; <span class='message'>  required_pkgs.model_spec parsnip</span></div><div class='input'>
 </div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
