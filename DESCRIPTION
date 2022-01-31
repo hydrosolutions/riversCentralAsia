@@ -16,3 +16,5 @@ License: This work is licensed under a Creative Commons Attribution-ShareAlike 4
 RoxygenNote: 7.1.2
 URL: https://hydrosolutions.github.io/riversCentralAsia/index.html
 BugReports: https://github.com/hydrosolutions/riversCentralAsia/issues
+Imports: magrittr
+LazyData: true
