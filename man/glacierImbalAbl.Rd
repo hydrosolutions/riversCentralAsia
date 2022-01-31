@@ -26,6 +26,7 @@ indicates glacier gain.
 Other glacier functions: 
 \code{\link{glacierArea_Erasov}()},
 \code{\link{glacierArea_RGIF}()},
+\code{\link{glacierMelt_TI}()},
 \code{\link{glacierVolume_Erasov}()},
 \code{\link{glacierVolume_RGIF}()}
 }

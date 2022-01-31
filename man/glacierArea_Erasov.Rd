@@ -22,6 +22,7 @@ volume.
 Other glacier functions: 
 \code{\link{glacierArea_RGIF}()},
 \code{\link{glacierImbalAbl}()},
+\code{\link{glacierMelt_TI}()},
 \code{\link{glacierVolume_Erasov}()},
 \code{\link{glacierVolume_RGIF}()}
 }
