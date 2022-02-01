@@ -10,14 +10,8 @@ vignette: >
 ---
 
 ```{r, include = FALSE}
-knitr::opts_chunk$set(
-  collapse = TRUE,
-  comment = "#>"
-)
-options(rmarkdown.html_vignette.check_title = FALSE)
-
 library(riversCentralAsia)
-library(ggplot2)
+library(tidyverse)
 library(sf)
 ```
 
@@ -31,5 +25,126 @@ M = \biggl\{ \begin{array}{l, l}
 MF \cdot \left( T - T_{threshold} \right), & T >= T_{threshold}
 \end{array} 
 $$
+
+where $M$ is the glacier melt in $mm/d$, $T$ is the daily average temperature in $^{\circ} C$. The two parameters $MF$ and $T_{\text{threshold}}$ refer to the melt factor and the threshold temperature above which glacier melt occurs and need to be calibrated. They have the units $\frac{mm}{^{\circ} C \cdot d}$ and $^{\circ} C$ respectively. Glacier melt is calculated in daily time steps.
+
+# Glacier mass balance
+
+We simplify the glacier mass balance to the following equation
+
+$$
+\Delta S = P-M = A_{imbal}
+$$
+
+where the change of water storage ($\Delta S$) is equal to the precipitation ($P$, assumed solid) minus the glacier melt ($M$). Typically melt excesses precipitation and we have negative imbalance ablation, indicating glacier storage loss. The glacier mass balance is calculated in annual time steps. We thereby refer to the hydrological year starting on October 1st of the previous year to take a full accumulation and ablation season into account.
+
+# Glacier volume development
+
+As glaciers melt, their volume changes. This has to be taken into account for the long-term simulation of glacier discharge. The glacier volume develops according to the mass change. To determine the initial glacier volume we use the area of the geometry of the [RGI v6.0 data set](glaciers-01-intro.html) and multiply it with the average [thickness of the glacier](glaciers-01-intro.html). Glaciers larger than 1km2 we sub-divide into elevation bands of 100m altitude to account for elevation dependent temperature forcing.
+
+For annual time step $t$, the evolution of the glacier volume is calculated as follows:
+
+$$
+A(t) = \text{glacierArea_RGIF}\bigl(V(t)\bigr)
+$$
+
+$$
+Q_{glacier}(t) = M(t) \cdot A(t)
+$$
+
+$$
+V(t+1) = V(t) + \Delta S = V(t) + \text{glacierImbalAbl}\bigl(Q_{\text{glacier}}(t)\bigr) 
+$$
+
+Note that the imbalance ablation (or $\Delta S$) is negative for glacier mass loss and positive for glacier accumulation.
+
+$Q_{\text{glacier}}$ can be calibrated against glacier discharge derived from the Miles & Hugonnet data sets.
+
+The function \code{glacierArea_RGIF()} is an empirical scaling function analogue the inverse of the scaling function derived by @erasov_1968 but based on the modern RGI v6.0 glacier geometries and the glacier thickness data set by @farinotti_consensus_2019. The package \code{riversCentralAsia} implements volume-area and area-volume scaling functions based on both, Erashov and RGI-Farinotti data, allowing the estimation of glacier areas based on glacier volumes (\\code{glacierArea_Erasov} and \\code{glacierArea_RGIF}) and estimations of glacier volumes based on glacier areas (\\code{glacierVolume_Erasov} and \\code{glacierVolume_RGIF}).
+
+The function \code{glacierImbalAbl} is an empirical scaling function relating total glacier melt to imbalance ablation. It is derived from the glacier discharge data set by @miles_health_2021.
+
+# Forcing
+
+There will be a separate Vignette to demonstrate how to prepare the forcing. For now, we provide you with the pre-processed forcing data and give you just a brief overview over the data source.
+
+## Historical tempratures
+
+As meteorological data for high elevations in Central Asia is very scarce we use the CHELSA v2.1 data set. This is a global data set of forcing data for hydrolgical models based on ERA5 but corrected for biases and for high elevations. The daily CHELSA forcing has been cut to the Central Region by the originator of the data set, D. Karger, WSL.
+
+```{r}
+#| fig.cap = "Daily temperature time series of a glacier. Data source: CHELSA." 
+#| out.width = 90%
+hist_obs <- readRDS(file = "hist_obs_glacier_tas.rds")
+
+# Plot the temperature time series for a given glacier/elevation band
+glacier <- "RGI60-13.08930_1"
+ggplot(hist_obs) + 
+  geom_line(aes(date, get(glacier))) + 
+  labs(x = "Date", y = "T [deg C]", title = glacier) +
+  theme_bw()
+```
+
+## Future temperatures
+
+Future temperature development per glacier or elevation band is extracted from the 4 CMIP6 GCM models with highest priorities for the region () downloaded from COPERNICUS. We take 4 socioeconomic scenarios into account, covering 4 different emission scenarios. The temperatures of the climate models are bias corrected using the CHELSA data and a quantile mapping method.
+
+```{r}
+#| fig.cap = "Annual historical (CHELSA) and future (CMIP6, Copernicus) temperature for a glacier. " 
+#| out.width = 90%
+fut_sim <- readRDS(file = "fut_sim_glacier_tas_qmapped.RDS")
+
+# Plot the temperature time series for a given glacier/elevation band
+glacier <- "RGI60-13.08930_1"
+
+# Extract the temperature for the selected glaciers for all GCMs and SSPs
+scenarios <- names(fut_sim)
+fut_temp <- NULL
+for (scenario in scenarios) {
+  fut_temp <- rbind(fut_temp, 
+                    fut_sim[[scenario]] |> 
+                      dplyr::select(Date, all_of(glacier)) |> 
+                      mutate(Scenario = scenario))
+}
+fut_temp <- fut_temp |> 
+  mutate(Hyear = hyear(Date)) |> 
+  group_by(Hyear, Scenario) |> 
+  summarise(Date = first(Date), 
+            Temp = mean(get(glacier))) |> 
+  separate(Scenario, into = c("GCM", "SSP"), sep = "_") |> 
+  ungroup() |>
+  dplyr::filter(Hyear > min(Hyear) & Hyear < max(Hyear), 
+                GCM != "IPSL-CM6A-LR")
+
+# Plot annual data for better readability
+ggplot() + 
+  geom_line(data = hist_obs |> 
+              mutate(Hyear = hyear(date)) |> 
+              group_by(Hyear) |> 
+              summarise(date = first(date), 
+                        Temp = mean(get(glacier))) |> 
+              ungroup() |> 
+              dplyr::filter(Hyear > min(Hyear) & Hyear < max(Hyear)), 
+            aes(date, Temp)) + 
+  geom_line(data = fut_temp, aes(Date, Temp, colour = GCM, 
+            linetype = SSP)) + 
+  scale_colour_viridis_d() + 
+  labs(x = "Date", y = "T [deg C]", title = glacier) +
+  theme_bw()
+```
+
+# Demonstration
+
+We demonstrate the above described method with the data from the Atbashy basin.
+
+## Calculate daily glacier melt
+
+```{r}
+# Load a shape file with elevation bands for the larger glaciers.
+data("vignette_glacier_melt")
+
+# Update the glacier area within the basin boundaries
+
+```
 
 # References

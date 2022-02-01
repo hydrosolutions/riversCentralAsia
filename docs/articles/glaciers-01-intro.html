@@ -94,8 +94,8 @@
       <h1 data-toc-skip>Glaciers 01 - Intro</h1>
             
       
-      <small class="dont-index">Source: <a href="https://github.com/hydrosolutions/riversCentralAsia/blob/master/vignettes/glaciers-01-intro.rmd"><code>vignettes/glaciers-01-intro.rmd</code></a></small>
-      <div class="hidden name"><code>glaciers-01-intro.rmd</code></div>
+      <small class="dont-index">Source: <a href="https://github.com/hydrosolutions/riversCentralAsia/blob/master/vignettes/glaciers-01-intro.Rmd"><code>vignettes/glaciers-01-intro.Rmd</code></a></small>
+      <div class="hidden name"><code>glaciers-01-intro.Rmd</code></div>
 
     </div>
 
@@ -212,7 +212,9 @@ Consortium 2017)</span> makes a consistent glacier data base publicly
 available. It includes geo-located glacier geometry and some additional
 parameters like elevation, length, slope and aspect. A new version (v7)
 is under review at the time of writing. For Central Asian water
-resources modelling, RGI regions 13 and 14 are relevant.</p>
+resources modelling, RGI regions 13 (Central Asia) and 14 (South Asia
+West) are relevant. You can download the data from <a href="https://www.glims.org/RGI/rgi60_dl.html">the GLIMS RGI v6.0 web
+site</a>.</p>
 <div class="sourceCode" id="cb2"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="co">#| fig.cap = "DEM &amp; Glaciers of the demo basin." </span>
 <span class="co">#| out.width = 90%</span>
@@ -232,8 +234,44 @@ resources modelling, RGI regions 13 and 14 are relevant.</p>
 <p><span class="citation">Farinotti et al. (2019)</span> make
 distributed glacier thickness maps available for each glacier in the RGI
 v6 data set. We have generated a mosaic of the glacier thickness tifs
-for you.</p>
+for you. We will refer to this data set as the glacier thickness data
+set or the Farinotti data set.</p>
+<p>If you are interested to replicate the download and pre-processing
+please read the section below. The glacier thickness data set is
+available from the <a href="https://www.research-collection.ethz.ch/handle/20.500.11850/315707">data
+collection</a> of <span class="citation">Farinotti et al. (2019)</span>
+which is available from <a href="https://www.nature.com/articles/s41561-019-0300-3">the data
+section of their online article</a>. You can download the glacier
+thickness composites for the relevant RGI v6.0 regions 13 and 14. In the
+unzipped directories you will find individual tif files for each
+glacier. The following section demonstrates how to extract glacier
+thickness data from the Farinotti data set.</p>
+<div id="how-to-extract-glacier-thickness" class="section level3">
+<h3 class="hasAnchor">
+<a href="#how-to-extract-glacier-thickness" class="anchor"></a>How to extract glacier thickness</h3>
 <div class="sourceCode" id="cb3"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="co"># Get a list of all files in the glacier thickness data set. The files are named </span>
+<span class="co"># after the glacier ID in the RGI v6.0 data set (variable RGIId).  </span>
+<span class="va">glacier_thickness_dir</span> <span class="op">&lt;-</span> <span class="st">"&lt;Path to glacier thickness tif files (unzipped)&gt;"</span> 
+
+<span class="va">filelist</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/list.files.html">list.files</a></span><span class="op">(</span>path <span class="op">=</span> <span class="va">glacier_thickness_dir</span>, pattern <span class="op">=</span> <span class="st">".tif$"</span>, 
+                       full.names <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span>
+
+<span class="co"># Filter the glacier thickness file list for the glacier ids in the catchment of </span>
+<span class="co"># interest. </span>
+<span class="va">filelist</span> <span class="op">&lt;-</span> <span class="va">filelist</span><span class="op">[</span><span class="fu"><a href="https://rdrr.io/r/base/lapply.html">sapply</a></span><span class="op">(</span><span class="va">rgi</span><span class="op">$</span><span class="va">RGIId</span>, <span class="va">grep</span>, <span class="va">filelist</span><span class="op">)</span><span class="op">]</span>
+
+<span class="co"># Get the maximum glacier thickness for each of the glaciers in filelist. </span>
+<span class="co"># Note: this works only for small catchments as the origin of the rasters to be </span>
+<span class="co"># mosaiced needs to be consistent. For a larger data set you will need to implement </span>
+<span class="co"># a loop over all glaciers to extract the thickness per glacier or per elevation </span>
+<span class="co"># band. </span>
+<span class="va">glacier_thickness</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/funprog.html">Reduce</a></span><span class="op">(</span><span class="kw">function</span><span class="op">(</span><span class="va">x</span>, <span class="va">y</span><span class="op">)</span> <span class="fu">raster</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/raster/man/mosaic.html">mosaic</a></span><span class="op">(</span><span class="va">x</span>, <span class="va">y</span>, fun <span class="op">=</span> <span class="va">max</span><span class="op">)</span>,
+                            <span class="fu"><a href="https://rdrr.io/r/base/lapply.html">lapply</a></span><span class="op">(</span><span class="va">filelist</span>, <span class="fu">raster</span><span class="fu">::</span><span class="va"><a href="https://rdrr.io/pkg/raster/man/raster.html">raster</a></span><span class="op">)</span><span class="op">)</span>
+
+<span class="co"># For plotting, clip the glacier thickness raster of the basin to the basin boundary</span>
+<span class="va">glacier_thickness</span> <span class="op">&lt;-</span> <span class="fu">mask</span><span class="op">(</span><span class="va">glacier_thickness</span>, <span class="va">shp_koksu_shait_outline</span><span class="op">)</span></code></pre></div>
+<div class="sourceCode" id="cb4"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="co">#| fig.cap = "Glacier thickness by Farinotti et al., 2019" </span>
 <span class="co">#| out.width = 90%</span>
 <span class="va">glacier_thickness_df</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/as.data.frame.html">as.data.frame</a></span><span class="op">(</span><span class="fu">as</span><span class="op">(</span><span class="va">glacier_thickness</span>, 
@@ -251,9 +289,10 @@ for you.</p>
   <span class="fu"><a href="https://rdrr.io/r/graphics/plot.window.html">xlim</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="fl">1180000</span>, <span class="fl">1196888</span><span class="op">)</span><span class="op">)</span> <span class="op">+</span>  
   <span class="fu"><a href="https://rdrr.io/r/graphics/plot.window.html">ylim</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="fl">4590000</span>, <span class="fl">4610000</span><span class="op">)</span><span class="op">)</span> <span class="op">+</span> 
   <span class="fu">labs</span><span class="op">(</span>x <span class="op">=</span> <span class="st">"Longitude"</span>, y <span class="op">=</span> <span class="st">"Latitude"</span><span class="op">)</span> <span class="op">+</span> 
-  <span class="fu">theme_bw</span><span class="op">(</span><span class="op">)</span>
-<span class="co">#&gt; Warning: Removed 31942 rows containing missing values (geom_tile).</span></code></pre></div>
+  <span class="fu">theme_bw</span><span class="op">(</span><span class="op">)</span></code></pre></div>
+<pre><code>## Warning: Removed 31942 rows containing missing values (geom_tile).</code></pre>
 <p><img src="glaciers-01-intro_files/figure-html/thickness-1.png" width="700"></p>
+</div>
 </div>
 <div id="glacier-thinning-rates" class="section level2">
 <h2 class="hasAnchor">
@@ -261,7 +300,31 @@ for you.</p>
 <p><span class="citation">Hugonnet et al. (2021)</span> provide annual
 estimates of glacier thinning rates for each glacier in the RGI v6.0
 data set. It is advised to not use the annual data though but an average
-over at least 5 years to get reliable thinning rates.</p>
+over at least 5 years to get reliable thinning rates. We will refer to
+this data set as the thinning rates data set or the Hugonnet data
+set.</p>
+<p>The glacier thinning rates can be downloaded from the <a href="https://www.sedoo.fr/theia-publication-products/?uuid=c428c5b9-df8f-4f86-9b75-e04c778e29b9">data
+repository</a> as described in the <a href="https://github.com/rhugonnet/ww_tvol_study">github site</a> linked
+under the code availability section of the <a href="https://www.nature.com/articles/s41586-021-03436-z">online
+paper</a> of <span class="citation">Hugonnet et al. (2021)</span>. We
+use the per-glacier time series.</p>
+<div class="sourceCode" id="cb6"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="co">#| fig.cap = "Average glacier mass change by Hugonnet et al., 2021."</span>
+<span class="co">#| out.width = 90%</span>
+<span class="va">temp</span> <span class="op">&lt;-</span> <span class="va">glaciers_hugonnet</span> |&gt; 
+         <span class="fu">dplyr</span><span class="fu">::</span><span class="fu"><a href="https://dplyr.tidyverse.org/reference/filter.html">filter</a></span><span class="op">(</span><span class="va">period</span> <span class="op">==</span> <span class="fl">20</span>, <span class="va">start</span> <span class="op">==</span> <span class="st">"2000-01-01"</span><span class="op">)</span>
+<span class="va">temp_coord</span> <span class="op">&lt;-</span> <span class="fu">as_tibble</span><span class="op">(</span><span class="fu">st_coordinates</span><span class="op">(</span><span class="fu">st_centroid</span><span class="op">(</span><span class="va">temp</span><span class="op">)</span><span class="op">)</span><span class="op">)</span></code></pre></div>
+<pre><code>## Warning in st_centroid.sf(temp): st_centroid assumes attributes are constant
+## over geometries of x</code></pre>
+<div class="sourceCode" id="cb8"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="fu">ggplot</span><span class="op">(</span><span class="va">temp</span><span class="op">)</span> <span class="op">+</span> 
+  <span class="fu">geom_sf</span><span class="op">(</span><span class="fu">aes</span><span class="op">(</span>fill <span class="op">=</span> <span class="va">dmdtda</span><span class="op">)</span>, colour <span class="op">=</span> <span class="cn">NA</span><span class="op">)</span> <span class="op">+</span> 
+  <span class="fu">scale_fill_viridis_c</span><span class="op">(</span><span class="op">)</span> <span class="op">+</span> 
+  <span class="fu">labs</span><span class="op">(</span>x <span class="op">=</span> <span class="st">"Longitude"</span>, y <span class="op">=</span> <span class="st">"Latitude"</span>, fill <span class="op">=</span> <span class="st">"imbal. abl.\n[m we/a]"</span><span class="op">)</span> <span class="op">+</span> 
+  <span class="fu"><a href="https://rdrr.io/r/graphics/plot.window.html">xlim</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="fl">1180000</span>, <span class="fl">1196888</span><span class="op">)</span><span class="op">)</span> <span class="op">+</span>  
+  <span class="fu"><a href="https://rdrr.io/r/graphics/plot.window.html">ylim</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="fl">4590000</span>, <span class="fl">4610000</span><span class="op">)</span><span class="op">)</span> <span class="op">+</span> 
+  <span class="fu">theme_bw</span><span class="op">(</span><span class="op">)</span></code></pre></div>
+<p><img src="glaciers-01-intro_files/figure-html/thinning-1.png" width="700"></p>
 </div>
 <div id="glacier-discharge" class="section level2">
 <h2 class="hasAnchor">
@@ -269,7 +332,55 @@ over at least 5 years to get reliable thinning rates.</p>
 <p><span class="citation">Miles et al. (2021)</span> ran specific mass
 balance calculations over the glaciers larger than 2 km2 of High
 Mountain Asia. They provide the average glacier discharge between 2000
-and 2016.</p>
+and 2016. We have derived an empirical relationship to derive glacier
+discharge based on glacier thinning rates which is available in the
+function . We will refer to this data set as the glacier discharge data
+set or the Miles data set.</p>
+<p>The data is available from the <a href="https://zenodo.org/record/5119153#.Yfjv6-rMKF4">data
+repository</a> linked in the <a href="https://www.nature.com/articles/s41467-021-23073-4">online version
+of the paper</a>.</p>
+<div class="sourceCode" id="cb9"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="co">#| fig.cap = "Glacier discharge derived from Miles et al., 2021."</span>
+<span class="co">#| out.width = 90%</span>
+<span class="co"># Calculate glacier discharge using the glacierDischarge_HM function of the </span>
+<span class="co"># riversCentralAsia package. An empirical relationship between glacier thinning </span>
+<span class="co"># rates by Hugonnet et al., 2021 and glacier discharge by Miles et al., 2021.  </span>
+<span class="va">glaciers_hugonnet</span> <span class="op">&lt;-</span> <span class="va">glaciers_hugonnet</span> |&gt; 
+  <span class="fu">mutate</span><span class="op">(</span>Qgl_m3a <span class="op">=</span> <span class="fu"><a href="../reference/glacierDischarge_HM.html">glacierDischarge_HM</a></span><span class="op">(</span><span class="va">dhdt</span><span class="op">)</span><span class="op">)</span>
+<span class="va">temp</span> <span class="op">&lt;-</span> <span class="va">glaciers_hugonnet</span> |&gt; 
+         <span class="fu">dplyr</span><span class="fu">::</span><span class="fu"><a href="https://dplyr.tidyverse.org/reference/filter.html">filter</a></span><span class="op">(</span><span class="va">period</span> <span class="op">==</span> <span class="fl">20</span>, <span class="va">start</span> <span class="op">==</span> <span class="st">"2000-01-01"</span><span class="op">)</span>
+<span class="va">temp_coord</span> <span class="op">&lt;-</span> <span class="fu">as_tibble</span><span class="op">(</span><span class="fu">st_coordinates</span><span class="op">(</span><span class="fu">st_centroid</span><span class="op">(</span><span class="va">temp</span><span class="op">)</span><span class="op">)</span><span class="op">)</span></code></pre></div>
+<pre><code>## Warning in st_centroid.sf(temp): st_centroid assumes attributes are constant
+## over geometries of x</code></pre>
+<div class="sourceCode" id="cb11"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="fu">ggplot</span><span class="op">(</span><span class="va">temp</span><span class="op">)</span> <span class="op">+</span> 
+  <span class="fu">geom_sf</span><span class="op">(</span><span class="fu">aes</span><span class="op">(</span>fill <span class="op">=</span> <span class="va">Qgl_m3a</span><span class="op">*</span><span class="fl">10</span><span class="op">^</span><span class="op">(</span><span class="op">-</span><span class="fl">6</span><span class="op">)</span><span class="op">)</span>, colour <span class="op">=</span> <span class="cn">NA</span><span class="op">)</span> <span class="op">+</span> 
+  <span class="fu">scale_fill_viridis_c</span><span class="op">(</span><span class="op">)</span> <span class="op">+</span> 
+  <span class="fu">labs</span><span class="op">(</span>x <span class="op">=</span> <span class="st">"Longitude"</span>, y <span class="op">=</span> <span class="st">"Latitude"</span>, fill <span class="op">=</span> <span class="st">"Qgl\n[10^6 m3/a]"</span><span class="op">)</span> <span class="op">+</span> 
+  <span class="fu"><a href="https://rdrr.io/r/graphics/plot.window.html">xlim</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="fl">1180000</span>, <span class="fl">1196888</span><span class="op">)</span><span class="op">)</span> <span class="op">+</span>  
+  <span class="fu"><a href="https://rdrr.io/r/graphics/plot.window.html">ylim</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="fl">4590000</span>, <span class="fl">4610000</span><span class="op">)</span><span class="op">)</span> <span class="op">+</span> 
+  <span class="fu">theme_bw</span><span class="op">(</span><span class="op">)</span></code></pre></div>
+<p><img src="glaciers-01-intro_files/figure-html/unnamed-chunk-3-1.png" width="700"></p>
+</div>
+<div id="a-note-on-the-uncertainties-of-glacier-data-sets" class="section level2">
+<h2 class="hasAnchor">
+<a href="#a-note-on-the-uncertainties-of-glacier-data-sets" class="anchor"></a>A note on the uncertainties of glacier data sets</h2>
+<p>The geometries of the RGI v6.0 data set are generally very good. If
+you simulate glacier discharge in a small catchment with few glaciers it
+is advisable to visually check the glacier geometries and make sure, all
+relevant glaciers in the basin are included in the RGI data set. You may
+have to manually add missing glaciers or correct the geometry.</p>
+<p>For some regions in Central Asia, <a href="https://www.openstreetmap.org/#map=6/40.684/66.076">OpenStreetMap</a>
+is an excellent reference for glacier locations and names in Central
+Asia. You can import the map layer in QGIS or also download
+individual.</p>
+<p>The glacier thickness data set is validated only at few locations as
+measurements of glacier thickness are typically not available.
+Uncertainties of up to p/m 50% have to be taken into account according
+to <span class="citation">Farinotti et al. (2019)</span>.</p>
+<p><span class="citation">Hugonnet et al. (2021)</span> &amp; <span class="citation">Miles et al. (2021)</span> provide the uncertainties of
+their estimates for per-glacier glacier thinning &amp; discharge rates
+in the data set itself.</p>
 </div>
 </div>
 <div id="references" class="section level1 unnumbered">
