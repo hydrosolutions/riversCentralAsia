@@ -11,6 +11,8 @@
 #' @return imbalAbl Imbalance ablation component of total ablation in m3/a.
 #'   Negative for glacier melt and positive for glacier gain.
 #' @export
+#' @examples
+#' imbalAbl_m3a <- glacierImbalAbl(c(1,2,3,4,5)*10^6)
 #' @family glacier functions
 glacierImbalAbl <- function(totAbl_m3a) {
 
