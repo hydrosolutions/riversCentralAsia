@@ -155,7 +155,7 @@ rgi_elbands <- rgi_elbands |>
   mutate(ID = paste0(RGIId, "_", elvtn_b))
 
 # Get mean elevation of each glacier/elevation band from DEM
-rgi_elbands$z_masl <- exact_extract(dem, rgi_elbands, "mean")
+rgi_elbands$z_masl <- exact_extract(dem, rgi_elbands, "mean", progress = FALSE)
 
 # Update the glacier area within the basin boundaries
 rgi_elbands$A_km2 <- as.numeric(st_area(rgi_elbands))*10^(-6)
@@ -163,7 +163,7 @@ glaciers <- unique(rgi_elbands$RGIId)
 
 # Glacier thickness for elevation bands
 rgi_elbands$thickness_m = exact_extract(glacier_thickness, 
-                                        rgi_elbands, "mean")
+                                        rgi_elbands, "mean", progress = FALSE)
 ```
 
 ### Forcing

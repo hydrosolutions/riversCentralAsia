@@ -22,6 +22,9 @@ here is consistent with Miles glacier balance model: negative imbalance
 ablation indicates glacier loss and positive glacier imbalance ablation
 indicates glacier gain.
 }
+\examples{
+imbalAbl_m3a <- glacierImbalAbl(c(1,2,3,4,5)*10^6)
+}
 \seealso{
 Other glacier functions: 
 \code{\link{glacierArea_Erasov}()},
