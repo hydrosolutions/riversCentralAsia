@@ -15,3 +15,6 @@ Hyear as numeric
 \description{
 In Central Asia the hydrological year starts in October of the previous year.
 }
+\examples{
+Hyear <- hyear(lubridate::as_date(c("2015-09-30", "2015-10-01", "2016-01-27"))
+}
