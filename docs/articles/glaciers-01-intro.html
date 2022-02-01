@@ -212,7 +212,9 @@ Consortium 2017)</span> makes a consistent glacier data base publicly
 available. It includes geo-located glacier geometry and some additional
 parameters like elevation, length, slope and aspect. A new version (v7)
 is under review at the time of writing. For Central Asian water
-resources modelling, RGI regions 13 and 14 are relevant.</p>
+resources modelling, RGI regions 13 (Central Asia) and 14 (South Asia
+West) are relevant. You can download the data from <a href="https://www.glims.org/RGI/rgi60_dl.html">the GLIMS RGI v6.0 web
+site</a>.</p>
 <div class="sourceCode" id="cb2"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="co">#| fig.cap = "DEM &amp; Glaciers of the demo basin." </span>
 <span class="co">#| out.width = 90%</span>
@@ -232,8 +234,44 @@ resources modelling, RGI regions 13 and 14 are relevant.</p>
 <p><span class="citation">Farinotti et al. (2019)</span> make
 distributed glacier thickness maps available for each glacier in the RGI
 v6 data set. We have generated a mosaic of the glacier thickness tifs
-for you.</p>
+for you. We will refer to this data set as the glacier thickness data
+set or the Farinotti data set.</p>
+<p>If you are interested to replicate the download and pre-processing
+please read the section below. The glacier thickness data set is
+available from the <a href="https://www.research-collection.ethz.ch/handle/20.500.11850/315707">data
+collection</a> of <span class="citation">Farinotti et al. (2019)</span>
+which is available from <a href="https://www.nature.com/articles/s41561-019-0300-3">the data
+section of their online article</a>. You can download the glacier
+thickness composites for the relevant RGI v6.0 regions 13 and 14. In the
+unzipped directories you will find individual tif files for each
+glacier. The following section demonstrates how to extract glacier
+thickness data from the Farinotti data set.</p>
+<div id="how-to-extract-glacier-thickness" class="section level3">
+<h3 class="hasAnchor">
+<a href="#how-to-extract-glacier-thickness" class="anchor"></a>How to extract glacier thickness</h3>
 <div class="sourceCode" id="cb3"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="co"># Get a list of all files in the glacier thickness data set. The files are named </span>
+<span class="co"># after the glacier ID in the RGI v6.0 data set (variable RGIId).  </span>
+<span class="va">glacier_thickness_dir</span> <span class="op">&lt;-</span> <span class="st">"&lt;Path to glacier thickness tif files (unzipped)&gt;"</span> 
+
+<span class="va">filelist</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/list.files.html">list.files</a></span><span class="op">(</span>path <span class="op">=</span> <span class="va">glacier_thickness_dir</span>, pattern <span class="op">=</span> <span class="st">".tif$"</span>, 
+                       full.names <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span>
+
+<span class="co"># Filter the glacier thickness file list for the glacier ids in the catchment of </span>
+<span class="co"># interest. </span>
+<span class="va">filelist</span> <span class="op">&lt;-</span> <span class="va">filelist</span><span class="op">[</span><span class="fu"><a href="https://rdrr.io/r/base/lapply.html">sapply</a></span><span class="op">(</span><span class="va">rgi</span><span class="op">$</span><span class="va">RGIId</span>, <span class="va">grep</span>, <span class="va">filelist</span><span class="op">)</span><span class="op">]</span>
+
+<span class="co"># Get the maximum glacier thickness for each of the glaciers in filelist. </span>
+<span class="co"># Note: this works only for small catchments as the origin of the rasters to be </span>
+<span class="co"># mosaiced needs to be consistent. For a larger data set you will need to implement </span>
+<span class="co"># a loop over all glaciers to extract the thickness per glacier or per elevation </span>
+<span class="co"># band. </span>
+<span class="va">glacier_thickness</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/funprog.html">Reduce</a></span><span class="op">(</span><span class="kw">function</span><span class="op">(</span><span class="va">x</span>, <span class="va">y</span><span class="op">)</span> <span class="fu">raster</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/raster/man/mosaic.html">mosaic</a></span><span class="op">(</span><span class="va">x</span>, <span class="va">y</span>, fun <span class="op">=</span> <span class="va">max</span><span class="op">)</span>,
+                            <span class="fu"><a href="https://rdrr.io/r/base/lapply.html">lapply</a></span><span class="op">(</span><span class="va">filelist</span>, <span class="fu">raster</span><span class="fu">::</span><span class="va"><a href="https://rdrr.io/pkg/raster/man/raster.html">raster</a></span><span class="op">)</span><span class="op">)</span>
+
+<span class="co"># For plotting, clip the glacier thickness raster of the basin to the basin boundary</span>
+<span class="va">glacier_thickness</span> <span class="op">&lt;-</span> <span class="fu">mask</span><span class="op">(</span><span class="va">glacier_thickness</span>, <span class="va">shp_koksu_shait_outline</span><span class="op">)</span></code></pre></div>
+<div class="sourceCode" id="cb4"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="co">#| fig.cap = "Glacier thickness by Farinotti et al., 2019" </span>
 <span class="co">#| out.width = 90%</span>
 <span class="va">glacier_thickness_df</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/as.data.frame.html">as.data.frame</a></span><span class="op">(</span><span class="fu">as</span><span class="op">(</span><span class="va">glacier_thickness</span>, 
@@ -255,13 +293,14 @@ for you.</p>
 <pre><code>## Warning: Removed 31942 rows containing missing values (geom_tile).</code></pre>
 <p><img src="glaciers-01-intro_files/figure-html/thickness-1.png" width="700"></p>
 </div>
+</div>
 <div id="glacier-thinning-rates" class="section level2">
 <h2 class="hasAnchor">
 <a href="#glacier-thinning-rates" class="anchor"></a>Glacier thinning rates</h2>
 <p><span class="citation">Hugonnet et al. (2021)</span> provide annual
 estimates of glacier thinning rates for each glacier in the RGI v6.0
 data set. It is advised to not use the annual data though but an average
-over at least 5 years to get reliable thinning rates.</p>
+ver at least 5 years to get reliable thinning rates.</p>
 <div class="sourceCode" id="cb5"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="co">#| fig.cap = "Average glacier mass change by Hugonnet et al., 2021."</span>
 <span class="co">#| out.width = 90%</span>

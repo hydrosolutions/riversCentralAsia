@@ -74,7 +74,7 @@ colnames(dem_df) <- c("Elevation\n[masl]", "x", "y")
 
 ## Randolph glacier inventory
 
-The Randolph glacier inventory (RGI) v6.0 [@rgi60] makes a consistent glacier data base publicly available. It includes geo-located glacier geometry and some additional parameters like elevation, length, slope and aspect. A new version (v7) is under review at the time of writing. For Central Asian water resources modelling, RGI regions 13 and 14 are relevant.
+The Randolph glacier inventory (RGI) v6.0 [@rgi60] makes a consistent glacier data base publicly available. It includes geo-located glacier geometry and some additional parameters like elevation, length, slope and aspect. A new version (v7) is under review at the time of writing. For Central Asian water resources modelling, RGI regions 13 (Central Asia) and 14 (South Asia West) are relevant. You can download the data from [the GLIMS RGI v6.0 web site](<https://www.glims.org/RGI/rgi60_dl.html>).
 
 ```{r rgi}
 #| fig.cap = "DEM & Glaciers of the demo basin." 
@@ -91,7 +91,35 @@ ggplot(rgi) +
 
 ## Glacier thickness
 
-@farinotti_consensus_2019 make distributed glacier thickness maps available for each glacier in the RGI v6 data set. We have generated a mosaic of the glacier thickness tifs for you.
+@farinotti_consensus_2019 make distributed glacier thickness maps available for each glacier in the RGI v6 data set. We have generated a mosaic of the glacier thickness tifs for you. We will refer to this data set as the glacier thickness data set or the Farinotti data set.
+
+If you are interested to replicate the download and pre-processing please read the section below. The glacier thickness data set is available from the [data collection](<https://www.research-collection.ethz.ch/handle/20.500.11850/315707>) of @farinotti_consensus_2019 which is available from [the data section of their online article](<https://www.nature.com/articles/s41561-019-0300-3>). You can download the glacier thickness composites for the relevant RGI v6.0 regions 13 and 14. In the unzipped directories you will find individual tif files for each glacier. The following section demonstrates how to extract glacier thickness data from the Farinotti data set.
+
+### How to extract glacier thickness
+
+```{r thicknessExtraction, eval=FALSE}
+# Get a list of all files in the glacier thickness data set. The files are named 
+# after the glacier ID in the RGI v6.0 data set (variable RGIId).  
+glacier_thickness_dir <- "<Path to glacier thickness tif files (unzipped)>" 
+
+filelist <- list.files(path = glacier_thickness_dir, pattern = ".tif$", 
+                       full.names = TRUE)
+
+# Filter the glacier thickness file list for the glacier ids in the catchment of 
+# interest. 
+filelist <- filelist[sapply(rgi$RGIId, grep, filelist)]
+
+# Get the maximum glacier thickness for each of the glaciers in filelist. 
+# Note: this works only for small catchments as the origin of the rasters to be 
+# mosaiced needs to be consistent. For a larger data set you will need to implement 
+# a loop over all glaciers to extract the thickness per glacier or per elevation 
+# band. 
+glacier_thickness <- Reduce(function(x, y) raster::mosaic(x, y, fun = max),
+                            lapply(filelist, raster::raster))
+
+# For plotting, clip the glacier thickness raster of the basin to the basin boundary
+glacier_thickness <- mask(glacier_thickness, shp_koksu_shait_outline)
+```
 
 ```{r thickness}
 #| fig.cap = "Glacier thickness by Farinotti et al., 2019" 
@@ -116,7 +144,9 @@ ggplot() +
 
 ## Glacier thinning rates
 
-@hugonnet_accelerated_2021 provide annual estimates of glacier thinning rates for each glacier in the RGI v6.0 data set. It is advised to not use the annual data though but an average over at least 5 years to get reliable thinning rates.
+@hugonnet_accelerated_2021 provide annual estimates of glacier thinning rates for each glacier in the RGI v6.0 data set. It is advised to not use the annual data though but an average over at least 5 years to get reliable thinning rates. We will refer to this data set as the thinning rates data set or the Hugonnet data set.
+
+The glacier thinning rates can be downloaded from the [data repository](<https://www.sedoo.fr/theia-publication-products/?uuid=c428c5b9-df8f-4f86-9b75-e04c778e29b9>) as described in the [github site](<https://github.com/rhugonnet/ww_tvol_study>) linked under the code availability section of the [online paper](<https://www.nature.com/articles/s41586-021-03436-z>) of @hugonnet_accelerated_2021. We use the per-glacier time series.
 
 ```{r thinning}
 #| fig.cap = "Average glacier mass change by Hugonnet et al., 2021."
@@ -135,11 +165,16 @@ ggplot(temp) +
 
 ## Glacier discharge
 
-@miles_health_2021 ran specific mass balance calculations over the glaciers larger than 2 km2 of High Mountain Asia. They provide the average glacier discharge between 2000 and 2016. We have derived an empirical relationship to derive glacier discharge based on glacier thinning rates.
+@miles_health_2021 ran specific mass balance calculations over the glaciers larger than 2 km2 of High Mountain Asia. They provide the average glacier discharge between 2000 and 2016. We have derived an empirical relationship to derive glacier discharge based on glacier thinning rates which is available in the function \code{riversCentralAsia::glacierDischarge_HM()}. We will refer to this data set as the glacier discharge data set or the Miles data set.
+
+The data is available from the [data repository](<https://zenodo.org/record/5119153#.Yfjv6-rMKF4>) linked in the [online version of the paper](<https://www.nature.com/articles/s41467-021-23073-4>).
 
 ```{r}
 #| fig.cap = "Glacier discharge derived from Miles et al., 2021."
 #| out.width = 90%
+# Calculate glacier discharge using the glacierDischarge_HM function of the 
+# riversCentralAsia package. An empirical relationship between glacier thinning 
+# rates by Hugonnet et al., 2021 and glacier discharge by Miles et al., 2021.  
 glaciers_hugonnet <- glaciers_hugonnet |> 
   mutate(Qgl_m3a = glacierDischarge_HM(dhdt))
 temp <- glaciers_hugonnet |> 
@@ -153,5 +188,15 @@ ggplot(temp) +
   ylim(c(4590000, 4610000)) + 
   theme_bw()
 ```
+
+## A note on the uncertainties of glacier data sets
+
+The geometries of the RGI v6.0 data set are generally very good. If you simulate glacier discharge in a small catchment with few glaciers it is advisable to visually check the glacier geometries and make sure, all relevant glaciers in the basin are included in the RGI data set. You may have to manually add missing glaciers or correct the geometry.
+
+For some regions in Central Asia, [OpenStreetMap](<https://www.openstreetmap.org/#map=6/40.684/66.076>) is an excellent reference for glacier locations and names in Central Asia. You can import the map layer in QGIS or also download individual.
+
+The glacier thickness data set is validated only at few locations as measurements of glacier thickness are typically not available. Uncertainties of up to p/m 50% have to be taken into account according to @farinotti_consensus_2019.
+
+@hugonnet_accelerated_2021 & @miles_health_2021 provide the uncertainties of their estimates for per-glacier glacier thinning & discharge rates in the data set itself.
 
 # References
