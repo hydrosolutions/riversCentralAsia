@@ -12,7 +12,10 @@ vignette: >
 ```{r, include = FALSE}
 library(riversCentralAsia)
 library(tidyverse)
+library(lubridate)
 library(sf)
+library(raster)
+library(exactextractr)
 ```
 
 # Temperature index model
@@ -139,12 +142,102 @@ We demonstrate the above described method with the data from the Atbashy basin.
 
 ## Calculate daily glacier melt
 
+### Glacier geometry
+
 ```{r}
 # Load a shape file with elevation bands for the larger glaciers.
 data("vignette_glacier_melt")
 
-# Update the glacier area within the basin boundaries
+# Only keep the variables we need for this analysis
+rgi_elbands <- rgi_elbands |> 
+  dplyr::select(RGIId, Area, elvtn_b) |> 
+  rename(Area_tot_glacier_km2 = Area) |> 
+  mutate(ID = paste0(RGIId, "_", elvtn_b))
 
+# Get mean elevation of each glacier/elevation band from DEM
+rgi_elbands$z_masl <- exact_extract(dem, rgi_elbands, "mean")
+
+# Update the glacier area within the basin boundaries
+rgi_elbands$A_km2 <- as.numeric(st_area(rgi_elbands))*10^(-6)
+glaciers <- unique(rgi_elbands$RGIId)
+
+# Glacier thickness for elevation bands
+rgi_elbands$thickness_m = exact_extract(glacier_thickness, 
+                                        rgi_elbands, "mean")
+```
+
+### Forcing
+
+When simulating glacier melt, you would typically extract a temperature time series for each glacier/elevation band. In this vignette, we only have 1 time series $T_0$ at mean glacier elevation $z_0$ to save storage space. We therefore first have to generate synthetic temperature time series for each glaciers/elevation band $i$ using a typical temperature lapse rate $r_{\text{lapse}}$ for mountainous regions as follows:
+
+$$
+\frac{\Delta T}{\Delta z} = \frac{T_0-T_i}{z_0-z_i} = r_{\text{lapse}} = -\frac{6.5 ^{\circ}C}{1000 m}
+$$
+
+$$
+T_{i} = T_{0} + r_{\text{lapse}} \cdot (z_{0} - z_{i})
+$$
+
+```{r temperature_elevation_bands}
+#| fig.cap = "Synthetic forcing for the elevation bands of a glacier. " 
+#| out.width = 90%
+glacier <- "RGI60-13.08930_1"
+z_glacier <- rgi_elbands$z_masl[rgi_elbands$ID == glacier]
+temperature_laps_rate <- -6.5/1000  # deg K / 1000 m 
+
+# Generate synthetic temperature time series for each glacier & elevation band in 
+# the basin. 
+z_glaciers <- rgi_elbands |> 
+  st_drop_geometry() |> 
+  dplyr::select(ID, z_masl) |> 
+  pivot_wider(names_from = ID, values_from = z_masl)
+
+hrus <- rgi_elbands$ID
+t_glaciers <- as.matrix(hist_obs)
+colnames(t_glaciers) <- NULL
+for (hru in c(2:length(hrus))) {
+  t_glaciers <- cbind(t_glaciers, as.matrix(as.numeric(t_glaciers[, 2])) + 
+    temperature_laps_rate * 
+    (as.numeric(z_glaciers[hru]) - as.numeric(z_glaciers[1])))
+} 
+colnames(t_glaciers) <- c("date", hrus) 
+t_glaciers <- as_tibble(t_glaciers)
+t_glaciers$date <- as_date(t_glaciers$date)
+t_glaciers <- t_glaciers |> 
+  mutate(across(starts_with("RGI"), ~as.numeric(.x)))
+
+ggplot(t_glaciers[, 1:10] |> 
+         pivot_longer(-date, names_to = "ID", values_to = "Temp")) + 
+  geom_line(aes(date, Temp, colour = ID)) + 
+  scale_colour_viridis_d() + 
+  labs(x = "Date", y = "T [deg C]") + 
+  theme_bw()
+```
+
+### Calculating glacier melt
+
+```{r}
+#| fig.cap = "Daily glacier melt per elevation band." 
+#| out.width = 90%
+MF = 3
+threshold_temperature = -3
+Area <- rgi_elbands |> 
+  dplyr::select(ID, A_km2) |> 
+  pivot_wider(names_from = ID, values_from = A_km2)
+
+melt <- glacierMelt_TI(temperature = t_glaciers |> dplyr::select(-date),
+                       MF = MF,
+                       threshold_temperature = threshold_temperature)
+melt <- as_tibble(melt) |> 
+  mutate(date = t_glaciers$date) |> 
+  relocate(date, .before =  where(is.numeric))
+
+ggplot(melt[, 1:10] |> 
+         pivot_longer(-date, names_to = "ID", values_to = "Melt")) + 
+  geom_line(aes(date, Melt, colour = ID)) + 
+  scale_colour_viridis_d() + 
+  labs(x = "Date", y = "Melt [mm/d]") + 
+  theme_bw()
 ```
 
 # References
