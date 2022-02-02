@@ -10,7 +10,7 @@ vignette: >
   %\VignetteEncoding{UTF-8}
 ---
 
-```{r, include = FALSE}
+```{r, message=FALSE, warning=FALSE}
 library(riversCentralAsia)
 library(tidyverse)
 library(lubridate)
@@ -76,7 +76,7 @@ There will be a separate Vignette to demonstrate how to prepare the forcing. For
 
 As meteorological data for high elevations in Central Asia is very scarce we use the CHELSA v2.1 data set. This is a global data set of forcing data for hydrolgical models based on ERA5 but corrected for biases and for high elevations. The daily CHELSA forcing has been cut to the Central Region by the originator of the data set, D. Karger, WSL.
 
-```{r}
+```{r histobs, message=FALSE, warning=FALSE}
 #| fig.cap = "Daily temperature time series of a glacier. Data source: CHELSA." 
 #| out.width = 90%
 hist_obs <- readRDS(file = "hist_obs_glacier_tas.rds")
@@ -93,7 +93,7 @@ ggplot(hist_obs) +
 
 Future temperature development per glacier or elevation band is extracted from the 4 CMIP6 GCM models with highest priorities for the region () downloaded from COPERNICUS. We take 4 socioeconomic scenarios into account, covering 4 different emission scenarios. The temperatures of the climate models are bias corrected using the CHELSA data and a quantile mapping method.
 
-```{r}
+```{r futsim, message=FALSE, warning=FALSE}
 #| fig.cap = "Annual historical (CHELSA) and future (CMIP6, Copernicus) temperature for a glacier. " 
 #| out.width = 90%
 fut_sim <- readRDS(file = "fut_sim_glacier_tas_qmapped.RDS")
@@ -145,7 +145,7 @@ We demonstrate the above described method with the data from the Atbashy basin.
 
 ### Glacier geometry
 
-```{r}
+```{r geometry, message=FALSE, warning=FALSE}
 # Load a shape file with elevation bands for the larger glaciers.
 data("vignette_glacier_melt")
 
@@ -179,7 +179,7 @@ $$
 T_{i} = T_{0} + r_{\text{lapse}} \cdot (z_{0} - z_{i})
 $$
 
-```{r temperature_elevation_bands}
+```{r temperature_elevation_bands, message=FALSE, warning=FALSE}
 #| fig.cap = "Synthetic forcing for the elevation bands of a glacier. " 
 #| out.width = 90%
 glacier <- "RGI60-13.08930_1"
@@ -217,7 +217,7 @@ ggplot(t_glaciers[, 1:10] |>
 
 ### Calculating glacier melt
 
-```{r}
+```{r glaciermeltcalculation, message=FALSE, warning=FALSE}
 #| fig.cap = "Daily glacier melt per elevation band." 
 #| out.width = 90%
 MF_small = 4
@@ -251,7 +251,7 @@ ggplot(melt[, 1:10] |>
 
 Aggregate the daily glacier melt to annual data.
 
-```{r glaciermelt}
+```{r glaciermeltcomparison, message=FALSE, warning=FALSE}
 #| fig.cap = "Daily glacier melt per elevation band." 
 #| out.width = 90%
 melt_a_eb <- melt |> 
@@ -289,11 +289,11 @@ ggplot() +
   theme_bw()
 ```
 
-With the synthetic temperatures we cannot obtain the observed steep increase of the glacier melt. In theory, the temperature index model can be calibrated with the specific glacier volume change provided by @hugonnet_accelerated_2021 (see \\ref{fig:glaciermelt}).
+With the synthetic temperatures we cannot obtain the observed steep increase of the glacier melt. In theory, the temperature index model can be calibrated with the specific glacier volume change provided by @hugonnet_accelerated_2021 (see \\ref{fig:glaciermeltcomparison}).
 
 ### Glacier mass balance
 
-```{r}
+```{r glaciermassbalance, message=FALSE, warning=FALSE}
 #| fig.cap = "Glacier development and discharge." 
 #| out.width = 90%
 glacier_balance <- glacierBalance(melt_a_eb = melt_a_eb, 
