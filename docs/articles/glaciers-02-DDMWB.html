@@ -65,6 +65,9 @@
     <li>
       <a href="../articles/glaciers-03-oerlemans.html">Glaciers 03 - Estimating glacier lengths in Central Asia</a>
     </li>
+    <li>
+      <a href="../articles/glaciers-04-glaciers-RSM.html">Glaciers 04 - Glacier discharge in RS Minerve</a>
+    </li>
   </ul>
 </li>
 <li>
@@ -353,11 +356,17 @@ T_{i} = T_{0} + r_{\text{lapse}} \cdot (z_{0} - z_{i})
 <div class="sourceCode" id="cb7"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="co">#| fig.cap = "Daily glacier melt per elevation band." </span>
 <span class="co">#| out.width = 90%</span>
-<span class="va">MF</span> <span class="op">=</span> <span class="fl">4</span>
-<span class="va">threshold_temperature</span> <span class="op">=</span> <span class="fl">6</span>
+<span class="va">MF_small</span> <span class="op">=</span> <span class="fl">4</span>
+<span class="va">MF_large</span> <span class="op">=</span> <span class="fl">0.5</span>
+<span class="va">threshold_temperature</span> <span class="op">=</span> <span class="fl">0</span>
 <span class="va">Area</span> <span class="op">&lt;-</span> <span class="va">rgi_elbands</span> |&gt; 
+  <span class="fu">st_drop_geometry</span><span class="op">(</span><span class="op">)</span> |&gt; 
   <span class="fu">dplyr</span><span class="fu">::</span><span class="fu"><a href="https://dplyr.tidyverse.org/reference/select.html">select</a></span><span class="op">(</span><span class="va">ID</span>, <span class="va">A_km2</span><span class="op">)</span> |&gt; 
   <span class="fu">pivot_wider</span><span class="op">(</span>names_from <span class="op">=</span> <span class="va">ID</span>, values_from <span class="op">=</span> <span class="va">A_km2</span><span class="op">)</span>
+<span class="co"># Assign different melt factors to large and small glaciers. </span>
+<span class="va">MF</span> <span class="op">&lt;-</span> <span class="va">Area</span> |&gt; 
+  <span class="fu">mutate</span><span class="op">(</span><span class="fu">across</span><span class="op">(</span><span class="fu">everything</span><span class="op">(</span><span class="op">)</span>, <span class="op">~</span><span class="va">MF_large</span><span class="op">)</span>, 
+         <span class="fu">across</span><span class="op">(</span><span class="fu">ends_with</span><span class="op">(</span><span class="st">"_1"</span><span class="op">)</span>, <span class="op">~</span><span class="va">MF_small</span><span class="op">)</span><span class="op">)</span>
 
 <span class="va">melt</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/glacierMelt_TI.html">glacierMelt_TI</a></span><span class="op">(</span>temperature <span class="op">=</span> <span class="va">t_glaciers</span> |&gt; <span class="fu">dplyr</span><span class="fu">::</span><span class="fu"><a href="https://dplyr.tidyverse.org/reference/select.html">select</a></span><span class="op">(</span><span class="op">-</span><span class="va">date</span><span class="op">)</span>,
                        MF <span class="op">=</span> <span class="va">MF</span>,
@@ -407,10 +416,13 @@ T_{i} = T_{0} + r_{\text{lapse}} \cdot (z_{0} - z_{i})
   
 <span class="fu">ggplot</span><span class="op">(</span><span class="op">)</span> <span class="op">+</span> 
   <span class="fu">geom_line</span><span class="op">(</span>data <span class="op">=</span> <span class="va">melt_a</span> |&gt; 
-              <span class="fu">dplyr</span><span class="fu">::</span><span class="fu"><a href="https://dplyr.tidyverse.org/reference/filter.html">filter</a></span><span class="op">(</span><span class="va">RGIId</span> <span class="op">%in%</span> <span class="va">glaciers</span><span class="op">[</span><span class="fl">1</span><span class="op">:</span><span class="fl">6</span><span class="op">]</span><span class="op">)</span>, 
-            <span class="fu">aes</span><span class="op">(</span><span class="va">date</span>, <span class="va">Melt</span><span class="op">/</span><span class="fl">1000</span>, colour <span class="op">=</span> <span class="va">RGIId</span><span class="op">)</span><span class="op">)</span> <span class="op">+</span> 
-  <span class="fu">geom_line</span><span class="op">(</span>data <span class="op">=</span> <span class="va">melt_obs_a</span>, <span class="fu">aes</span><span class="op">(</span><span class="va">start</span>, <span class="op">-</span><span class="va">dmdtda</span>, colour <span class="op">=</span> <span class="va">RGIId</span><span class="op">)</span>, linetype <span class="op">=</span> <span class="fl">2</span><span class="op">)</span> <span class="op">+</span> 
+              <span class="fu">dplyr</span><span class="fu">::</span><span class="fu"><a href="https://dplyr.tidyverse.org/reference/filter.html">filter</a></span><span class="op">(</span><span class="va">RGIId</span> <span class="op">%in%</span> <span class="va">glaciers</span><span class="op">[</span><span class="fl">6</span><span class="op">:</span><span class="fl">9</span><span class="op">]</span><span class="op">)</span>, 
+            <span class="fu">aes</span><span class="op">(</span><span class="va">date</span>, <span class="va">Melt</span><span class="op">/</span><span class="fl">1000</span>, colour <span class="op">=</span> <span class="va">RGIId</span>, linetype <span class="op">=</span> <span class="st">"sim"</span><span class="op">)</span><span class="op">)</span> <span class="op">+</span> 
+  <span class="fu">geom_line</span><span class="op">(</span>data <span class="op">=</span> <span class="va">melt_obs_a</span>, <span class="fu">aes</span><span class="op">(</span><span class="va">start</span>, <span class="op">-</span><span class="va">dmdtda</span>, colour <span class="op">=</span> <span class="va">RGIId</span>, 
+                                   linetype <span class="op">=</span> <span class="st">"obs"</span><span class="op">)</span><span class="op">)</span> <span class="op">+</span> 
   <span class="fu">labs</span><span class="op">(</span>x <span class="op">=</span> <span class="st">"Date"</span>, y <span class="op">=</span> <span class="st">"Melt [m weq/a]"</span><span class="op">)</span> <span class="op">+</span> 
+  <span class="fu">scale_linetype_manual</span><span class="op">(</span>name <span class="op">=</span> <span class="st">"Source"</span>, 
+                        values <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="st">"sim"</span> <span class="op">=</span> <span class="fl">1</span>, <span class="st">"obs"</span> <span class="op">=</span> <span class="fl">2</span><span class="op">)</span><span class="op">)</span> <span class="op">+</span> 
   <span class="fu">scale_colour_viridis_d</span><span class="op">(</span><span class="op">)</span> <span class="op">+</span> 
   <span class="fu">ggtitle</span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/paste.html">paste0</a></span><span class="op">(</span><span class="st">"MF: "</span>, <span class="va">MF</span>, <span class="st">"Tth: "</span>, <span class="va">threshold_temperature</span><span class="op">)</span><span class="op">)</span> <span class="op">+</span> 
   <span class="fu">theme_bw</span><span class="op">(</span><span class="op">)</span></code></pre></div>
@@ -430,7 +442,9 @@ be calibrated with the specific glacier volume change provided by <span class="c
                                   rgi_elbands <span class="op">=</span> <span class="va">rgi_elbands</span><span class="op">)</span>
 
 <span class="fu">ggplot</span><span class="op">(</span><span class="va">glacier_balance</span> |&gt; 
-         <span class="fu">dplyr</span><span class="fu">::</span><span class="fu"><a href="https://dplyr.tidyverse.org/reference/filter.html">filter</a></span><span class="op">(</span><span class="va">RGIId</span> <span class="op">%in%</span> <span class="va">glaciers</span><span class="op">[</span><span class="fl">1</span><span class="op">:</span><span class="fl">3</span><span class="op">]</span><span class="op">)</span><span class="op">)</span> <span class="op">+</span> 
+         <span class="fu">dplyr</span><span class="fu">::</span><span class="fu"><a href="https://dplyr.tidyverse.org/reference/filter.html">filter</a></span><span class="op">(</span><span class="va">RGIId</span> <span class="op">%in%</span> <span class="va">glaciers</span><span class="op">[</span><span class="fl">6</span><span class="op">:</span><span class="fl">9</span><span class="op">]</span>, 
+                       <span class="va">Hyear</span> <span class="op">&gt;</span> <span class="fu"><a href="https://rdrr.io/r/base/Extremes.html">min</a></span><span class="op">(</span><span class="va">Hyear</span><span class="op">)</span> <span class="op">&amp;</span> <span class="va">Hyear</span> <span class="op">&lt;</span> <span class="fu"><a href="https://rdrr.io/r/base/Extremes.html">max</a></span><span class="op">(</span><span class="va">Hyear</span><span class="op">)</span>, 
+                       <span class="va">Variable</span> <span class="op">%in%</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="st">"A_km2"</span>, <span class="st">"V_km3"</span>, <span class="st">"Q_m3a"</span>, <span class="st">"Qimb_m3a"</span><span class="op">)</span><span class="op">)</span><span class="op">)</span> <span class="op">+</span> 
   <span class="fu">geom_line</span><span class="op">(</span><span class="fu">aes</span><span class="op">(</span><span class="va">Hyear</span>, <span class="va">Value</span>, colour <span class="op">=</span> <span class="va">RGIId</span><span class="op">)</span><span class="op">)</span> <span class="op">+</span> 
   <span class="fu">facet_wrap</span><span class="op">(</span><span class="st">"Variable"</span>, scales <span class="op">=</span> <span class="st">"free_y"</span><span class="op">)</span> <span class="op">+</span> 
   <span class="fu">scale_colour_viridis_d</span><span class="op">(</span><span class="op">)</span> <span class="op">+</span> 
@@ -444,6 +458,19 @@ discharge, that is, only the negative part of Qimb_m3a is relevant to
 us.</p>
 </div>
 </div>
+</div>
+<div id="todo-include-uncertainty-in-model-workflow" class="section level1">
+<h1 class="hasAnchor">
+<a href="#todo-include-uncertainty-in-model-workflow" class="anchor"></a>TODO: include uncertainty in model workflow</h1>
+</div>
+<div id="next-steps" class="section level1">
+<h1 class="hasAnchor">
+<a href="#next-steps" class="anchor"></a>Next steps</h1>
+<p>Now we have glacier discharge and glacier imbalance ablation. How do
+we include these in our modelling workflow? <a href="glaciers-04-glaciers-RSM.html">Glacier vignette 4</a> explains how
+glaciers are treated in the hydraulic/hydrologic model RS Minerve and
+details a workflow to implement glacier discharge in a model in RS
+Minerve.</p>
 </div>
 <div id="references" class="section level1 unnumbered">
 <h1 class="hasAnchor">

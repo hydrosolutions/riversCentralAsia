@@ -30,7 +30,15 @@ Currently, a relatively complete dataset of the Chirchik River Basin with decada
 
 [![DOI](https://zenodo.org/badge/DOI/10.5281/zenodo.4667422.svg)](https://doi.org/10.5281/zenodo.4667422)
 
-We now have a [web-site](https://hydrosolutions.github.io/riversCentralAsia/index.html) for the package where you can find vignettes on how to use the functions. Please note that the web-site is work in progress and continuously being updated.  
+## Documentation & use cases
+We now have a [web-site](https://hydrosolutions.github.io/riversCentralAsia/index.html) for the package where you can find articles (vignettes) on how to use the functions. Please note that the web-site is work in progress and continuously being updated.  
+
+### Direct links to articles and use cases
+[Introduction on glaciers in water resources modelling and available data](https://hydrosolutions.github.io/riversCentralAsia/articles/glaciers-01-intro.html)  
+[Temperature index models for estimating glacier melt](https://hydrosolutions.github.io/riversCentralAsia/articles/glaciers-02-DDMWB.html)  
+[How to include glacier melt in RS Minerve](https://hydrosolutions.github.io/riversCentralAsia/articles/glaciers-04-glaciers-RSM.html)
+
+
 
 ## License Information
 
