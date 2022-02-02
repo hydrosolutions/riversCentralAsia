@@ -178,7 +178,7 @@ glacierBalance <- function(melt_a_eb, rgi_elbands, area_threshold = 1) {
 #' @param A_km2 matrix with glacier area in km2 (in columns) for the
 #'   start year (the year 2000). Extracted from the geometries of the glaciers
 #'   in the RGI v6.0 data set.
-#' @value c(Q_m3a, V_km3, A_km2, Qimb_m3a) List of updated variables over the
+#' @return c(Q_m3a, V_km3, A_km2, Qimb_m3a) List of updated variables over the
 #'   same time interval as M_mma. Q_m3a: glacier discharge, V_km3: glacier
 #'   volume in water equivalents, A_km2: glacier area, Qimb_m3a: imbalance
 #'   ablation (<0: glacier melt, >0: glacier increase)
@@ -306,7 +306,7 @@ stepWiseGlacierBalance <- function(M_mma, A_km2) {
 #' @param V_km3 matrix with volume of elevation bands in km3 (in columns) for
 #'   the start year (year 2000). Area of elevation bands A_km2 times the
 #'   mean thickness in the elevation bands extracted from Farinotti et al.
-#' @value c(Q_m3a, V_km3, A_km2) List of updated variables over the same time
+#' @return c(Q_m3a, V_km3, A_km2) List of updated variables over the same time
 #'   interval as M_mma
 stepWiseGlacierBalancePerElBand <- function(M_mma, A_km2, V_km3) {
 

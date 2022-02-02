@@ -6,7 +6,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>Calculates glacier area based on glacier volume — glacierArea_RGIF • riversCentralAsia</title>
+<title>Glacier volume change over time — stepWiseGlacierBalancePerElBand • riversCentralAsia</title>
 
 
 <!-- jquery -->
@@ -39,9 +39,8 @@
 
 
 
-<meta property="og:title" content="Calculates glacier area based on glacier volume — glacierArea_RGIF" />
-<meta property="og:description" content="Scaling relationships derived from the RGI v6.0 region 13 data set, combined
-with the glacier thickness derived by Farinotti et al. 2019." />
+<meta property="og:title" content="Glacier volume change over time — stepWiseGlacierBalancePerElBand" />
+<meta property="og:description" content="Glacier volume change over time" />
 
 
 
@@ -133,41 +132,43 @@ with the glacier thickness derived by Farinotti et al. 2019." />
 <div class="row">
   <div class="col-md-9 contents">
     <div class="page-header">
-    <h1>Calculates glacier area based on glacier volume</h1>
-    <small class="dont-index">Source: <a href='https://github.com/hydrosolutions/riversCentralAsia/blob/master/R/glacierArea_RGIF.R'><code>R/glacierArea_RGIF.R</code></a></small>
-    <div class="hidden name"><code>glacierArea_RGIF.Rd</code></div>
+    <h1>Glacier volume change over time</h1>
+    <small class="dont-index">Source: <a href='https://github.com/hydrosolutions/riversCentralAsia/blob/master/R/glacierBalance.R'><code>R/glacierBalance.R</code></a></small>
+    <div class="hidden name"><code>stepWiseGlacierBalancePerElBand.Rd</code></div>
     </div>
 
     <div class="ref-description">
-    <p>Scaling relationships derived from the RGI v6.0 region 13 data set, combined
-with the glacier thickness derived by Farinotti et al. 2019.</p>
+    <p>Glacier volume change over time</p>
     </div>
 
-    <pre class="usage"><span class='fu'>glacierArea_RGIF</span><span class='op'>(</span><span class='va'>volume_km3</span><span class='op'>)</span></pre>
+    <pre class="usage"><span class='fu'>stepWiseGlacierBalancePerElBand</span><span class='op'>(</span><span class='va'>M_mma</span>, <span class='va'>A_km2</span>, <span class='va'>V_km3</span><span class='op'>)</span></pre>
 
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
     <colgroup><col class="name" /><col class="desc" /></colgroup>
     <tr>
-      <th>volume_km3</th>
-      <td><p>glacier volume in km3</p></td>
+      <th>M_mma</th>
+      <td><p>matrix with glacier melt rates in mm/a (in columns) per
+hydrological year (in rows). Also must contain a column named Hyear.</p></td>
+    </tr>
+    <tr>
+      <th>A_km2</th>
+      <td><p>matrix with area of elevation bands in km2 (in columns) for
+the start year (the year 2000). Extracted from the geometries of the
+glaciers in the RGI v6.0 data set.</p></td>
+    </tr>
+    <tr>
+      <th>V_km3</th>
+      <td><p>matrix with volume of elevation bands in km3 (in columns) for
+the start year (year 2000). Area of elevation bands A_km2 times the
+mean thickness in the elevation bands extracted from Farinotti et al.</p></td>
     </tr>
     </table>
 
     <h2 class="hasAnchor" id="value"><a class="anchor" href="#value"></a>Value</h2>
 
-    <p>glacier area in km2</p>
-    <h2 class="hasAnchor" id="see-also"><a class="anchor" href="#see-also"></a>See also</h2>
-
-    <div class='dont-index'><p><code><a href='glacierVolume_RGIF.html'>glacierVolume_RGIF</a></code>, <code><a href='glacierArea_Erasov.html'>glacierArea_Erasov</a></code></p>
-<p>Other glacier functions: 
-<code><a href='glacierArea_Erasov.html'>glacierArea_Erasov</a>()</code>,
-<code><a href='glacierBalance.html'>glacierBalance</a>()</code>,
-<code><a href='glacierDischarge_HM.html'>glacierDischarge_HM</a>()</code>,
-<code><a href='glacierImbalAbl.html'>glacierImbalAbl</a>()</code>,
-<code><a href='glacierMelt_TI.html'>glacierMelt_TI</a>()</code>,
-<code><a href='glacierVolume_Erasov.html'>glacierVolume_Erasov</a>()</code>,
-<code><a href='glacierVolume_RGIF.html'>glacierVolume_RGIF</a>()</code></p></div>
+    <p>c(Q_m3a, V_km3, A_km2) List of updated variables over the same time
+  interval as M_mma</p>
 
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">

@@ -23,6 +23,7 @@ al., 2021.
 Other glacier functions: 
 \code{\link{glacierArea_Erasov}()},
 \code{\link{glacierArea_RGIF}()},
+\code{\link{glacierBalance}()},
 \code{\link{glacierImbalAbl}()},
 \code{\link{glacierMelt_TI}()},
 \code{\link{glacierVolume_Erasov}()},

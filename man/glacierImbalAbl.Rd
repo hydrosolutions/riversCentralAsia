@@ -29,6 +29,7 @@ imbalAbl_m3a <- glacierImbalAbl(c(1,2,3,4,5)*10^6)
 Other glacier functions: 
 \code{\link{glacierArea_Erasov}()},
 \code{\link{glacierArea_RGIF}()},
+\code{\link{glacierBalance}()},
 \code{\link{glacierDischarge_HM}()},
 \code{\link{glacierMelt_TI}()},
 \code{\link{glacierVolume_Erasov}()},

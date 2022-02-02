@@ -22,6 +22,7 @@ by Erasov, 1968. Only works for positive glacier area.
 Other glacier functions: 
 \code{\link{glacierArea_Erasov}()},
 \code{\link{glacierArea_RGIF}()},
+\code{\link{glacierBalance}()},
 \code{\link{glacierDischarge_HM}()},
 \code{\link{glacierImbalAbl}()},
 \code{\link{glacierMelt_TI}()},

@@ -353,8 +353,8 @@ T_{i} = T_{0} + r_{\text{lapse}} \cdot (z_{0} - z_{i})
 <div class="sourceCode" id="cb7"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="co">#| fig.cap = "Daily glacier melt per elevation band." </span>
 <span class="co">#| out.width = 90%</span>
-<span class="va">MF</span> <span class="op">=</span> <span class="fl">3</span>
-<span class="va">threshold_temperature</span> <span class="op">=</span> <span class="op">-</span><span class="fl">3</span>
+<span class="va">MF</span> <span class="op">=</span> <span class="fl">4</span>
+<span class="va">threshold_temperature</span> <span class="op">=</span> <span class="fl">6</span>
 <span class="va">Area</span> <span class="op">&lt;-</span> <span class="va">rgi_elbands</span> |&gt; 
   <span class="fu">dplyr</span><span class="fu">::</span><span class="fu"><a href="https://dplyr.tidyverse.org/reference/select.html">select</a></span><span class="op">(</span><span class="va">ID</span>, <span class="va">A_km2</span><span class="op">)</span> |&gt; 
   <span class="fu">pivot_wider</span><span class="op">(</span>names_from <span class="op">=</span> <span class="va">ID</span>, values_from <span class="op">=</span> <span class="va">A_km2</span><span class="op">)</span>
@@ -373,6 +373,75 @@ T_{i} = T_{0} + r_{\text{lapse}} \cdot (z_{0} - z_{i})
   <span class="fu">labs</span><span class="op">(</span>x <span class="op">=</span> <span class="st">"Date"</span>, y <span class="op">=</span> <span class="st">"Melt [mm/d]"</span><span class="op">)</span> <span class="op">+</span> 
   <span class="fu">theme_bw</span><span class="op">(</span><span class="op">)</span></code></pre></div>
 <p><img src="glaciers-02-DDMWB_files/figure-html/unnamed-chunk-5-1.png" width="700"></p>
+</div>
+<div id="compare-to-measured-glacier-melt" class="section level3">
+<h3 class="hasAnchor">
+<a href="#compare-to-measured-glacier-melt" class="anchor"></a>Compare to measured glacier melt</h3>
+<p>Aggregate the daily glacier melt to annual data.</p>
+<div class="sourceCode" id="cb8"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="co">#| fig.cap = "Daily glacier melt per elevation band." </span>
+<span class="co">#| out.width = 90%</span>
+<span class="va">melt_a_eb</span> <span class="op">&lt;-</span> <span class="va">melt</span> |&gt; 
+  <span class="fu">pivot_longer</span><span class="op">(</span><span class="op">-</span><span class="va">date</span>, names_to <span class="op">=</span> <span class="st">"ID"</span>, values_to <span class="op">=</span> <span class="st">"Melt"</span><span class="op">)</span> |&gt; 
+  <span class="fu">mutate</span><span class="op">(</span>Hyear <span class="op">=</span> <span class="fu"><a href="../reference/hyear.html">hyear</a></span><span class="op">(</span><span class="va">date</span><span class="op">)</span><span class="op">)</span> |&gt; 
+  <span class="fu">group_by</span><span class="op">(</span><span class="va">Hyear</span>, <span class="va">ID</span><span class="op">)</span> |&gt; 
+  <span class="fu">summarise</span><span class="op">(</span>date <span class="op">=</span> <span class="fu">first</span><span class="op">(</span><span class="va">date</span><span class="op">)</span>, 
+            Melt <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/sum.html">sum</a></span><span class="op">(</span><span class="va">Melt</span><span class="op">)</span><span class="op">)</span> |&gt; 
+  <span class="fu">ungroup</span><span class="op">(</span><span class="op">)</span> </code></pre></div>
+<pre><code>## `summarise()` has grouped output by 'Hyear'. You can override using the `.groups` argument.</code></pre>
+<div class="sourceCode" id="cb10"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="va">melt_a</span> <span class="op">&lt;-</span> <span class="va">melt_a_eb</span> |&gt; 
+  <span class="fu">separate</span><span class="op">(</span><span class="va">ID</span>, into <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="st">"RGIId"</span>, <span class="st">"elB"</span><span class="op">)</span>, sep <span class="op">=</span> <span class="st">"_"</span><span class="op">)</span> |&gt; 
+  <span class="fu">group_by</span><span class="op">(</span><span class="va">Hyear</span>, <span class="va">RGIId</span><span class="op">)</span> |&gt; 
+  <span class="fu">summarise</span><span class="op">(</span>date <span class="op">=</span> <span class="fu">first</span><span class="op">(</span><span class="va">date</span><span class="op">)</span>, 
+            Melt <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/sum.html">sum</a></span><span class="op">(</span><span class="va">Melt</span><span class="op">)</span><span class="op">)</span> |&gt; 
+  <span class="fu">ungroup</span><span class="op">(</span><span class="op">)</span> |&gt; 
+  <span class="fu">dplyr</span><span class="fu">::</span><span class="fu"><a href="https://dplyr.tidyverse.org/reference/filter.html">filter</a></span><span class="op">(</span><span class="va">Hyear</span> <span class="op">&gt;</span> <span class="fu"><a href="https://rdrr.io/r/base/Extremes.html">min</a></span><span class="op">(</span><span class="va">Hyear</span><span class="op">)</span> <span class="op">&amp;</span> <span class="va">Hyear</span> <span class="op">&lt;</span> <span class="fu"><a href="https://rdrr.io/r/base/Extremes.html">max</a></span><span class="op">(</span><span class="va">Hyear</span><span class="op">)</span><span class="op">)</span></code></pre></div>
+<pre><code>## `summarise()` has grouped output by 'Hyear'. You can override using the `.groups` argument.</code></pre>
+<div class="sourceCode" id="cb12"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="va">glaciers_hugonnet</span> <span class="op">&lt;-</span> <span class="va">glaciers_hugonnet</span> |&gt; 
+  <span class="fu">mutate</span><span class="op">(</span>Qgl_m3a <span class="op">=</span> <span class="fu"><a href="../reference/glacierDischarge_HM.html">glacierDischarge_HM</a></span><span class="op">(</span><span class="va">dhdt</span><span class="op">)</span><span class="op">)</span>
+<span class="va">melt_obs_a</span> <span class="op">&lt;-</span> <span class="va">glaciers_hugonnet</span> |&gt; 
+  <span class="fu">dplyr</span><span class="fu">::</span><span class="fu"><a href="https://dplyr.tidyverse.org/reference/filter.html">filter</a></span><span class="op">(</span><span class="va">RGIId</span> <span class="op">==</span> <span class="va">glaciers</span><span class="op">[</span><span class="fl">1</span><span class="op">:</span><span class="fl">6</span><span class="op">]</span>, 
+                <span class="va">period</span> <span class="op">==</span> <span class="fl">1</span><span class="op">)</span>
+  
+<span class="fu">ggplot</span><span class="op">(</span><span class="op">)</span> <span class="op">+</span> 
+  <span class="fu">geom_line</span><span class="op">(</span>data <span class="op">=</span> <span class="va">melt_a</span> |&gt; 
+              <span class="fu">dplyr</span><span class="fu">::</span><span class="fu"><a href="https://dplyr.tidyverse.org/reference/filter.html">filter</a></span><span class="op">(</span><span class="va">RGIId</span> <span class="op">%in%</span> <span class="va">glaciers</span><span class="op">[</span><span class="fl">1</span><span class="op">:</span><span class="fl">6</span><span class="op">]</span><span class="op">)</span>, 
+            <span class="fu">aes</span><span class="op">(</span><span class="va">date</span>, <span class="va">Melt</span><span class="op">/</span><span class="fl">1000</span>, colour <span class="op">=</span> <span class="va">RGIId</span><span class="op">)</span><span class="op">)</span> <span class="op">+</span> 
+  <span class="fu">geom_line</span><span class="op">(</span>data <span class="op">=</span> <span class="va">melt_obs_a</span>, <span class="fu">aes</span><span class="op">(</span><span class="va">start</span>, <span class="op">-</span><span class="va">dmdtda</span>, colour <span class="op">=</span> <span class="va">RGIId</span><span class="op">)</span>, linetype <span class="op">=</span> <span class="fl">2</span><span class="op">)</span> <span class="op">+</span> 
+  <span class="fu">labs</span><span class="op">(</span>x <span class="op">=</span> <span class="st">"Date"</span>, y <span class="op">=</span> <span class="st">"Melt [m weq/a]"</span><span class="op">)</span> <span class="op">+</span> 
+  <span class="fu">scale_colour_viridis_d</span><span class="op">(</span><span class="op">)</span> <span class="op">+</span> 
+  <span class="fu">ggtitle</span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/paste.html">paste0</a></span><span class="op">(</span><span class="st">"MF: "</span>, <span class="va">MF</span>, <span class="st">"Tth: "</span>, <span class="va">threshold_temperature</span><span class="op">)</span><span class="op">)</span> <span class="op">+</span> 
+  <span class="fu">theme_bw</span><span class="op">(</span><span class="op">)</span></code></pre></div>
+<p><img src="glaciers-02-DDMWB_files/figure-html/glaciermelt-1.png" width="700"></p>
+<p>With the synthetic temperatures we cannot obtain the observed steep
+increase of the glacier melt. In theory, the temperature index model can
+be calibrated with the specific glacier volume change provided by <span class="citation">Hugonnet et al. (2021)</span> (see
+\ref{fig:glaciermelt}).</p>
+</div>
+<div id="glacier-mass-balance-1" class="section level3">
+<h3 class="hasAnchor">
+<a href="#glacier-mass-balance-1" class="anchor"></a>Glacier mass balance</h3>
+<div class="sourceCode" id="cb13"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="co">#| fig.cap = "Glacier development and discharge." </span>
+<span class="co">#| out.width = 90%</span>
+<span class="va">glacier_balance</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/glacierBalance.html">glacierBalance</a></span><span class="op">(</span>melt_a_eb <span class="op">=</span> <span class="va">melt_a_eb</span>, 
+                                  rgi_elbands <span class="op">=</span> <span class="va">rgi_elbands</span><span class="op">)</span>
+
+<span class="fu">ggplot</span><span class="op">(</span><span class="va">glacier_balance</span> |&gt; 
+         <span class="fu">dplyr</span><span class="fu">::</span><span class="fu"><a href="https://dplyr.tidyverse.org/reference/filter.html">filter</a></span><span class="op">(</span><span class="va">RGIId</span> <span class="op">%in%</span> <span class="va">glaciers</span><span class="op">[</span><span class="fl">1</span><span class="op">:</span><span class="fl">3</span><span class="op">]</span><span class="op">)</span><span class="op">)</span> <span class="op">+</span> 
+  <span class="fu">geom_line</span><span class="op">(</span><span class="fu">aes</span><span class="op">(</span><span class="va">Hyear</span>, <span class="va">Value</span>, colour <span class="op">=</span> <span class="va">RGIId</span><span class="op">)</span><span class="op">)</span> <span class="op">+</span> 
+  <span class="fu">facet_wrap</span><span class="op">(</span><span class="st">"Variable"</span>, scales <span class="op">=</span> <span class="st">"free_y"</span><span class="op">)</span> <span class="op">+</span> 
+  <span class="fu">scale_colour_viridis_d</span><span class="op">(</span><span class="op">)</span> <span class="op">+</span> 
+  <span class="fu">theme_bw</span><span class="op">(</span><span class="op">)</span></code></pre></div>
+<p><img src="glaciers-02-DDMWB_files/figure-html/unnamed-chunk-6-1.png" width="700"></p>
+<p>We now have glacier discharge (Q_m3s) and the unsustainable
+contribution to glacier discharge, the imbalance ablation (Qimb_m3a)
+which is negative for glacier loss and positive for growing glaciers. We
+are only interested in the contribution of imbalance ablation to river
+discharge, that is, only the negative part of Qimb_m3a is relevant to
+us.</p>
 </div>
 </div>
 </div>
@@ -394,6 +463,12 @@ Consensus Estimate for the Ice Thickness Distribution of All Glaciers on
 <div id="ref-hock_temperature_2003" class="csl-entry">
 Hock, Regine. 2003. <span>“Temperature Index Melt Modelling in Mountain
 Areas.”</span> <em>Journal of Hydrology</em> 282 (1): 104–15. <a href="https://doi.org/10.1016/S0022-1694(03)00257-9">https://doi.org/10.1016/S0022-1694(03)00257-9</a>.
+</div>
+<div id="ref-hugonnet_accelerated_2021" class="csl-entry">
+Hugonnet, Romain, Robert McNabb, Etienne Berthier, Brian Menounos,
+Christopher Nuth, Luc Girod, Daniel Farinotti, et al. 2021.
+<span>“Accelerated Global Glacier Mass Loss in the Early Twenty-First
+Century.”</span> <em>Nature</em> 592 (7856): 726–31. <a href="https://doi.org/10.1038/s41586-021-03436-z">https://doi.org/10.1038/s41586-021-03436-z</a>.
 </div>
 <div id="ref-miles_health_2021" class="csl-entry">
 Miles, Evan, Michael McCarthy, Amaury Dehecq, Marin Kneib, Stefan
