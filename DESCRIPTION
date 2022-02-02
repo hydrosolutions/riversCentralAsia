@@ -18,3 +18,5 @@ URL: https://hydrosolutions.github.io/riversCentralAsia/index.html
 BugReports: https://github.com/hydrosolutions/riversCentralAsia/issues
 Imports: magrittr
 LazyData: true
+Depends: 
+    R (>= 2.10)
