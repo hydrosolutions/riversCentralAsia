@@ -300,4 +300,10 @@ ggplot(glacier_balance |>
 
 We now have glacier discharge (Q_m3s) and the unsustainable contribution to glacier discharge, the imbalance ablation (Qimb_m3a) which is negative for glacier loss and positive for growing glaciers. We are only interested in the contribution of imbalance ablation to river discharge, that is, only the negative part of Qimb_m3a is relevant to us.
 
+# TODO: include uncertainty in model workflow
+
+# Next steps
+
+Now we have glacier discharge and glacier imbalance ablation. How do we include these in our modelling workflow? [Glacier vignette 4](glaciers-04-glaciers-RSM.html) explains how glaciers are treated in the hydraulic/hydrologic model RS Minerve and details a workflow to implement glacier discharge in a model in RS Minerve.
+
 # References

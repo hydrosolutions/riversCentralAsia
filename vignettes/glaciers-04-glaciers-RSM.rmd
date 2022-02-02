@@ -1,0 +1,36 @@
+---
+title: "Glaciers 04 - Glacier discharge in RS Minerve"
+editor: visual
+bibliography: references.bib
+output: rmarkdown::html_vignette
+fig_caption: yes
+vignette: >
+  %\VignetteIndexEntry{Glaciers 04 - Glacier discharge in RS Minerve}
+  %\VignetteEngine{knitr::rmarkdown}
+  %\VignetteEncoding{UTF-8}
+---
+
+```{r, include = FALSE}
+library(riversCentralAsia)
+
+```
+
+# Glacier modelling tools in RS Minerve
+
+At the time of writing (Feb 2022), RS Minerve features one model to simulate glacier discharge, the GSM model [@rsminerve_tm]. The GSM model is able to accumulate solid precipitation on a glacier water reservoir and to melt that reservoir depending on temperature. It is a suitable temperature index model for short-term glacier melt where changes in glacier area can be neglected.
+
+![Flow path of the GSM model in RS Minerve. Image source: RSMinerve Technical Manual.](RSM_GSM.png){width="60%"}
+
+As implied above, the GSM model in RSM assumes a constant glacier area. It is thus not suitable for long-term simulations of glacier melt, especially under climate change scenarios where glacier area changes are important. In other words, the GSM model cannot predict when a glacier reservoir has disappeared.
+
+In practice, two pathways are possible to handle the weakness of the model when simulating climate change impacts:
+
+-   The modeler periodically stops the simulation and checks which glaciers have disappeared, then manually adapts the model parameters.
+
+-   The glacier melt is simulated outside RS Minerve and subsequently introduced to RS Minerve as a water source.
+
+The first approach is suitable for one-time simulations but it is labor intensive and thus hardly scalable. It further does not solve the problem that the glacier area remains constant in the model. The latter approach requires the separation of seasonal glacier discharge under balance conditions (i.e. the seasonal glacier melt which is compensated by accumulation of snow in winter) and the imbalance ablation which represent glacier melt due to rising temperatures.
+
+Here, we present the second approach. [Vignette 2 on the glacier mass balance modelling](glaciers-02-DDMWB.html) demonstrates how to calculate total annual glacier discharge and the contribution of imbalance ablation to the total annual glacier discharge. This vignette demonstrates how to derive daily glacier discharge and imbalance ablation time series from the annual data and how to include this data in RS Minerve.
+
+# References
