@@ -9,6 +9,8 @@
 #' @seealso \code{\link{glacierVolume_RGIF}}, \code{\link{glacierArea_Erasov}}
 glacierArea_RGIF <- function(volume_km3) {
   area_km2 = ifelse(volume_km3 > 0,
-                    exp(2.5360590 + 0.8182565 * log(volume_km3)),
+                    exp(2.5360590 + 0.8182565 * log(ifelse(volume_km3>0,
+                                                           volume_km3,
+                                                           0))),
                     0)
 }

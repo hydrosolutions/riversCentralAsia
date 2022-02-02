@@ -3,6 +3,7 @@ title: "Glaciers 02 - Temperature index model"
 editor: visual
 bibliography: references.bib
 output: rmarkdown::html_vignette
+fig_caption: yes
 vignette: >
   %\VignetteIndexEntry{Glaciers 02 - Temperature index model}
   %\VignetteEngine{knitr::rmarkdown}
@@ -219,8 +220,8 @@ ggplot(t_glaciers[, 1:10] |>
 ```{r}
 #| fig.cap = "Daily glacier melt per elevation band." 
 #| out.width = 90%
-MF = 3
-threshold_temperature = -3
+MF = 4
+threshold_temperature = 6
 Area <- rgi_elbands |> 
   dplyr::select(ID, A_km2) |> 
   pivot_wider(names_from = ID, values_from = A_km2)
@@ -239,5 +240,64 @@ ggplot(melt[, 1:10] |>
   labs(x = "Date", y = "Melt [mm/d]") + 
   theme_bw()
 ```
+
+### Compare to measured glacier melt
+
+Aggregate the daily glacier melt to annual data.
+
+```{r glaciermelt}
+#| fig.cap = "Daily glacier melt per elevation band." 
+#| out.width = 90%
+melt_a_eb <- melt |> 
+  pivot_longer(-date, names_to = "ID", values_to = "Melt") |> 
+  mutate(Hyear = hyear(date)) |> 
+  group_by(Hyear, ID) |> 
+  summarise(date = first(date), 
+            Melt = sum(Melt)) |> 
+  ungroup() 
+melt_a <- melt_a_eb |> 
+  separate(ID, into = c("RGIId", "elB"), sep = "_") |> 
+  group_by(Hyear, RGIId) |> 
+  summarise(date = first(date), 
+            Melt = sum(Melt)) |> 
+  ungroup() |> 
+  dplyr::filter(Hyear > min(Hyear) & Hyear < max(Hyear))
+
+glaciers_hugonnet <- glaciers_hugonnet |> 
+  mutate(Qgl_m3a = glacierDischarge_HM(dhdt))
+melt_obs_a <- glaciers_hugonnet |> 
+  dplyr::filter(RGIId == glaciers[1:6], 
+                period == 1)
+  
+ggplot() + 
+  geom_line(data = melt_a |> 
+              dplyr::filter(RGIId %in% glaciers[1:6]), 
+            aes(date, Melt/1000, colour = RGIId)) + 
+  geom_line(data = melt_obs_a, aes(start, -dmdtda, colour = RGIId), linetype = 2) + 
+  labs(x = "Date", y = "Melt [m weq/a]") + 
+  scale_colour_viridis_d() + 
+  ggtitle(paste0("MF: ", MF, "Tth: ", threshold_temperature)) + 
+  theme_bw()
+```
+
+With the synthetic temperatures we cannot obtain the observed steep increase of the glacier melt. In theory, the temperature index model can be calibrated with the specific glacier volume change provided by @hugonnet_accelerated_2021 (see \\ref{fig:glaciermelt}).
+
+### Glacier mass balance
+
+```{r}
+#| fig.cap = "Glacier development and discharge." 
+#| out.width = 90%
+glacier_balance <- glacierBalance(melt_a_eb = melt_a_eb, 
+                                  rgi_elbands = rgi_elbands)
+
+ggplot(glacier_balance |> 
+         dplyr::filter(RGIId %in% glaciers[1:3])) + 
+  geom_line(aes(Hyear, Value, colour = RGIId)) + 
+  facet_wrap("Variable", scales = "free_y") + 
+  scale_colour_viridis_d() + 
+  theme_bw()
+```
+
+We now have glacier discharge (Q_m3s) and the unsustainable contribution to glacier discharge, the imbalance ablation (Qimb_m3a) which is negative for glacier loss and positive for growing glaciers. We are only interested in the contribution of imbalance ablation to river discharge, that is, only the negative part of Qimb_m3a is relevant to us.
 
 # References
