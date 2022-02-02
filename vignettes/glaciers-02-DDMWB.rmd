@@ -248,13 +248,14 @@ Aggregate the daily glacier melt to annual data.
 ```{r glaciermelt}
 #| fig.cap = "Daily glacier melt per elevation band." 
 #| out.width = 90%
-melt_a <- melt |> 
+melt_a_eb <- melt |> 
   pivot_longer(-date, names_to = "ID", values_to = "Melt") |> 
   mutate(Hyear = hyear(date)) |> 
   group_by(Hyear, ID) |> 
   summarise(date = first(date), 
             Melt = sum(Melt)) |> 
-  ungroup() |> 
+  ungroup() 
+melt_a <- melt_a_eb |> 
   separate(ID, into = c("RGIId", "elB"), sep = "_") |> 
   group_by(Hyear, RGIId) |> 
   summarise(date = first(date), 
@@ -284,7 +285,19 @@ With the synthetic temperatures we cannot obtain the observed steep increase of 
 ### Glacier mass balance
 
 ```{r}
-# TODO copy step-wise glacier balance function to package
+#| fig.cap = "Glacier development and discharge." 
+#| out.width = 90%
+glacier_balance <- glacierBalance(melt_a_eb = melt_a_eb, 
+                                  rgi_elbands = rgi_elbands)
+
+ggplot(glacier_balance |> 
+         dplyr::filter(RGIId %in% glaciers[1:3])) + 
+  geom_line(aes(Hyear, Value, colour = RGIId)) + 
+  facet_wrap("Variable", scales = "free_y") + 
+  scale_colour_viridis_d() + 
+  theme_bw()
 ```
+
+We now have glacier discharge (Q_m3s) and the unsustainable contribution to glacier discharge, the imbalance ablation (Qimb_m3a) which is negative for glacier loss and positive for growing glaciers. We are only interested in the contribution of imbalance ablation to river discharge, that is, only the negative part of Qimb_m3a is relevant to us.
 
 # References
