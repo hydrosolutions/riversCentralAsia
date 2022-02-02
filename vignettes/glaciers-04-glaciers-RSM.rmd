@@ -33,4 +33,12 @@ The first approach is suitable for one-time simulations but it is labor intensiv
 
 Here, we present the second approach. [Vignette 2 on the glacier mass balance modelling](glaciers-02-DDMWB.html) demonstrates how to calculate total annual glacier discharge and the contribution of imbalance ablation to the total annual glacier discharge. This vignette demonstrates how to derive daily glacier discharge and imbalance ablation time series from the annual data and how to include this data in RS Minerve.
 
+# From annual to daily melt
+
+The glacier mass balance is done on a yearly basis (if not at lower frequency).
+
+```{r}
+
+```
+
 # References
