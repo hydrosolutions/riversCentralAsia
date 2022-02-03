@@ -21,4 +21,4 @@ knitr::opts_knit$set(
 library(riversCentralAsia)
 ```
 
-This package aims at streamlining pre-and post-processing for hydrological modelling in Central Asia. It is under continuous development. 
+This package aims at streamlining pre-and post-processing of various types of data for hydrological modelling in Central Asia. It is under continuous development. 
