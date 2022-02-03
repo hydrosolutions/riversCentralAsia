@@ -21,7 +21,9 @@ library(exactextractr)
 
 # Temperature index model
 
-\@hock_temperature_2003 describes several variants of the temperature index model for simulating glacier melt. The riversCentralAsia package implements the temperature index melt model described in [@hock_temperature_2003] in the function \code{glacierMelt_TI}.
+@hock_temperature_2003 describes several variants of the temperature index model for simulating glacier melt. The riversCentralAsia Package implements the temperature index melt model described in [@hock_temperature_2003] in the function \code{glacierMelt_TI}.
+
+<!-- # TODO: I would you different notation here for the emlt factor. In the published version it is confusing as MF looks like M F where M is the M on the f_{m} -->
 
 $$
 M = \biggl\{ \begin{array}{l, l}
@@ -220,11 +222,17 @@ ggplot(t_glaciers[, 1:10] |>
 ```{r}
 #| fig.cap = "Daily glacier melt per elevation band." 
 #| out.width = 90%
-MF = 4
-threshold_temperature = 6
+MF_small = 4
+MF_large = 0.5
+threshold_temperature = 0
 Area <- rgi_elbands |> 
+  st_drop_geometry() |> 
   dplyr::select(ID, A_km2) |> 
   pivot_wider(names_from = ID, values_from = A_km2)
+# Assign different melt factors to large and small glaciers. 
+MF <- Area |> 
+  mutate(across(everything(), ~MF_large), 
+         across(ends_with("_1"), ~MF_small))
 
 melt <- glacierMelt_TI(temperature = t_glaciers |> dplyr::select(-date),
                        MF = MF,
@@ -271,10 +279,13 @@ melt_obs_a <- glaciers_hugonnet |>
   
 ggplot() + 
   geom_line(data = melt_a |> 
-              dplyr::filter(RGIId %in% glaciers[1:6]), 
-            aes(date, Melt/1000, colour = RGIId)) + 
-  geom_line(data = melt_obs_a, aes(start, -dmdtda, colour = RGIId), linetype = 2) + 
+              dplyr::filter(RGIId %in% glaciers[6:9]), 
+            aes(date, Melt/1000, colour = RGIId, linetype = "sim")) + 
+  geom_line(data = melt_obs_a, aes(start, -dmdtda, colour = RGIId, 
+                                   linetype = "obs")) + 
   labs(x = "Date", y = "Melt [m weq/a]") + 
+  scale_linetype_manual(name = "Source", 
+                        values = c("sim" = 1, "obs" = 2)) + 
   scale_colour_viridis_d() + 
   ggtitle(paste0("MF: ", MF, "Tth: ", threshold_temperature)) + 
   theme_bw()
@@ -291,7 +302,9 @@ glacier_balance <- glacierBalance(melt_a_eb = melt_a_eb,
                                   rgi_elbands = rgi_elbands)
 
 ggplot(glacier_balance |> 
-         dplyr::filter(RGIId %in% glaciers[1:3])) + 
+         dplyr::filter(RGIId %in% glaciers[6:9], 
+                       Hyear > min(Hyear) & Hyear < max(Hyear), 
+                       Variable %in% c("A_km2", "V_km3", "Q_m3a", "Qimb_m3a"))) + 
   geom_line(aes(Hyear, Value, colour = RGIId)) + 
   facet_wrap("Variable", scales = "free_y") + 
   scale_colour_viridis_d() + 
@@ -299,5 +312,24 @@ ggplot(glacier_balance |>
 ```
 
 We now have glacier discharge (Q_m3s) and the unsustainable contribution to glacier discharge, the imbalance ablation (Qimb_m3a) which is negative for glacier loss and positive for growing glaciers. We are only interested in the contribution of imbalance ablation to river discharge, that is, only the negative part of Qimb_m3a is relevant to us.
+
+# TODO: include uncertainty in model workflow
+
+# Next steps
+
+Now we have glacier discharge and glacier imbalance ablation. How do we include these in our modelling workflow? [Glacier vignette 4](glaciers-04-glaciers-RSM.html) explains how glaciers are treated in the hydraulic/hydrologic model RS Minerve and details a workflow to implement glacier discharge in a model in RS Minerve.
+
+```{r, include=FALSE, eval=FALSE}
+# Saving variables for continuing demo in vignette 4
+melt_d <- melt |> 
+  pivot_longer(-date, names_to = "ID", values_to = "melt") |> 
+  separate(ID, into = c("RGIId", "elB"), sep = "_") |> 
+  group_by(date, RGIId) |> 
+  summarize(melt = sum(melt)) |> 
+  ungroup()
+saveRDS(melt_d |> rename(M_mmd = melt), file = "vignettes/daily_glacier_melt.rds")
+
+saveRDS(glacier_balance, file = "vignettes/glacier_balance.rds")
+```
 
 # References
