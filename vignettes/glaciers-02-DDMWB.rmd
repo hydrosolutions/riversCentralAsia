@@ -21,7 +21,9 @@ library(exactextractr)
 
 # Temperature index model
 
-\@hock_temperature_2003 describes several variants of the temperature index model for simulating glacier melt. The \code{riversCentralAsia} package implements the temperature index melt model described in [@hock_temperature_2003] in the function \code{glacierMelt_TI}.
+@hock_temperature_2003 describes several variants of the temperature index model for simulating glacier melt. The riversCentralAsia Package implements the temperature index melt model described in [@hock_temperature_2003] in the function \code{glacierMelt_TI}.
+
+<!-- # TODO: I would you different notation here for the emlt factor. In the published version it is confusing as MF looks like M F where M is the M on the f_{m} -->
 
 $$
 M = \biggl\{ \begin{array}{l, l}

@@ -19,43 +19,48 @@ library(tidyverse)
 
 # Background & Motivation
 
-Melt from glaciers is the most important contributor of discharge in most of the larger rivers in Central Asia. However, measurements of discharge from glaciers are generally not available. There are several possible ways to estimate glacier contribution to discharge. We present a short introduction to glaciers in water resources and a workflow for an empirical method and one via a temperature index model and a simple glacier mass balance.
+In the Central Asia region, there are key figures to keep in mind in relation to runoff formation. Snow melt is the most important contribution to discharge (~ around 80 %, on average), followed by runoff from liquid precipitation (~ 17 %, on average) and, finally, glacier melt (~ 3 %, on average). Gaining a proper understanding of climate change impacts on the region's hydrology is not just of interest to the scientific community but also of greatest relevance to the local communities and riparian states that depend crucially on the availability of runoff at the right time and location. 
 
-# Glaciers in water resources modelling
+Among other things, climate impacts translate into long-term changes of runoff formation fractions and the distribution of runoff formation *within* the hydrological year. Typical rainfall-runoff models such as the HBV Model simulate the fractionation of precipitation into snow and rain with a temperature threshold method. Snow and liquid water reservoirs and corresponding fluxes are then accounted for. However, these models have only a limited understanding of glacier processes which are normally inadequate at best to estimate glacier contributions to discharge. We present a short introduction to glaciers in water resources and a workflow for an empirical method and one via a temperature index model and a simple glacier mass balance.
+
+# Glaciers in Water Resources Modelling
 
 Glaciers consist of compacted snow. Many processes contribute to the glacier mass balance but we focus on a simplified mass balance as we have data only for accumulated mass balance outcomes (i.e. glacier thinning rates and glacier discharge, see below).
 
-Glaciers accumulate mass in the cold period and at higher altitudes through snow fall. Glaciers loose mass to melt caused by radiation. Typically, larger glaciers loose mass at lower altitudes (ablation zone) and accumulate mass at higher altitudes (accumulation zone). The mass loss in the lower altitudes is compensated by the downstream movement of ice from the accumulation zone. The boundary between the accumulation and the ablation zone is called the equilibrium line altitude (ELA).
+<!-- # TODO: Needing references here in the paragraph below -->
+Glaciers accumulate mass in the cold period and at higher altitudes through snow fall. Glaciers lose mass to melt caused by radiation. Typically, larger glaciers loose mass at lower altitudes (ablation zone) and accumulate mass at higher altitudes (accumulation zone). The mass loss in the lower altitudes is compensated by the downstream movement of ice from the accumulation zone. The boundary between the accumulation and the ablation zone is called the equilibrium line altitude (ELA).
 
-Naturally, glaciers accumulate mass in the cold season and loose mass to ablation in the warm season. Therefore, overall mass balance of a glacier thus should be calculated over a year or, better, over the average of several years.
+Naturally, glaciers accumulate mass in the cold season and loose mass to ablation in the warm season. Therefore, the overall mass balance of a glacier should be calculated over a year or, better, over an average of several years.
 
-A simplified multi-year-average glacier mass balance can be expressed as:
+<!-- # TODO: Needing references here for this model -->
+A simplified multi-year average glacier mass balance can be expressed as:
 
 $$
 \Delta S = P - M
 $$
 
-where $\Delta S$ is the change of water storage in the glacier, $P$ is the precipitation over the glacier (assumed to be solid precipitation) and $M$ is the glacier melt. If $\Delta S$ is larger than 0 ($P>M$), the glacier accumulates solid water and is growing. If $\Delta S$ is smaller than 0 ($P<M$), we have imbalance ablation and the glacier shrinks. Glacier melt $M$ can be modeled using full energy balance models or simplifications thereof, e.g. temperature index models. We'll introduce a temperature index model in (this glaciers vignette)$$glaciers-02-DDMWB.html$$.
+<!-- # TODO: Needing references here for 1) full energy balance models and 2) temperature index models and 3) the terms balance and imbalance ablation. -->
+where $\Delta S$ is the change of water storage in the glacier, $P$ is the precipitation over the glacier (assumed to be solid precipitation) and $M$ is glacier melt. If $\Delta S$ is larger than 0 (i.e., $P > M$), the glacier accumulates solid water and is growing. If $\Delta S$ is smaller than 0 (i.e., $P < M$), we have *imbalance ablation* and the glacier shrinks. Glacier melt $M$ can be modeled using full energy balance models or simplifications thereof, e.g. temperature index models. We'll introduce a temperature index model in (this glaciers vignette)$$glaciers-02-DDMWB.html$$.
 
-If the glaciers on average accumulates as much snow as it looses to melt, it is in balance. The average annual glacier discharge is equivalent to the average annual snow fall and called balance ablation. The ELA does not move. If the glacier produces more discharge than it accumulates from snow fall, it is not in balance. The ELA moves upwards. The excess melt is called imbalance ablation. If more snow falls that melts, the ELA moves downstream and the glacier grows.
+If a glacier, on average, accumulates as much snow as it looses to melt, it is in balance. The average annual glacier discharge is equivalent to the average annual snow fall and called *balance ablation*. The ELA does not move. If the glacier produces more discharge than it accumulates from snow fall, it is not in balance. The ELA moves upwards. The excess melt is called *imbalance ablation*, as also explained in the previous paragraph. If more snow falls that melts, the ELA moves downstream and the glacier grows.
 
 ![Glacier graphics by Anne Maussion, Atelier les Gros yeux, for Open Global Glacier Model (OGGM).](OGGM_glacier.gif){width="90%"}
 
-Most glaciers worldwide are currently not in equilibrium with the warmer than long-term average climate and thus produce excess melt. In the short term, this is good for agriculture as more water is temporarily available for irrigation. However, the glaciers produce excess melt only until they reach a new equilibrium at higher altitudes or until they disappear. This means that the excess melt will also disappear and ultimately less water will be available for downstream users. This phenomenon is called peak water [@huss_global-scale_2018].
+Most glaciers worldwide are currently not in equilibrium with the warmer than long-term average climate and thus produce excess melt via imbalance ablation. In the short term, this is for example good in semi-arid places such as Central Asia where more river discharge is temporarily available in the downstream for irrigation. However, the glaciers produce excess melt only until they reach a new equilibrium at higher altitudes or until they disappear entirely. This means that the excess melt will also disappear and ultimately less water will be available for downstream users during the warm season where glaciers contribute most to runoff. This phenomenon is called peak water [@huss_global-scale_2018].
 
 ![An illustration of peak water by @huss_global-scale_2018](HussHockPeakWater.png){width="90%"}
 
 Water resources managers in glaciated catchments are highly interested in knowing when peak water will be reached as measures to adapt for lower water availability need time to implement.
 
-Without in-situ measurements (and actually even with in-situ measurements) it is no easy feat to model the evolution of the water storage in a glacier. The best we can do in water resources modelling is: Use results from existing glacier models and feed them to the water resources model or use the best data available to estimate glacier melt with simple models.
+Without in-situ measurements (and actually even with in-situ measurements) it is no easy feat to model the evolution of the water storage in a glacier. The best we can do in water resources modelling is: Use results from existing glacier models and feed them to the water resources model or, alternatively, use the best data available to estimate glacier melt with simple models.
 
+<!-- # TODO: Not clear which following vignettes, they need to be referenced here -->
 The following vignettes show:
 
 -   An overview over the available glacier-related data (status early 2022)
-
 -   A method to estimate glacier discharge for a catchment based on a temperature driven degree-day melt function and a simplified glacier mass balance.
 
-The data and methods are illustrated in a sample catchment.
+The data and methods are illustrated in a sample basin in Central Asia.
 
 # Availability on glacier-related data
 
@@ -66,6 +71,8 @@ Note: For speed's sake we use a demo data set of the catchment of Atbashy river 
 ```{r, message=FALSE, warning=FALSE}
 data("vignette_glacier_melt")
 
+# We just need to load the dem here with a command like dem_atbashy. Very similar to how you can load  runoff, temp and percip of the Chirchik River Basin with the command `ChirchikRiverBasin'.
+
 # Also load the digital elevation model (DEM) of the catchment for 
 # visualization.
 dem_df <- as.data.frame(as(dem, "SpatialPixelsDataFrame"))
@@ -74,23 +81,32 @@ colnames(dem_df) <- c("Elevation\n[masl]", "x", "y")
 
 ## Randolph glacier inventory
 
-The Randolph glacier inventory (RGI) v6.0 [@rgi60] makes a consistent glacier data base publicly available. It includes geo-located glacier geometry and some additional parameters like elevation, length, slope and aspect. A new version (v7) is under review at the time of writing. For Central Asian water resources modelling, RGI regions 13 (Central Asia) and 14 (South Asia West) are relevant. You can download the data from [the GLIMS RGI v6.0 web site](https://www.glims.org/RGI/rgi60_dl.html).
+The Randolph Glacier Inventory (RGI) v6.0 [@rgi60] makes a consistent global glacier data base publicly available. It includes geo-located glacier geometry and some additional parameters like elevation, length, slope and aspect. A new version (v7) is under review at the time of writing beginning of 2022. For Central Asian water resources modelling, RGI regions 13 (Central Asia) and 14 (South Asia West) are relevant. You can download the data from [the GLIMS RGI v6.0 web site](https://www.glims.org/RGI/rgi60_dl.html).
+
+<!-- # TODO: I would plot the RGI data on top of the dem. -->
 
 ```{r rgi, message=FALSE, warning=FALSE}
 #| fig.cap = "DEM & Glaciers of the demo basin." 
 #| out.width = 90%
-ggplot(rgi) + 
-  geom_raster(data = dem_df, aes(x, y, fill = `Elevation\n[masl]`), 
-              alpha = 0.6) + 
-  geom_sf(aes(fill = NULL), colour = "lightgray", size = 0.2) + 
-  scale_fill_gradientn(colours = terrain.colors(100), ) + 
-  xlab("Longitude") + 
-  ylab("Latitude") + 
-  theme_bw()
+
+# this is how I would plot it, directly with the raster layer. Relly check out the tmap package, it is very wonderful.
+tmap::tmap_mode("view")
+tmap::tm_shape(dem_atbashy) +
+  tmap::tm_raster(palette = terrain.colors(25), legend.show = TRUE, title = "Atbashy River Basin: Elevation (masl)")
+
+# ggplot(rgi) + 
+#   geom_raster(data = dem_df, aes(x, y, fill = `Elevation\n[masl]`), 
+#               alpha = 0.6) + 
+#   geom_sf(aes(fill = NULL), colour = "lightgray", size = 0.2) + 
+#   scale_fill_gradientn(colours = terrain.colors(100), ) + 
+#   xlab("Longitude") + 
+#   ylab("Latitude") + 
+#   theme_bw()
 ```
 
 ## Glacier thickness
 
+<!-- # TODO: Not clear why you write this sentence: "We have generated a mosaic of the glacier thickness tifs for you." What mosaic, for what purpose and region? For Atbashy? If yes, why is it called mosaic then? Better explanation needed. -->
 @farinotti_consensus_2019 make distributed glacier thickness maps available for each glacier in the RGI v6 data set. We have generated a mosaic of the glacier thickness tifs for you. We will refer to this data set as the glacier thickness data set or the Farinotti data set.
 
 If you are interested to replicate the download and pre-processing please read the section below. The glacier thickness data set is available from the [data collection](https://www.research-collection.ethz.ch/handle/20.500.11850/315707) of @farinotti_consensus_2019 which is available from [the data section of their online article](https://www.nature.com/articles/s41561-019-0300-3). You can download the glacier thickness composites for the relevant RGI v6.0 regions 13 and 14. In the unzipped directories you will find individual tif files for each glacier. The following section demonstrates how to extract glacier thickness data from the Farinotti data set.
@@ -98,12 +114,16 @@ If you are interested to replicate the download and pre-processing please read t
 ### How to extract glacier thickness
 
 ```{r thicknessExtraction, eval=FALSE, message=FALSE, warning=FALSE}
+<!-- # TODO: Can we not just work with the concrete Atbashy example. One could prepare the datasets to include only the relevant data from the 200 or so glaciers in the catchment and then show the workflow there. Ah, now, I see that in the compild region on the web this is actually just for Atbashy - sorry.-->
+
 # Get a list of all files in the glacier thickness data set. The files are named 
 # after the glacier ID in the RGI v6.0 data set (variable RGIId).  
 glacier_thickness_dir <- "<Path to glacier thickness tif files (unzipped)>" 
 
 filelist <- list.files(path = glacier_thickness_dir, pattern = ".tif$", 
                        full.names = TRUE)
+
+
 
 # Filter the glacier thickness file list for the glacier ids in the catchment of 
 # interest. 
@@ -144,7 +164,7 @@ ggplot() +
 
 ## Glacier thinning rates
 
-@hugonnet_accelerated_2021 provide annual estimates of glacier thinning rates for each glacier in the RGI v6.0 data set. It is advised to not use the annual data though but an average over at least 5 years to get reliable thinning rates. We will refer to this data set as the thinning rates data set or the Hugonnet data set.
+@hugonnet_accelerated_2021 provide annual estimates of glacier thinning rates for each glacier in the RGI v6.0 data set. It is advised to not use the annual data though but an average over at least 5 years to get reliable thinning rates for individual glaciers. We will refer to this data set as the thinning rates data set or the *Hugonnet data set*.
 
 The glacier thinning rates can be downloaded from the [data repository](https://www.sedoo.fr/theia-publication-products/?uuid=c428c5b9-df8f-4f86-9b75-e04c778e29b9) as described in the [github site](https://github.com/rhugonnet/ww_tvol_study) linked under the code availability section of the [online paper](https://www.nature.com/articles/s41586-021-03436-z) of @hugonnet_accelerated_2021. We use the per-glacier time series.
 
@@ -165,7 +185,7 @@ ggplot(temp) +
 
 ## Glacier discharge
 
-@miles_health_2021 ran specific mass balance calculations over the glaciers larger than 2 km2 of High Mountain Asia. They provide the average glacier discharge between 2000 and 2016. We have derived an empirical relationship to derive glacier discharge based on glacier thinning rates which is available in the function \code{riversCentralAsia::glacierDischarge_HM()}. We will refer to this data set as the glacier discharge data set or the Miles data set.
+@miles_health_2021 ran specific mass balance calculations over the glaciers larger than 2 km^2^ of High Mountain Asia. They provide the average glacier discharge between 2000 and 2016. We have derived an empirical relationship to derive glacier discharge based on glacier thinning rates which is available in the function \code{riversCentralAsia::glacierDischarge_HM()}. We will refer to this data set as the glacier discharge data set or the Miles data set.
 
 The data is available from the [data repository](https://zenodo.org/record/5119153#.Yfjv6-rMKF4) linked in the [online version of the paper](https://www.nature.com/articles/s41467-021-23073-4).
 
@@ -198,5 +218,7 @@ For some regions in Central Asia, [OpenStreetMap](https://www.openstreetmap.org/
 The glacier thickness data set is validated only at few locations as measurements of glacier thickness are typically not available. @farinotti_consensus_2019 list an uncertainty range for the volume estimate in regions RGI 13 and 14 of 26% each.
 
 @hugonnet_accelerated_2021 & @miles_health_2021 provide the uncertainties of their estimates for per-glacier glacier thinning & discharge rates in the data set itself.
+
+<!-- # TODO: Make a next steps Section hre at the end like in Vigniette 02 -->
 
 # References
