@@ -21,7 +21,7 @@ library(exactextractr)
 
 # Temperature index model
 
-\@hock_temperature_2003 describes several variants of the temperature index model for simulating glacier melt. The riversCentralAsia package implements the temperature index melt model described in [@hock_temperature_2003] in the function \code{glacierMelt_TI}.
+\@hock_temperature_2003 describes several variants of the temperature index model for simulating glacier melt. The \code{riversCentralAsia} package implements the temperature index melt model described in [@hock_temperature_2003] in the function \code{glacierMelt_TI}.
 
 $$
 M = \biggl\{ \begin{array}{l, l}
@@ -68,11 +68,45 @@ The function \code{glacierArea_RGIF()} is an empirical scaling function analogue
 
 The function \code{glacierImbalAbl} is an empirical scaling function relating total glacier melt to imbalance ablation. It is derived from the glacier discharge data set by @miles_health_2021.
 
+# Propagation of uncertainty
+
+The initial glacier volume of each glacier is attributed an uncertainty of p/m 26%. This number is based on the average uncertainty of the glacier volume per RGI region reported in @farinotti_consensus_2019 (Table 1). The error is the same for RGI regions 13 and 14. The uncertainty of the area of the RGI v6.0 glacier outlines is not known. We therefore assume that the error of the glacier volume stems to 50% from the estimation of the glacier thickness and to 50% from the glacier area. We further assume that the errors of the glacier area and glacier thickness are un-correlated and can thus estimate the uncertainties of the glacier area data and the glacier thickness data to be p/m 13% each.
+
+For the non-linear relationships \code{glacierVolume_RGIF} and \code{glacierArea_RGIF}, the standard deviation of the residuals of the fit was computed. The estimated error of the fit is assumed to be equal plus/minus twice the standard deviation of the residuals and yields 31% and 53% respectively. The residuals are not normally distributed, their actual distribution in unknown. We assume uncorrelated errors and therefore add the error of the function input to the error of the fit to obtain the error of the function output.
+
+$$
+\varepsilon_{A} = \varepsilon_{V} + \varepsilon_{\text{glacierArea_RGIF}} = 0.26\% + 0.53\% = 0.79\%
+$$
+
+$$
+\varepsilon_{V} = \varepsilon_{A} + \varepsilon_{\text{glacierVolume_RGIF}} = 0.26\% + 0.31\% = 0.57\%
+$$
+
+We do not have an estimate for the error of the temperature index model. We assume a relative error of 2, indicating that the estimated glacier melt is within a range of plus/minus 2 times it's value.
+
+The glacier discharge relation likewise have estimation errors. For glacier growth we have to assume an average relative error of 1.42% and for glacier melt an average relative error of 0.63%.
+
+$$
+\varepsilon_{Q_{\text{gl,growth}}} = \varepsilon_{dhdt} + \varepsilon_{\text{glacierDischarge_HM,growth}} = 0.18\% + 1.42\% = 1.6\%
+$$
+
+$$
+\varepsilon_{Q_{\text{gl,melt}}} = \varepsilon_{dhdt} + \varepsilon_{\text{glacierDischarge_HM,melt}} = 0.18\% + 0.63\% = 0.81\%
+$$
+
+Similarly the error of the imbalance ablation amounts to 1.27% yielding an error of the imbalance ablation of:
+
+$$
+\varepsilon_{Q_{\text{imb,melt}}} = \varepsilon_{Q_{\text{gl,melt}}} + \varepsilon_{\text{glacierImbalAbl}} = 0.81\% + 1.27\% = 2.08\%
+$$
+
+The errors stated above relate to initial estimates of the glacier areas, volumes, total ablation and imbalance ablation. The uncertainties are propagated through each annual time step of the model.
+
 # Forcing
 
 There will be a separate Vignette to demonstrate how to prepare the forcing. For now, we provide you with the pre-processed forcing data and give you just a brief overview over the data source.
 
-## Historical tempratures
+## Historical temperatures
 
 As meteorological data for high elevations in Central Asia is very scarce we use the CHELSA v2.1 data set. This is a global data set of forcing data for hydrolgical models based on ERA5 but corrected for biases and for high elevations. The daily CHELSA forcing has been cut to the Central Region by the originator of the data set, D. Karger, WSL.
 
@@ -329,5 +363,13 @@ saveRDS(melt_d |> rename(M_mmd = melt), file = "vignettes/daily_glacier_melt.rds
 
 saveRDS(glacier_balance, file = "vignettes/glacier_balance.rds")
 ```
+
+# Other glacier modeling resources worth mentioning
+
+Of course there are many more glacier utilities out there which are worth checking out if you are interested in more in-depth glacier modeling.
+
+## Open Global Glacier Model (OGGM)
+
+The [Open Global Glacier Model](<https://oggm.org/>) is a community project which provides glacier modelling tools in python and educational resources. The modeling framework includes comprehensive tutorials and data-pre and post-processing tools.
 
 # References

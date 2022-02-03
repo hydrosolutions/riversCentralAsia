@@ -9,6 +9,9 @@
 #'   Negative for glacier melt and positive for glacier gain.
 #' @export
 #' @family glacier functions
+#' @details Based on the residuals of the fits for growing and melting glaciers
+#'   the following relative errors have been derived: 1.42% and 0.63%
+#'   respectively.
 glacierDischarge_HM <- function(dhdt) {
 
   intercept_growth = 0.2997969

@@ -195,7 +195,7 @@ The geometries of the RGI v6.0 data set are generally very good. If you simulate
 
 For some regions in Central Asia, [OpenStreetMap](https://www.openstreetmap.org/#map=6/40.684/66.076) is an excellent reference for glacier locations and names in Central Asia. You can import the map layer in QGIS or also download individual.
 
-The glacier thickness data set is validated only at few locations as measurements of glacier thickness are typically not available. Uncertainties of up to p/m 50% have to be taken into account according to @farinotti_consensus_2019.
+The glacier thickness data set is validated only at few locations as measurements of glacier thickness are typically not available. @farinotti_consensus_2019 list an uncertainty range for the volume estimate in regions RGI 13 and 14 of 26% each.
 
 @hugonnet_accelerated_2021 & @miles_health_2021 provide the uncertainties of their estimates for per-glacier glacier thinning & discharge rates in the data set itself.
 
