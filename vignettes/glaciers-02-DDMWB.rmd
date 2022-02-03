@@ -10,7 +10,7 @@ vignette: >
   %\VignetteEncoding{UTF-8}
 ---
 
-```{r, include = FALSE}
+```{r, message=FALSE, warning=FALSE}
 library(riversCentralAsia)
 library(tidyverse)
 library(lubridate)
@@ -70,15 +70,63 @@ The function \code{glacierArea_RGIF()} is an empirical scaling function analogue
 
 The function \code{glacierImbalAbl} is an empirical scaling function relating total glacier melt to imbalance ablation. It is derived from the glacier discharge data set by @miles_health_2021.
 
+# Propagation of uncertainty
+
+The initial glacier volume of each glacier is attributed an uncertainty of p/m 26%. This number is based on the average uncertainty of the glacier volume per RGI region reported in @farinotti_consensus_2019 (Table 1). The error is the same for RGI regions 13 and 14. The uncertainty of the area of the RGI v6.0 glacier outlines is not known. We therefore assume that the error of the glacier volume stems to 50% from the estimation of the glacier thickness and to 50% from the glacier area. We further assume that the errors of the glacier area and glacier thickness are un-correlated and can thus estimate the uncertainties of the glacier area data and the glacier thickness data to be p/m 13% each.
+
+For the non-linear relationships \code{glacierVolume_RGIF} and \code{glacierArea_RGIF}, the standard deviation of the residuals of the fit was computed. The estimated error of the fit is assumed to be equal plus/minus twice the standard deviation of the residuals and yields 31% and 53% respectively. The residuals are not normally distributed, their actual distribution in unknown. We assume uncorrelated errors and therefore add the error of the function input to the error of the fit to obtain the error of the function output.
+
+$$
+\varepsilon_{V} = \varepsilon_{A} + \varepsilon_{\text{glacierVolume_RGIF}} = 0.26\% + 0.31\% = 0.57\%
+$$
+
+$$
+\varepsilon_{A} = \varepsilon_{V} + \varepsilon_{\text{glacierArea_RGIF}} = 0.26\% + 0.53\% = 0.79\%
+$$
+
+We do not have an estimate for the error of the temperature index model. We assume a relative error of 2, indicating that the estimated glacier melt is within a range of plus/minus 2 times it's value.
+
+The glacier discharge relation likewise have estimation errors. For glacier growth we have to assume an average relative error of 1.42% and for glacier melt an average relative error of 0.63%.
+
+$$
+\varepsilon_{Q_{\text{gl,growth}}} = \varepsilon_{dhdt} + \varepsilon_{\text{glacierDischarge_HM,growth}} = 0.74\% + 1.42\% = 2.16\%
+$$
+
+$$
+\varepsilon_{Q_{\text{gl,melt}}} = \varepsilon_{dhdt} + \varepsilon_{\text{glacierDischarge_HM,melt}} = 0.74\% + 0.63\% = 1.37\%
+$$
+
+Similarly the error of the imbalance ablation amounts to 1.27% yielding an error of the imbalance ablation of:
+
+$$
+\varepsilon_{Q_{\text{imb,melt}}} = \varepsilon_{Q_{\text{gl,melt}}} + \varepsilon_{\text{glacierImbalAbl}} = 1.37\% + 1.27\% = 2.64\%
+$$
+
+The errors stated above relate to initial estimates of the glacier areas, volumes, total ablation and imbalance ablation. The uncertainties are not propagated through each time step of the model as the errors cannot be assumed to be uncorrelated.
+
+```{r errstats}
+# Relative error estimates for the initial state in %
+error_stats = tibble(
+  sV = 0.26,  # Glacier volume
+  sA = 0.13,  # Glacier area
+  sTh = 0.13,  # Glacier thickness
+  sMelt = 2,  # Glacier melt
+  sVolumeRGIF = 0.31,  # Calculating glacier volume from glacier area
+  sAreaRGIF = 0.53,  # Calculating glacier area from glacier volume
+  sQglgrowth = 2.16,  # Calculating total glacier discharge from glacier thinning rates for growing glaciers
+  sQglmelt = 1.37,  # Calculating total glacier discharge from glacier thinning rates for melting glaciers
+  sImbal = 1.27)  # Calculating glacier imbalance ablation from total glacier discharge
+```
+
 # Forcing
 
 There will be a separate Vignette to demonstrate how to prepare the forcing. For now, we provide you with the pre-processed forcing data and give you just a brief overview over the data source.
 
-## Historical tempratures
+## Historical temperatures
 
 As meteorological data for high elevations in Central Asia is very scarce we use the CHELSA v2.1 data set. This is a global data set of forcing data for hydrolgical models based on ERA5 but corrected for biases and for high elevations. The daily CHELSA forcing has been cut to the Central Region by the originator of the data set, D. Karger, WSL.
 
-```{r}
+```{r histobs, message=FALSE, warning=FALSE}
 #| fig.cap = "Daily temperature time series of a glacier. Data source: CHELSA." 
 #| out.width = 90%
 hist_obs <- readRDS(file = "hist_obs_glacier_tas.rds")
@@ -95,7 +143,7 @@ ggplot(hist_obs) +
 
 Future temperature development per glacier or elevation band is extracted from the 4 CMIP6 GCM models with highest priorities for the region () downloaded from COPERNICUS. We take 4 socioeconomic scenarios into account, covering 4 different emission scenarios. The temperatures of the climate models are bias corrected using the CHELSA data and a quantile mapping method.
 
-```{r}
+```{r futsim, message=FALSE, warning=FALSE}
 #| fig.cap = "Annual historical (CHELSA) and future (CMIP6, Copernicus) temperature for a glacier. " 
 #| out.width = 90%
 fut_sim <- readRDS(file = "fut_sim_glacier_tas_qmapped.RDS")
@@ -147,7 +195,7 @@ We demonstrate the above described method with the data from the Atbashy basin.
 
 ### Glacier geometry
 
-```{r}
+```{r geometry, message=FALSE, warning=FALSE}
 # Load a shape file with elevation bands for the larger glaciers.
 data("vignette_glacier_melt")
 
@@ -181,7 +229,7 @@ $$
 T_{i} = T_{0} + r_{\text{lapse}} \cdot (z_{0} - z_{i})
 $$
 
-```{r temperature_elevation_bands}
+```{r temperature_elevation_bands, message=FALSE, warning=FALSE}
 #| fig.cap = "Synthetic forcing for the elevation bands of a glacier. " 
 #| out.width = 90%
 glacier <- "RGI60-13.08930_1"
@@ -219,7 +267,7 @@ ggplot(t_glaciers[, 1:10] |>
 
 ### Calculating glacier melt
 
-```{r}
+```{r glaciermeltcalculation, message=FALSE, warning=FALSE}
 #| fig.cap = "Daily glacier melt per elevation band." 
 #| out.width = 90%
 MF_small = 4
@@ -253,7 +301,7 @@ ggplot(melt[, 1:10] |>
 
 Aggregate the daily glacier melt to annual data.
 
-```{r glaciermelt}
+```{r glaciermeltcomparison, message=FALSE, warning=FALSE}
 #| fig.cap = "Daily glacier melt per elevation band." 
 #| out.width = 90%
 melt_a_eb <- melt |> 
@@ -261,23 +309,49 @@ melt_a_eb <- melt |>
   mutate(Hyear = hyear(date)) |> 
   group_by(Hyear, ID) |> 
   summarise(date = first(date), 
-            Melt = sum(Melt)) |> 
+            Melt = sum(Melt), 
+            .lb_Melt = ifelse(Melt*(1-error_stats$sMelt)<0, 0, 
+                              Melt*(1-error_stats$sMelt)), 
+            .ub_Melt = Melt*(1+error_stats$sMelt))|> 
   ungroup() 
 melt_a <- melt_a_eb |> 
   separate(ID, into = c("RGIId", "elB"), sep = "_") |> 
   group_by(Hyear, RGIId) |> 
   summarise(date = first(date), 
-            Melt = sum(Melt)) |> 
+            Melt = sum(Melt), 
+            .lb_Melt = ifelse(Melt*(1-error_stats$sMelt)<0, 0, 
+                              Melt*(1-error_stats$sMelt)), 
+            .ub_Melt = Melt*(1+error_stats$sMelt)) |> 
   ungroup() |> 
   dplyr::filter(Hyear > min(Hyear) & Hyear < max(Hyear))
 
 glaciers_hugonnet <- glaciers_hugonnet |> 
-  mutate(Qgl_m3a = glacierDischarge_HM(dhdt))
+  mutate(Qgl_m3a = glacierDischarge_HM(dhdt), 
+         .lb_Qgl_m3a = ifelse(
+           dhdt > 0, 
+           ifelse(Qgl_m3a*(1-error_stats$sQglgrowth)<0, 0, 
+                  Qgl_m3a*(1-error_stats$sQglgrowth)), 
+           ifelse(Qgl_m3a*(1-error_stats$sQglmelt)<0, 0, 
+                  Qgl_m3a*(1-error_stats$sQglmelt))),
+         .ub_Qgl_m3a = ifelse(dhdt > 0, 
+                              Qgl_m3a*(1+error_stats$sQglgrowth), 
+                              Qgl_m3a*(1+error_stats$sQglmelt)))
 melt_obs_a <- glaciers_hugonnet |> 
-  dplyr::filter(RGIId == glaciers[1:6], 
+  dplyr::filter(RGIId %in% glaciers[6:9], 
                 period == 1)
   
 ggplot() + 
+  geom_ribbon(data = melt_a |> 
+                dplyr::filter(RGIId %in% glaciers[6:9]), 
+              aes(date, Melt/1000, ymin = .lb_Melt/1000, ymax = .ub_Melt/1000, 
+                  fill = RGIId), colour = NA, alpha = 0.2) + 
+  geom_ribbon(data = melt_obs_a |> 
+                dplyr::filter(RGIId %in% glaciers[6:9]), 
+              aes(start, -dmdtda, 
+                  ymin = -dmdtda-err_dmdtda, 
+                  ymax = -dmdtda+err_dmdtda, 
+                  colour = RGIId, linetype = "obs", fill = RGIId), 
+              size = 0.2, alpha = 0.2) + 
   geom_line(data = melt_a |> 
               dplyr::filter(RGIId %in% glaciers[6:9]), 
             aes(date, Melt/1000, colour = RGIId, linetype = "sim")) + 
@@ -287,33 +361,56 @@ ggplot() +
   scale_linetype_manual(name = "Source", 
                         values = c("sim" = 1, "obs" = 2)) + 
   scale_colour_viridis_d() + 
+  scale_fill_viridis_d() + 
   ggtitle(paste0("MF: ", MF, "Tth: ", threshold_temperature)) + 
   theme_bw()
 ```
 
-With the synthetic temperatures we cannot obtain the observed steep increase of the glacier melt. In theory, the temperature index model can be calibrated with the specific glacier volume change provided by @hugonnet_accelerated_2021 (see \\ref{fig:glaciermelt}).
+With the synthetic temperatures we cannot obtain the observed steep increase of the glacier melt. In theory, the temperature index model can be calibrated with the specific glacier volume change provided by @hugonnet_accelerated_2021 (see \\ref{fig:glaciermeltcomparison}).
 
 ### Glacier mass balance
 
-```{r}
+```{r glaciermassbalance, message=FALSE, warning=FALSE}
 #| fig.cap = "Glacier development and discharge." 
 #| out.width = 90%
 glacier_balance <- glacierBalance(melt_a_eb = melt_a_eb, 
                                   rgi_elbands = rgi_elbands)
 
+glacier_balance <- glacier_balance |> 
+  mutate(.lb = ifelse(Variable == "A_km2", 
+                      ifelse(Value*(1-error_stats$sA)>0, 
+                             Value*(1-error_stats$sA), 0), 
+                      ifelse(Variable == "V_km3", 
+                             ifelse(Value*(1-error_stats$sV)>0, 
+                                    Value*(1-error_stats$sV), 0), 
+                             ifelse(Variable == "Q_m3a", 
+                                    ifelse(Value*(1-error_stats$sQglmelt)>0,
+                                           Value*(1-error_stats$sQglmelt), 0), 
+                                    ifelse(Variable == "Qimb_m3a", 
+                                           Value*(1-error_stats$sImbal), NA)))), 
+         .ub = ifelse(Variable == "A_km2", 
+                      Value*(1+error_stats$sA), 
+                      ifelse(Variable == "V_km3", 
+                             Value*(1+error_stats$sV), 
+                             ifelse(Variable == "Q_m3a", 
+                                    Value*(1+error_stats$sQglmelt), 
+                                    ifelse(Variable == "Qimb_m3a", 
+                                           Value*(1+error_stats$sImbal), NA)))))
+
 ggplot(glacier_balance |> 
          dplyr::filter(RGIId %in% glaciers[6:9], 
                        Hyear > min(Hyear) & Hyear < max(Hyear), 
                        Variable %in% c("A_km2", "V_km3", "Q_m3a", "Qimb_m3a"))) + 
+  geom_ribbon(aes(Hyear, ymin = .lb, ymax = .ub, fill = RGIId), 
+              alpha = 0.2, colour = NA) + 
   geom_line(aes(Hyear, Value, colour = RGIId)) + 
   facet_wrap("Variable", scales = "free_y") + 
   scale_colour_viridis_d() + 
+  scale_fill_viridis_d() + 
   theme_bw()
 ```
 
 We now have glacier discharge (Q_m3s) and the unsustainable contribution to glacier discharge, the imbalance ablation (Qimb_m3a) which is negative for glacier loss and positive for growing glaciers. We are only interested in the contribution of imbalance ablation to river discharge, that is, only the negative part of Qimb_m3a is relevant to us.
-
-# TODO: include uncertainty in model workflow
 
 # Next steps
 
@@ -331,5 +428,13 @@ saveRDS(melt_d |> rename(M_mmd = melt), file = "vignettes/daily_glacier_melt.rds
 
 saveRDS(glacier_balance, file = "vignettes/glacier_balance.rds")
 ```
+
+# Other glacier modeling resources worth mentioning
+
+Of course there are many more glacier utilities out there which are worth checking out if you are interested in more in-depth glacier modeling.
+
+## Open Global Glacier Model (OGGM)
+
+The [Open Global Glacier Model](<https://oggm.org/>) is a community project which provides glacier modelling tools in python and educational resources. The modeling framework includes comprehensive tutorials and data-pre and post-processing tools.
 
 # References

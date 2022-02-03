@@ -9,7 +9,7 @@ vignette: >
   %\VignetteEncoding{UTF-8}
 ---
 
-```{r, include = FALSE}
+```{r, message=FALSE, warning=FALSE}
 library(riversCentralAsia)
 library(ggplot2)
 library(sf)
@@ -68,7 +68,7 @@ Recent advances in glacier research yielded a stupendous amount of novel data se
 
 Note: For speed's sake we use a demo data set of the catchment of Atbashy river in the Naryn catchment in Kyrgyzstan. The data is loaded as follows:
 
-```{r}
+```{r, message=FALSE, warning=FALSE}
 data("vignette_glacier_melt")
 
 # We just need to load the dem here with a command like dem_atbashy. Very similar to how you can load  runoff, temp and percip of the Chirchik River Basin with the command `ChirchikRiverBasin'.
@@ -85,7 +85,7 @@ The Randolph Glacier Inventory (RGI) v6.0 [@rgi60] makes a consistent global gla
 
 <!-- # TODO: I would plot the RGI data on top of the dem. -->
 
-```{r rgi}
+```{r rgi, message=FALSE, warning=FALSE}
 #| fig.cap = "DEM & Glaciers of the demo basin." 
 #| out.width = 90%
 
@@ -113,9 +113,9 @@ If you are interested to replicate the download and pre-processing please read t
 
 ### How to extract glacier thickness
 
+```{r thicknessExtraction, eval=FALSE, message=FALSE, warning=FALSE}
 <!-- # TODO: Can we not just work with the concrete Atbashy example. One could prepare the datasets to include only the relevant data from the 200 or so glaciers in the catchment and then show the workflow there. Ah, now, I see that in the compild region on the web this is actually just for Atbashy - sorry.-->
 
-```{r thicknessExtraction, eval=FALSE}
 # Get a list of all files in the glacier thickness data set. The files are named 
 # after the glacier ID in the RGI v6.0 data set (variable RGIId).  
 glacier_thickness_dir <- "<Path to glacier thickness tif files (unzipped)>" 
@@ -141,8 +141,7 @@ glacier_thickness <- Reduce(function(x, y) raster::mosaic(x, y, fun = max),
 glacier_thickness <- mask(glacier_thickness, shp_koksu_shait_outline)
 ```
 
-
-```{r thickness}
+```{r thickness, message=FALSE, warning=FALSE}
 #| fig.cap = "Glacier thickness by Farinotti et al., 2019" 
 #| out.width = 90%
 glacier_thickness_df <- as.data.frame(as(glacier_thickness, 
@@ -169,7 +168,7 @@ ggplot() +
 
 The glacier thinning rates can be downloaded from the [data repository](https://www.sedoo.fr/theia-publication-products/?uuid=c428c5b9-df8f-4f86-9b75-e04c778e29b9) as described in the [github site](https://github.com/rhugonnet/ww_tvol_study) linked under the code availability section of the [online paper](https://www.nature.com/articles/s41586-021-03436-z) of @hugonnet_accelerated_2021. We use the per-glacier time series.
 
-```{r thinning}
+```{r thinning, message=FALSE, warning=FALSE}
 #| fig.cap = "Average glacier mass change by Hugonnet et al., 2021."
 #| out.width = 90%
 temp <- glaciers_hugonnet |> 
@@ -190,7 +189,7 @@ ggplot(temp) +
 
 The data is available from the [data repository](https://zenodo.org/record/5119153#.Yfjv6-rMKF4) linked in the [online version of the paper](https://www.nature.com/articles/s41467-021-23073-4).
 
-```{r}
+```{r glacierDischarge, message=FALSE, warning=FALSE}
 #| fig.cap = "Glacier discharge derived from Miles et al., 2021."
 #| out.width = 90%
 # Calculate glacier discharge using the glacierDischarge_HM function of the 
@@ -216,7 +215,7 @@ The geometries of the RGI v6.0 data set are generally very good. If you simulate
 
 For some regions in Central Asia, [OpenStreetMap](https://www.openstreetmap.org/#map=6/40.684/66.076) is an excellent reference for glacier locations and names in Central Asia. You can import the map layer in QGIS or also download individual.
 
-The glacier thickness data set is validated only at few locations as measurements of glacier thickness are typically not available. Uncertainties of up to p/m 50% have to be taken into account according to @farinotti_consensus_2019.
+The glacier thickness data set is validated only at few locations as measurements of glacier thickness are typically not available. @farinotti_consensus_2019 list an uncertainty range for the volume estimate in regions RGI 13 and 14 of 26% each.
 
 @hugonnet_accelerated_2021 & @miles_health_2021 provide the uncertainties of their estimates for per-glacier glacier thinning & discharge rates in the data set itself.
 

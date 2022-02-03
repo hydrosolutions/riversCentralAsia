@@ -28,13 +28,13 @@
 #'   daily glacier melt obtained with the function \code{glacierMelt_TI()} to
 #'   the hydrological year. The vignette \code{glaciers-02} demonstrates a use
 #'   case for the function.
-#'
 #' @export
 #' @family glacier functions
 #' @examples
 #'
 #'
-glacierBalance <- function(melt_a_eb, rgi_elbands, area_threshold = 1) {
+glacierBalance <- function(melt_a_eb, rgi_elbands, area_threshold = 1,
+                           error_stats = NULL) {
 
   # Test if all needed columns are available in the input variables and throw
   # an error if not.
@@ -67,6 +67,7 @@ glacierBalance <- function(melt_a_eb, rgi_elbands, area_threshold = 1) {
     cat("Error. Column thickness_m not found in input rgi_elbands.\n")
     return(NULL)
   }
+
 
   # Calculate the initial volume of the glaciers & elevation bands
   rgi_elbands <- rgi_elbands |>
