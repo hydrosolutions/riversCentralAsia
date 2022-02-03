@@ -100,7 +100,7 @@ $$
 \varepsilon_{Q_{\text{imb,melt}}} = \varepsilon_{Q_{\text{gl,melt}}} + \varepsilon_{\text{glacierImbalAbl}} = 1.37\% + 1.27\% = 2.64\%
 $$
 
-The errors stated above relate to initial estimates of the glacier areas, volumes, total ablation and imbalance ablation. The uncertainties are propagated through each annual time step of the model.
+The errors stated above relate to initial estimates of the glacier areas, volumes, total ablation and imbalance ablation. The uncertainties are not propagated through each time step of the model as the errors cannot be assumed to be uncorrelated.
 
 ```{r errstats}
 # Relative error estimates for the initial state in %
@@ -374,13 +374,37 @@ With the synthetic temperatures we cannot obtain the observed steep increase of 
 glacier_balance <- glacierBalance(melt_a_eb = melt_a_eb, 
                                   rgi_elbands = rgi_elbands)
 
+glacier_balance <- glacier_balance |> 
+  mutate(.lb = ifelse(Variable == "A_km2", 
+                      ifelse(Value*(1-error_stats$sA)>0, 
+                             Value*(1-error_stats$sA), 0), 
+                      ifelse(Variable == "V_km3", 
+                             ifelse(Value*(1-error_stats$sV)>0, 
+                                    Value*(1-error_stats$sV), 0), 
+                             ifelse(Variable == "Q_m3a", 
+                                    ifelse(Value*(1-error_stats$sQglmelt)>0,
+                                           Value*(1-error_stats$sQglmelt), 0), 
+                                    ifelse(Variable == "Qimb_m3a", 
+                                           Value*(1-error_stats$sImbal), NA)))), 
+         .ub = ifelse(Variable == "A_km2", 
+                      Value*(1+error_stats$sA), 
+                      ifelse(Variable == "V_km3", 
+                             Value*(1+error_stats$sV), 
+                             ifelse(Variable == "Q_m3a", 
+                                    Value*(1+error_stats$sQglmelt), 
+                                    ifelse(Variable == "Qimb_m3a", 
+                                           Value*(1+error_stats$sImbal), NA)))))
+
 ggplot(glacier_balance |> 
          dplyr::filter(RGIId %in% glaciers[6:9], 
                        Hyear > min(Hyear) & Hyear < max(Hyear), 
                        Variable %in% c("A_km2", "V_km3", "Q_m3a", "Qimb_m3a"))) + 
+  geom_ribbon(aes(Hyear, ymin = .lb, ymax = .ub, fill = RGIId), 
+              alpha = 0.2, colour = NA) + 
   geom_line(aes(Hyear, Value, colour = RGIId)) + 
   facet_wrap("Variable", scales = "free_y") + 
   scale_colour_viridis_d() + 
+  scale_fill_viridis_d() + 
   theme_bw()
 ```
 
