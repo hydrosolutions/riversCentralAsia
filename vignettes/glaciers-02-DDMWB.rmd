@@ -23,7 +23,7 @@ library(exactextractr)
 
 @hock_temperature_2003 describes several variants of the temperature index model for simulating glacier melt. The riversCentralAsia Package implements the temperature index melt model described in [@hock_temperature_2003] in the function \code{glacierMelt_TI}.
 
-<!-- # TODO: I would you different notation here for the emlt factor. In the published version it is confusing as MF looks like M F where M is the M on the f_{m} -->
+<!-- # TODO: I would you different notation here for the emlt factor. In the published version it is confusing as MF looks like M F where M is the M on the left side. The notation f_{m} might be better! -->
 
 $$
 M = \biggl\{ \begin{array}{l, l}
@@ -42,7 +42,7 @@ $$
 \Delta S = P-M = A_{imbal}
 $$
 
-where the change of water storage ($\Delta S$) is equal to the precipitation ($P$, assumed solid) minus the glacier melt ($M$). Typically melt excesses precipitation and we have negative imbalance ablation, indicating glacier storage loss. The glacier mass balance is calculated in annual time steps. We thereby refer to the hydrological year starting on October 1st of the previous year to take a full accumulation and ablation season into account.
+where the change of water storage ($\Delta S$) is equal to the precipitation ($P$, assumed solid) minus the glacier melt ($M$). Typically melt exceeds precipitation and we have negative imbalance ablation, indicating glacier storage loss. The glacier mass balance is calculated in annual time steps. We thereby refer to the hydrological year starting on October 1st of the previous year to take a full accumulation and ablation season into account.
 
 # Glacier volume development
 
