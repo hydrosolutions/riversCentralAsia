@@ -11,7 +11,8 @@
 #' @family glacier functions
 #' @details Based on the residuals of the fits for growing and melting glaciers
 #'   the following relative errors have been derived: 1.42% and 0.63%
-#'   respectively.
+#'   respectively. The average error of the glacier elevation change is 0.74%.
+#'   See glacier vignette 02 for a demonstration on how to use that information.
 glacierDischarge_HM <- function(dhdt) {
 
   intercept_growth = 0.2997969

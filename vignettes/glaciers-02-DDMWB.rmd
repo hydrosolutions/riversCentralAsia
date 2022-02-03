@@ -75,11 +75,11 @@ The initial glacier volume of each glacier is attributed an uncertainty of p/m 2
 For the non-linear relationships \code{glacierVolume_RGIF} and \code{glacierArea_RGIF}, the standard deviation of the residuals of the fit was computed. The estimated error of the fit is assumed to be equal plus/minus twice the standard deviation of the residuals and yields 31% and 53% respectively. The residuals are not normally distributed, their actual distribution in unknown. We assume uncorrelated errors and therefore add the error of the function input to the error of the fit to obtain the error of the function output.
 
 $$
-\varepsilon_{A} = \varepsilon_{V} + \varepsilon_{\text{glacierArea_RGIF}} = 0.26\% + 0.53\% = 0.79\%
+\varepsilon_{V} = \varepsilon_{A} + \varepsilon_{\text{glacierVolume_RGIF}} = 0.26\% + 0.31\% = 0.57\%
 $$
 
 $$
-\varepsilon_{V} = \varepsilon_{A} + \varepsilon_{\text{glacierVolume_RGIF}} = 0.26\% + 0.31\% = 0.57\%
+\varepsilon_{A} = \varepsilon_{V} + \varepsilon_{\text{glacierArea_RGIF}} = 0.26\% + 0.53\% = 0.79\%
 $$
 
 We do not have an estimate for the error of the temperature index model. We assume a relative error of 2, indicating that the estimated glacier melt is within a range of plus/minus 2 times it's value.
@@ -87,20 +87,34 @@ We do not have an estimate for the error of the temperature index model. We assu
 The glacier discharge relation likewise have estimation errors. For glacier growth we have to assume an average relative error of 1.42% and for glacier melt an average relative error of 0.63%.
 
 $$
-\varepsilon_{Q_{\text{gl,growth}}} = \varepsilon_{dhdt} + \varepsilon_{\text{glacierDischarge_HM,growth}} = 0.18\% + 1.42\% = 1.6\%
+\varepsilon_{Q_{\text{gl,growth}}} = \varepsilon_{dhdt} + \varepsilon_{\text{glacierDischarge_HM,growth}} = 0.74\% + 1.42\% = 2.16\%
 $$
 
 $$
-\varepsilon_{Q_{\text{gl,melt}}} = \varepsilon_{dhdt} + \varepsilon_{\text{glacierDischarge_HM,melt}} = 0.18\% + 0.63\% = 0.81\%
+\varepsilon_{Q_{\text{gl,melt}}} = \varepsilon_{dhdt} + \varepsilon_{\text{glacierDischarge_HM,melt}} = 0.74\% + 0.63\% = 1.37\%
 $$
 
 Similarly the error of the imbalance ablation amounts to 1.27% yielding an error of the imbalance ablation of:
 
 $$
-\varepsilon_{Q_{\text{imb,melt}}} = \varepsilon_{Q_{\text{gl,melt}}} + \varepsilon_{\text{glacierImbalAbl}} = 0.81\% + 1.27\% = 2.08\%
+\varepsilon_{Q_{\text{imb,melt}}} = \varepsilon_{Q_{\text{gl,melt}}} + \varepsilon_{\text{glacierImbalAbl}} = 1.37\% + 1.27\% = 2.64\%
 $$
 
 The errors stated above relate to initial estimates of the glacier areas, volumes, total ablation and imbalance ablation. The uncertainties are propagated through each annual time step of the model.
+
+```{r errstats}
+# Relative error estimates for the initial state in %
+error_stats = tibble(
+  sV = 0.26,  # Glacier volume
+  sA = 0.13,  # Glacier area
+  sTh = 0.13,  # Glacier thickness
+  sMelt = 2,  # Glacier melt
+  sVolumeRGIF = 0.31,  # Calculating glacier volume from glacier area
+  sAreaRGIF = 0.53,  # Calculating glacier area from glacier volume
+  sQglgrowth = 2.16,  # Calculating total glacier discharge from glacier thinning rates for growing glaciers
+  sQglmelt = 1.37,  # Calculating total glacier discharge from glacier thinning rates for melting glaciers
+  sImbal = 1.27)  # Calculating glacier imbalance ablation from total glacier discharge
+```
 
 # Forcing
 
@@ -293,23 +307,49 @@ melt_a_eb <- melt |>
   mutate(Hyear = hyear(date)) |> 
   group_by(Hyear, ID) |> 
   summarise(date = first(date), 
-            Melt = sum(Melt)) |> 
+            Melt = sum(Melt), 
+            .lb_Melt = ifelse(Melt*(1-error_stats$sMelt)<0, 0, 
+                              Melt*(1-error_stats$sMelt)), 
+            .ub_Melt = Melt*(1+error_stats$sMelt))|> 
   ungroup() 
 melt_a <- melt_a_eb |> 
   separate(ID, into = c("RGIId", "elB"), sep = "_") |> 
   group_by(Hyear, RGIId) |> 
   summarise(date = first(date), 
-            Melt = sum(Melt)) |> 
+            Melt = sum(Melt), 
+            .lb_Melt = ifelse(Melt*(1-error_stats$sMelt)<0, 0, 
+                              Melt*(1-error_stats$sMelt)), 
+            .ub_Melt = Melt*(1+error_stats$sMelt)) |> 
   ungroup() |> 
   dplyr::filter(Hyear > min(Hyear) & Hyear < max(Hyear))
 
 glaciers_hugonnet <- glaciers_hugonnet |> 
-  mutate(Qgl_m3a = glacierDischarge_HM(dhdt))
+  mutate(Qgl_m3a = glacierDischarge_HM(dhdt), 
+         .lb_Qgl_m3a = ifelse(
+           dhdt > 0, 
+           ifelse(Qgl_m3a*(1-error_stats$sQglgrowth)<0, 0, 
+                  Qgl_m3a*(1-error_stats$sQglgrowth)), 
+           ifelse(Qgl_m3a*(1-error_stats$sQglmelt)<0, 0, 
+                  Qgl_m3a*(1-error_stats$sQglmelt))),
+         .ub_Qgl_m3a = ifelse(dhdt > 0, 
+                              Qgl_m3a*(1+error_stats$sQglgrowth), 
+                              Qgl_m3a*(1+error_stats$sQglmelt)))
 melt_obs_a <- glaciers_hugonnet |> 
-  dplyr::filter(RGIId == glaciers[1:6], 
+  dplyr::filter(RGIId %in% glaciers[6:9], 
                 period == 1)
   
 ggplot() + 
+  geom_ribbon(data = melt_a |> 
+                dplyr::filter(RGIId %in% glaciers[6:9]), 
+              aes(date, Melt/1000, ymin = .lb_Melt/1000, ymax = .ub_Melt/1000, 
+                  fill = RGIId), colour = NA, alpha = 0.2) + 
+  geom_ribbon(data = melt_obs_a |> 
+                dplyr::filter(RGIId %in% glaciers[6:9]), 
+              aes(start, -dmdtda, 
+                  ymin = -dmdtda-err_dmdtda, 
+                  ymax = -dmdtda+err_dmdtda, 
+                  colour = RGIId, linetype = "obs", fill = RGIId), 
+              size = 0.2, alpha = 0.2) + 
   geom_line(data = melt_a |> 
               dplyr::filter(RGIId %in% glaciers[6:9]), 
             aes(date, Melt/1000, colour = RGIId, linetype = "sim")) + 
@@ -319,6 +359,7 @@ ggplot() +
   scale_linetype_manual(name = "Source", 
                         values = c("sim" = 1, "obs" = 2)) + 
   scale_colour_viridis_d() + 
+  scale_fill_viridis_d() + 
   ggtitle(paste0("MF: ", MF, "Tth: ", threshold_temperature)) + 
   theme_bw()
 ```
@@ -344,8 +385,6 @@ ggplot(glacier_balance |>
 ```
 
 We now have glacier discharge (Q_m3s) and the unsustainable contribution to glacier discharge, the imbalance ablation (Qimb_m3a) which is negative for glacier loss and positive for growing glaciers. We are only interested in the contribution of imbalance ablation to river discharge, that is, only the negative part of Qimb_m3a is relevant to us.
-
-# TODO: include uncertainty in model workflow
 
 # Next steps
 

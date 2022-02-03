@@ -14,6 +14,8 @@
 #' @examples
 #' imbalAbl_m3a <- glacierImbalAbl(c(1,2,3,4,5)*10^6)
 #' @family glacier functions
+#' @details The relative error of the function is estimated to be 1.27%. See
+#'   vignette glaciers 02 on a demonstration how to use that information.
 glacierImbalAbl <- function(totAbl_m3a) {
 
   a = 1281.734
