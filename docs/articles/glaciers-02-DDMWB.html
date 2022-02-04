@@ -104,32 +104,23 @@
 
     
     
-<div class="sourceCode" id="cb1"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="https://hydrosolutions.github.io/riversCentralAsia/index.html">riversCentralAsia</a></span><span class="op">)</span>
-<span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="https://tidyverse.tidyverse.org">tidyverse</a></span><span class="op">)</span>
-<span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="https://lubridate.tidyverse.org">lubridate</a></span><span class="op">)</span>
-<span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="https://r-spatial.github.io/sf/">sf</a></span><span class="op">)</span>
-<span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="https://rspatial.org/raster">raster</a></span><span class="op">)</span>
-<span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="https://isciences.gitlab.io/exactextractr/">exactextractr</a></span><span class="op">)</span></code></pre></div>
 <div id="temperature-index-model" class="section level1">
 <h1 class="hasAnchor">
 <a href="#temperature-index-model" class="anchor"></a>Temperature index model</h1>
 <p><span class="citation">Hock (2003)</span> describes several variants
-of the temperature index model for simulating glacier melt. The
-riversCentralAsia Package implements the temperature index melt model
-described in <span class="citation">(Hock 2003)</span> in the function
-.</p>
-<!-- # TODO: I would you different notation here for the emlt factor. In the published version it is confusing as MF looks like M F where M is the M on the f_{m} -->
+of the temperature index model for simulating glacier melt. The package
+implements the temperature index melt model described in <span class="citation">(Hock 2003)</span> in the function .</p>
 <p><span class="math display">\[
 M = \biggl\{ \begin{array}{l, l}
 0, &amp; T &lt; T_{threshold} \\
-MF \cdot \left( T - T_{threshold} \right), &amp; T &gt;= T_{threshold}
+f_{M} \cdot \left( T - T_{threshold} \right), &amp; T &gt;=
+T_{threshold}
 \end{array}
 \]</span></p>
 <p>where <span class="math inline">\(M\)</span> is the glacier melt in
 <span class="math inline">\(mm/d\)</span>, <span class="math inline">\(T\)</span> is the daily average temperature in
 <span class="math inline">\(^{\circ} C\)</span>. The two parameters
-<span class="math inline">\(MF\)</span> and <span class="math inline">\(T_{\text{threshold}}\)</span> refer to the melt
+<span class="math inline">\(f_{M}\)</span> and <span class="math inline">\(T_{\text{threshold}}\)</span> refer to the melt
 factor and the threshold temperature above which glacier melt occurs and
 need to be calibrated. They have the units <span class="math inline">\(\frac{mm}{^{\circ} C \cdot d}\)</span> and <span class="math inline">\(^{\circ} C\)</span> respectively. Glacier melt is
 calculated in daily time steps.</p>
@@ -184,10 +175,8 @@ the scaling function derived by <span class="citation">Erasov
 the glacier thickness data set by <span class="citation">Farinotti et
 al. (2019)</span>. The package implements volume-area and area-volume
 scaling functions based on both, Erashov and RGI-Farinotti data,
-allowing the estimation of glacier areas based on glacier volumes
-(\code{glacierArea_Erasov} and \code{glacierArea_RGIF}) and estimations
-of glacier volumes based on glacier areas (\code{glacierVolume_Erasov}
-and \code{glacierVolume_RGIF}).</p>
+allowing the estimation of glacier areas based on glacier volumes ( and
+) and estimations of glacier volumes based on glacier areas ( and ).</p>
 <p>The function is an empirical scaling function relating total glacier
 melt to imbalance ablation. It is derived from the glacier discharge
 data set by <span class="citation">Miles et al. (2021)</span>.</p>
@@ -214,40 +203,41 @@ uncorrelated errors and therefore add the error of the function input to
 the error of the fit to obtain the error of the function output.</p>
 <p><span class="math display">\[
 \varepsilon_{V} = \varepsilon_{A} +
-\varepsilon_{\text{glacierVolume_RGIF}} = 0.26\% + 0.31\% = 0.57\%
+\varepsilon_{\text{glacierVolume_RGIF}} = 0.26 + 0.31 = 0.57
 \]</span></p>
 <p><span class="math display">\[
 \varepsilon_{A} = \varepsilon_{V} +
-\varepsilon_{\text{glacierArea_RGIF}} = 0.26\% + 0.53\% = 0.79\%
+\varepsilon_{\text{glacierArea_RGIF}} = 0.26 + 0.53 = 0.79
 \]</span></p>
 <p>We do not have an estimate for the error of the temperature index
 model. We assume a relative error of 2, indicating that the estimated
 glacier melt is within a range of plus/minus 2 times it’s value.</p>
 <p>The glacier discharge relation likewise have estimation errors. For
-glacier growth we have to assume an average relative error of 1.42% and
-for glacier melt an average relative error of 0.63%.</p>
+glacier growth we have to assume an average relative error of 142% and
+for glacier melt an average relative error of 63%.</p>
 <p><span class="math display">\[
 \varepsilon_{Q_{\text{gl,growth}}} = \varepsilon_{dhdt} +
-\varepsilon_{\text{glacierDischarge_HM,growth}} = 0.74\% + 1.42\% =
-2.16\%
+\varepsilon_{\text{glacierDischarge_HM,growth}} = 0.74 + 1.42 = 2.16
 \]</span></p>
 <p><span class="math display">\[
 \varepsilon_{Q_{\text{gl,melt}}} = \varepsilon_{dhdt} +
-\varepsilon_{\text{glacierDischarge_HM,melt}} = 0.74\% + 0.63\% = 1.37\%
+\varepsilon_{\text{glacierDischarge_HM,melt}} = 0.74 + 0.63 = 1.37
 \]</span></p>
-<p>Similarly the error of the imbalance ablation amounts to 1.27%
+<p>Similarly the error of the imbalance ablation amounts to 127%
 yielding an error of the imbalance ablation of:</p>
 <p><span class="math display">\[
 \varepsilon_{Q_{\text{imb,melt}}} = \varepsilon_{Q_{\text{gl,melt}}} +
-\varepsilon_{\text{glacierImbalAbl}} = 1.37\% + 1.27\% = 2.64\%
+\varepsilon_{\text{glacierImbalAbl}} = 1.37 + 1.27 = 2.64
 \]</span></p>
 <p>The errors stated above relate to initial estimates of the glacier
 areas, volumes, total ablation and imbalance ablation. The uncertainties
 are not propagated through each time step of the model as the errors
-cannot be assumed to be uncorrelated.</p>
-<div class="sourceCode" id="cb2"><pre class="downlit sourceCode r">
+cannot be assumed to be uncorrelated. In any case, the uncertainty
+margins for any glacier melt modelling done with the presented method
+are large.</p>
+<div class="sourceCode" id="cb1"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="co"># Relative error estimates for the initial state in %</span>
-<span class="va">error_stats</span> <span class="op">=</span> <span class="fu"><a href="https://r-spatial.github.io/sf/reference/tibble.html">tibble</a></span><span class="op">(</span>
+<span class="va">error_stats</span> <span class="op">=</span> <span class="fu">tibble</span><span class="fu">::</span><span class="fu"><a href="https://tibble.tidyverse.org/reference/tibble.html">tibble</a></span><span class="op">(</span>
   sV <span class="op">=</span> <span class="fl">0.26</span>,  <span class="co"># Glacier volume</span>
   sA <span class="op">=</span> <span class="fl">0.13</span>,  <span class="co"># Glacier area</span>
   sTh <span class="op">=</span> <span class="fl">0.13</span>,  <span class="co"># Glacier thickness</span>
@@ -258,25 +248,45 @@ cannot be assumed to be uncorrelated.</p>
   sQglmelt <span class="op">=</span> <span class="fl">1.37</span>,  <span class="co"># Calculating total glacier discharge from glacier thinning rates for melting glaciers</span>
   sImbal <span class="op">=</span> <span class="fl">1.27</span><span class="op">)</span>  <span class="co"># Calculating glacier imbalance ablation from total glacier discharge</span></code></pre></div>
 </div>
-<div id="forcing" class="section level1">
+<div id="demonstration" class="section level1">
 <h1 class="hasAnchor">
-<a href="#forcing" class="anchor"></a>Forcing</h1>
+<a href="#demonstration" class="anchor"></a>Demonstration</h1>
+<p>We demonstrate the above described method with the data from the
+Atbashy basin. As for the <a href="glaciers-01-intro.html">previous
+chapter</a> you can download all required data from <a href="https://www.dropbox.com/sh/r0lqggc77ka0uxd/AAChuIyLHHFIfAdgxNKiU2dpa?dl=1" target="_blank">this link</a>.</p>
+<div class="sourceCode" id="cb2"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="https://github.com/mtennekes/tmap">tmap</a></span><span class="op">)</span>
+<span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="https://r-spatial.github.io/sf/">sf</a></span><span class="op">)</span>
+<span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="https://rspatial.org/raster">raster</a></span><span class="op">)</span>
+<span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="https://isciences.gitlab.io/exactextractr/">exactextractr</a></span><span class="op">)</span>
+<span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="https://tidyverse.tidyverse.org">tidyverse</a></span><span class="op">)</span>
+<span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="https://lubridate.tidyverse.org">lubridate</a></span><span class="op">)</span>
+<span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="https://hydrosolutions.github.io/riversCentralAsia/index.html">riversCentralAsia</a></span><span class="op">)</span>
+
+<span class="co"># Path to the data directory downloaded from the download link provided above. </span>
+<span class="co"># Here the data is extracted to a folder called atbashy_glacier_demo_data</span>
+<span class="va">data_path</span> <span class="op">&lt;-</span> <span class="st">"../../atbashy_glacier_demo_data/"</span></code></pre></div>
+<div id="forcing" class="section level2">
+<h2 class="hasAnchor">
+<a href="#forcing" class="anchor"></a>Forcing</h2>
 <p>There will be a separate Vignette to demonstrate how to prepare the
 forcing. For now, we provide you with the pre-processed forcing data and
 give you just a brief overview over the data source.</p>
-<div id="historical-temperatures" class="section level2">
-<h2 class="hasAnchor">
-<a href="#historical-temperatures" class="anchor"></a>Historical temperatures</h2>
+<div id="historical-temperatures" class="section level3">
+<h3 class="hasAnchor">
+<a href="#historical-temperatures" class="anchor"></a>Historical temperatures</h3>
 <p>As meteorological data for high elevations in Central Asia is very
-scarce we use the CHELSA v2.1 data set. This is a global data set of
-forcing data for hydrolgical models based on ERA5 but corrected for
-biases and for high elevations. The daily CHELSA forcing has been cut to
-the Central Region by the originator of the data set, D. Karger,
-WSL.</p>
+scarce we use the CHELSA v2.1 data set <span class="citation">(Karger et
+al. 2017)</span>. This is a global data set of forcing data for
+hydrolgical models based on ERA5 but corrected for biases and especially
+suited for high elevations. The daily CHELSA forcing has been cut to the
+Central Region by the originator of the data set, D. Karger, WSL and
+extracted to the hydrological response units of the glaciers in the
+Atbashy basin by T. Siegfried.</p>
 <div class="sourceCode" id="cb3"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="co">#| fig.cap = "Daily temperature time series of a glacier. Data source: CHELSA." </span>
+<code class="sourceCode R"><span class="co">#| fig.cap = "Daily temperature time series of a glacier. Data source: CHELSA v2.1." </span>
 <span class="co">#| out.width = 90%</span>
-<span class="va">hist_obs</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/readRDS.html">readRDS</a></span><span class="op">(</span>file <span class="op">=</span> <span class="st">"hist_obs_glacier_tas.rds"</span><span class="op">)</span>
+<span class="va">hist_obs</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/readRDS.html">readRDS</a></span><span class="op">(</span>file <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/paste.html">paste0</a></span><span class="op">(</span><span class="va">data_path</span>, <span class="st">"CLIMATE/hist_obs_glacier_tas.rds"</span><span class="op">)</span><span class="op">)</span>
 
 <span class="co"># Plot the temperature time series for a given glacier/elevation band</span>
 <span class="va">glacier</span> <span class="op">&lt;-</span> <span class="st">"RGI60-13.08930_1"</span>
@@ -286,11 +296,11 @@ WSL.</p>
   <span class="fu">theme_bw</span><span class="op">(</span><span class="op">)</span></code></pre></div>
 <p><img src="glaciers-02-DDMWB_files/figure-html/histobs-1.png" width="700"></p>
 </div>
-<div id="future-temperatures" class="section level2">
-<h2 class="hasAnchor">
-<a href="#future-temperatures" class="anchor"></a>Future temperatures</h2>
+<div id="future-temperatures" class="section level3">
+<h3 class="hasAnchor">
+<a href="#future-temperatures" class="anchor"></a>Future temperatures</h3>
 <p>Future temperature development per glacier or elevation band is
-extracted from the 4 CMIP6 GCM models with highest priorities for the
+extracted from the 3 CMIP6 GCM models with highest priorities for the
 region () downloaded from COPERNICUS. We take 4 socioeconomic scenarios
 into account, covering 4 different emission scenarios. The temperatures
 of the climate models are bias corrected using the CHELSA data and a
@@ -298,7 +308,7 @@ quantile mapping method.</p>
 <div class="sourceCode" id="cb4"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="co">#| fig.cap = "Annual historical (CHELSA) and future (CMIP6, Copernicus) temperature for a glacier. " </span>
 <span class="co">#| out.width = 90%</span>
-<span class="va">fut_sim</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/readRDS.html">readRDS</a></span><span class="op">(</span>file <span class="op">=</span> <span class="st">"fut_sim_glacier_tas_qmapped.RDS"</span><span class="op">)</span>
+<span class="va">fut_sim</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/readRDS.html">readRDS</a></span><span class="op">(</span>file <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/paste.html">paste0</a></span><span class="op">(</span><span class="va">data_path</span>, <span class="st">"CLIMATE/fut_sim_glacier_tas_qmapped.RDS"</span><span class="op">)</span><span class="op">)</span>
 
 <span class="co"># Plot the temperature time series for a given glacier/elevation band</span>
 <span class="va">glacier</span> <span class="op">&lt;-</span> <span class="st">"RGI60-13.08930_1"</span>
@@ -340,11 +350,6 @@ quantile mapping method.</p>
 <p><img src="glaciers-02-DDMWB_files/figure-html/futsim-1.png" width="700"></p>
 </div>
 </div>
-<div id="demonstration" class="section level1">
-<h1 class="hasAnchor">
-<a href="#demonstration" class="anchor"></a>Demonstration</h1>
-<p>We demonstrate the above described method with the data from the
-Atbashy basin.</p>
 <div id="calculate-daily-glacier-melt" class="section level2">
 <h2 class="hasAnchor">
 <a href="#calculate-daily-glacier-melt" class="anchor"></a>Calculate daily glacier melt</h2>
@@ -352,72 +357,60 @@ Atbashy basin.</p>
 <h3 class="hasAnchor">
 <a href="#glacier-geometry" class="anchor"></a>Glacier geometry</h3>
 <div class="sourceCode" id="cb5"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="co"># Load a shape file with elevation bands for the larger glaciers.</span>
-<span class="va">data</span> <span class="op">&lt;-</span> <span class="va">vignette_glacier_melt</span>
+<code class="sourceCode R"><span class="co"># Load data</span>
+<span class="va">dem</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/pkg/raster/man/raster.html">raster</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/paste.html">paste0</a></span><span class="op">(</span><span class="va">data_path</span>, <span class="st">"GIS/16076_DEM.tif"</span><span class="op">)</span><span class="op">)</span>
+<span class="va">rgi</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://r-spatial.github.io/sf/reference/st_read.html">st_read</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/paste.html">paste0</a></span><span class="op">(</span><span class="va">data_path</span>, <span class="st">"GIS/16076_Glaciers_per_subbasin.shp"</span><span class="op">)</span>, 
+               quiet <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span> |&gt; 
+  <span class="fu"><a href="https://r-spatial.github.io/sf/reference/st_transform.html">st_transform</a></span><span class="op">(</span>crs <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/pkg/raster/man/projection.html">crs</a></span><span class="op">(</span><span class="va">dem</span><span class="op">)</span><span class="op">)</span>
+<span class="va">rgi_elbands</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://r-spatial.github.io/sf/reference/st_read.html">st_read</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/paste.html">paste0</a></span><span class="op">(</span><span class="va">data_path</span>, 
+                              <span class="st">"GIS/rgi_glaciers_atbaschy_el_bands.shp"</span><span class="op">)</span>, 
+               quiet <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span> |&gt; 
+  <span class="fu"><a href="https://r-spatial.github.io/sf/reference/st_transform.html">st_transform</a></span><span class="op">(</span>crs <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/pkg/raster/man/projection.html">crs</a></span><span class="op">(</span><span class="va">dem</span><span class="op">)</span><span class="op">)</span>
+
+<span class="co"># Load a pre-processed raster file with glacier thickness in the Atbashy basin</span>
+<span class="va">glacier_thickness</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/pkg/raster/man/raster.html">raster</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/paste.html">paste0</a></span><span class="op">(</span><span class="va">data_path</span>, 
+                                   <span class="st">"GLACIERS/Farinotti/pre-processed_glacier_thickness.tif"</span><span class="op">)</span><span class="op">)</span>
+
+<span class="va">hugonnet</span> <span class="op">&lt;-</span> <span class="fu">read_csv</span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/paste.html">paste0</a></span><span class="op">(</span><span class="va">data_path</span>, <span class="st">"/GLACIERS/Hugonnet/dh_13_rgi60_pergla_rates.csv"</span><span class="op">)</span><span class="op">)</span>
+<span class="va">hugonnet</span> <span class="op">&lt;-</span> <span class="va">hugonnet</span> |&gt; 
+  <span class="fu">dplyr</span><span class="fu">::</span><span class="fu"><a href="https://dplyr.tidyverse.org/reference/filter.html">filter</a></span><span class="op">(</span><span class="va">rgiid</span> <span class="op">%in%</span> <span class="va">rgi</span><span class="op">$</span><span class="va">RGIId</span><span class="op">)</span> |&gt; 
+  <span class="fu">tidyr</span><span class="fu">::</span><span class="fu"><a href="https://tidyr.tidyverse.org/reference/separate.html">separate</a></span><span class="op">(</span><span class="va">period</span>, <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="st">"start"</span>, <span class="st">"end"</span><span class="op">)</span>, sep <span class="op">=</span> <span class="st">"_"</span><span class="op">)</span> |&gt; 
+  <span class="fu">mutate</span><span class="op">(</span>start <span class="op">=</span> <span class="fu"><a href="https://lubridate.tidyverse.org/reference/as_date.html">as_date</a></span><span class="op">(</span><span class="va">start</span>, format <span class="op">=</span> <span class="st">"%Y-%m-%d"</span><span class="op">)</span>, 
+         end <span class="op">=</span> <span class="fu"><a href="https://lubridate.tidyverse.org/reference/as_date.html">as_date</a></span><span class="op">(</span><span class="va">end</span>, format <span class="op">=</span> <span class="st">"%Y-%m-%d"</span><span class="op">)</span>, 
+         period <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/Round.html">round</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/numeric.html">as.numeric</a></span><span class="op">(</span><span class="va">end</span> <span class="op">-</span> <span class="va">start</span>, units <span class="op">=</span> <span class="st">"days"</span><span class="op">)</span><span class="op">/</span><span class="fl">366</span><span class="op">)</span><span class="op">)</span>
+<span class="va">glaciers_hugonnet</span> <span class="op">&lt;-</span> <span class="va">rgi</span> |&gt; 
+  <span class="fu">left_join</span><span class="op">(</span><span class="va">hugonnet</span> |&gt; <span class="fu">dplyr</span><span class="fu">::</span><span class="fu"><a href="https://dplyr.tidyverse.org/reference/select.html">select</a></span><span class="op">(</span><span class="va">rgiid</span>, <span class="va">area</span>, <span class="va">start</span>, <span class="va">end</span>, <span class="va">dhdt</span>, <span class="va">err_dhdt</span>, 
+                                      <span class="va">dvoldt</span>, <span class="va">err_dvoldt</span>, <span class="va">dmdt</span>, <span class="va">err_dmdt</span>, 
+                                      <span class="va">dmdtda</span>, <span class="va">err_dmdtda</span>, <span class="va">period</span><span class="op">)</span>,  
+            by <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="st">"RGIId"</span> <span class="op">=</span> <span class="st">"rgiid"</span><span class="op">)</span><span class="op">)</span> 
 
 <span class="co"># Only keep the variables we need for this analysis</span>
-<span class="va">rgi_elbands</span> <span class="op">&lt;-</span> <span class="va">data</span><span class="op">$</span><span class="va">rgi_elbands</span> |&gt; 
+<span class="va">rgi_elbands</span> <span class="op">&lt;-</span> <span class="va">rgi_elbands</span> |&gt; 
   <span class="fu">dplyr</span><span class="fu">::</span><span class="fu"><a href="https://dplyr.tidyverse.org/reference/select.html">select</a></span><span class="op">(</span><span class="va">RGIId</span>, <span class="va">Area</span>, <span class="va">elvtn_b</span><span class="op">)</span> |&gt; 
   <span class="fu">rename</span><span class="op">(</span>Area_tot_glacier_km2 <span class="op">=</span> <span class="va">Area</span><span class="op">)</span> |&gt; 
   <span class="fu">mutate</span><span class="op">(</span>ID <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/paste.html">paste0</a></span><span class="op">(</span><span class="va">RGIId</span>, <span class="st">"_"</span>, <span class="va">elvtn_b</span><span class="op">)</span><span class="op">)</span>
 
 <span class="co"># Get mean elevation of each glacier/elevation band from DEM</span>
-<span class="va">rgi_elbands</span><span class="op">$</span><span class="va">z_masl</span> <span class="op">&lt;-</span> <span class="fu">exact_extract</span><span class="op">(</span><span class="va">data</span><span class="op">$</span><span class="va">dem</span>, <span class="va">rgi_elbands</span>, <span class="st">"mean"</span>, progress <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span>
+<span class="va">rgi_elbands</span><span class="op">$</span><span class="va">z_masl</span> <span class="op">&lt;-</span> <span class="fu">exact_extract</span><span class="op">(</span><span class="va">dem</span>, <span class="va">rgi_elbands</span>, <span class="st">"mean"</span>, progress <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span>
 
 <span class="co"># Update the glacier area within the basin boundaries</span>
 <span class="va">rgi_elbands</span><span class="op">$</span><span class="va">A_km2</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/numeric.html">as.numeric</a></span><span class="op">(</span><span class="fu"><a href="https://r-spatial.github.io/sf/reference/geos_measures.html">st_area</a></span><span class="op">(</span><span class="va">rgi_elbands</span><span class="op">)</span><span class="op">)</span><span class="op">*</span><span class="fl">10</span><span class="op">^</span><span class="op">(</span><span class="op">-</span><span class="fl">6</span><span class="op">)</span>
 <span class="va">glaciers</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/pkg/raster/man/unique.html">unique</a></span><span class="op">(</span><span class="va">rgi_elbands</span><span class="op">$</span><span class="va">RGIId</span><span class="op">)</span>
 
 <span class="co"># Glacier thickness for elevation bands</span>
-<span class="va">rgi_elbands</span><span class="op">$</span><span class="va">thickness_m</span> <span class="op">=</span> <span class="fu">exact_extract</span><span class="op">(</span><span class="va">data</span><span class="op">$</span><span class="va">glacier_thickness</span>, 
+<span class="va">rgi_elbands</span><span class="op">$</span><span class="va">thickness_m</span> <span class="op">=</span> <span class="fu">exact_extract</span><span class="op">(</span><span class="va">glacier_thickness</span>, 
                                         <span class="va">rgi_elbands</span>, <span class="st">"mean"</span>, progress <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span></code></pre></div>
 </div>
 <div id="forcing-1" class="section level3">
 <h3 class="hasAnchor">
 <a href="#forcing-1" class="anchor"></a>Forcing</h3>
-<p>When simulating glacier melt, you would typically extract a
-temperature time series for each glacier/elevation band. In this
-vignette, we only have 1 time series <span class="math inline">\(T_0\)</span> at mean glacier elevation <span class="math inline">\(z_0\)</span> to save storage space. We therefore
-first have to generate synthetic temperature time series for each
-glaciers/elevation band <span class="math inline">\(i\)</span> using a
-typical temperature lapse rate <span class="math inline">\(r_{\text{lapse}}\)</span> for mountainous regions
-as follows:</p>
-<p><span class="math display">\[
-\frac{\Delta T}{\Delta z} = \frac{T_0-T_i}{z_0-z_i} = r_{\text{lapse}} =
--\frac{6.5 ^{\circ}C}{1000 m}
-\]</span></p>
-<p><span class="math display">\[
-T_{i} = T_{0} + r_{\text{lapse}} \cdot (z_{0} - z_{i})
-\]</span></p>
+<p>Temperature time series for each glacier/elevation band are
+available.</p>
 <div class="sourceCode" id="cb6"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="co">#| fig.cap = "Synthetic forcing for the elevation bands of a glacier. " </span>
+<code class="sourceCode R"><span class="co">#| fig.cap = "Temperature forcing for the elevation bands of a glacier. " </span>
 <span class="co">#| out.width = 90%</span>
-<span class="va">glacier</span> <span class="op">&lt;-</span> <span class="st">"RGI60-13.08930_1"</span>
-<span class="va">z_glacier</span> <span class="op">&lt;-</span> <span class="va">rgi_elbands</span><span class="op">$</span><span class="va">z_masl</span><span class="op">[</span><span class="va">rgi_elbands</span><span class="op">$</span><span class="va">ID</span> <span class="op">==</span> <span class="va">glacier</span><span class="op">]</span>
-<span class="va">temperature_laps_rate</span> <span class="op">&lt;-</span> <span class="op">-</span><span class="fl">6.5</span><span class="op">/</span><span class="fl">1000</span>  <span class="co"># deg K / 1000 m </span>
 
-<span class="co"># Generate synthetic temperature time series for each glacier &amp; elevation band in </span>
-<span class="co"># the basin. </span>
-<span class="va">z_glaciers</span> <span class="op">&lt;-</span> <span class="va">rgi_elbands</span> |&gt; 
-  <span class="fu"><a href="https://r-spatial.github.io/sf/reference/st_geometry.html">st_drop_geometry</a></span><span class="op">(</span><span class="op">)</span> |&gt; 
-  <span class="fu">dplyr</span><span class="fu">::</span><span class="fu"><a href="https://dplyr.tidyverse.org/reference/select.html">select</a></span><span class="op">(</span><span class="va">ID</span>, <span class="va">z_masl</span><span class="op">)</span> |&gt; 
-  <span class="fu">pivot_wider</span><span class="op">(</span>names_from <span class="op">=</span> <span class="va">ID</span>, values_from <span class="op">=</span> <span class="va">z_masl</span><span class="op">)</span>
-
-<span class="va">hrus</span> <span class="op">&lt;-</span> <span class="va">rgi_elbands</span><span class="op">$</span><span class="va">ID</span>
-<span class="va">t_glaciers</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/pkg/raster/man/as.matrix.html">as.matrix</a></span><span class="op">(</span><span class="va">hist_obs</span><span class="op">)</span>
-<span class="fu"><a href="https://rdrr.io/r/base/colnames.html">colnames</a></span><span class="op">(</span><span class="va">t_glaciers</span><span class="op">)</span> <span class="op">&lt;-</span> <span class="cn">NULL</span>
-<span class="kw">for</span> <span class="op">(</span><span class="va">hru</span> <span class="kw">in</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="fl">2</span><span class="op">:</span><span class="fu"><a href="https://rdrr.io/r/base/length.html">length</a></span><span class="op">(</span><span class="va">hrus</span><span class="op">)</span><span class="op">)</span><span class="op">)</span> <span class="op">{</span>
-  <span class="va">t_glaciers</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/cbind.html">cbind</a></span><span class="op">(</span><span class="va">t_glaciers</span>, <span class="fu"><a href="https://rdrr.io/pkg/raster/man/as.matrix.html">as.matrix</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/numeric.html">as.numeric</a></span><span class="op">(</span><span class="va">t_glaciers</span><span class="op">[</span>, <span class="fl">2</span><span class="op">]</span><span class="op">)</span><span class="op">)</span> <span class="op">+</span> 
-    <span class="va">temperature_laps_rate</span> <span class="op">*</span> 
-    <span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/numeric.html">as.numeric</a></span><span class="op">(</span><span class="va">z_glaciers</span><span class="op">[</span><span class="va">hru</span><span class="op">]</span><span class="op">)</span> <span class="op">-</span> <span class="fu"><a href="https://rdrr.io/r/base/numeric.html">as.numeric</a></span><span class="op">(</span><span class="va">z_glaciers</span><span class="op">[</span><span class="fl">1</span><span class="op">]</span><span class="op">)</span><span class="op">)</span><span class="op">)</span>
-<span class="op">}</span> 
-<span class="fu"><a href="https://rdrr.io/r/base/colnames.html">colnames</a></span><span class="op">(</span><span class="va">t_glaciers</span><span class="op">)</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="st">"date"</span>, <span class="va">hrus</span><span class="op">)</span> 
-<span class="va">t_glaciers</span> <span class="op">&lt;-</span> <span class="fu">as_tibble</span><span class="op">(</span><span class="va">t_glaciers</span><span class="op">)</span>
-<span class="va">t_glaciers</span><span class="op">$</span><span class="va">date</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://lubridate.tidyverse.org/reference/as_date.html">as_date</a></span><span class="op">(</span><span class="va">t_glaciers</span><span class="op">$</span><span class="va">date</span><span class="op">)</span>
-<span class="va">t_glaciers</span> <span class="op">&lt;-</span> <span class="va">t_glaciers</span> |&gt; 
-  <span class="fu">mutate</span><span class="op">(</span><span class="fu">across</span><span class="op">(</span><span class="fu">starts_with</span><span class="op">(</span><span class="st">"RGI"</span><span class="op">)</span>, <span class="op">~</span><span class="fu"><a href="https://rdrr.io/r/base/numeric.html">as.numeric</a></span><span class="op">(</span><span class="va">.x</span><span class="op">)</span><span class="op">)</span><span class="op">)</span>
-
-<span class="fu">ggplot</span><span class="op">(</span><span class="va">t_glaciers</span><span class="op">[</span>, <span class="fl">1</span><span class="op">:</span><span class="fl">10</span><span class="op">]</span> |&gt; 
+<span class="fu">ggplot</span><span class="op">(</span><span class="va">hist_obs</span><span class="op">[</span>, <span class="fl">1</span><span class="op">:</span><span class="fl">10</span><span class="op">]</span> |&gt; 
          <span class="fu">pivot_longer</span><span class="op">(</span><span class="op">-</span><span class="va">date</span>, names_to <span class="op">=</span> <span class="st">"ID"</span>, values_to <span class="op">=</span> <span class="st">"Temp"</span><span class="op">)</span><span class="op">)</span> <span class="op">+</span> 
   <span class="fu">geom_line</span><span class="op">(</span><span class="fu">aes</span><span class="op">(</span><span class="va">date</span>, <span class="va">Temp</span>, colour <span class="op">=</span> <span class="va">ID</span><span class="op">)</span><span class="op">)</span> <span class="op">+</span> 
   <span class="fu">scale_colour_viridis_d</span><span class="op">(</span><span class="op">)</span> <span class="op">+</span> 
@@ -443,11 +436,11 @@ T_{i} = T_{0} + r_{\text{lapse}} \cdot (z_{0} - z_{i})
   <span class="fu">mutate</span><span class="op">(</span><span class="fu">across</span><span class="op">(</span><span class="fu">everything</span><span class="op">(</span><span class="op">)</span>, <span class="op">~</span><span class="va">MF_large</span><span class="op">)</span>, 
          <span class="fu">across</span><span class="op">(</span><span class="fu">ends_with</span><span class="op">(</span><span class="st">"_1"</span><span class="op">)</span>, <span class="op">~</span><span class="va">MF_small</span><span class="op">)</span><span class="op">)</span>
 
-<span class="va">melt</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/glacierMelt_TI.html">glacierMelt_TI</a></span><span class="op">(</span>temperature <span class="op">=</span> <span class="va">t_glaciers</span> |&gt; <span class="fu">dplyr</span><span class="fu">::</span><span class="fu"><a href="https://dplyr.tidyverse.org/reference/select.html">select</a></span><span class="op">(</span><span class="op">-</span><span class="va">date</span><span class="op">)</span>,
+<span class="va">melt</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/glacierMelt_TI.html">glacierMelt_TI</a></span><span class="op">(</span>temperature <span class="op">=</span> <span class="va">hist_obs</span> |&gt; <span class="fu">dplyr</span><span class="fu">::</span><span class="fu"><a href="https://dplyr.tidyverse.org/reference/select.html">select</a></span><span class="op">(</span><span class="op">-</span><span class="va">date</span><span class="op">)</span>,
                        MF <span class="op">=</span> <span class="va">MF</span>,
                        threshold_temperature <span class="op">=</span> <span class="va">threshold_temperature</span><span class="op">)</span>
 <span class="va">melt</span> <span class="op">&lt;-</span> <span class="fu">as_tibble</span><span class="op">(</span><span class="va">melt</span><span class="op">)</span> |&gt; 
-  <span class="fu">mutate</span><span class="op">(</span>date <span class="op">=</span> <span class="va">t_glaciers</span><span class="op">$</span><span class="va">date</span><span class="op">)</span> |&gt; 
+  <span class="fu">mutate</span><span class="op">(</span>date <span class="op">=</span> <span class="va">hist_obs</span><span class="op">$</span><span class="va">date</span><span class="op">)</span> |&gt; 
   <span class="fu">relocate</span><span class="op">(</span><span class="va">date</span>, .before <span class="op">=</span>  <span class="fu">where</span><span class="op">(</span><span class="va">is.numeric</span><span class="op">)</span><span class="op">)</span>
 
 <span class="fu">ggplot</span><span class="op">(</span><span class="va">melt</span><span class="op">[</span>, <span class="fl">1</span><span class="op">:</span><span class="fl">10</span><span class="op">]</span> |&gt; 
@@ -478,7 +471,7 @@ T_{i} = T_{0} + r_{\text{lapse}} \cdot (z_{0} - z_{i})
 <span class="va">melt_a</span> <span class="op">&lt;-</span> <span class="va">melt_a_eb</span> |&gt; 
   <span class="fu">separate</span><span class="op">(</span><span class="va">ID</span>, into <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="st">"RGIId"</span>, <span class="st">"elB"</span><span class="op">)</span>, sep <span class="op">=</span> <span class="st">"_"</span><span class="op">)</span> |&gt; 
   <span class="fu">group_by</span><span class="op">(</span><span class="va">Hyear</span>, <span class="va">RGIId</span><span class="op">)</span> |&gt; 
-  <span class="fu"><a href="https://r-spatial.github.io/sf/reference/tidyverse.html">summarise</a></span><span class="op">(</span>date <span class="op">=</span> <span class="fu">first</span><span class="op">(</span><span class="va">date</span><span class="op">)</span>, 
+  <span class="fu"><a href="https://r-spatial.github.io/sf/reference/tidyverse.html">summarise</a></span><span class="op">(</span>date <span class="op">=</span> <span class="fu"><a href="https://lubridate.tidyverse.org/reference/as_date.html">as_date</a></span><span class="op">(</span><span class="fu">first</span><span class="op">(</span><span class="va">date</span><span class="op">)</span><span class="op">)</span>, 
             Melt <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/sum.html">sum</a></span><span class="op">(</span><span class="va">Melt</span><span class="op">)</span>, 
             .lb_Melt <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/ifelse.html">ifelse</a></span><span class="op">(</span><span class="va">Melt</span><span class="op">*</span><span class="op">(</span><span class="fl">1</span><span class="op">-</span><span class="va">error_stats</span><span class="op">$</span><span class="va">sMelt</span><span class="op">)</span><span class="op">&lt;</span><span class="fl">0</span>, <span class="fl">0</span>, 
                               <span class="va">Melt</span><span class="op">*</span><span class="op">(</span><span class="fl">1</span><span class="op">-</span><span class="va">error_stats</span><span class="op">$</span><span class="va">sMelt</span><span class="op">)</span><span class="op">)</span>, 
@@ -486,7 +479,7 @@ T_{i} = T_{0} + r_{\text{lapse}} \cdot (z_{0} - z_{i})
   <span class="fu">ungroup</span><span class="op">(</span><span class="op">)</span> |&gt; 
   <span class="fu">dplyr</span><span class="fu">::</span><span class="fu"><a href="https://dplyr.tidyverse.org/reference/filter.html">filter</a></span><span class="op">(</span><span class="va">Hyear</span> <span class="op">&gt;</span> <span class="fu"><a href="https://rdrr.io/r/base/Extremes.html">min</a></span><span class="op">(</span><span class="va">Hyear</span><span class="op">)</span> <span class="op">&amp;</span> <span class="va">Hyear</span> <span class="op">&lt;</span> <span class="fu"><a href="https://rdrr.io/r/base/Extremes.html">max</a></span><span class="op">(</span><span class="va">Hyear</span><span class="op">)</span><span class="op">)</span>
 
-<span class="va">glaciers_hugonnet</span> <span class="op">&lt;-</span> <span class="va">data</span><span class="op">$</span><span class="va">glaciers_hugonnet</span> |&gt; 
+<span class="va">glaciers_hugonnet</span> <span class="op">&lt;-</span> <span class="va">glaciers_hugonnet</span> |&gt; 
   <span class="fu">mutate</span><span class="op">(</span>Qgl_m3a <span class="op">=</span> <span class="fu"><a href="../reference/glacierDischarge_HM.html">glacierDischarge_HM</a></span><span class="op">(</span><span class="va">dhdt</span><span class="op">)</span>, 
          .lb_Qgl_m3a <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/ifelse.html">ifelse</a></span><span class="op">(</span>
            <span class="va">dhdt</span> <span class="op">&gt;</span> <span class="fl">0</span>, 
@@ -528,8 +521,7 @@ T_{i} = T_{0} + r_{\text{lapse}} \cdot (z_{0} - z_{i})
 <p><img src="glaciers-02-DDMWB_files/figure-html/glaciermeltcomparison-1.png" width="700"></p>
 <p>With the synthetic temperatures we cannot obtain the observed steep
 increase of the glacier melt. In theory, the temperature index model can
-be calibrated with the specific glacier volume change provided by <span class="citation">Hugonnet et al. (2021)</span> (see
-\ref{fig:glaciermeltcomparison}).</p>
+be calibrated with the specific glacier volume change provided by <span class="citation">Hugonnet et al. (2021)</span> (see <span class="math inline">\(\ref{fig:glaciermeltcomparison}\)</span>).</p>
 </div>
 <div id="glacier-mass-balance-1" class="section level3">
 <h3 class="hasAnchor">
@@ -618,8 +610,7 @@ Glaciers.”</span> <em>MGI</em>, no. 14: 307–8.
 Farinotti, Daniel, Matthias Huss, Johannes J. Fürst, Johannes Landmann,
 Horst Machguth, Fabien Maussion, and Ankur Pandit. 2019. <span>“A
 Consensus Estimate for the Ice Thickness Distribution of All Glaciers on
-<span>Earth</span>.”</span> <em>Nature Geoscience</em> 12 (3): 168–73.
-<a href="https://doi.org/10.1038/s41561-019-0300-3">https://doi.org/10.1038/s41561-019-0300-3</a>.
+Earth.”</span> <em>Nature Geoscience</em> 12 (3): 168–73. <a href="https://doi.org/10.1038/s41561-019-0300-3">https://doi.org/10.1038/s41561-019-0300-3</a>.
 </div>
 <div id="ref-hock_temperature_2003" class="csl-entry">
 Hock, Regine. 2003. <span>“Temperature Index Melt Modelling in Mountain
@@ -631,12 +622,18 @@ Christopher Nuth, Luc Girod, Daniel Farinotti, et al. 2021.
 <span>“Accelerated Global Glacier Mass Loss in the Early Twenty-First
 Century.”</span> <em>Nature</em> 592 (7856): 726–31. <a href="https://doi.org/10.1038/s41586-021-03436-z">https://doi.org/10.1038/s41586-021-03436-z</a>.
 </div>
+<div id="ref-karger_climatologies_2017" class="csl-entry">
+Karger, Dirk Nikolaus, Olaf Conrad, Jürgen Böhner, Tobias Kawohl, Holger
+Kreft, Rodrigo Wilber Soria-Auza, Niklaus E. Zimmermann, H. Peter
+Linder, and Michael Kessler. 2017. <span>“Climatologies at High
+Resolution for the Earth’s Land Surface Areas.”</span> <em>Scientific
+Data</em> 4 (1): 170122. <a href="https://doi.org/10.1038/sdata.2017.122">https://doi.org/10.1038/sdata.2017.122</a>.
+</div>
 <div id="ref-miles_health_2021" class="csl-entry">
 Miles, Evan, Michael McCarthy, Amaury Dehecq, Marin Kneib, Stefan
 Fugger, and Francesca Pellicciotti. 2021. <span>“Health and
-Sustainability of Glaciers in <span>High</span> <span>Mountain</span>
-<span>Asia</span>.”</span> <em>Nature Communications</em> 12 (2868): 10.
-https://doi.org/<a href="https://doi.org/10.1038/s41467-021-23073-4">https://doi.org/10.1038/s41467-021-23073-4</a>.
+Sustainability of Glaciers in High Mountain Asia.”</span> <em>Nature
+Communications</em> 12 (2868): 10. https://doi.org/<a href="https://doi.org/10.1038/s41467-021-23073-4">https://doi.org/10.1038/s41467-021-23073-4</a>.
 </div>
 </div>
 </div>

@@ -101,6 +101,7 @@ rgi <- st_read(paste0(data_path, "GIS/16076_Glaciers_per_subbasin.shp"),
                quiet = TRUE) |> 
   st_transform(crs = crs(dem))
 
+
 tmap_mode("view")
 tm_shape(dem) +
   tm_raster(n = 6, 
@@ -120,7 +121,7 @@ tm_shape(dem) +
 #| out.width = 90%
 Qimb_m3s_sub <- imbalAbl_m3s |>
   dplyr::select(RGIId, date, Qimb_m3s) |>
-  left_join(data$rgi |> 
+  left_join(rgi |> 
               st_drop_geometry() |>
               dplyr::select(RGIId, name_2)) |>
   group_by(date, name_2) |>

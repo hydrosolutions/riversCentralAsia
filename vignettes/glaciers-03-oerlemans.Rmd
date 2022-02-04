@@ -1,11 +1,12 @@
 ---
 title: "Glaciers 03 - Estimating glacier lengths in Central Asia"
 output: rmarkdown::html_vignette
+bibliography: references.bib
+fig_caption: yes
 vignette: >
   %\VignetteIndexEntry{Glaciers 03 - Estimating glacier lengths in Central Asia}
   %\VignetteEngine{knitr::rmarkdown}
   %\VignetteEncoding{UTF-8}
-bibliography: references.bib
 ---
 
 ```{r, include = FALSE}
@@ -13,7 +14,6 @@ knitr::opts_chunk$set(
   collapse = TRUE,
   comment = "#>"
 )
-options(rmarkdown.html_vignette.check_title = FALSE)
 ```
 
 ```{r setup}
