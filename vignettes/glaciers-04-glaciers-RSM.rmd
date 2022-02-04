@@ -83,10 +83,10 @@ We have prepared this for you and already intersected the sub-basin boundary obj
 ```{r glaciersbysubbasin, message=FALSE, warning=FALSE}
 #| fig.cap = "Glaciers coloured by sub-basin." 
 #| out.width = 90%
-data("vignette_glacier_melt")
+data <- vignette_glacier_melt
 
-ggplot(rgi |> mutate("Sub-basin" = gsub("_Subbasin", "", name_2))) + 
-  geom_sf(data = basin, fill = NA, colour = "black") + 
+ggplot(data$rgi |> mutate("Sub-basin" = gsub("_Subbasin", "", name_2))) + 
+  geom_sf(data = data$basin, fill = NA, colour = "black") + 
   geom_sf(aes(fill = `Sub-basin`, colour = `Sub-basin`)) +
   scale_fill_viridis_d() + 
   scale_colour_viridis_d() + 
@@ -98,7 +98,7 @@ ggplot(rgi |> mutate("Sub-basin" = gsub("_Subbasin", "", name_2))) +
 #| out.width = 90%
 Qimb_m3s_sub <- imbalAbl_m3s |>
   dplyr::select(RGIId, date, Qimb_m3s) |>
-  left_join(rgi |> 
+  left_join(data$rgi |> 
               st_drop_geometry() |>
               dplyr::select(RGIId, name_2)) |>
   group_by(date, name_2) |>
