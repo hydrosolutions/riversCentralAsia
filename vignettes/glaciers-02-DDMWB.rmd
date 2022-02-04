@@ -10,15 +10,6 @@ vignette: >
   %\VignetteEncoding{UTF-8}
 ---
 
-```{r, message=FALSE, warning=FALSE}
-library(riversCentralAsia)
-library(tidyverse)
-library(lubridate)
-library(sf)
-library(raster)
-library(exactextractr)
-```
-
 # Temperature index model
 
 @hock_temperature_2003 describes several variants of the temperature index model for simulating glacier melt. The \code{riversCentralAsia} package implements the temperature index melt model described in [@hock_temperature_2003] in the function \code{glacierMelt_TI}.
@@ -210,7 +201,7 @@ ggplot() +
 ```{r geometry, message=FALSE, warning=FALSE}
 # Load data
 dem <- raster(paste0(data_path, "GIS/16076_DEM.tif"))
-rgi <- st_read(paste0(data_path, "GIS/RGI_Glaciers_per_sub-basin.shp"), 
+rgi <- st_read(paste0(data_path, "GIS/16076_Glaciers_per_subbasin.shp"), 
                quiet = TRUE) |> 
   st_transform(crs = crs(dem))
 rgi_elbands <- st_read(paste0(data_path, 

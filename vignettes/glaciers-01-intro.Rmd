@@ -85,7 +85,7 @@ The Randolph Glacier Inventory (RGI) v6.0 [@rgi60] makes a consistent global gla
 dem <- raster(paste0(data_path, "GIS/16076_DEM.tif"))
 basin <- st_read(paste0(data_path, "GIS/16076_Basin_outline.shp"), quiet=TRUE)
 
-rgi <- st_read(paste0(data_path, "GIS/RGI_Glaciers_per_sub-basin.shp"), 
+rgi <- st_read(paste0(data_path, "GIS/16076_Glaciers_per_subbasin.shp"), 
                quiet = TRUE) |> 
   st_transform(crs = crs(dem))
 
@@ -212,7 +212,7 @@ tm_shape(dem) +
 
 ## Glacier discharge
 
-@miles_health_2021 ran specific mass balance calculations over the glaciers larger than 2 km^2^ of High Mountain Asia. They provide the average glacier discharge between 2000 and 2016. The package \code{riversCentralAsia} includes an empirical relationship based on a regression between glacier thinning rates and glacier discharge which allows the estimation of glacier discharge. We will refer to this data set as the glacier discharge data set or the Miles data set. A copy of the glacier discharge data is available from the data download link provided above. 
+@miles_health_2021 ran specific mass balance calculations over the glaciers larger than 2 km^2^ of High Mountain Asia. They provide the average glacier discharge between 2000 and 2016. The package \code{riversCentralAsia} includes an empirical relationship based on a regression between glacier thinning rates and glacier discharge which allows the estimation of glacier discharge. We will refer to this data set as the glacier discharge data set or the Miles data set. A copy of the glacier discharge data is available from the data download link provided above.
 
 The original data is available from the [data repository](https://zenodo.org/record/5119153#.Yfjv6-rMKF4) linked in the [online version of the paper](https://www.nature.com/articles/s41467-021-23073-4).
 
@@ -256,6 +256,7 @@ The glacier thickness data set is validated only at few locations as measurement
 @hugonnet_accelerated_2021 & @miles_health_2021 provide the uncertainties of their estimates for per-glacier glacier thinning & discharge rates in the data set itself.
 
 # Next steps
-The [following vignette](glaciers-02-DDMWB.html) gives a very brief introduction into glacier mass balance modelling and demonstrates how to use the tools available from the \code{riversCentralAsia} package to estimate glacier discharge and glacier development in Central Asia.  
+
+The [following vignette](glaciers-02-DDMWB.html) gives a very brief introduction into glacier mass balance modelling and demonstrates how to use the tools available from the \code{riversCentralAsia} package to estimate glacier discharge and glacier development in Central Asia.
 
 # References
