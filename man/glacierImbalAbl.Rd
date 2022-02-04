@@ -22,6 +22,10 @@ here is consistent with Miles glacier balance model: negative imbalance
 ablation indicates glacier loss and positive glacier imbalance ablation
 indicates glacier gain.
 }
+\details{
+The relative error of the function is estimated to be 1.27%. See
+  vignette glaciers 02 on a demonstration how to use that information.
+}
 \examples{
 imbalAbl_m3a <- glacierImbalAbl(c(1,2,3,4,5)*10^6)
 }

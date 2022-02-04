@@ -16,6 +16,12 @@ glacier volume in km3
 Scaling relationships derived from the RGI v6.0 region 13 data set, combined
 with the glacier thickness derived by Farinotti et al. 2019.
 }
+\details{
+Assuming a normal distribution of the residuals, the relative
+  uncertainty of the volume estimate is given as 2 times the standard
+  deviation of the relative residuals which is equal to 31%. This method of
+  error estimation likely underestimates the actual uncertainty.
+}
 \seealso{
 \code{\link{glacierArea_RGIF}}, \code{\link{glacierVolume_Erasov}}
 
