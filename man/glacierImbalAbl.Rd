@@ -7,11 +7,11 @@
 glacierImbalAbl(totAbl_m3a)
 }
 \arguments{
-\item{totAbl}{total glacier ablation (eq. glacier melt) in m3/a. A positive
+\item{totAbl_m3a}{total glacier ablation (eq. glacier melt) in m3/a. A positive
 number}
 }
 \value{
-imbalAbl Imbalance ablation component of total ablation in m3/a.
+Imbalance ablation component of total ablation in m3/a.
   Negative for glacier melt and positive for glacier gain.
 }
 \description{
@@ -21,6 +21,10 @@ balance model it is a negative number. Note that imbalance ablation computed
 here is consistent with Miles glacier balance model: negative imbalance
 ablation indicates glacier loss and positive glacier imbalance ablation
 indicates glacier gain.
+}
+\details{
+The relative error of the function is estimated to be 1.27%. See
+  vignette glaciers 02 on a demonstration how to use that information.
 }
 \examples{
 imbalAbl_m3a <- glacierImbalAbl(c(1,2,3,4,5)*10^6)

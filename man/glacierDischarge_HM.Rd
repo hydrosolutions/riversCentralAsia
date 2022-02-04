@@ -19,6 +19,12 @@ Total glacier melt in m3/a.
 Regression derived from the data set by Hugonnet et al., 2021 and Miles et
 al., 2021.
 }
+\details{
+Based on the residuals of the fits for growing and melting glaciers
+  the following relative errors have been derived: 1.42% and 0.63%
+  respectively. The average error of the glacier elevation change is 0.74%.
+  See glacier vignette 02 for a demonstration on how to use that information.
+}
 \seealso{
 Other glacier functions: 
 \code{\link{glacierArea_Erasov}()},

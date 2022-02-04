@@ -33,8 +33,7 @@
 #' @examples
 #'
 #'
-glacierBalance <- function(melt_a_eb, rgi_elbands, area_threshold = 1,
-                           error_stats = NULL) {
+glacierBalance <- function(melt_a_eb, rgi_elbands, area_threshold = 1) {
 
   # Test if all needed columns are available in the input variables and throw
   # an error if not.
