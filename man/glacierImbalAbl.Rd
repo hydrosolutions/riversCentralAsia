@@ -7,11 +7,11 @@
 glacierImbalAbl(totAbl_m3a)
 }
 \arguments{
-\item{totAbl}{total glacier ablation (eq. glacier melt) in m3/a. A positive
+\item{totAbl_m3a}{total glacier ablation (eq. glacier melt) in m3/a. A positive
 number}
 }
 \value{
-imbalAbl Imbalance ablation component of total ablation in m3/a.
+Imbalance ablation component of total ablation in m3/a.
   Negative for glacier melt and positive for glacier gain.
 }
 \description{

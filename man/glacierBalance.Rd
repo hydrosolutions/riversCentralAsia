@@ -4,7 +4,7 @@
 \alias{glacierBalance}
 \title{Calculate glacier mass balance of all glaciers in a basin over time.}
 \usage{
-glacierBalance(melt_a_eb, rgi_elbands, area_threshold = 1, error_stats = NULL)
+glacierBalance(melt_a_eb, rgi_elbands, area_threshold = 1)
 }
 \arguments{
 \item{melt_a_eb}{Annual glacier melt in mm/a for each glacier/elevation band.

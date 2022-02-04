@@ -6,9 +6,9 @@
 #' here is consistent with Miles glacier balance model: negative imbalance
 #' ablation indicates glacier loss and positive glacier imbalance ablation
 #' indicates glacier gain.
-#' @param totAbl total glacier ablation (eq. glacier melt) in m3/a. A positive
+#' @param totAbl_m3a total glacier ablation (eq. glacier melt) in m3/a. A positive
 #'   number
-#' @return imbalAbl Imbalance ablation component of total ablation in m3/a.
+#' @return Imbalance ablation component of total ablation in m3/a.
 #'   Negative for glacier melt and positive for glacier gain.
 #' @export
 #' @examples
