@@ -10,12 +10,6 @@ vignette: >
   %\VignetteEncoding{UTF-8}
 ---
 
-```{r, message=FALSE, warning=FALSE}
-library(riversCentralAsia)
-library(tidyverse)
-library(sf)
-```
-
 # Glacier modelling tools in RS Minerve
 
 At the time of writing (Feb 2022), RS Minerve features one model to simulate glacier discharge, the GSM model [@rsminerve_tm]. The GSM model is able to accumulate solid precipitation on a glacier water reservoir and to melt that reservoir depending on temperature. It is a suitable temperature index model for short-term glacier melt where changes in glacier area can be neglected.
@@ -34,6 +28,22 @@ The first approach is suitable for one-time simulations but it is labor intensiv
 
 Here, we present the second approach. [Vignette 2 on the glacier mass balance modelling](glaciers-02-DDMWB.html) demonstrates how to calculate total annual glacier discharge and the contribution of imbalance ablation to the total annual glacier discharge. This vignette demonstrates how to derive daily glacier discharge and imbalance ablation time series from the annual data and how to include this data in RS Minerve.
 
+As in [vignette 1](glaciers-01-intro.html)and [2](glaciers-02-DDMWB.html) the data needed for reproducing the computations here is available for download through [this link]([https://www.dropbox.com/sh/r0lqggc77ka0uxd/AAChuIyLHHFIfAdgxNKiU2dpa?dl=1){target="\_blank"}](https://www.dropbox.com/sh/r0lqggc77ka0uxd/AAChuIyLHHFIfAdgxNKiU2dpa?dl=1){target="_blank"}).
+
+```{r datarefpath, message=FALSE, warning=FALSE}
+library(tmap)
+library(sf)
+library(raster)
+library(exactextractr)
+library(tidyverse)
+library(lubridate)
+library(riversCentralAsia)
+
+# Path to the data directory downloaded from the download link provided above. 
+# Here the data is extracted to a folder called atbashy_glacier_demo_data
+data_path <- "../../atbashy_glacier_demo_data/"
+```
+
 # From annual to daily melt
 
 The glacier mass balance is done on a yearly basis (if not at lower frequency). Hydrological models, however, typically run at higher frequency, for example monthly or daily time steps. One simple method to distribute glacier discharge on a year is to scale it according to the daily melt computed.
@@ -43,8 +53,10 @@ The glacier mass balance is done on a yearly basis (if not at lower frequency). 
 #| out.width = 90%
 # Read in the daily glacier melt and the annual glacier discharge and imbalance 
 # ablation computed in glacier vignette 2. 
-melt_mmd <- readRDS("daily_glacier_melt.rds")
-glacier_balance <- readRDS("glacier_balance.rds")
+melt_mmd <- readRDS(paste0(data_path, 
+                           "GLACIERS/pre-processed-daily_glacier_melt.rds"))
+glacier_balance <- readRDS(paste0(data_path, 
+                                  "GLACIERS/pre-processed-glacier_balance.rds"))
 
 # Compute the annual glacier melt
 melt_mma <- melt_mmd |> 
@@ -83,14 +95,24 @@ We have prepared this for you and already intersected the sub-basin boundary obj
 ```{r glaciersbysubbasin, message=FALSE, warning=FALSE}
 #| fig.cap = "Glaciers coloured by sub-basin." 
 #| out.width = 90%
-data <- vignette_glacier_melt
+dem <- raster(paste0(data_path, "GIS/16076_DEM.tif"))
+basin <- st_read(paste0(data_path, "GIS/16076_Basin_outline.shp"), quiet=TRUE)
+rgi <- st_read(paste0(data_path, "GIS/16076_Glaciers_per_subbasin.shp"), 
+               quiet = TRUE) |> 
+  st_transform(crs = crs(dem))
 
-ggplot(data$rgi |> mutate("Sub-basin" = gsub("_Subbasin", "", name_2))) + 
-  geom_sf(data = data$basin, fill = NA, colour = "black") + 
-  geom_sf(aes(fill = `Sub-basin`, colour = `Sub-basin`)) +
-  scale_fill_viridis_d() + 
-  scale_colour_viridis_d() + 
-  theme_bw()
+tmap_mode("view")
+tm_shape(dem) +
+  tm_raster(n = 6, 
+            palette = terrain.colors(6),
+            alpha = 0.8,
+            legend.show = TRUE, 
+            title = "Elevation (masl)") + 
+  tm_shape(basin) + 
+  tm_borders(col = "black", lwd = 0.6) + 
+  tm_shape(rgi |> mutate("Sub-basin" = gsub("_Subbasin", "", name_2))) + 
+  tm_polygons(col = "Sub-basin", lwd = 0.4)
+
 ```
 
 ```{r imbalAblSubbasin, message=FALSE, warning=FALSE}
@@ -143,7 +165,7 @@ output <- rbind(colnames(temp_wide),
                       as.character(temp_wide$Atbaschy_Midstream_Subbasin), 
                       as.character(temp_wide$Atbaschy_Downstream_Subbasin)))
 
-writefilename <- "~/../Documents/RSM_demo_glacier_source.csv"
+writefilename <- paste0(data_path, "RSM_demo_glacier_source.csv")
 write.table(output, file = writefilename, col.names = FALSE, 
             row.names = FALSE, append = FALSE, quote = FALSE, 
             sep = ",", dec = ".")
