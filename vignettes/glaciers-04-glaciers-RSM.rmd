@@ -112,6 +112,7 @@ tm_shape(dem) +
   tm_borders(col = "black", lwd = 0.6) + 
   tm_shape(rgi |> mutate("Sub-basin" = gsub("_Subbasin", "", name_2))) + 
   tm_polygons(col = "Sub-basin", lwd = 0.4)
+
 ```
 
 ```{r imbalAblSubbasin, message=FALSE, warning=FALSE}
@@ -119,7 +120,7 @@ tm_shape(dem) +
 #| out.width = 90%
 Qimb_m3s_sub <- imbalAbl_m3s |>
   dplyr::select(RGIId, date, Qimb_m3s) |>
-  left_join(rgi |> 
+  left_join(data$rgi |> 
               st_drop_geometry() |>
               dplyr::select(RGIId, name_2)) |>
   group_by(date, name_2) |>

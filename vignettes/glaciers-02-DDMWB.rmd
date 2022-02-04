@@ -227,20 +227,20 @@ glaciers_hugonnet <- rgi |>
             by = c("RGIId" = "rgiid")) 
 
 # Only keep the variables we need for this analysis
-rgi_elbands <- rgi_elbands |> 
+rgi_elbands <- data$rgi_elbands |> 
   dplyr::select(RGIId, Area, elvtn_b) |> 
   rename(Area_tot_glacier_km2 = Area) |> 
   mutate(ID = paste0(RGIId, "_", elvtn_b))
 
 # Get mean elevation of each glacier/elevation band from DEM
-rgi_elbands$z_masl <- exact_extract(dem, rgi_elbands, "mean", progress = FALSE)
+rgi_elbands$z_masl <- exact_extract(data$dem, rgi_elbands, "mean", progress = FALSE)
 
 # Update the glacier area within the basin boundaries
 rgi_elbands$A_km2 <- as.numeric(st_area(rgi_elbands))*10^(-6)
 glaciers <- unique(rgi_elbands$RGIId)
 
 # Glacier thickness for elevation bands
-rgi_elbands$thickness_m = exact_extract(glacier_thickness, 
+rgi_elbands$thickness_m = exact_extract(data$glacier_thickness, 
                                         rgi_elbands, "mean", progress = FALSE)
 ```
 
@@ -320,7 +320,7 @@ melt_a <- melt_a_eb |>
   ungroup() |> 
   dplyr::filter(Hyear > min(Hyear) & Hyear < max(Hyear))
 
-glaciers_hugonnet <- glaciers_hugonnet |> 
+glaciers_hugonnet <- data$glaciers_hugonnet |> 
   mutate(Qgl_m3a = glacierDischarge_HM(dhdt), 
          .lb_Qgl_m3a = ifelse(
            dhdt > 0, 
@@ -432,6 +432,6 @@ Of course there are many more glacier utilities out there which are worth checki
 
 ## Open Global Glacier Model (OGGM)
 
-The [Open Global Glacier Model](https://oggm.org/) is a community project which provides glacier modelling tools in python and educational resources. The modeling framework includes comprehensive tutorials and data-pre and post-processing tools.
+The [Open Global Glacier Model](https://oggm.org/){target="_blank"} is a community project which provides glacier modelling tools in python and educational resources. The modeling framework includes comprehensive tutorials and data-pre and post-processing tools.
 
 # References

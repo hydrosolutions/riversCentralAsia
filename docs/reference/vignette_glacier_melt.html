@@ -6,7 +6,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>Calculates the hydrological year for a given date — hyear • riversCentralAsia</title>
+<title>Example data for vignettes on glaciers — vignette_glacier_melt • riversCentralAsia</title>
 
 
 <!-- jquery -->
@@ -39,8 +39,8 @@
 
 
 
-<meta property="og:title" content="Calculates the hydrological year for a given date — hyear" />
-<meta property="og:description" content="In Central Asia the hydrological year starts in October of the previous year." />
+<meta property="og:title" content="Example data for vignettes on glaciers — vignette_glacier_melt" />
+<meta property="og:description" content="Example data for vignettes on glaciers" />
 
 
 
@@ -135,32 +135,39 @@
 <div class="row">
   <div class="col-md-9 contents">
     <div class="page-header">
-    <h1>Calculates the hydrological year for a given date</h1>
-    <small class="dont-index">Source: <a href='https://github.com/hydrosolutions/riversCentralAsia/blob/master/R/hyear.R'><code>R/hyear.R</code></a></small>
-    <div class="hidden name"><code>hyear.Rd</code></div>
+    <h1>Example data for vignettes on glaciers</h1>
+    <small class="dont-index">Source: <a href='https://github.com/hydrosolutions/riversCentralAsia/blob/master/R/data-vignette_glacier_melt.R'><code>R/data-vignette_glacier_melt.R</code></a></small>
+    <div class="hidden name"><code>vignette_glacier_melt.Rd</code></div>
     </div>
 
     <div class="ref-description">
-    <p>In Central Asia the hydrological year starts in October of the previous year.</p>
+    <p>Example data for vignettes on glaciers</p>
     </div>
 
-    <pre class="usage"><span class='fu'>hyear</span><span class='op'>(</span><span class='va'>date</span><span class='op'>)</span></pre>
+    <pre class="usage"><span class='va'>vignette_glacier_melt</span></pre>
 
-    <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
-    <table class="ref-arguments">
-    <colgroup><col class="name" /><col class="desc" /></colgroup>
-    <tr>
-      <th>date</th>
-      <td><p>as_date or as.POSIXct</p></td>
-    </tr>
-    </table>
 
-    <h2 class="hasAnchor" id="value"><a class="anchor" href="#value"></a>Value</h2>
+    <h2 class="hasAnchor" id="format"><a class="anchor" href="#format"></a>Format</h2>
 
-    <p>Hyear as numeric</p>
+    <p>A list of objects</p><dl>
+  <dt>rgi</dt><dd><p>sf: A subset of the Randolph Glacier Inventory 6.0 in the Atbashy river catchment.</p></dd>
+  <dt>rgi_elbands</dt><dd><p>sf: A subset of the Randolph Glacier Inventory 6.0 with glaciers larger than 1 km2 subdivided into elevation bands.</p></dd>
+  <dt>basin</dt><dd><p>sf: Boundary of the Atbashy basin</p></dd>
+  <dt>dem</dt><dd><p>raster: Digital elevation model for the Atbashy catchment</p></dd>
+  <dt>glacier_thickness</dt><dd><p>raster: Estimates of glacier thickness.</p></dd>
+  <dt>glaciers_hugonnet</dt><dd><p>tibble: Glacier thinning rates.</p></dd>
+  <dt>hist_sim</dt><dd><p>tibble: Temperature time series from CHELSA v2.1 for one glacier</p></dd>
+  <dt>fut_sim</dt><dd><p>list of tibbles: Temperature time series from CMIP6 for one glacier</p></dd>
+
+</dl>
+
+    <h2 class="hasAnchor" id="source"><a class="anchor" href="#source"></a>Source</h2>
+
+    <p>RGI6 data set, Karger et al., 2020, Farinotti et al., 2019, Hugonnet et al., 2021, Copernicus CMIP6, SRTMGL1v003, 2013.</p>
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
-    <pre class="examples"><div class='input'><span class='va'>Hyear</span> <span class='op'>&lt;-</span> <span class='fu'>hyear</span><span class='op'>(</span><span class='fu'>lubridate</span><span class='fu'>::</span><span class='fu'><a href='https://lubridate.tidyverse.org/reference/as_date.html'>as_date</a></span><span class='op'>(</span><span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='st'>"2015-09-30"</span>, <span class='st'>"2015-10-01"</span>, <span class='st'>"2016-01-27"</span><span class='op'>)</span><span class='op'>)</span><span class='op'>)</span>
+    <pre class="examples"><div class='input'><span class='fu'><a href='https://rdrr.io/r/utils/data.html'>data</a></span><span class='op'>(</span><span class='va'>vignette_glacier_melt</span><span class='op'>)</span>
+<span class='va'>rgi</span> <span class='op'>&lt;-</span> <span class='va'>vignette_glacier_melt</span><span class='op'>$</span><span class='va'>rgi</span>
 </div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
