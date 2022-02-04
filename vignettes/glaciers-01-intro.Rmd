@@ -19,7 +19,7 @@ Among other things, climate impacts translate into long-term changes of runoff f
 
 Glaciers consist of compacted snow. Many processes contribute to the glacier mass balance (see for example @cogley_glossary_2011) but we focus on a simplified mass balance as we have data only for accumulated mass balance outcomes (i.e. glacier thinning rates and glacier discharge, see below).
 
-!(Glacier mass balance components (thickness of arrows not to scale) by @cogley_glossary_2011.)[CogleyGlacierMassBalanceComponents.png]
+![Glacier mass balance components (thickness of arrows not to scale) by @cogley_glossary_2011.](CogleyGlacierMassBalanceComponents.png){width="90%"}
 
 Glaciers accumulate mass in the cold period and at higher altitudes through snow fall. Glaciers lose mass to melt driven by the energy balance at the glacier-atmosphere interface [@hock_glacier_2005]. Typically, larger glaciers loose mass at lower altitudes (ablation zone) and accumulate mass at higher altitudes (accumulation zone). The mass loss in the lower altitudes is compensated by the downstream movement of ice from the accumulation zone. The boundary between the accumulation and the ablation zone is called the equilibrium line altitude (ELA).
 
