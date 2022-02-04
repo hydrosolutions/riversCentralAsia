@@ -54,8 +54,7 @@ Water resources managers in glaciated catchments are highly interested in knowin
 
 Without in-situ measurements (and actually even with in-situ measurements) it is no easy feat to model the evolution of the water storage in a glacier. The best we can do in water resources modelling is: Use results from existing glacier models and feed them to the water resources model or, alternatively, use the best data available to estimate glacier melt with simple models.
 
-The present vignette gives an overview over the available glacier-related data, illustrated using the catchment area of the river Atbashy, a tributary of the Naryn river in Central Asia (status early 2022). In the [second vignette](glaciers-02-DDMWB.html), a method to estimate glacier discharge for a catchment based on a temperature driven degree-day melt function and a simplified glacier mass balance is introduced and it's implementation is demonstrated on the Atbashy catchment. [Vignette 3](glaciers-03-oerlemans.html) demonstrates an empirical glacier volume scaling method based on temperature and precipitation measurements that can be used to estimate glacier lengths on a regional scale. [Vignette 4](glaciers-04-glaciers-RSM.html) shows how to include glacier discharge in RS Minerve.  
-
+The present vignette gives an overview over the available glacier-related data, illustrated using the catchment area of the river Atbashy, a tributary of the Naryn river in Central Asia (status early 2022). In the [second vignette](glaciers-02-DDMWB.html), a method to estimate glacier discharge for a catchment based on a temperature driven degree-day melt function and a simplified glacier mass balance is introduced and it's implementation is demonstrated on the Atbashy catchment. [Vignette 3](glaciers-03-oerlemans.html) demonstrates an empirical glacier volume scaling method based on temperature and precipitation measurements that can be used to estimate glacier lengths on a regional scale. [Vignette 4](glaciers-04-glaciers-RSM.html) shows how to include glacier discharge in RS Minerve.
 
 # Availability on glacier-related data
 
@@ -65,27 +64,19 @@ Note: For speed's sake we use a demo data set of the catchment of Atbashy river 
 
 ```{r, message=FALSE, warning=FALSE}
 data <- vignette_glacier_melt
-
-# Also load the digital elevation model (DEM) of the catchment for 
-# visualization.
-dem_df <- as.data.frame(as(data$dem, "SpatialPixelsDataFrame"))
-colnames(dem_df) <- c("Elevation\n[masl]", "x", "y")
 ```
 
 ## Randolph glacier inventory
 
 The Randolph Glacier Inventory (RGI) v6.0 [@rgi60] makes a consistent global glacier data base publicly available. It includes geo-located glacier geometry and some additional parameters like elevation, length, slope and aspect. A new version (v7) is under review at the time of writing beginning of 2022. For Central Asian water resources modelling, RGI regions 13 (Central Asia) and 14 (South Asia West) are relevant. You can download the data from [the GLIMS RGI v6.0 web site](https://www.glims.org/RGI/rgi60_dl.html).
 
-<!-- # TODO: I would plot the RGI data on top of the dem. -->
-
 ```{r rgi, message=FALSE, warning=FALSE}
-#| fig.cap = "DEM & Glaciers of the demo basin." 
+#| fig.cap = "DEM & Glaciers (light gray) of the demo basin." 
 #| out.width = 90%
-
 tmap_mode("view")
 tm_shape(data$dem) +
-  tm_raster(n = 10, 
-            palette = terrain.colors(100),
+  tm_raster(n = 6, 
+            palette = terrain.colors(6),
             legend.show = TRUE, 
             title = "Elevation (masl)") + 
   tm_shape(data$rgi) + 
