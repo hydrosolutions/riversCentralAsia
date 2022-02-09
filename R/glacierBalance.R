@@ -69,8 +69,11 @@ glacierBalance <- function(melt_a_eb, rgi_elbands, area_threshold = 1) {
 
 
   # Calculate the initial volume of the glaciers & elevation bands
+  if (sum(stringr::str_detect("sf", class(rgi_elbands))) > 0) {
+    rgi_elbands <- rgi_elbands |>
+      sf::st_drop_geometry()
+  }
   rgi_elbands <- rgi_elbands |>
-    sf::st_drop_geometry() |>
     dplyr::mutate(V_km3 = .data$A_km2 * .data$thickness_m*10^(-3))
 
   # Separate small glaciers from large ones
@@ -283,7 +286,7 @@ stepWiseGlacierBalance <- function(M_mma, A_km2) {
       Q_m3a <- Q_m3a_fut
       Qimb_m3a <- Qimb_m3a_fut
     } else {
-      cat("Ups, sth bad happened. \n")
+      cat("Message: No small glaciers in list.\n")
       return(NULL)
     }
   }
@@ -496,7 +499,7 @@ stepWiseGlacierBalancePerElBand <- function(M_mma, A_km2, V_km3) {
       Q_m3a <- Q_m3a_fut_new
       Qimb_m3a <- Qimb_m3a_fut_new
     } else {
-      cat("Ups, sth bad happened. \n")
+      cat("Message: No large glaciers in list.\n")
       return(NULL)
     }
   }

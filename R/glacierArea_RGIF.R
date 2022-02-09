@@ -12,9 +12,18 @@
 #'   deviation of the relative residuals which is equal to 53%. This method of
 #'   error estimation likely underestimates the actual uncertainty.
 glacierArea_RGIF <- function(volume_km3) {
-  area_km2 = ifelse(volume_km3 > 0,
-                    exp(2.5360590 + 0.8182565 * log(ifelse(volume_km3>0,
-                                                           volume_km3,
-                                                           0))),
-                    0)
+  # Scaling relationship which is not consistent with glacierVolume_RGIF
+  # area_km2 = ifelse(volume_km3 > 0,
+  #                   exp(2.5360590 + 0.8182565 * log(ifelse(volume_km3>0,
+  #                                                          volume_km3,
+  #                                                          0))),
+  #                   0)
+
+  # Inverse of glacierVolume_RGIF
+  area_km2 <- ifelse(
+    volume_km3 <=0,
+    0,
+    # Add the ifelse in log10 to avoid warning for when volume_km3 is 0.
+    10^((log10(ifelse(volume_km3>0, volume_km3, 1)) - log10(0.0606097)) / 1.1424380)
+  )
 }
