@@ -94,13 +94,11 @@ glacierBalance <- function(melt_a_eb, rgi_elbands, area_threshold = 1) {
 
   A_small <- rgi_small |>
     dplyr::select(.data$ID, .data$A_km2) |>
-    tidyr::pivot_wider(names_from = .data$ID, values_from = .data$A_km2) |>
-    as.matrix()
+    tidyr::pivot_wider(names_from = .data$ID, values_from = .data$A_km2)
 
   A_large <- rgi_large |>
     dplyr::select(.data$ID, .data$A_km2) |>
-    tidyr::pivot_wider(names_from = .data$ID, values_from = .data$A_km2) |>
-    as.matrix()
+    tidyr::pivot_wider(names_from = .data$ID, values_from = .data$A_km2)
 
   # The glacier mass balance is quite sensitive
   V_large <- rgi_large |>
@@ -122,11 +120,13 @@ glacierBalance <- function(melt_a_eb, rgi_elbands, area_threshold = 1) {
   # Calculate glacier mass balance for small glaciers directly and for elevation
   # bands of large glaciers which are then accumulated.
   results_small <- stepWiseGlacierBalance(M_mma = melt_small,
-                                          A_km2 = A_small)
+                                          A_km2 = A_small |> as.matrix())
 
   results_large <- stepWiseGlacierBalancePerElBand(M_mma = melt_large,
-                                                   A_km2 = A_large,
-                                                   V_km3 = V_large)
+                                                   A_km2 = A_large |>
+                                                     as.matrix(),
+                                                   V_km3 = V_large |>
+                                                     as.matrix())
 
 
   # Return a tibble with the results
@@ -137,34 +137,34 @@ glacierBalance <- function(melt_a_eb, rgi_elbands, area_threshold = 1) {
   dVdt_m3a <- rbind(rep(NA, dim(V_km3)[2]), diff(V_km3))*10^9
 
   Aelb_km2 <- cbind(results_small$A_km2, results_large$Aelb_km2) |>
-    dplyr::as_tibble() |> dplyr::mutate(Hyear = melt_small$Hyear)
+    dplyr::as_tibble() |> dplyr::mutate(Hyear = unique(melt_a_eb$Hyear))
 
   # All other results are per glacier
   sim_hist <- Q_m3a |>
-    dplyr::as_tibble() |> dplyr::mutate(Hyear = melt_small$Hyear) |>
+    dplyr::as_tibble() |> dplyr::mutate(Hyear = unique(melt_a_eb$Hyear)) |>
     tidyr::pivot_longer(-.data$Hyear, names_to = "RGIId", values_to = "Q_m3a") |>
     dplyr::mutate(Q_m3s = .data$Q_m3a/(60*60*24*365)) |>
     tibble::add_column(Qimb_m3a |>
                          dplyr::as_tibble() |>
-                         dplyr::mutate(Hyear = melt_small$Hyear) |>
+                         dplyr::mutate(Hyear = unique(melt_a_eb$Hyear)) |>
                          tidyr::pivot_longer(-.data$Hyear, names_to = "RGIId",
                                              values_to = "Qimb_m3a") |>
                  dplyr::select(Qimb_m3a)) |>
     tibble::add_column(V_km3 |>
                          dplyr::as_tibble() |>
-                         dplyr::mutate(Hyear = melt_small$Hyear) |>
+                         dplyr::mutate(Hyear = unique(melt_a_eb$Hyear)) |>
                          tidyr::pivot_longer(-.data$Hyear, names_to = "RGIId",
                                              values_to = "V_km3") |>
                          dplyr::select(V_km3)) |>
     tibble::add_column(dVdt_m3a |>
                          dplyr::as_tibble() |>
-                         dplyr::mutate(Hyear = melt_small$Hyear) |>
+                         dplyr::mutate(Hyear = unique(melt_a_eb$Hyear)) |>
                          tidyr::pivot_longer(-.data$Hyear, names_to = "RGIId",
                                              values_to = "dVdt_m3a") |>
                          dplyr::select(dVdt_m3a)) |>
     tibble::add_column(A_km2 |>
                          dplyr::as_tibble() |>
-                         dplyr::mutate(Hyear = melt_small$Hyear) |>
+                         dplyr::mutate(Hyear = unique(melt_a_eb$Hyear)) |>
                          tidyr::pivot_longer(-.data$Hyear, names_to = "RGIId",
                                              values_to = "A_km2") |>
                          dplyr::select(A_km2)) |>

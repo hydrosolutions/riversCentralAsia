@@ -158,6 +158,83 @@ test_that("glacierBalance produces the same output as stepWiseGlacierBalance", {
 })
 
 
+test_that("stepWiseGlacierBalancePerElBand produces the same result as glacierBalance", {
+
+  M <- tibble::tibble(Hyear = c(2000:2003),
+                      Gl1_1 = rep.int(400, 4),
+                      Gl1_2 = rep.int(400, 4),
+                      Gl2_1 = rep.int(200, 4),
+                      Gl2_2 = rep.int(200, 4))
+  A <- matrix(1, nrow = 1, ncol = 4,
+              dimnames = list(NULL, c("Gl1_1", "Gl1_2", "Gl2_1", "Gl2_2")))
+  V <- glacierVolume_RGIF(A)  # This is allowed as all elevation bands have the same area
+  res <- stepWiseGlacierBalancePerElBand(M, A, V)
+  Qn <- res$Q_m3a
+  Vn <- res$V_km3
+  An <- res$A_km2
+  Qimbn <- res$Qimb_m3a
+
+  shp <- tibble::tibble(
+    RGIId = c("Gl1", "Gl1", "Gl2", "Gl2"),
+    ID = c("Gl1_1", "Gl1_2", "Gl2_1", "Gl2_2"),
+    Area_tot_glacier_km2 = c(2, 2, 2, 2),
+    A_km2 = c(1, 1, 1, 1),
+    thickness_m = glacierVolume_RGIF(Area_tot_glacier_km2) /
+      Area_tot_glacier_km2*10^3)
+
+  Melt <- M |>
+    tidyr::pivot_longer(-Hyear, names_to = "ID", values_to = "Melt")
+
+  resWB <- glacierBalance(melt_a_eb = Melt,
+                          rgi_elbands = shp,
+                          area_threshold = 1.5)
+
+  expect_equal(as.numeric(An[4,1]),
+               as.numeric((resWB |>
+                             dplyr::filter(Hyear == 2003,
+                                           Variable == "A_km2",
+                                           RGIId == "Gl1"))$Value))
+  expect_equal(as.numeric(An[4,2]),
+               as.numeric((resWB |>
+                             dplyr::filter(Hyear == 2003,
+                                           Variable == "A_km2",
+                                           RGIId == "Gl2"))$Value))
+
+  expect_equal(as.numeric(Qn[4,1]),
+               as.numeric((resWB |>
+                             dplyr::filter(Hyear == 2003,
+                                           Variable == "Q_m3a",
+                                           RGIId == "Gl1"))$Value))
+  expect_equal(as.numeric(Qn[4,2]),
+               as.numeric((resWB |>
+                             dplyr::filter(Hyear == 2003,
+                                           Variable == "Q_m3a",
+                                           RGIId == "Gl2"))$Value))
+
+  expect_equal(as.numeric(Qimbn[4,1]),
+               as.numeric((resWB |>
+                             dplyr::filter(Hyear == 2003,
+                                           Variable == "Qimb_m3a",
+                                           RGIId == "Gl1"))$Value))
+  expect_equal(as.numeric(Qimbn[4,2]),
+               as.numeric((resWB |>
+                             dplyr::filter(Hyear == 2003,
+                                           Variable == "Qimb_m3a",
+                                           RGIId == "Gl2"))$Value))
+
+  expect_equal(as.numeric(Vn[4,1]),
+               as.numeric((resWB |>
+                             dplyr::filter(Hyear == 2003,
+                                           Variable == "V_km3",
+                                           RGIId == "Gl1"))$Value))
+  expect_equal(as.numeric(Vn[4,2]),
+               as.numeric((resWB |>
+                             dplyr::filter(Hyear == 2003,
+                                           Variable == "V_km3",
+                                           RGIId == "Gl2"))$Value))
+})
+
+
 # test_that("glacierBalance does not produce rubbish", {
 #
 #   # melt_a_eb_small = tibble::tibble(
