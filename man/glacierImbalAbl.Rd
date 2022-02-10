@@ -3,31 +3,38 @@
 \name{glacierImbalAbl}
 \alias{glacierImbalAbl}
 \title{Estimates the imbalance ablation based on the total glacier discharge}
+\source{
+Miles et al., 2021, DOI: <https://doi.org/10.1038/s41467-021-23073-4>
+  and Hugonnet et al., 2021, DOI: <https://doi.org/10.1038/s41586-021-03436-z>
+}
 \usage{
-glacierImbalAbl(totAbl_m3a)
+glacierImbalAbl(Melt_mma)
 }
 \arguments{
-\item{totAbl_m3a}{total glacier ablation (eq. glacier melt) in m3/a. A positive
-number}
+\item{Melt_mma}{Specific glacier melt in mm/a. A positive number}
 }
 \value{
 Imbalance ablation component of total ablation in m3/a.
   Negative for glacier melt and positive for glacier gain.
 }
 \description{
-Regression derived from the data set by Miles et al., 2021. In our modelling
-framework the glacier discharge is a positive number while in Miles glacier
-balance model it is a negative number. Note that imbalance ablation computed
-here is consistent with Miles glacier balance model: negative imbalance
-ablation indicates glacier loss and positive glacier imbalance ablation
-indicates glacier gain.
+The regression is derived from the data set by Miles et al., 2021 (glacier
+imbalance ablation imbalAbl) and Hugonnet et al, 2021 (specific glacier melt
+dmdtda). In our modelling framework the glacier discharge is a positive
+number while in Miles glacier balance model it is a negative number. Note
+that imbalance ablation computed here is consistent with Miles glacier
+balance model: negative imbalance ablation indicates glacier loss and
+positive glacier imbalance ablation indicates glacier gain.
+Contrary to the literature, where glacier growth can be observed, this
+model does not allow for glacier growth.
 }
 \details{
-The relative error of the function is estimated to be 1.27%. See
-  vignette glaciers 02 on a demonstration how to use that information.
+The relative error of the function is estimated to be 0.73%. See
+  [vignette glaciers 02]{glaciers-o2-DDMWB.html} on a demonstration how
+  to use that information.
 }
 \examples{
-imbalAbl_m3a <- glacierImbalAbl(c(1,2,3,4,5)*10^6)
+  imbalAbl_m3a <- glacierImbalAbl(c(1,2,3,4,5)*10^3)
 }
 \seealso{
 Other glacier functions: 

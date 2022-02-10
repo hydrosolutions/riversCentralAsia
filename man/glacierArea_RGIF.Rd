@@ -3,6 +3,10 @@
 \name{glacierArea_RGIF}
 \alias{glacierArea_RGIF}
 \title{Calculates glacier area based on glacier volume}
+\source{
+RGI v6.0 <https://www.glims.org/RGI/>,
+  Farinotti et al., 2019 <https://doi.org/10.1038/s41561-019-0300-3>
+}
 \usage{
 glacierArea_RGIF(volume_km3)
 }
@@ -22,8 +26,12 @@ Assuming a normal distribution of the residuals, the relative
   deviation of the relative residuals which is equal to 53%. This method of
   error estimation likely underestimates the actual uncertainty.
 }
+\examples{
+  V_km3 <- c(0.1, 1, 10)
+  A_km2 <- glacierArea_RGIF(V_km3)
+}
 \seealso{
-\code{\link{glacierVolume_RGIF}}, \code{\link{glacierArea_Erasov}}
+\code{\link[glacierVolume_RGIF]}, \code{\link[glacierArea_Erasov]}
 
 Other glacier functions: 
 \code{\link{glacierArea_Erasov}()},

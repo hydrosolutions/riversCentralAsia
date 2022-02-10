@@ -6,19 +6,17 @@
 #' @return glacier area in km2
 #' @export
 #' @family glacier functions
-#' @seealso \code{\link{glacierVolume_RGIF}}, \code{\link{glacierArea_Erasov}}
+#' @seealso \code{\link[glacierVolume_RGIF]}, \code{\link[glacierArea_Erasov]}
 #' @details Assuming a normal distribution of the residuals, the relative
 #'   uncertainty of the volume estimate is given as 2 times the standard
 #'   deviation of the relative residuals which is equal to 53%. This method of
 #'   error estimation likely underestimates the actual uncertainty.
+#' @examples
+#'   V_km3 <- c(0.1, 1, 10)
+#'   A_km2 <- glacierArea_RGIF(V_km3)
+#' @source RGI v6.0 <https://www.glims.org/RGI/>,
+#'   Farinotti et al., 2019 <https://doi.org/10.1038/s41561-019-0300-3>
 glacierArea_RGIF <- function(volume_km3) {
-  # Scaling relationship which is not consistent with glacierVolume_RGIF
-  # area_km2 = ifelse(volume_km3 > 0,
-  #                   exp(2.5360590 + 0.8182565 * log(ifelse(volume_km3>0,
-  #                                                          volume_km3,
-  #                                                          0))),
-  #                   0)
-
   # Inverse of glacierVolume_RGIF
   area_km2 <- ifelse(
     volume_km3 <=0,
