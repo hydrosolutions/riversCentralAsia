@@ -31,7 +31,7 @@ Assuming a normal distribution of the residuals, the relative
   A_km2 <- glacierArea_RGIF(V_km3)
 }
 \seealso{
-\code{\link[glacierVolume_RGIF]}, \code{\link[glacierArea_Erasov]}
+\code{[glacierVolume_RGIF]}, \code{[glacierArea_Erasov]}
 
 Other glacier functions: 
 \code{\link{glacierArea_Erasov}()},

@@ -6,7 +6,7 @@
 #' @return glacier area in km2
 #' @export
 #' @family glacier functions
-#' @seealso \code{\link[glacierVolume_RGIF]}, \code{\link[glacierArea_Erasov]}
+#' @seealso \code{[glacierVolume_RGIF]}, \code{[glacierArea_Erasov]}
 #' @details Assuming a normal distribution of the residuals, the relative
 #'   uncertainty of the volume estimate is given as 2 times the standard
 #'   deviation of the relative residuals which is equal to 53%. This method of

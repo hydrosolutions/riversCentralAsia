@@ -40,12 +40,15 @@
 
 
 <meta property="og:title" content="Estimates the imbalance ablation based on the total glacier discharge — glacierImbalAbl" />
-<meta property="og:description" content="Regression derived from the data set by Miles et al., 2021. In our modelling
-framework the glacier discharge is a positive number while in Miles glacier
-balance model it is a negative number. Note that imbalance ablation computed
-here is consistent with Miles glacier balance model: negative imbalance
-ablation indicates glacier loss and positive glacier imbalance ablation
-indicates glacier gain." />
+<meta property="og:description" content="The regression is derived from the data set by Miles et al., 2021 (glacier
+imbalance ablation imbalAbl) and Hugonnet et al, 2021 (specific glacier melt
+dmdtda). In our modelling framework the glacier discharge is a positive
+number while in Miles glacier balance model it is a negative number. Note
+that imbalance ablation computed here is consistent with Miles glacier
+balance model: negative imbalance ablation indicates glacier loss and
+positive glacier imbalance ablation indicates glacier gain.
+Contrary to the literature, where glacier growth can be observed, this
+model does not allow for glacier growth." />
 
 
 
@@ -146,34 +149,41 @@ indicates glacier gain." />
     </div>
 
     <div class="ref-description">
-    <p>Regression derived from the data set by Miles et al., 2021. In our modelling
-framework the glacier discharge is a positive number while in Miles glacier
-balance model it is a negative number. Note that imbalance ablation computed
-here is consistent with Miles glacier balance model: negative imbalance
-ablation indicates glacier loss and positive glacier imbalance ablation
-indicates glacier gain.</p>
+    <p>The regression is derived from the data set by Miles et al., 2021 (glacier
+imbalance ablation imbalAbl) and Hugonnet et al, 2021 (specific glacier melt
+dmdtda). In our modelling framework the glacier discharge is a positive
+number while in Miles glacier balance model it is a negative number. Note
+that imbalance ablation computed here is consistent with Miles glacier
+balance model: negative imbalance ablation indicates glacier loss and
+positive glacier imbalance ablation indicates glacier gain.
+Contrary to the literature, where glacier growth can be observed, this
+model does not allow for glacier growth.</p>
     </div>
 
-    <pre class="usage"><span class='fu'>glacierImbalAbl</span><span class='op'>(</span><span class='va'>totAbl_m3a</span><span class='op'>)</span></pre>
+    <pre class="usage"><span class='fu'>glacierImbalAbl</span><span class='op'>(</span><span class='va'>Melt_mma</span><span class='op'>)</span></pre>
 
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
     <colgroup><col class="name" /><col class="desc" /></colgroup>
     <tr>
-      <th>totAbl_m3a</th>
-      <td><p>total glacier ablation (eq. glacier melt) in m3/a. A positive
-number</p></td>
+      <th>Melt_mma</th>
+      <td><p>Specific glacier melt in mm/a. A positive number</p></td>
     </tr>
     </table>
 
+    <h2 class="hasAnchor" id="source"><a class="anchor" href="#source"></a>Source</h2>
+
+    <p>Miles et al., 2021, DOI: &lt;https://doi.org/10.1038/s41467-021-23073-4&gt;
+  and Hugonnet et al., 2021, DOI: &lt;https://doi.org/10.1038/s41586-021-03436-z&gt;</p>
     <h2 class="hasAnchor" id="value"><a class="anchor" href="#value"></a>Value</h2>
 
     <p>Imbalance ablation component of total ablation in m3/a.
   Negative for glacier melt and positive for glacier gain.</p>
     <h2 class="hasAnchor" id="details"><a class="anchor" href="#details"></a>Details</h2>
 
-    <p>The relative error of the function is estimated to be 1.27<!-- %. See -->
-  vignette glaciers 02 on a demonstration how to use that information.</p>
+    <p>The relative error of the function is estimated to be 0.73<!-- %. See -->
+  [vignette glaciers 02]glaciers-o2-DDMWB.html on a demonstration how
+  to use that information.</p>
     <h2 class="hasAnchor" id="see-also"><a class="anchor" href="#see-also"></a>See also</h2>
 
     <div class='dont-index'><p>Other glacier functions: 
@@ -186,7 +196,7 @@ number</p></td>
 <code><a href='glacierVolume_RGIF.html'>glacierVolume_RGIF</a>()</code></p></div>
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
-    <pre class="examples"><div class='input'><span class='va'>imbalAbl_m3a</span> <span class='op'>&lt;-</span> <span class='fu'>glacierImbalAbl</span><span class='op'>(</span><span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='fl'>1</span>,<span class='fl'>2</span>,<span class='fl'>3</span>,<span class='fl'>4</span>,<span class='fl'>5</span><span class='op'>)</span><span class='op'>*</span><span class='fl'>10</span><span class='op'>^</span><span class='fl'>6</span><span class='op'>)</span>
+    <pre class="examples"><div class='input'>  <span class='va'>imbalAbl_m3a</span> <span class='op'>&lt;-</span> <span class='fu'>glacierImbalAbl</span><span class='op'>(</span><span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='fl'>1</span>,<span class='fl'>2</span>,<span class='fl'>3</span>,<span class='fl'>4</span>,<span class='fl'>5</span><span class='op'>)</span><span class='op'>*</span><span class='fl'>10</span><span class='op'>^</span><span class='fl'>3</span><span class='op'>)</span>
 </div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
