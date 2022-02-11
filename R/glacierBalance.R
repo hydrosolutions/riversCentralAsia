@@ -100,11 +100,13 @@ glacierBalance <- function(melt_a_eb, rgi_elbands, area_threshold = 1) {
     dplyr::select(.data$ID, .data$A_km2) |>
     tidyr::pivot_wider(names_from = .data$ID, values_from = .data$A_km2)
 
-  # The glacier mass balance is quite sensitive
+  # The glacier mass balance is quite sensitive on the initial volume in the
+  # elevation bands
   V_large <- rgi_large |>
-    dplyr::mutate(Vtot_km3 = glacierVolume_RGIF(.data$Area_tot_glacier_km2)) |>
-    dplyr::select(.data$ID, .data$Vtot_km3) |>
-    tidyr::pivot_wider(names_from = .data$ID, values_from = .data$Vtot_km3)
+    dplyr::mutate(Vtot_km3 = glacierVolume_RGIF(.data$Area_tot_glacier_km2),
+                  V_km3 = .data$Vtot_km3*.data$A_km2/.data$Area_tot_glacier_km2) |>
+    dplyr::select(.data$ID, .data$V_km3) |>
+    tidyr::pivot_wider(names_from = .data$ID, values_from = .data$V_km3)
 
   melt_small <- melt_a_eb |>
     dplyr::select(.data$Hyear, .data$ID, .data$Melt) |>
@@ -308,7 +310,7 @@ stepWiseGlacierBalance <- function(M_mma, A_km2) {
       Q_m3a <- Q_m3a_fut
       Qimb_m3a <- Qimb_m3a_fut
     } else {
-      cat("Message: No large glaciers processed.\n")
+      cat("Message: No small glaciers processed.\n")
       return(NULL)
     }
   }
@@ -381,12 +383,12 @@ stepWiseGlacierBalancePerElBand <- function(M_mma, A_km2, V_km3) {
       V_elBand <- V_km3_hist[, stringr::str_detect(colnames(V_km3), glacier)]
       V_glacier <- rowSums(V_elBand)
       Q_glacier <- rowSums(Q_elBand)
-      Qimb_glacier <- as.matrix(glacierImbalAbl(rowSums(M_elBand)))
+      Qimb_glacier <- as.matrix(glacierImbalAbl(rowMeans(M_elBand)))
       for (time in c((length(years_hist)-1): 1)) {
         Q_elBand[time, ] <- M_elBand[time, ]*10^(-3)*
           A_elBand[time+1, ]*10^6
         Q_glacier[time] <- sum(Q_elBand[time, ])
-        Qimb_glacier[time] <- glacierImbalAbl(sum(M_elBand[time, ]))
+        Qimb_glacier[time] <- glacierImbalAbl(mean(M_elBand[time, ]))
         Qimb_glacier[time] <- ifelse(Qimb_glacier[time] < -Q_glacier[time],
                                      -Q_glacier[time], Qimb_glacier[time])
         V_glacier[time] <- V_glacier[time+1] - Qimb_glacier[time]*10^(-9)
@@ -440,14 +442,14 @@ stepWiseGlacierBalancePerElBand <- function(M_mma, A_km2, V_km3) {
       V_elBand <- V_km3_fut[, stringr::str_detect(colnames(V_km3), glacier)]
       V_glacier <- rowSums(V_elBand)
       Q_glacier <- rowSums(Q_elBand)
-      Qimb_glacier <- glacierImbalAbl(rowSums(M_elBand))
+      Qimb_glacier <- glacierImbalAbl(rowMeans(M_elBand))
       for (time in c(2:length(years_fut))) {
         Q_elBand[time, ] <- M_elBand[time, ]*10^(-3)*
           A_elBand[time-1, ]*10^6
         # Limit glacier discharge by the remaining glacier volume.
         Q_glacier[time] <- apply(rbind(sum(Q_elBand[time, ]),
                                        V_glacier[time-1] * 10^9), 2, min)
-        Qimb_glacier[time] <- glacierImbalAbl(sum(M_elBand[time, ]))
+        Qimb_glacier[time] <- glacierImbalAbl(mean(M_elBand[time, ]))
         Qimb_glacier[time] <- ifelse(Qimb_glacier[time] < -Q_glacier[time],
                                      -Q_glacier[time], Qimb_glacier[time])
         V_glacier[time] <- V_glacier[time-1] + Qimb_glacier[time]*10^(-9)
@@ -526,7 +528,7 @@ stepWiseGlacierBalancePerElBand <- function(M_mma, A_km2, V_km3) {
       Q_m3a <- Q_m3a_fut_new
       Qimb_m3a <- Qimb_m3a_fut_new
     } else {
-      cat("Message: No small glaciers processed.\n")
+      cat("Message: No large glaciers processed.\n")
       return(NULL)
     }
   }

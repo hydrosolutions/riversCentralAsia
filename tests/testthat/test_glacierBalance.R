@@ -48,7 +48,9 @@ test_that("stepWiseGlacierBalancePerElBand works as expected", {
   A <- matrix(1, nrow = 1, ncol = 4,
               dimnames = list(NULL, c("Gl1_1", "Gl1_2", "Gl2_1", "Gl2_2")))
   V <- glacierVolume_RGIF(A)
-  res <- stepWiseGlacierBalancePerElBand(M, A, V)
+  res <- stepWiseGlacierBalancePerElBand(M_mma = M,
+                                         A_km2 = A,
+                                         V_km3 = V)
   Qn <- res$Q_m3a
   Vn <- res$V_km3
   An <- res$A_km2
@@ -70,8 +72,8 @@ test_that("stepWiseGlacierBalancePerElBand works as expected", {
   }
   expect_equal(Qn[1, 1], Qexp[1, 1])
   expect_gt(Qexp[4, 2], Qn[4, 2])
-  expect_equal(Qimbexp[1, 1]*2, Qimbn[1, 1])
-  expect_equal(Qimbexp[4, 2]*2, Qimbn[4, 2])
+  expect_equal(Qimbexp[1, 1], Qimbn[1, 1])
+  expect_equal(Qimbexp[4, 2], Qimbn[4, 2])
 
   # V(t) should be V(t-1) + Qimb(t). Does this pan out?
   Vexp2 <- Vn
@@ -167,7 +169,7 @@ test_that("stepWiseGlacierBalancePerElBand produces the same result as glacierBa
                       Gl2_2 = rep.int(200, 4))
   A <- matrix(1, nrow = 1, ncol = 4,
               dimnames = list(NULL, c("Gl1_1", "Gl1_2", "Gl2_1", "Gl2_2")))
-  V <- glacierVolume_RGIF(A)  # This is allowed as all elevation bands have the same area
+  V <- glacierVolume_RGIF(A*2)*A/(A*2)
   res <- stepWiseGlacierBalancePerElBand(M, A, V)
   Qn <- res$Q_m3a
   Vn <- res$V_km3
@@ -187,7 +189,7 @@ test_that("stepWiseGlacierBalancePerElBand produces the same result as glacierBa
 
   resWB <- glacierBalance(melt_a_eb = Melt,
                           rgi_elbands = shp,
-                          area_threshold = 1.5)
+                          area_threshold = 0.5)
 
   expect_equal(as.numeric(An[4,1]),
                as.numeric((resWB |>
