@@ -25,6 +25,7 @@ test_that("stepWiseGlacierBalance works as expected", {
   expect_equal(Qn[4], Qexp[4])
   expect_equal(Qimbn[1], Qimbexp[1])
   expect_equal(Qimbn[4], Qimbexp[4])
+  expect_gte(Qexp[4, 1], -Qimbn[4, 1])
 
   # V(t) should be V(t-1) + Qimb(t). Does this pan out?
   Vexp2 <- Vn
@@ -74,6 +75,8 @@ test_that("stepWiseGlacierBalancePerElBand works as expected", {
   expect_gt(Qexp[4, 2], Qn[4, 2])
   expect_equal(Qimbexp[1, 1], Qimbn[1, 1])
   expect_equal(Qimbexp[4, 2], Qimbn[4, 2])
+  expect_gte(Qexp[4, 1], -Qimbn[4, 1])
+  expect_gte(Qexp[4, 2], -Qimbn[4, 2])
 
   # V(t) should be V(t-1) + Qimb(t). Does this pan out?
   Vexp2 <- Vn
