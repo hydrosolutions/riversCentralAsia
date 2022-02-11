@@ -28,7 +28,7 @@ The first approach is suitable for one-time simulations but it is labor intensiv
 
 Here, we present the second approach. [Vignette 2 on the glacier mass balance modelling](glaciers-02-DDMWB.html) demonstrates how to calculate total annual glacier discharge and the contribution of imbalance ablation to the total annual glacier discharge. This vignette demonstrates how to derive daily glacier discharge and imbalance ablation time series from the annual data and how to include this data in RS Minerve.
 
-As in [vignette 1](glaciers-01-intro.html)and [2](glaciers-02-DDMWB.html) the data needed for reproducing the computations here is available for download through [this link]([https://www.dropbox.com/sh/r0lqggc77ka0uxd/AAChuIyLHHFIfAdgxNKiU2dpa?dl=1){target="\_blank"}](https://www.dropbox.com/sh/r0lqggc77ka0uxd/AAChuIyLHHFIfAdgxNKiU2dpa?dl=1){target="_blank"}).
+As in [vignette 1](glaciers-01-intro.html)and [2](glaciers-02-DDMWB.html) the data needed for reproducing the computations here is available for download through [this link](%5Bhttps://www.dropbox.com/sh/r0lqggc77ka0uxd/AAChuIyLHHFIfAdgxNKiU2dpa?dl=1){target="_blank"}](<https://www.dropbox.com/sh/r0lqggc77ka0uxd/AAChuIyLHHFIfAdgxNKiU2dpa?dl=1>){target="\_blank"}).
 
 ```{r datarefpath, message=FALSE, warning=FALSE}
 library(tmap)
@@ -88,7 +88,7 @@ ggplot(imbalAbl_m3s |>
 
 # Aggregation to sub-basins
 
-You don't need to implement a source for each glacier in RS Minerve. You can aggregate the imbalance ablation by sub-basins and save you some work implementing the sources in RS Minerve. What you will need is a shape file telling you in which sub-basin each glacier lies. This GIS layer needs to be prepared manually in QGIS because typically, the RGI v6.0 glacier outlines are not consistent with the river basin boundaries derived from SRTM. In QGIS you intersect the sub-basin layer with the RGI layer and manually adapt the boundaries between the sub-basins to be consistent with the glacier outlines. This step is important as you will double count any glaciers which are cut by sub-basin boundaries and thus are present in two different sub-basins.
+You don't need to implement a source for each individual glacier in RS Minerve. You can aggregate the imbalance ablation by sub-basins and save you some work implementing the sources in RS Minerve. What you will need is a shape file telling you in which sub-basin each glacier lies in. This GIS layer needs to be prepared manually in QGIS because typically, the RGI v6.0 glacier outlines are not consistent with the river basin boundaries derived from SRTM. In QGIS you intersect the sub-basin layer with the RGI layer and manually adapt the boundaries between the sub-basins to be consistent with the glacier outlines. This step is important as you will double count any glaciers which are cut by sub-basin boundaries and thus are present in two different sub-basins.
 
 We have prepared this for you and already intersected the sub-basin boundary object with the glacier outlines.
 
@@ -115,6 +115,8 @@ tm_shape(dem) +
   tm_polygons(col = "Sub-basin", lwd = 0.4)
 
 ```
+
+The code junk below shows how to aggregate the daily per-glacier imbalance ablation rates to sub-basins.
 
 ```{r imbalAblSubbasin, message=FALSE, warning=FALSE}
 #| fig.cap = "Glacier discharge from imbalance ablation aggregated to sub-basins. " 
