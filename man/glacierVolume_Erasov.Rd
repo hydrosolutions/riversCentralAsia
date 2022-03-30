@@ -26,6 +26,7 @@ Other glacier functions:
 \code{\link{glacierDischarge_HM}()},
 \code{\link{glacierImbalAbl}()},
 \code{\link{glacierMelt_TI}()},
+\code{\link{glacierRMSE}()},
 \code{\link{glacierVolume_RGIF}()}
 }
 \concept{glacier functions}

@@ -83,7 +83,7 @@ $$
 
 The errors stated above relate to initial estimates of the glacier areas, volumes, total ablation and imbalance ablation. The uncertainties are not propagated through each time step of the model as the errors depend on the errors of the previous time step, i.e. they are not uncorrelated over time. In any case, the uncertainty margins for any glacier melt modelling done with the presented method are large.
 
-```{r errstats}
+```{r, errstats}
 # Relative error estimates for the initial state in %
 error_stats = tibble::tibble(
   sV = 0.26,  # Glacier volume
@@ -99,7 +99,7 @@ error_stats = tibble::tibble(
 
 We demonstrate the above described method with the data from the Atbashy basin. As for the [previous chapter](glaciers-01-intro.html) you can download all required data from [this link](https://www.dropbox.com/sh/r0lqggc77ka0uxd/AAChuIyLHHFIfAdgxNKiU2dpa?dl=1){target="_blank"}.
 
-```{r datarefpath, message=FALSE, warning=FALSE}
+```{r, datarefpath, message=FALSE, warning=FALSE}
 library(tmap)
 library(sf)
 library(raster)
@@ -121,9 +121,8 @@ There will be a separate Vignette to demonstrate how to prepare the forcing. For
 
 As meteorological data for high elevations in Central Asia is very scarce we use the CHELSA v2.1 data set [@karger_climatologies_2017]. This is a global data set of forcing data for hydrolgical models based on ERA5 but corrected for biases and especially suited for high elevations. The daily CHELSA forcing has been cut to the Central Region by the originator of the data set, D. Karger, WSL and extracted to the hydrological response units of the glaciers in the Atbashy basin by T. Siegfried.
 
-```{r histobs, message=FALSE, warning=FALSE}
-#| fig.cap = "Daily temperature time series of a glacier. Data source: CHELSA v2.1." 
-#| out.width = 90%
+```{r, histobs, message=FALSE, warning=FALSE, fig.cap = "Daily temperature time series of a glacier. Data source: CHELSA v2.1.", out.width="90%"}
+
 hist_obs <- readRDS(file = paste0(data_path, "CLIMATE/hist_obs_glacier_tas.rds"))
 
 # Plot the temperature time series for a given glacier/elevation band
@@ -138,9 +137,8 @@ ggplot(hist_obs) +
 
 Future temperature development per glacier or elevation band is extracted from the 3 CMIP6 GCM models with highest priorities for the region () downloaded from COPERNICUS. We take 4 socioeconomic scenarios into account, covering 4 different emission scenarios. The temperatures of the climate models are bias corrected using the CHELSA data and a quantile mapping method.
 
-```{r futsim, message=FALSE, warning=FALSE}
-#| fig.cap = "Annual historical (CHELSA) and future (CMIP6, Copernicus) temperature for a glacier. " 
-#| out.width = 90%
+```{r futsim, message=FALSE, warning=FALSE, fig.cap = "Annual historical (CHELSA) and future (CMIP6, Copernicus) temperature for a glacier.", out.width="90%"}
+
 fut_sim <- readRDS(file = paste0(data_path, "CLIMATE/fut_sim_glacier_tas_qmapped.RDS"))
 
 # Plot the temperature time series for a given glacier/elevation band
@@ -248,9 +246,7 @@ rgi_elbands$thickness_m = exact_extract(glacier_thickness,
 
 Temperature time series for each glacier/elevation band are available. Figure \ref{fig::temperature_elevation_bands} shows temperature time series extracted from the CHELSA data set on the example of one of the larger glaciers in the Atbashy basin. The data is aggregated to the hydrological year to better illustrate the temperature gradient over the elevation. The highest temperatures are measured at the lowest elevations and vice versa.
 
-```{r temperature_elevation_bands, message=FALSE, warning=FALSE}
-#| fig.cap = "Temperature forcing for the elevation bands of a glacier. " 
-#| out.width = 90%
+```{r temperature_elevation_bands, message=FALSE, warning=FALSE, fig.cap = "Temperature forcing for the elevation bands of a glacier.", out.width="90%"}
 
 ggplot(hist_obs[, 1:9] |> 
          pivot_longer(-date, names_to = "ID", values_to = "Temp") |> 
@@ -274,9 +270,8 @@ ggplot(hist_obs[, 1:9] |>
 
 The code snippet below illustrates how to calculate the annual glacier melt of the catchment. The figure shows daily melt rates for the different elevation bands of one of the larger glaciers (same as in the figure above). The highest melt occurs at low elevation bands.
 
-```{r glaciermeltcalculation, message=FALSE, warning=FALSE}
-#| fig.cap = "Daily glacier melt per elevation band." 
-#| out.width = 90%
+```{r glaciermeltcalculation, message=FALSE, warning=FALSE, fig.cap = "Daily glacier melt per elevation band.", out.width="90%"}
+
 MF_small = 1
 MF_large = 0.5
 threshold_temperature = 0
@@ -312,9 +307,8 @@ ggplot(melt[, 1:9] |>
 
 Aggregate the daily glacier melt to annual data and compare it to the observed glacier melt.
 
-```{r glaciermeltcomparison, message=FALSE, warning=FALSE}
-#| fig.cap = "Daily glacier melt per elevation band." 
-#| out.width = 90%
+```{r glaciermeltcomparison, message=FALSE, warning=FALSE, fig.cap = "Daily glacier melt per elevation band.", out.width="90%"}
+
 melt_a_eb <- melt |> 
   pivot_longer(-date, names_to = "ID", values_to = "Melt") |> 
   mutate(Hyear = hyear(date)) |> 
@@ -383,9 +377,8 @@ The temperature index model can be calibrated with the specific glacier volume c
 
 The following figure shows the components of the glacier mass balance for a few glaciers in the Atbashy basin.
 
-```{r glaciermassbalance, message=FALSE, warning=FALSE}
-#| fig.cap = "Glacier development and discharge." 
-#| out.width = 90%
+```{r glaciermassbalance, message=FALSE, warning=FALSE, fig.cap = "Glacier development and discharge.", out.width="90%"}
+
 glacier_balance <- glacierBalance(melt_a_eb = melt_a_eb, 
                                   rgi_elbands = rgi_elbands)
 

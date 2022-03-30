@@ -32,6 +32,7 @@ Other glacier functions:
 \code{\link{glacierBalance}()},
 \code{\link{glacierImbalAbl}()},
 \code{\link{glacierMelt_TI}()},
+\code{\link{glacierRMSE}()},
 \code{\link{glacierVolume_Erasov}()},
 \code{\link{glacierVolume_RGIF}()}
 }
