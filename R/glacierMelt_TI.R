@@ -14,7 +14,8 @@
 #' @param MF is a scalar or a named vector with temperature index factors which
 #'   contains one melt factor for each glacier/elevation band in the
 #'   temperature matrix.
-#' @param threshold_temperature temperature above which glacier melt is produced.
+#' @param threshold_temperature is a scalar or a named vector with the
+#'   temperature above which glacier melt is produced.
 #' @return A matrix with daily melt rates per glacier/elevation band.
 #' @examples
 #' # Generate random temperature forcing
@@ -24,11 +25,11 @@
 #'   runif(number_of_glaciers * number_of_days, min = -10, max = 10),
 #'   nrow = number_of_days, ncol = number_of_glaciers)
 #' colnames(temperature) <- paste0("Gl", 1:number_of_glaciers)
-#' # Generate random melt factors
+#' # Generate sample melt factors
 #' MF <- temperature[1, ] * 0 + 1:number_of_glaciers
 #' # Calculate glacier melt assuming a threshold temperature for glacier melt of
 #' # 1 degree Celcius.
-#' melt <- glacierMelt_DD(temperature, MF, threshold_temperature = 1)
+#' melt <- glacierMelt_TI(temperature, MF, threshold_temperature = 1)
 #' @export
 #' @family glacier functions
 
@@ -53,8 +54,22 @@ glacierMelt_TI <- function(temperature, MF = 4, threshold_temperature = 0) {
                    ncol = length(MF), byrow = TRUE)
   colnames(MFmat) <- colnames(temperature)
 
+  # Do the same for the temperature threshold
+  if (length(threshold_temperature) == 1) {
+    threshold_temperature <- temperature[1, ] * 0 + threshold_temperature
+  }
+  if (sum(names(threshold_temperature) %in% colnames(temperature)) != length(colnames(temperature))) {
+    if (sum(colnames(threshold_temperature) %in% colnames(temperature)) != length(colnames(temperature))) {
+      cat("Error: names(threshold_temperature) not consistent with IDs in temperature. \n")
+      return(NULL)
+    }
+  }
+  Tmat <- matrix(as.matrix(threshold_temperature), nrow = dim(temperature)[1],
+                 ncol = length(threshold_temperature), byrow = TRUE)
+  colnames(Tmat) <- colnames(temperature)
+
   # Calculate glacier melt
-  temperature_plus <- temperature - threshold_temperature
+  temperature_plus <- temperature - Tmat
   temperature_plus[temperature_plus < 0] <- 0
   melt <- temperature_plus * MFmat
 

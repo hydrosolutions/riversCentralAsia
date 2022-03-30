@@ -18,7 +18,8 @@ glacier and/or elevation band (columns).}
 contains one melt factor for each glacier/elevation band in the
 temperature matrix.}
 
-\item{threshold_temperature}{temperature above which glacier melt is produced.}
+\item{threshold_temperature}{is a scalar or a named vector with the
+temperature above which glacier melt is produced.}
 }
 \value{
 A matrix with daily melt rates per glacier/elevation band.
@@ -40,11 +41,11 @@ temperature <- matrix(
   runif(number_of_glaciers * number_of_days, min = -10, max = 10),
   nrow = number_of_days, ncol = number_of_glaciers)
 colnames(temperature) <- paste0("Gl", 1:number_of_glaciers)
-# Generate random melt factors
+# Generate sample melt factors
 MF <- temperature[1, ] * 0 + 1:number_of_glaciers
 # Calculate glacier melt assuming a threshold temperature for glacier melt of
 # 1 degree Celcius.
-melt <- glacierMelt_DD(temperature, MF, threshold_temperature = 1)
+melt <- glacierMelt_TI(temperature, MF, threshold_temperature = 1)
 }
 \seealso{
 Other glacier functions: 
@@ -53,6 +54,7 @@ Other glacier functions:
 \code{\link{glacierBalance}()},
 \code{\link{glacierDischarge_HM}()},
 \code{\link{glacierImbalAbl}()},
+\code{\link{glacierRMSE}()},
 \code{\link{glacierVolume_Erasov}()},
 \code{\link{glacierVolume_RGIF}()}
 }
