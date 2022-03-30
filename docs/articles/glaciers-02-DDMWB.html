@@ -19,6 +19,8 @@
 <![endif]-->
 </head>
 <body data-spy="scroll" data-target="#toc">
+    
+
     <div class="container template-article">
       <header><div class="navbar navbar-default navbar-fixed-top" role="navigation">
   <div class="container">
@@ -31,23 +33,17 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">riversCentralAsia</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">1.0.1</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">1.0.1</span>
       </span>
     </div>
 
     <div id="navbar" class="navbar-collapse collapse">
       <ul class="nav navbar-nav">
 <li>
-  <a href="../index.html">
-    <span class="fas fa-home fa-lg"></span>
-     
-  </a>
-</li>
-<li>
   <a href="../reference/index.html">Reference</a>
 </li>
 <li class="dropdown">
-  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">
+  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
     Articles
      
     <span class="caret"></span>
@@ -76,7 +72,7 @@
       </ul>
 <ul class="nav navbar-nav navbar-right">
 <li>
-  <a href="https://github.com/hydrosolutions/riversCentralAsia/">
+  <a href="https://github.com/hydrosolutions/riversCentralAsia/" class="external-link">
     <span class="fab fa-github fa-lg"></span>
      
   </a>
@@ -91,22 +87,22 @@
 
       
 
-      </header><script src="glaciers-02-DDMWB_files/header-attrs-2.10/header-attrs.js"></script><div class="row">
+      </header><div class="row">
   <div class="col-md-9 contents">
     <div class="page-header toc-ignore">
       <h1 data-toc-skip>Glaciers 02 - Temperature index model</h1>
             
       
-      <small class="dont-index">Source: <a href="https://github.com/hydrosolutions/riversCentralAsia/blob/master/vignettes/glaciers-02-DDMWB.rmd"><code>vignettes/glaciers-02-DDMWB.rmd</code></a></small>
+      <small class="dont-index">Source: <a href="https://github.com/hydrosolutions/riversCentralAsia/blob/HEAD/vignettes/glaciers-02-DDMWB.rmd" class="external-link"><code>vignettes/glaciers-02-DDMWB.rmd</code></a></small>
       <div class="hidden name"><code>glaciers-02-DDMWB.rmd</code></div>
 
     </div>
 
     
     
-<div id="temperature-index-model" class="section level1">
-<h1 class="hasAnchor">
-<a href="#temperature-index-model" class="anchor"></a>Temperature index model</h1>
+<div class="section level2">
+<h2 id="temperature-index-model">Temperature index model<a class="anchor" aria-label="anchor" href="#temperature-index-model"></a>
+</h2>
 <p><span class="citation">Hock (2003)</span> describes several variants
 of the temperature index model for simulating glacier melt. The package
 implements the temperature index melt model described in <span class="citation">(Hock 2003)</span> in the function .</p>
@@ -125,9 +121,9 @@ factor and the threshold temperature above which glacier melt occurs and
 need to be calibrated. They have the units <span class="math inline">\(\frac{mm}{^{\circ} C \cdot d}\)</span> and <span class="math inline">\(^{\circ} C\)</span> respectively. Glacier melt is
 calculated in daily time steps.</p>
 </div>
-<div id="glacier-mass-balance" class="section level1">
-<h1 class="hasAnchor">
-<a href="#glacier-mass-balance" class="anchor"></a>Glacier mass balance</h1>
+<div class="section level2">
+<h2 id="glacier-mass-balance">Glacier mass balance<a class="anchor" aria-label="anchor" href="#glacier-mass-balance"></a>
+</h2>
 <p>We simplify the glacier mass balance to the following equation</p>
 <p><span class="math display">\[
 \Delta S = P-M = A_{imbal}
@@ -141,9 +137,9 @@ time steps. We thereby refer to the hydrological year starting on
 October 1st of the previous year to take a full accumulation and
 ablation season into account.</p>
 </div>
-<div id="glacier-volume-development" class="section level1">
-<h1 class="hasAnchor">
-<a href="#glacier-volume-development" class="anchor"></a>Glacier volume development</h1>
+<div class="section level2">
+<h2 id="glacier-volume-development">Glacier volume development<a class="anchor" aria-label="anchor" href="#glacier-volume-development"></a>
+</h2>
 <p>As glaciers melt, their volume changes. This has to be taken into
 account for the long-term simulation of glacier discharge. To determine
 the initial glacier volume we use the area of the geometry of the <a href="glaciers-01-intro.html">RGI v6.0 data set</a> and multiply it with
@@ -185,9 +181,9 @@ imbalance ablation, i.e. the glacier storage loss glacier melt. It is
 derived from the glacier discharge data set by <span class="citation">Miles et al. (2021)</span> and the glacier thinning
 data set by <span class="citation">Hugonnet et al. (2021)</span>.</p>
 </div>
-<div id="propagation-of-uncertainty" class="section level1">
-<h1 class="hasAnchor">
-<a href="#propagation-of-uncertainty" class="anchor"></a>Propagation of uncertainty</h1>
+<div class="section level2">
+<h2 id="propagation-of-uncertainty">Propagation of uncertainty<a class="anchor" aria-label="anchor" href="#propagation-of-uncertainty"></a>
+</h2>
 <p>The initial glacier volume of each glacier is attributed an
 uncertainty of p/m 26%. This number is based on the average uncertainty
 of the glacier volume per RGI region reported in <span class="citation">Farinotti et al. (2019)</span> (Table 1). The error is
@@ -232,7 +228,7 @@ uncorrelated over time. In any case, the uncertainty margins for any
 glacier melt modelling done with the presented method are large.</p>
 <div class="sourceCode" id="cb1"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="co"># Relative error estimates for the initial state in %</span>
-<span class="va">error_stats</span> <span class="op">=</span> <span class="fu">tibble</span><span class="fu">::</span><span class="fu"><a href="https://tibble.tidyverse.org/reference/tibble.html">tibble</a></span><span class="op">(</span>
+<span class="va">error_stats</span> <span class="op">=</span> <span class="fu">tibble</span><span class="fu">::</span><span class="fu"><a href="https://tibble.tidyverse.org/reference/tibble.html" class="external-link">tibble</a></span><span class="op">(</span>
   sV <span class="op">=</span> <span class="fl">0.26</span>,  <span class="co"># Glacier volume</span>
   sA <span class="op">=</span> <span class="fl">0.13</span>,  <span class="co"># Glacier area</span>
   sTh <span class="op">=</span> <span class="fl">0.13</span>,  <span class="co"># Glacier thickness</span>
@@ -241,33 +237,33 @@ glacier melt modelling done with the presented method are large.</p>
   sAreaRGIF <span class="op">=</span> <span class="fl">0.53</span>,  <span class="co"># Calculating glacier area from glacier volume</span>
   sImbal <span class="op">=</span> <span class="fl">0.73</span><span class="op">)</span>  <span class="co"># Calculating glacier imbalance ablation from glacier melt</span></code></pre></div>
 </div>
-<div id="demonstration" class="section level1">
-<h1 class="hasAnchor">
-<a href="#demonstration" class="anchor"></a>Demonstration</h1>
+<div class="section level2">
+<h2 id="demonstration">Demonstration<a class="anchor" aria-label="anchor" href="#demonstration"></a>
+</h2>
 <p>We demonstrate the above described method with the data from the
 Atbashy basin. As for the <a href="glaciers-01-intro.html">previous
-chapter</a> you can download all required data from <a href="https://www.dropbox.com/sh/r0lqggc77ka0uxd/AAChuIyLHHFIfAdgxNKiU2dpa?dl=1" target="_blank">this link</a>.</p>
+chapter</a> you can download all required data from <a href="https://www.dropbox.com/sh/r0lqggc77ka0uxd/AAChuIyLHHFIfAdgxNKiU2dpa?dl=1" target="_blank" class="external-link">this link</a>.</p>
 <div class="sourceCode" id="cb2"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="https://github.com/mtennekes/tmap">tmap</a></span><span class="op">)</span>
-<span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="https://r-spatial.github.io/sf/">sf</a></span><span class="op">)</span>
-<span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="https://rspatial.org/raster">raster</a></span><span class="op">)</span>
-<span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="https://isciences.gitlab.io/exactextractr/">exactextractr</a></span><span class="op">)</span>
-<span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="https://tidyverse.tidyverse.org">tidyverse</a></span><span class="op">)</span>
-<span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="https://lubridate.tidyverse.org">lubridate</a></span><span class="op">)</span>
-<span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="https://hydrosolutions.github.io/riversCentralAsia/index.html">riversCentralAsia</a></span><span class="op">)</span>
+<code class="sourceCode R"><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://github.com/r-tmap/tmap" class="external-link">tmap</a></span><span class="op">)</span>
+<span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://r-spatial.github.io/sf/" class="external-link">sf</a></span><span class="op">)</span>
+<span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://rspatial.org/raster" class="external-link">raster</a></span><span class="op">)</span>
+<span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://isciences.gitlab.io/exactextractr/" class="external-link">exactextractr</a></span><span class="op">)</span>
+<span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://tidyverse.tidyverse.org" class="external-link">tidyverse</a></span><span class="op">)</span>
+<span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://lubridate.tidyverse.org" class="external-link">lubridate</a></span><span class="op">)</span>
+<span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://hydrosolutions.github.io/riversCentralAsia/index.html" class="external-link">riversCentralAsia</a></span><span class="op">)</span>
 
 <span class="co"># Path to the data directory downloaded from the download link provided above. </span>
 <span class="co"># Here the data is extracted to a folder called atbashy_glacier_demo_data</span>
 <span class="va">data_path</span> <span class="op">&lt;-</span> <span class="st">"../../atbashy_glacier_demo_data/"</span></code></pre></div>
-<div id="forcing" class="section level2">
-<h2 class="hasAnchor">
-<a href="#forcing" class="anchor"></a>Forcing</h2>
+<div class="section level3">
+<h3 id="forcing">Forcing<a class="anchor" aria-label="anchor" href="#forcing"></a>
+</h3>
 <p>There will be a separate Vignette to demonstrate how to prepare the
 forcing. For now, we provide you with the pre-processed forcing data and
 give you just a brief overview over the data source.</p>
-<div id="historical-temperatures" class="section level3">
-<h3 class="hasAnchor">
-<a href="#historical-temperatures" class="anchor"></a>Historical temperatures</h3>
+<div class="section level4">
+<h4 id="historical-temperatures">Historical temperatures<a class="anchor" aria-label="anchor" href="#historical-temperatures"></a>
+</h4>
 <p>As meteorological data for high elevations in Central Asia is very
 scarce we use the CHELSA v2.1 data set <span class="citation">(Karger et
 al. 2017)</span>. This is a global data set of forcing data for
@@ -277,21 +273,23 @@ Central Region by the originator of the data set, D. Karger, WSL and
 extracted to the hydrological response units of the glaciers in the
 Atbashy basin by T. Siegfried.</p>
 <div class="sourceCode" id="cb3"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="co">#| fig.cap = "Daily temperature time series of a glacier. Data source: CHELSA v2.1." </span>
-<span class="co">#| out.width = 90%</span>
-<span class="va">hist_obs</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/readRDS.html">readRDS</a></span><span class="op">(</span>file <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/paste.html">paste0</a></span><span class="op">(</span><span class="va">data_path</span>, <span class="st">"CLIMATE/hist_obs_glacier_tas.rds"</span><span class="op">)</span><span class="op">)</span>
+<code class="sourceCode R"><span class="va">hist_obs</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/readRDS.html" class="external-link">readRDS</a></span><span class="op">(</span>file <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/paste.html" class="external-link">paste0</a></span><span class="op">(</span><span class="va">data_path</span>, <span class="st">"CLIMATE/hist_obs_glacier_tas.rds"</span><span class="op">)</span><span class="op">)</span>
 
 <span class="co"># Plot the temperature time series for a given glacier/elevation band</span>
 <span class="va">glacier</span> <span class="op">&lt;-</span> <span class="st">"RGI60-13.08930_1"</span>
-<span class="fu">ggplot</span><span class="op">(</span><span class="va">hist_obs</span><span class="op">)</span> <span class="op">+</span> 
-  <span class="fu">geom_line</span><span class="op">(</span><span class="fu">aes</span><span class="op">(</span><span class="va">date</span>, <span class="fu"><a href="https://rdrr.io/r/base/get.html">get</a></span><span class="op">(</span><span class="va">glacier</span><span class="op">)</span><span class="op">)</span><span class="op">)</span> <span class="op">+</span> 
-  <span class="fu">labs</span><span class="op">(</span>x <span class="op">=</span> <span class="st">"Date"</span>, y <span class="op">=</span> <span class="st">"T [deg C]"</span>, title <span class="op">=</span> <span class="va">glacier</span><span class="op">)</span> <span class="op">+</span>
-  <span class="fu">theme_bw</span><span class="op">(</span><span class="op">)</span></code></pre></div>
-<p><img src="glaciers-02-DDMWB_files/figure-html/histobs-1.png" width="700"></p>
+<span class="fu"><a href="https://ggplot2.tidyverse.org/reference/ggplot.html" class="external-link">ggplot</a></span><span class="op">(</span><span class="va">hist_obs</span><span class="op">)</span> <span class="op">+</span> 
+  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/geom_path.html" class="external-link">geom_line</a></span><span class="op">(</span><span class="fu"><a href="https://ggplot2.tidyverse.org/reference/aes.html" class="external-link">aes</a></span><span class="op">(</span><span class="va">date</span>, <span class="fu"><a href="https://rdrr.io/r/base/get.html" class="external-link">get</a></span><span class="op">(</span><span class="va">glacier</span><span class="op">)</span><span class="op">)</span><span class="op">)</span> <span class="op">+</span> 
+  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/labs.html" class="external-link">labs</a></span><span class="op">(</span>x <span class="op">=</span> <span class="st">"Date"</span>, y <span class="op">=</span> <span class="st">"T [deg C]"</span>, title <span class="op">=</span> <span class="va">glacier</span><span class="op">)</span> <span class="op">+</span>
+  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/ggtheme.html" class="external-link">theme_bw</a></span><span class="op">(</span><span class="op">)</span></code></pre></div>
+<div class="figure">
+<img src="glaciers-02-DDMWB_files/figure-html/histobs-1.png" alt="Daily temperature time series of a glacier. Data source: CHELSA v2.1." width="90%"><p class="caption">
+Daily temperature time series of a glacier. Data source: CHELSA v2.1.
+</p>
 </div>
-<div id="future-temperatures" class="section level3">
-<h3 class="hasAnchor">
-<a href="#future-temperatures" class="anchor"></a>Future temperatures</h3>
+</div>
+<div class="section level4">
+<h4 id="future-temperatures">Future temperatures<a class="anchor" aria-label="anchor" href="#future-temperatures"></a>
+</h4>
 <p>Future temperature development per glacier or elevation band is
 extracted from the 3 CMIP6 GCM models with highest priorities for the
 region () downloaded from COPERNICUS. We take 4 socioeconomic scenarios
@@ -299,116 +297,119 @@ into account, covering 4 different emission scenarios. The temperatures
 of the climate models are bias corrected using the CHELSA data and a
 quantile mapping method.</p>
 <div class="sourceCode" id="cb4"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="co">#| fig.cap = "Annual historical (CHELSA) and future (CMIP6, Copernicus) temperature for a glacier. " </span>
-<span class="co">#| out.width = 90%</span>
-<span class="va">fut_sim</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/readRDS.html">readRDS</a></span><span class="op">(</span>file <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/paste.html">paste0</a></span><span class="op">(</span><span class="va">data_path</span>, <span class="st">"CLIMATE/fut_sim_glacier_tas_qmapped.RDS"</span><span class="op">)</span><span class="op">)</span>
+<code class="sourceCode R"><span class="va">fut_sim</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/readRDS.html" class="external-link">readRDS</a></span><span class="op">(</span>file <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/paste.html" class="external-link">paste0</a></span><span class="op">(</span><span class="va">data_path</span>, <span class="st">"CLIMATE/fut_sim_glacier_tas_qmapped.RDS"</span><span class="op">)</span><span class="op">)</span>
 
 <span class="co"># Plot the temperature time series for a given glacier/elevation band</span>
 <span class="va">glacier</span> <span class="op">&lt;-</span> <span class="st">"RGI60-13.08930_1"</span>
 
 <span class="co"># Extract the temperature for the selected glaciers for all GCMs and SSPs</span>
-<span class="va">scenarios</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/pkg/raster/man/names.html">names</a></span><span class="op">(</span><span class="va">fut_sim</span><span class="op">)</span>
+<span class="va">scenarios</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/pkg/raster/man/names.html" class="external-link">names</a></span><span class="op">(</span><span class="va">fut_sim</span><span class="op">)</span>
 <span class="va">fut_temp</span> <span class="op">&lt;-</span> <span class="cn">NULL</span>
 <span class="kw">for</span> <span class="op">(</span><span class="va">scenario</span> <span class="kw">in</span> <span class="va">scenarios</span><span class="op">)</span> <span class="op">{</span>
-  <span class="va">fut_temp</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/cbind.html">rbind</a></span><span class="op">(</span><span class="va">fut_temp</span>, 
+  <span class="va">fut_temp</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/cbind.html" class="external-link">rbind</a></span><span class="op">(</span><span class="va">fut_temp</span>, 
                     <span class="va">fut_sim</span><span class="op">[[</span><span class="va">scenario</span><span class="op">]</span><span class="op">]</span> |&gt; 
-                      <span class="fu">dplyr</span><span class="fu">::</span><span class="fu"><a href="https://dplyr.tidyverse.org/reference/select.html">select</a></span><span class="op">(</span><span class="va">Date</span>, <span class="fu">all_of</span><span class="op">(</span><span class="va">glacier</span><span class="op">)</span><span class="op">)</span> |&gt; 
-                      <span class="fu">mutate</span><span class="op">(</span>Scenario <span class="op">=</span> <span class="va">scenario</span><span class="op">)</span><span class="op">)</span>
+                      <span class="fu">dplyr</span><span class="fu">::</span><span class="fu"><a href="https://dplyr.tidyverse.org/reference/select.html" class="external-link">select</a></span><span class="op">(</span><span class="va">Date</span>, <span class="fu"><a href="https://tidyselect.r-lib.org/reference/all_of.html" class="external-link">all_of</a></span><span class="op">(</span><span class="va">glacier</span><span class="op">)</span><span class="op">)</span> |&gt; 
+                      <span class="fu"><a href="https://dplyr.tidyverse.org/reference/mutate.html" class="external-link">mutate</a></span><span class="op">(</span>Scenario <span class="op">=</span> <span class="va">scenario</span><span class="op">)</span><span class="op">)</span>
 <span class="op">}</span>
 <span class="va">fut_temp</span> <span class="op">&lt;-</span> <span class="va">fut_temp</span> |&gt; 
-  <span class="fu">mutate</span><span class="op">(</span>Hyear <span class="op">=</span> <span class="fu"><a href="../reference/hyear.html">hyear</a></span><span class="op">(</span><span class="va">Date</span><span class="op">)</span><span class="op">)</span> |&gt; 
-  <span class="fu">group_by</span><span class="op">(</span><span class="va">Hyear</span>, <span class="va">Scenario</span><span class="op">)</span> |&gt; 
-  <span class="fu"><a href="https://r-spatial.github.io/sf/reference/tidyverse.html">summarise</a></span><span class="op">(</span>Date <span class="op">=</span> <span class="fu">first</span><span class="op">(</span><span class="va">Date</span><span class="op">)</span>, 
-            Temp <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/mean.html">mean</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/get.html">get</a></span><span class="op">(</span><span class="va">glacier</span><span class="op">)</span><span class="op">)</span><span class="op">)</span> |&gt; 
-  <span class="fu">separate</span><span class="op">(</span><span class="va">Scenario</span>, into <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="st">"GCM"</span>, <span class="st">"SSP"</span><span class="op">)</span>, sep <span class="op">=</span> <span class="st">"_"</span><span class="op">)</span> |&gt; 
-  <span class="fu">ungroup</span><span class="op">(</span><span class="op">)</span> |&gt;
-  <span class="fu">dplyr</span><span class="fu">::</span><span class="fu"><a href="https://dplyr.tidyverse.org/reference/filter.html">filter</a></span><span class="op">(</span><span class="va">Hyear</span> <span class="op">&gt;</span> <span class="fu"><a href="https://rdrr.io/r/base/Extremes.html">min</a></span><span class="op">(</span><span class="va">Hyear</span><span class="op">)</span> <span class="op">&amp;</span> <span class="va">Hyear</span> <span class="op">&lt;</span> <span class="fu"><a href="https://rdrr.io/r/base/Extremes.html">max</a></span><span class="op">(</span><span class="va">Hyear</span><span class="op">)</span>, 
+  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/mutate.html" class="external-link">mutate</a></span><span class="op">(</span>Hyear <span class="op">=</span> <span class="fu"><a href="../reference/hyear.html">hyear</a></span><span class="op">(</span><span class="va">Date</span><span class="op">)</span><span class="op">)</span> |&gt; 
+  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/group_by.html" class="external-link">group_by</a></span><span class="op">(</span><span class="va">Hyear</span>, <span class="va">Scenario</span><span class="op">)</span> |&gt; 
+  <span class="fu"><a href="https://r-spatial.github.io/sf/reference/tidyverse.html" class="external-link">summarise</a></span><span class="op">(</span>Date <span class="op">=</span> <span class="fu"><a href="https://dplyr.tidyverse.org/reference/nth.html" class="external-link">first</a></span><span class="op">(</span><span class="va">Date</span><span class="op">)</span>, 
+            Temp <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/mean.html" class="external-link">mean</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/get.html" class="external-link">get</a></span><span class="op">(</span><span class="va">glacier</span><span class="op">)</span><span class="op">)</span><span class="op">)</span> |&gt; 
+  <span class="fu"><a href="https://tidyr.tidyverse.org/reference/separate.html" class="external-link">separate</a></span><span class="op">(</span><span class="va">Scenario</span>, into <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"GCM"</span>, <span class="st">"SSP"</span><span class="op">)</span>, sep <span class="op">=</span> <span class="st">"_"</span><span class="op">)</span> |&gt; 
+  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/group_by.html" class="external-link">ungroup</a></span><span class="op">(</span><span class="op">)</span> |&gt;
+  <span class="fu">dplyr</span><span class="fu">::</span><span class="fu"><a href="https://dplyr.tidyverse.org/reference/filter.html" class="external-link">filter</a></span><span class="op">(</span><span class="va">Hyear</span> <span class="op">&gt;</span> <span class="fu"><a href="https://rdrr.io/r/base/Extremes.html" class="external-link">min</a></span><span class="op">(</span><span class="va">Hyear</span><span class="op">)</span> <span class="op">&amp;</span> <span class="va">Hyear</span> <span class="op">&lt;</span> <span class="fu"><a href="https://rdrr.io/r/base/Extremes.html" class="external-link">max</a></span><span class="op">(</span><span class="va">Hyear</span><span class="op">)</span>, 
                 <span class="va">GCM</span> <span class="op">!=</span> <span class="st">"IPSL-CM6A-LR"</span><span class="op">)</span>
 
 <span class="co"># Plot annual data for better readability</span>
-<span class="fu">ggplot</span><span class="op">(</span><span class="op">)</span> <span class="op">+</span> 
-  <span class="fu">geom_line</span><span class="op">(</span>data <span class="op">=</span> <span class="va">hist_obs</span> |&gt; 
-              <span class="fu">mutate</span><span class="op">(</span>Hyear <span class="op">=</span> <span class="fu"><a href="../reference/hyear.html">hyear</a></span><span class="op">(</span><span class="va">date</span><span class="op">)</span><span class="op">)</span> |&gt; 
-              <span class="fu">group_by</span><span class="op">(</span><span class="va">Hyear</span><span class="op">)</span> |&gt; 
-              <span class="fu"><a href="https://r-spatial.github.io/sf/reference/tidyverse.html">summarise</a></span><span class="op">(</span>date <span class="op">=</span> <span class="fu">first</span><span class="op">(</span><span class="va">date</span><span class="op">)</span>, 
-                        Temp <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/mean.html">mean</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/get.html">get</a></span><span class="op">(</span><span class="va">glacier</span><span class="op">)</span><span class="op">)</span><span class="op">)</span> |&gt; 
-              <span class="fu">ungroup</span><span class="op">(</span><span class="op">)</span> |&gt; 
-              <span class="fu">dplyr</span><span class="fu">::</span><span class="fu"><a href="https://dplyr.tidyverse.org/reference/filter.html">filter</a></span><span class="op">(</span><span class="va">Hyear</span> <span class="op">&gt;</span> <span class="fu"><a href="https://rdrr.io/r/base/Extremes.html">min</a></span><span class="op">(</span><span class="va">Hyear</span><span class="op">)</span> <span class="op">&amp;</span> <span class="va">Hyear</span> <span class="op">&lt;</span> <span class="fu"><a href="https://rdrr.io/r/base/Extremes.html">max</a></span><span class="op">(</span><span class="va">Hyear</span><span class="op">)</span><span class="op">)</span>, 
-            <span class="fu">aes</span><span class="op">(</span><span class="va">date</span>, <span class="va">Temp</span><span class="op">)</span><span class="op">)</span> <span class="op">+</span> 
-  <span class="fu">geom_line</span><span class="op">(</span>data <span class="op">=</span> <span class="va">fut_temp</span>, <span class="fu">aes</span><span class="op">(</span><span class="va">Date</span>, <span class="va">Temp</span>, colour <span class="op">=</span> <span class="va">GCM</span>, 
+<span class="fu"><a href="https://ggplot2.tidyverse.org/reference/ggplot.html" class="external-link">ggplot</a></span><span class="op">(</span><span class="op">)</span> <span class="op">+</span> 
+  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/geom_path.html" class="external-link">geom_line</a></span><span class="op">(</span>data <span class="op">=</span> <span class="va">hist_obs</span> |&gt; 
+              <span class="fu"><a href="https://dplyr.tidyverse.org/reference/mutate.html" class="external-link">mutate</a></span><span class="op">(</span>Hyear <span class="op">=</span> <span class="fu"><a href="../reference/hyear.html">hyear</a></span><span class="op">(</span><span class="va">date</span><span class="op">)</span><span class="op">)</span> |&gt; 
+              <span class="fu"><a href="https://dplyr.tidyverse.org/reference/group_by.html" class="external-link">group_by</a></span><span class="op">(</span><span class="va">Hyear</span><span class="op">)</span> |&gt; 
+              <span class="fu"><a href="https://r-spatial.github.io/sf/reference/tidyverse.html" class="external-link">summarise</a></span><span class="op">(</span>date <span class="op">=</span> <span class="fu"><a href="https://dplyr.tidyverse.org/reference/nth.html" class="external-link">first</a></span><span class="op">(</span><span class="va">date</span><span class="op">)</span>, 
+                        Temp <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/mean.html" class="external-link">mean</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/get.html" class="external-link">get</a></span><span class="op">(</span><span class="va">glacier</span><span class="op">)</span><span class="op">)</span><span class="op">)</span> |&gt; 
+              <span class="fu"><a href="https://dplyr.tidyverse.org/reference/group_by.html" class="external-link">ungroup</a></span><span class="op">(</span><span class="op">)</span> |&gt; 
+              <span class="fu">dplyr</span><span class="fu">::</span><span class="fu"><a href="https://dplyr.tidyverse.org/reference/filter.html" class="external-link">filter</a></span><span class="op">(</span><span class="va">Hyear</span> <span class="op">&gt;</span> <span class="fu"><a href="https://rdrr.io/r/base/Extremes.html" class="external-link">min</a></span><span class="op">(</span><span class="va">Hyear</span><span class="op">)</span> <span class="op">&amp;</span> <span class="va">Hyear</span> <span class="op">&lt;</span> <span class="fu"><a href="https://rdrr.io/r/base/Extremes.html" class="external-link">max</a></span><span class="op">(</span><span class="va">Hyear</span><span class="op">)</span><span class="op">)</span>, 
+            <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/aes.html" class="external-link">aes</a></span><span class="op">(</span><span class="va">date</span>, <span class="va">Temp</span><span class="op">)</span><span class="op">)</span> <span class="op">+</span> 
+  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/geom_path.html" class="external-link">geom_line</a></span><span class="op">(</span>data <span class="op">=</span> <span class="va">fut_temp</span>, <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/aes.html" class="external-link">aes</a></span><span class="op">(</span><span class="va">Date</span>, <span class="va">Temp</span>, colour <span class="op">=</span> <span class="va">GCM</span>, 
             linetype <span class="op">=</span> <span class="va">SSP</span><span class="op">)</span><span class="op">)</span> <span class="op">+</span> 
-  <span class="fu">scale_colour_viridis_d</span><span class="op">(</span><span class="op">)</span> <span class="op">+</span> 
-  <span class="fu">labs</span><span class="op">(</span>x <span class="op">=</span> <span class="st">"Date"</span>, y <span class="op">=</span> <span class="st">"T [deg C]"</span>, title <span class="op">=</span> <span class="va">glacier</span><span class="op">)</span> <span class="op">+</span>
-  <span class="fu">theme_bw</span><span class="op">(</span><span class="op">)</span></code></pre></div>
-<p><img src="glaciers-02-DDMWB_files/figure-html/futsim-1.png" width="700"></p>
+  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/scale_viridis.html" class="external-link">scale_colour_viridis_d</a></span><span class="op">(</span><span class="op">)</span> <span class="op">+</span> 
+  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/labs.html" class="external-link">labs</a></span><span class="op">(</span>x <span class="op">=</span> <span class="st">"Date"</span>, y <span class="op">=</span> <span class="st">"T [deg C]"</span>, title <span class="op">=</span> <span class="va">glacier</span><span class="op">)</span> <span class="op">+</span>
+  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/ggtheme.html" class="external-link">theme_bw</a></span><span class="op">(</span><span class="op">)</span></code></pre></div>
+<div class="figure">
+<img src="glaciers-02-DDMWB_files/figure-html/futsim-1.png" alt="Annual historical (CHELSA) and future (CMIP6, Copernicus) temperature for a glacier." width="90%"><p class="caption">
+Annual historical (CHELSA) and future (CMIP6, Copernicus) temperature
+for a glacier.
+</p>
 </div>
 </div>
-<div id="calculate-daily-glacier-melt" class="section level2">
-<h2 class="hasAnchor">
-<a href="#calculate-daily-glacier-melt" class="anchor"></a>Calculate daily glacier melt</h2>
-<div id="glacier-geometry" class="section level3">
-<h3 class="hasAnchor">
-<a href="#glacier-geometry" class="anchor"></a>Glacier geometry</h3>
+</div>
+<div class="section level3">
+<h3 id="calculate-daily-glacier-melt">Calculate daily glacier melt<a class="anchor" aria-label="anchor" href="#calculate-daily-glacier-melt"></a>
+</h3>
+<div class="section level4">
+<h4 id="glacier-geometry">Glacier geometry<a class="anchor" aria-label="anchor" href="#glacier-geometry"></a>
+</h4>
 <div class="sourceCode" id="cb5"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="co"># Load data</span>
 <span class="co">## Digital elevation model (DEM)</span>
-<span class="va">dem</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/pkg/raster/man/raster.html">raster</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/paste.html">paste0</a></span><span class="op">(</span><span class="va">data_path</span>, <span class="st">"GIS/16076_DEM.tif"</span><span class="op">)</span><span class="op">)</span>
+<span class="va">dem</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/pkg/raster/man/raster.html" class="external-link">raster</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/paste.html" class="external-link">paste0</a></span><span class="op">(</span><span class="va">data_path</span>, <span class="st">"GIS/16076_DEM.tif"</span><span class="op">)</span><span class="op">)</span>
 
 <span class="co">## Glacier outlines from the Randolph Glacier Inventory (RGI) v6.0 </span>
-<span class="va">rgi</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://r-spatial.github.io/sf/reference/st_read.html">st_read</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/paste.html">paste0</a></span><span class="op">(</span><span class="va">data_path</span>, <span class="st">"GIS/16076_Glaciers_per_subbasin.shp"</span><span class="op">)</span>, 
+<span class="va">rgi</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://r-spatial.github.io/sf/reference/st_read.html" class="external-link">st_read</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/paste.html" class="external-link">paste0</a></span><span class="op">(</span><span class="va">data_path</span>, <span class="st">"GIS/16076_Glaciers_per_subbasin.shp"</span><span class="op">)</span>, 
                quiet <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span> |&gt; 
-  <span class="fu"><a href="https://r-spatial.github.io/sf/reference/st_transform.html">st_transform</a></span><span class="op">(</span>crs <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/pkg/raster/man/projection.html">crs</a></span><span class="op">(</span><span class="va">dem</span><span class="op">)</span><span class="op">)</span>
+  <span class="fu"><a href="https://r-spatial.github.io/sf/reference/st_transform.html" class="external-link">st_transform</a></span><span class="op">(</span>crs <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/pkg/raster/man/projection.html" class="external-link">crs</a></span><span class="op">(</span><span class="va">dem</span><span class="op">)</span><span class="op">)</span>
 
 <span class="co">## Outlines of hydrological response units for the modelling of glacier discharge.  </span>
-<span class="va">rgi_elbands</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://r-spatial.github.io/sf/reference/st_read.html">st_read</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/paste.html">paste0</a></span><span class="op">(</span><span class="va">data_path</span>, 
+<span class="va">rgi_elbands</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://r-spatial.github.io/sf/reference/st_read.html" class="external-link">st_read</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/paste.html" class="external-link">paste0</a></span><span class="op">(</span><span class="va">data_path</span>, 
                               <span class="st">"GIS/rgi_glaciers_atbaschy_el_bands.shp"</span><span class="op">)</span>, 
                quiet <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span> |&gt; 
-  <span class="fu"><a href="https://r-spatial.github.io/sf/reference/st_transform.html">st_transform</a></span><span class="op">(</span>crs <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/pkg/raster/man/projection.html">crs</a></span><span class="op">(</span><span class="va">dem</span><span class="op">)</span><span class="op">)</span>
+  <span class="fu"><a href="https://r-spatial.github.io/sf/reference/st_transform.html" class="external-link">st_transform</a></span><span class="op">(</span>crs <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/pkg/raster/man/projection.html" class="external-link">crs</a></span><span class="op">(</span><span class="va">dem</span><span class="op">)</span><span class="op">)</span>
 
 
 <span class="co"># Load a pre-processed raster file with glacier thickness in the Atbashy basin</span>
 <span class="co"># (see vignette [glaciers 01]{glaciers-01-intro.html} for details on the pre</span>
 <span class="co"># -processing)</span>
-<span class="va">glacier_thickness</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/pkg/raster/man/raster.html">raster</a></span><span class="op">(</span>
-  <span class="fu"><a href="https://rdrr.io/r/base/paste.html">paste0</a></span><span class="op">(</span><span class="va">data_path</span>, 
+<span class="va">glacier_thickness</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/pkg/raster/man/raster.html" class="external-link">raster</a></span><span class="op">(</span>
+  <span class="fu"><a href="https://rdrr.io/r/base/paste.html" class="external-link">paste0</a></span><span class="op">(</span><span class="va">data_path</span>, 
   <span class="st">"GLACIERS/Farinotti/pre-processed_glacier_thickness.tif"</span><span class="op">)</span><span class="op">)</span>
 
 <span class="co"># Load the glacier thickness data set and filter it to the glaciers in the </span>
 <span class="co"># catchment of interest.  </span>
-<span class="va">hugonnet</span> <span class="op">&lt;-</span> <span class="fu">read_csv</span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/paste.html">paste0</a></span><span class="op">(</span>
+<span class="va">hugonnet</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://readr.tidyverse.org/reference/read_delim.html" class="external-link">read_csv</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/paste.html" class="external-link">paste0</a></span><span class="op">(</span>
   <span class="va">data_path</span>, <span class="st">"/GLACIERS/Hugonnet/dh_13_rgi60_pergla_rates.csv"</span><span class="op">)</span><span class="op">)</span>
 <span class="va">hugonnet</span> <span class="op">&lt;-</span> <span class="va">hugonnet</span> |&gt; 
-  <span class="fu">dplyr</span><span class="fu">::</span><span class="fu"><a href="https://dplyr.tidyverse.org/reference/filter.html">filter</a></span><span class="op">(</span><span class="va">rgiid</span> <span class="op">%in%</span> <span class="va">rgi</span><span class="op">$</span><span class="va">RGIId</span><span class="op">)</span> |&gt; 
-  <span class="fu">tidyr</span><span class="fu">::</span><span class="fu"><a href="https://tidyr.tidyverse.org/reference/separate.html">separate</a></span><span class="op">(</span><span class="va">period</span>, <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="st">"start"</span>, <span class="st">"end"</span><span class="op">)</span>, sep <span class="op">=</span> <span class="st">"_"</span><span class="op">)</span> |&gt; 
-  <span class="fu">mutate</span><span class="op">(</span>start <span class="op">=</span> <span class="fu"><a href="https://lubridate.tidyverse.org/reference/as_date.html">as_date</a></span><span class="op">(</span><span class="va">start</span>, format <span class="op">=</span> <span class="st">"%Y-%m-%d"</span><span class="op">)</span>, 
-         end <span class="op">=</span> <span class="fu"><a href="https://lubridate.tidyverse.org/reference/as_date.html">as_date</a></span><span class="op">(</span><span class="va">end</span>, format <span class="op">=</span> <span class="st">"%Y-%m-%d"</span><span class="op">)</span>, 
-         period <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/Round.html">round</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/numeric.html">as.numeric</a></span><span class="op">(</span><span class="va">end</span> <span class="op">-</span> <span class="va">start</span>, units <span class="op">=</span> <span class="st">"days"</span><span class="op">)</span><span class="op">/</span><span class="fl">366</span><span class="op">)</span><span class="op">)</span>
+  <span class="fu">dplyr</span><span class="fu">::</span><span class="fu"><a href="https://dplyr.tidyverse.org/reference/filter.html" class="external-link">filter</a></span><span class="op">(</span><span class="va">rgiid</span> <span class="op"><a href="https://rdrr.io/pkg/raster/man/match.html" class="external-link">%in%</a></span> <span class="va">rgi</span><span class="op">$</span><span class="va">RGIId</span><span class="op">)</span> |&gt; 
+  <span class="fu">tidyr</span><span class="fu">::</span><span class="fu"><a href="https://tidyr.tidyverse.org/reference/separate.html" class="external-link">separate</a></span><span class="op">(</span><span class="va">period</span>, <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"start"</span>, <span class="st">"end"</span><span class="op">)</span>, sep <span class="op">=</span> <span class="st">"_"</span><span class="op">)</span> |&gt; 
+  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/mutate.html" class="external-link">mutate</a></span><span class="op">(</span>start <span class="op">=</span> <span class="fu"><a href="https://lubridate.tidyverse.org/reference/as_date.html" class="external-link">as_date</a></span><span class="op">(</span><span class="va">start</span>, format <span class="op">=</span> <span class="st">"%Y-%m-%d"</span><span class="op">)</span>, 
+         end <span class="op">=</span> <span class="fu"><a href="https://lubridate.tidyverse.org/reference/as_date.html" class="external-link">as_date</a></span><span class="op">(</span><span class="va">end</span>, format <span class="op">=</span> <span class="st">"%Y-%m-%d"</span><span class="op">)</span>, 
+         period <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/Round.html" class="external-link">round</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/numeric.html" class="external-link">as.numeric</a></span><span class="op">(</span><span class="va">end</span> <span class="op">-</span> <span class="va">start</span>, units <span class="op">=</span> <span class="st">"days"</span><span class="op">)</span><span class="op">/</span><span class="fl">366</span><span class="op">)</span><span class="op">)</span>
 <span class="va">glaciers_hugonnet</span> <span class="op">&lt;-</span> <span class="va">rgi</span> |&gt; 
-  <span class="fu">left_join</span><span class="op">(</span><span class="va">hugonnet</span> |&gt; <span class="fu">dplyr</span><span class="fu">::</span><span class="fu"><a href="https://dplyr.tidyverse.org/reference/select.html">select</a></span><span class="op">(</span><span class="va">rgiid</span>, <span class="va">area</span>, <span class="va">start</span>, <span class="va">end</span>, <span class="va">dhdt</span>, <span class="va">err_dhdt</span>, 
+  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/mutate-joins.html" class="external-link">left_join</a></span><span class="op">(</span><span class="va">hugonnet</span> |&gt; <span class="fu">dplyr</span><span class="fu">::</span><span class="fu"><a href="https://dplyr.tidyverse.org/reference/select.html" class="external-link">select</a></span><span class="op">(</span><span class="va">rgiid</span>, <span class="va">area</span>, <span class="va">start</span>, <span class="va">end</span>, <span class="va">dhdt</span>, <span class="va">err_dhdt</span>, 
                                       <span class="va">dvoldt</span>, <span class="va">err_dvoldt</span>, <span class="va">dmdt</span>, <span class="va">err_dmdt</span>, 
                                       <span class="va">dmdtda</span>, <span class="va">err_dmdtda</span>, <span class="va">period</span><span class="op">)</span>,  
-            by <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="st">"RGIId"</span> <span class="op">=</span> <span class="st">"rgiid"</span><span class="op">)</span><span class="op">)</span> 
+            by <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"RGIId"</span> <span class="op">=</span> <span class="st">"rgiid"</span><span class="op">)</span><span class="op">)</span> 
 
 <span class="co"># Only keep the variables we need for this analysis</span>
 <span class="va">rgi_elbands</span> <span class="op">&lt;-</span> <span class="va">rgi_elbands</span> |&gt; 
-  <span class="fu">dplyr</span><span class="fu">::</span><span class="fu"><a href="https://dplyr.tidyverse.org/reference/select.html">select</a></span><span class="op">(</span><span class="va">RGIId</span>, <span class="va">Area</span>, <span class="va">elvtn_b</span><span class="op">)</span> |&gt; 
-  <span class="fu">rename</span><span class="op">(</span>Area_tot_glacier_km2 <span class="op">=</span> <span class="va">Area</span><span class="op">)</span> |&gt; 
-  <span class="fu">mutate</span><span class="op">(</span>ID <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/paste.html">paste0</a></span><span class="op">(</span><span class="va">RGIId</span>, <span class="st">"_"</span>, <span class="va">elvtn_b</span><span class="op">)</span><span class="op">)</span>
+  <span class="fu">dplyr</span><span class="fu">::</span><span class="fu"><a href="https://dplyr.tidyverse.org/reference/select.html" class="external-link">select</a></span><span class="op">(</span><span class="va">RGIId</span>, <span class="va">Area</span>, <span class="va">elvtn_b</span><span class="op">)</span> |&gt; 
+  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/rename.html" class="external-link">rename</a></span><span class="op">(</span>Area_tot_glacier_km2 <span class="op">=</span> <span class="va">Area</span><span class="op">)</span> |&gt; 
+  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/mutate.html" class="external-link">mutate</a></span><span class="op">(</span>ID <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/paste.html" class="external-link">paste0</a></span><span class="op">(</span><span class="va">RGIId</span>, <span class="st">"_"</span>, <span class="va">elvtn_b</span><span class="op">)</span><span class="op">)</span>
 
 <span class="co"># Get mean elevation of each glacier/elevation band from DEM</span>
 <span class="va">rgi_elbands</span><span class="op">$</span><span class="va">z_masl</span> <span class="op">&lt;-</span> <span class="fu">exact_extract</span><span class="op">(</span><span class="va">dem</span>, <span class="va">rgi_elbands</span>, <span class="st">"mean"</span>, progress <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span>
 
 <span class="co"># Update the glacier area within the basin boundaries</span>
-<span class="va">rgi_elbands</span><span class="op">$</span><span class="va">A_km2</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/numeric.html">as.numeric</a></span><span class="op">(</span><span class="fu"><a href="https://r-spatial.github.io/sf/reference/geos_measures.html">st_area</a></span><span class="op">(</span><span class="va">rgi_elbands</span><span class="op">)</span><span class="op">)</span><span class="op">*</span><span class="fl">10</span><span class="op">^</span><span class="op">(</span><span class="op">-</span><span class="fl">6</span><span class="op">)</span>
-<span class="va">glaciers</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/pkg/raster/man/unique.html">unique</a></span><span class="op">(</span><span class="va">rgi_elbands</span><span class="op">$</span><span class="va">RGIId</span><span class="op">)</span>
+<span class="va">rgi_elbands</span><span class="op">$</span><span class="va">A_km2</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/numeric.html" class="external-link">as.numeric</a></span><span class="op">(</span><span class="fu"><a href="https://r-spatial.github.io/sf/reference/geos_measures.html" class="external-link">st_area</a></span><span class="op">(</span><span class="va">rgi_elbands</span><span class="op">)</span><span class="op">)</span><span class="op">*</span><span class="fl">10</span><span class="op">^</span><span class="op">(</span><span class="op">-</span><span class="fl">6</span><span class="op">)</span>
+<span class="va">glaciers</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/pkg/raster/man/unique.html" class="external-link">unique</a></span><span class="op">(</span><span class="va">rgi_elbands</span><span class="op">$</span><span class="va">RGIId</span><span class="op">)</span>
 
 <span class="co"># Calculate the average glacier thickness for each elevation band. </span>
 <span class="va">rgi_elbands</span><span class="op">$</span><span class="va">thickness_m</span> <span class="op">=</span> <span class="fu">exact_extract</span><span class="op">(</span><span class="va">glacier_thickness</span>, 
                                         <span class="va">rgi_elbands</span>, <span class="st">"mean"</span>, progress <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span></code></pre></div>
 </div>
-<div id="forcing-1" class="section level3">
-<h3 class="hasAnchor">
-<a href="#forcing-1" class="anchor"></a>Forcing</h3>
+<div class="section level4">
+<h4 id="forcing-1">Forcing<a class="anchor" aria-label="anchor" href="#forcing-1"></a>
+</h4>
 <p>Temperature time series for each glacier/elevation band are
 available. Figure <span class="math inline">\(\ref{fig::temperature_elevation_bands}\)</span>
 shows temperature time series extracted from the CHELSA data set on the
@@ -417,187 +418,194 @@ aggregated to the hydrological year to better illustrate the temperature
 gradient over the elevation. The highest temperatures are measured at
 the lowest elevations and vice versa.</p>
 <div class="sourceCode" id="cb6"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="co">#| fig.cap = "Temperature forcing for the elevation bands of a glacier. " </span>
-<span class="co">#| out.width = 90%</span>
-
-<span class="fu">ggplot</span><span class="op">(</span><span class="va">hist_obs</span><span class="op">[</span>, <span class="fl">1</span><span class="op">:</span><span class="fl">9</span><span class="op">]</span> |&gt; 
-         <span class="fu">pivot_longer</span><span class="op">(</span><span class="op">-</span><span class="va">date</span>, names_to <span class="op">=</span> <span class="st">"ID"</span>, values_to <span class="op">=</span> <span class="st">"Temp"</span><span class="op">)</span> |&gt; 
-         <span class="fu">mutate</span><span class="op">(</span>Hyear <span class="op">=</span> <span class="fu"><a href="../reference/hyear.html">hyear</a></span><span class="op">(</span><span class="va">date</span><span class="op">)</span><span class="op">)</span> |&gt; 
-         <span class="fu">group_by</span><span class="op">(</span><span class="va">Hyear</span>, <span class="va">ID</span><span class="op">)</span> |&gt; 
-         <span class="fu"><a href="https://r-spatial.github.io/sf/reference/tidyverse.html">summarise</a></span><span class="op">(</span>date <span class="op">=</span> <span class="fu">first</span><span class="op">(</span><span class="va">date</span><span class="op">)</span>, 
-                   Temp <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/mean.html">mean</a></span><span class="op">(</span><span class="va">Temp</span><span class="op">)</span><span class="op">)</span>|&gt; 
-         <span class="fu">ungroup</span><span class="op">(</span><span class="op">)</span> |&gt; 
-         <span class="fu">dplyr</span><span class="fu">::</span><span class="fu"><a href="https://dplyr.tidyverse.org/reference/filter.html">filter</a></span><span class="op">(</span><span class="va">Hyear</span><span class="op">&gt;</span><span class="fu"><a href="https://rdrr.io/r/base/Extremes.html">min</a></span><span class="op">(</span><span class="va">Hyear</span><span class="op">)</span> <span class="op">&amp;</span> <span class="va">Hyear</span><span class="op">&lt;</span><span class="fu"><a href="https://rdrr.io/r/base/Extremes.html">max</a></span><span class="op">(</span><span class="va">Hyear</span><span class="op">)</span><span class="op">)</span> |&gt; 
-         <span class="fu">left_join</span><span class="op">(</span><span class="va">rgi_elbands</span> |&gt; 
-                     <span class="fu"><a href="https://r-spatial.github.io/sf/reference/st_geometry.html">st_drop_geometry</a></span><span class="op">(</span><span class="op">)</span> |&gt; 
-                     <span class="fu">dplyr</span><span class="fu">::</span><span class="fu"><a href="https://dplyr.tidyverse.org/reference/select.html">select</a></span><span class="op">(</span><span class="va">ID</span>, <span class="va">z_masl</span><span class="op">)</span>, by <span class="op">=</span> <span class="st">"ID"</span><span class="op">)</span> |&gt; 
-         <span class="fu">mutate</span><span class="op">(</span><span class="st">"Elevation [masl]"</span> <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/pkg/raster/man/factor.html">as.factor</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/Round.html">round</a></span><span class="op">(</span><span class="va">z_masl</span><span class="op">)</span><span class="op">)</span><span class="op">)</span><span class="op">)</span> <span class="op">+</span> 
-  <span class="fu">geom_line</span><span class="op">(</span><span class="fu">aes</span><span class="op">(</span><span class="va">date</span>, <span class="va">Temp</span>, colour <span class="op">=</span> <span class="va">`Elevation [masl]`</span><span class="op">)</span><span class="op">)</span> <span class="op">+</span> 
-  <span class="fu">scale_colour_viridis_d</span><span class="op">(</span><span class="op">)</span> <span class="op">+</span> 
-  <span class="fu">labs</span><span class="op">(</span>x <span class="op">=</span> <span class="st">"Date"</span>, y <span class="op">=</span> <span class="st">"T [deg C]"</span><span class="op">)</span> <span class="op">+</span> 
-  <span class="fu">theme_bw</span><span class="op">(</span><span class="op">)</span></code></pre></div>
-<p><img src="glaciers-02-DDMWB_files/figure-html/temperature_elevation_bands-1.png" width="700"></p>
+<code class="sourceCode R"><span class="fu"><a href="https://ggplot2.tidyverse.org/reference/ggplot.html" class="external-link">ggplot</a></span><span class="op">(</span><span class="va">hist_obs</span><span class="op">[</span>, <span class="fl">1</span><span class="op">:</span><span class="fl">9</span><span class="op">]</span> |&gt; 
+         <span class="fu"><a href="https://tidyr.tidyverse.org/reference/pivot_longer.html" class="external-link">pivot_longer</a></span><span class="op">(</span><span class="op">-</span><span class="va">date</span>, names_to <span class="op">=</span> <span class="st">"ID"</span>, values_to <span class="op">=</span> <span class="st">"Temp"</span><span class="op">)</span> |&gt; 
+         <span class="fu"><a href="https://dplyr.tidyverse.org/reference/mutate.html" class="external-link">mutate</a></span><span class="op">(</span>Hyear <span class="op">=</span> <span class="fu"><a href="../reference/hyear.html">hyear</a></span><span class="op">(</span><span class="va">date</span><span class="op">)</span><span class="op">)</span> |&gt; 
+         <span class="fu"><a href="https://dplyr.tidyverse.org/reference/group_by.html" class="external-link">group_by</a></span><span class="op">(</span><span class="va">Hyear</span>, <span class="va">ID</span><span class="op">)</span> |&gt; 
+         <span class="fu"><a href="https://r-spatial.github.io/sf/reference/tidyverse.html" class="external-link">summarise</a></span><span class="op">(</span>date <span class="op">=</span> <span class="fu"><a href="https://dplyr.tidyverse.org/reference/nth.html" class="external-link">first</a></span><span class="op">(</span><span class="va">date</span><span class="op">)</span>, 
+                   Temp <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/mean.html" class="external-link">mean</a></span><span class="op">(</span><span class="va">Temp</span><span class="op">)</span><span class="op">)</span>|&gt; 
+         <span class="fu"><a href="https://dplyr.tidyverse.org/reference/group_by.html" class="external-link">ungroup</a></span><span class="op">(</span><span class="op">)</span> |&gt; 
+         <span class="fu">dplyr</span><span class="fu">::</span><span class="fu"><a href="https://dplyr.tidyverse.org/reference/filter.html" class="external-link">filter</a></span><span class="op">(</span><span class="va">Hyear</span><span class="op">&gt;</span><span class="fu"><a href="https://rdrr.io/r/base/Extremes.html" class="external-link">min</a></span><span class="op">(</span><span class="va">Hyear</span><span class="op">)</span> <span class="op">&amp;</span> <span class="va">Hyear</span><span class="op">&lt;</span><span class="fu"><a href="https://rdrr.io/r/base/Extremes.html" class="external-link">max</a></span><span class="op">(</span><span class="va">Hyear</span><span class="op">)</span><span class="op">)</span> |&gt; 
+         <span class="fu"><a href="https://dplyr.tidyverse.org/reference/mutate-joins.html" class="external-link">left_join</a></span><span class="op">(</span><span class="va">rgi_elbands</span> |&gt; 
+                     <span class="fu"><a href="https://r-spatial.github.io/sf/reference/st_geometry.html" class="external-link">st_drop_geometry</a></span><span class="op">(</span><span class="op">)</span> |&gt; 
+                     <span class="fu">dplyr</span><span class="fu">::</span><span class="fu"><a href="https://dplyr.tidyverse.org/reference/select.html" class="external-link">select</a></span><span class="op">(</span><span class="va">ID</span>, <span class="va">z_masl</span><span class="op">)</span>, by <span class="op">=</span> <span class="st">"ID"</span><span class="op">)</span> |&gt; 
+         <span class="fu"><a href="https://dplyr.tidyverse.org/reference/mutate.html" class="external-link">mutate</a></span><span class="op">(</span><span class="st">"Elevation [masl]"</span> <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/pkg/raster/man/factor.html" class="external-link">as.factor</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/Round.html" class="external-link">round</a></span><span class="op">(</span><span class="va">z_masl</span><span class="op">)</span><span class="op">)</span><span class="op">)</span><span class="op">)</span> <span class="op">+</span> 
+  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/geom_path.html" class="external-link">geom_line</a></span><span class="op">(</span><span class="fu"><a href="https://ggplot2.tidyverse.org/reference/aes.html" class="external-link">aes</a></span><span class="op">(</span><span class="va">date</span>, <span class="va">Temp</span>, colour <span class="op">=</span> <span class="va">`Elevation [masl]`</span><span class="op">)</span><span class="op">)</span> <span class="op">+</span> 
+  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/scale_viridis.html" class="external-link">scale_colour_viridis_d</a></span><span class="op">(</span><span class="op">)</span> <span class="op">+</span> 
+  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/labs.html" class="external-link">labs</a></span><span class="op">(</span>x <span class="op">=</span> <span class="st">"Date"</span>, y <span class="op">=</span> <span class="st">"T [deg C]"</span><span class="op">)</span> <span class="op">+</span> 
+  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/ggtheme.html" class="external-link">theme_bw</a></span><span class="op">(</span><span class="op">)</span></code></pre></div>
+<div class="figure">
+<img src="glaciers-02-DDMWB_files/figure-html/temperature_elevation_bands-1.png" alt="Temperature forcing for the elevation bands of a glacier." width="90%"><p class="caption">
+Temperature forcing for the elevation bands of a glacier.
+</p>
 </div>
-<div id="calculating-glacier-melt" class="section level3">
-<h3 class="hasAnchor">
-<a href="#calculating-glacier-melt" class="anchor"></a>Calculating glacier melt</h3>
+</div>
+<div class="section level4">
+<h4 id="calculating-glacier-melt">Calculating glacier melt<a class="anchor" aria-label="anchor" href="#calculating-glacier-melt"></a>
+</h4>
 <p>The code snippet below illustrates how to calculate the annual
 glacier melt of the catchment. The figure shows daily melt rates for the
 different elevation bands of one of the larger glaciers (same as in the
 figure above). The highest melt occurs at low elevation bands.</p>
 <div class="sourceCode" id="cb7"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="co">#| fig.cap = "Daily glacier melt per elevation band." </span>
-<span class="co">#| out.width = 90%</span>
-<span class="va">MF_small</span> <span class="op">=</span> <span class="fl">1</span>
+<code class="sourceCode R"><span class="va">MF_small</span> <span class="op">=</span> <span class="fl">1</span>
 <span class="va">MF_large</span> <span class="op">=</span> <span class="fl">0.5</span>
 <span class="va">threshold_temperature</span> <span class="op">=</span> <span class="fl">0</span>
 <span class="va">Area</span> <span class="op">&lt;-</span> <span class="va">rgi_elbands</span> |&gt; 
-  <span class="fu"><a href="https://r-spatial.github.io/sf/reference/st_geometry.html">st_drop_geometry</a></span><span class="op">(</span><span class="op">)</span> |&gt; 
-  <span class="fu">dplyr</span><span class="fu">::</span><span class="fu"><a href="https://dplyr.tidyverse.org/reference/select.html">select</a></span><span class="op">(</span><span class="va">ID</span>, <span class="va">A_km2</span><span class="op">)</span> |&gt; 
-  <span class="fu">pivot_wider</span><span class="op">(</span>names_from <span class="op">=</span> <span class="va">ID</span>, values_from <span class="op">=</span> <span class="va">A_km2</span><span class="op">)</span>
+  <span class="fu"><a href="https://r-spatial.github.io/sf/reference/st_geometry.html" class="external-link">st_drop_geometry</a></span><span class="op">(</span><span class="op">)</span> |&gt; 
+  <span class="fu">dplyr</span><span class="fu">::</span><span class="fu"><a href="https://dplyr.tidyverse.org/reference/select.html" class="external-link">select</a></span><span class="op">(</span><span class="va">ID</span>, <span class="va">A_km2</span><span class="op">)</span> |&gt; 
+  <span class="fu"><a href="https://tidyr.tidyverse.org/reference/pivot_wider.html" class="external-link">pivot_wider</a></span><span class="op">(</span>names_from <span class="op">=</span> <span class="va">ID</span>, values_from <span class="op">=</span> <span class="va">A_km2</span><span class="op">)</span>
 <span class="co"># Assign different melt factors to large and small glaciers. </span>
 <span class="va">MF</span> <span class="op">&lt;-</span> <span class="va">Area</span> |&gt; 
-  <span class="fu">mutate</span><span class="op">(</span><span class="fu">across</span><span class="op">(</span><span class="fu">everything</span><span class="op">(</span><span class="op">)</span>, <span class="op">~</span><span class="va">MF_large</span><span class="op">)</span>, 
-         <span class="fu">across</span><span class="op">(</span><span class="fu">ends_with</span><span class="op">(</span><span class="st">"_1"</span><span class="op">)</span>, <span class="op">~</span><span class="va">MF_small</span><span class="op">)</span><span class="op">)</span>
+  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/mutate.html" class="external-link">mutate</a></span><span class="op">(</span><span class="fu"><a href="https://dplyr.tidyverse.org/reference/across.html" class="external-link">across</a></span><span class="op">(</span><span class="fu"><a href="https://tidyselect.r-lib.org/reference/everything.html" class="external-link">everything</a></span><span class="op">(</span><span class="op">)</span>, <span class="op">~</span><span class="va">MF_large</span><span class="op">)</span>, 
+         <span class="fu"><a href="https://dplyr.tidyverse.org/reference/across.html" class="external-link">across</a></span><span class="op">(</span><span class="fu"><a href="https://tidyselect.r-lib.org/reference/starts_with.html" class="external-link">ends_with</a></span><span class="op">(</span><span class="st">"_1"</span><span class="op">)</span>, <span class="op">~</span><span class="va">MF_small</span><span class="op">)</span><span class="op">)</span>
 
-<span class="va">melt</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/glacierMelt_TI.html">glacierMelt_TI</a></span><span class="op">(</span>temperature <span class="op">=</span> <span class="va">hist_obs</span> |&gt; <span class="fu">dplyr</span><span class="fu">::</span><span class="fu"><a href="https://dplyr.tidyverse.org/reference/select.html">select</a></span><span class="op">(</span><span class="op">-</span><span class="va">date</span><span class="op">)</span>,
+<span class="va">melt</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/glacierMelt_TI.html">glacierMelt_TI</a></span><span class="op">(</span>temperature <span class="op">=</span> <span class="va">hist_obs</span> |&gt; <span class="fu">dplyr</span><span class="fu">::</span><span class="fu"><a href="https://dplyr.tidyverse.org/reference/select.html" class="external-link">select</a></span><span class="op">(</span><span class="op">-</span><span class="va">date</span><span class="op">)</span>,
                        MF <span class="op">=</span> <span class="va">MF</span>,
                        threshold_temperature <span class="op">=</span> <span class="va">threshold_temperature</span><span class="op">)</span>
-<span class="va">melt</span> <span class="op">&lt;-</span> <span class="fu">as_tibble</span><span class="op">(</span><span class="va">melt</span><span class="op">)</span> |&gt; 
-  <span class="fu">mutate</span><span class="op">(</span>date <span class="op">=</span> <span class="va">hist_obs</span><span class="op">$</span><span class="va">date</span><span class="op">)</span> |&gt; 
-  <span class="fu">relocate</span><span class="op">(</span><span class="va">date</span>, .before <span class="op">=</span>  <span class="fu">where</span><span class="op">(</span><span class="va">is.numeric</span><span class="op">)</span><span class="op">)</span>
+<span class="va">melt</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://tibble.tidyverse.org/reference/as_tibble.html" class="external-link">as_tibble</a></span><span class="op">(</span><span class="va">melt</span><span class="op">)</span> |&gt; 
+  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/mutate.html" class="external-link">mutate</a></span><span class="op">(</span>date <span class="op">=</span> <span class="va">hist_obs</span><span class="op">$</span><span class="va">date</span><span class="op">)</span> |&gt; 
+  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/relocate.html" class="external-link">relocate</a></span><span class="op">(</span><span class="va">date</span>, .before <span class="op">=</span>  <span class="fu">where</span><span class="op">(</span><span class="va">is.numeric</span><span class="op">)</span><span class="op">)</span>
 
-<span class="fu">ggplot</span><span class="op">(</span><span class="va">melt</span><span class="op">[</span>, <span class="fl">1</span><span class="op">:</span><span class="fl">9</span><span class="op">]</span> |&gt; 
-         <span class="fu">pivot_longer</span><span class="op">(</span><span class="op">-</span><span class="va">date</span>, names_to <span class="op">=</span> <span class="st">"ID"</span>, values_to <span class="op">=</span> <span class="st">"Melt"</span><span class="op">)</span> |&gt; 
-         <span class="fu">left_join</span><span class="op">(</span><span class="va">rgi_elbands</span> |&gt; 
-                     <span class="fu"><a href="https://r-spatial.github.io/sf/reference/st_geometry.html">st_drop_geometry</a></span><span class="op">(</span><span class="op">)</span> |&gt; 
-                     <span class="fu">dplyr</span><span class="fu">::</span><span class="fu"><a href="https://dplyr.tidyverse.org/reference/select.html">select</a></span><span class="op">(</span><span class="va">ID</span>, <span class="va">z_masl</span><span class="op">)</span>, by <span class="op">=</span> <span class="st">"ID"</span><span class="op">)</span> |&gt; 
-         <span class="fu">mutate</span><span class="op">(</span><span class="st">"Elevation [masl]"</span> <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/pkg/raster/man/factor.html">as.factor</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/Round.html">round</a></span><span class="op">(</span><span class="va">z_masl</span><span class="op">)</span><span class="op">)</span><span class="op">)</span><span class="op">)</span> <span class="op">+</span> 
-  <span class="fu">geom_line</span><span class="op">(</span><span class="fu">aes</span><span class="op">(</span><span class="va">date</span>, <span class="va">Melt</span>, colour <span class="op">=</span> <span class="va">`Elevation [masl]`</span><span class="op">)</span><span class="op">)</span> <span class="op">+</span> 
-  <span class="fu">scale_colour_viridis_d</span><span class="op">(</span><span class="op">)</span> <span class="op">+</span> 
-  <span class="fu">labs</span><span class="op">(</span>x <span class="op">=</span> <span class="st">"Date"</span>, y <span class="op">=</span> <span class="st">"Melt [mm/d]"</span><span class="op">)</span> <span class="op">+</span> 
-  <span class="fu">theme_bw</span><span class="op">(</span><span class="op">)</span></code></pre></div>
-<p><img src="glaciers-02-DDMWB_files/figure-html/glaciermeltcalculation-1.png" width="700"></p>
+<span class="fu"><a href="https://ggplot2.tidyverse.org/reference/ggplot.html" class="external-link">ggplot</a></span><span class="op">(</span><span class="va">melt</span><span class="op">[</span>, <span class="fl">1</span><span class="op">:</span><span class="fl">9</span><span class="op">]</span> |&gt; 
+         <span class="fu"><a href="https://tidyr.tidyverse.org/reference/pivot_longer.html" class="external-link">pivot_longer</a></span><span class="op">(</span><span class="op">-</span><span class="va">date</span>, names_to <span class="op">=</span> <span class="st">"ID"</span>, values_to <span class="op">=</span> <span class="st">"Melt"</span><span class="op">)</span> |&gt; 
+         <span class="fu"><a href="https://dplyr.tidyverse.org/reference/mutate-joins.html" class="external-link">left_join</a></span><span class="op">(</span><span class="va">rgi_elbands</span> |&gt; 
+                     <span class="fu"><a href="https://r-spatial.github.io/sf/reference/st_geometry.html" class="external-link">st_drop_geometry</a></span><span class="op">(</span><span class="op">)</span> |&gt; 
+                     <span class="fu">dplyr</span><span class="fu">::</span><span class="fu"><a href="https://dplyr.tidyverse.org/reference/select.html" class="external-link">select</a></span><span class="op">(</span><span class="va">ID</span>, <span class="va">z_masl</span><span class="op">)</span>, by <span class="op">=</span> <span class="st">"ID"</span><span class="op">)</span> |&gt; 
+         <span class="fu"><a href="https://dplyr.tidyverse.org/reference/mutate.html" class="external-link">mutate</a></span><span class="op">(</span><span class="st">"Elevation [masl]"</span> <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/pkg/raster/man/factor.html" class="external-link">as.factor</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/Round.html" class="external-link">round</a></span><span class="op">(</span><span class="va">z_masl</span><span class="op">)</span><span class="op">)</span><span class="op">)</span><span class="op">)</span> <span class="op">+</span> 
+  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/geom_path.html" class="external-link">geom_line</a></span><span class="op">(</span><span class="fu"><a href="https://ggplot2.tidyverse.org/reference/aes.html" class="external-link">aes</a></span><span class="op">(</span><span class="va">date</span>, <span class="va">Melt</span>, colour <span class="op">=</span> <span class="va">`Elevation [masl]`</span><span class="op">)</span><span class="op">)</span> <span class="op">+</span> 
+  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/scale_viridis.html" class="external-link">scale_colour_viridis_d</a></span><span class="op">(</span><span class="op">)</span> <span class="op">+</span> 
+  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/labs.html" class="external-link">labs</a></span><span class="op">(</span>x <span class="op">=</span> <span class="st">"Date"</span>, y <span class="op">=</span> <span class="st">"Melt [mm/d]"</span><span class="op">)</span> <span class="op">+</span> 
+  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/ggtheme.html" class="external-link">theme_bw</a></span><span class="op">(</span><span class="op">)</span></code></pre></div>
+<div class="figure">
+<img src="glaciers-02-DDMWB_files/figure-html/glaciermeltcalculation-1.png" alt="Daily glacier melt per elevation band." width="90%"><p class="caption">
+Daily glacier melt per elevation band.
+</p>
 </div>
-<div id="compare-to-measured-glacier-melt" class="section level3">
-<h3 class="hasAnchor">
-<a href="#compare-to-measured-glacier-melt" class="anchor"></a>Compare to measured glacier melt</h3>
+</div>
+<div class="section level4">
+<h4 id="compare-to-measured-glacier-melt">Compare to measured glacier melt<a class="anchor" aria-label="anchor" href="#compare-to-measured-glacier-melt"></a>
+</h4>
 <p>Aggregate the daily glacier melt to annual data and compare it to the
 observed glacier melt.</p>
 <div class="sourceCode" id="cb8"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="co">#| fig.cap = "Daily glacier melt per elevation band." </span>
-<span class="co">#| out.width = 90%</span>
-<span class="va">melt_a_eb</span> <span class="op">&lt;-</span> <span class="va">melt</span> |&gt; 
-  <span class="fu">pivot_longer</span><span class="op">(</span><span class="op">-</span><span class="va">date</span>, names_to <span class="op">=</span> <span class="st">"ID"</span>, values_to <span class="op">=</span> <span class="st">"Melt"</span><span class="op">)</span> |&gt; 
-  <span class="fu">mutate</span><span class="op">(</span>Hyear <span class="op">=</span> <span class="fu"><a href="../reference/hyear.html">hyear</a></span><span class="op">(</span><span class="va">date</span><span class="op">)</span><span class="op">)</span> |&gt; 
-  <span class="fu">group_by</span><span class="op">(</span><span class="va">Hyear</span>, <span class="va">ID</span><span class="op">)</span> |&gt; 
-  <span class="fu"><a href="https://r-spatial.github.io/sf/reference/tidyverse.html">summarise</a></span><span class="op">(</span>date <span class="op">=</span> <span class="fu">first</span><span class="op">(</span><span class="va">date</span><span class="op">)</span>, 
-            Melt <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/sum.html">sum</a></span><span class="op">(</span><span class="va">Melt</span><span class="op">)</span>, 
-            .lb_Melt <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/ifelse.html">ifelse</a></span><span class="op">(</span><span class="va">Melt</span><span class="op">*</span><span class="op">(</span><span class="fl">1</span><span class="op">-</span><span class="va">error_stats</span><span class="op">$</span><span class="va">sMelt</span><span class="op">)</span><span class="op">&lt;</span><span class="fl">0</span>, <span class="fl">0</span>, 
+<code class="sourceCode R"><span class="va">melt_a_eb</span> <span class="op">&lt;-</span> <span class="va">melt</span> |&gt; 
+  <span class="fu"><a href="https://tidyr.tidyverse.org/reference/pivot_longer.html" class="external-link">pivot_longer</a></span><span class="op">(</span><span class="op">-</span><span class="va">date</span>, names_to <span class="op">=</span> <span class="st">"ID"</span>, values_to <span class="op">=</span> <span class="st">"Melt"</span><span class="op">)</span> |&gt; 
+  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/mutate.html" class="external-link">mutate</a></span><span class="op">(</span>Hyear <span class="op">=</span> <span class="fu"><a href="../reference/hyear.html">hyear</a></span><span class="op">(</span><span class="va">date</span><span class="op">)</span><span class="op">)</span> |&gt; 
+  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/group_by.html" class="external-link">group_by</a></span><span class="op">(</span><span class="va">Hyear</span>, <span class="va">ID</span><span class="op">)</span> |&gt; 
+  <span class="fu"><a href="https://r-spatial.github.io/sf/reference/tidyverse.html" class="external-link">summarise</a></span><span class="op">(</span>date <span class="op">=</span> <span class="fu"><a href="https://dplyr.tidyverse.org/reference/nth.html" class="external-link">first</a></span><span class="op">(</span><span class="va">date</span><span class="op">)</span>, 
+            Melt <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/sum.html" class="external-link">sum</a></span><span class="op">(</span><span class="va">Melt</span><span class="op">)</span>, 
+            .lb_Melt <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/ifelse.html" class="external-link">ifelse</a></span><span class="op">(</span><span class="va">Melt</span><span class="op">*</span><span class="op">(</span><span class="fl">1</span><span class="op">-</span><span class="va">error_stats</span><span class="op">$</span><span class="va">sMelt</span><span class="op">)</span><span class="op">&lt;</span><span class="fl">0</span>, <span class="fl">0</span>, 
                               <span class="va">Melt</span><span class="op">*</span><span class="op">(</span><span class="fl">1</span><span class="op">-</span><span class="va">error_stats</span><span class="op">$</span><span class="va">sMelt</span><span class="op">)</span><span class="op">)</span>, 
             .ub_Melt <span class="op">=</span> <span class="va">Melt</span><span class="op">*</span><span class="op">(</span><span class="fl">1</span><span class="op">+</span><span class="va">error_stats</span><span class="op">$</span><span class="va">sMelt</span><span class="op">)</span><span class="op">)</span>|&gt; 
-  <span class="fu">ungroup</span><span class="op">(</span><span class="op">)</span> 
+  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/group_by.html" class="external-link">ungroup</a></span><span class="op">(</span><span class="op">)</span> 
 <span class="va">melt_a</span> <span class="op">&lt;-</span> <span class="va">melt_a_eb</span> |&gt; 
-  <span class="fu">separate</span><span class="op">(</span><span class="va">ID</span>, into <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="st">"RGIId"</span>, <span class="st">"elB"</span><span class="op">)</span>, sep <span class="op">=</span> <span class="st">"_"</span><span class="op">)</span> |&gt; 
-  <span class="fu">group_by</span><span class="op">(</span><span class="va">Hyear</span>, <span class="va">RGIId</span><span class="op">)</span> |&gt; 
-  <span class="fu"><a href="https://r-spatial.github.io/sf/reference/tidyverse.html">summarise</a></span><span class="op">(</span>date <span class="op">=</span> <span class="fu"><a href="https://lubridate.tidyverse.org/reference/as_date.html">as_date</a></span><span class="op">(</span><span class="fu">first</span><span class="op">(</span><span class="va">date</span><span class="op">)</span><span class="op">)</span>, 
-            Melt <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/sum.html">sum</a></span><span class="op">(</span><span class="va">Melt</span><span class="op">)</span>, 
-            .lb_Melt <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/ifelse.html">ifelse</a></span><span class="op">(</span><span class="va">Melt</span><span class="op">*</span><span class="op">(</span><span class="fl">1</span><span class="op">-</span><span class="va">error_stats</span><span class="op">$</span><span class="va">sMelt</span><span class="op">)</span><span class="op">&lt;</span><span class="fl">0</span>, <span class="fl">0</span>, 
+  <span class="fu"><a href="https://tidyr.tidyverse.org/reference/separate.html" class="external-link">separate</a></span><span class="op">(</span><span class="va">ID</span>, into <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"RGIId"</span>, <span class="st">"elB"</span><span class="op">)</span>, sep <span class="op">=</span> <span class="st">"_"</span><span class="op">)</span> |&gt; 
+  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/group_by.html" class="external-link">group_by</a></span><span class="op">(</span><span class="va">Hyear</span>, <span class="va">RGIId</span><span class="op">)</span> |&gt; 
+  <span class="fu"><a href="https://r-spatial.github.io/sf/reference/tidyverse.html" class="external-link">summarise</a></span><span class="op">(</span>date <span class="op">=</span> <span class="fu"><a href="https://lubridate.tidyverse.org/reference/as_date.html" class="external-link">as_date</a></span><span class="op">(</span><span class="fu"><a href="https://dplyr.tidyverse.org/reference/nth.html" class="external-link">first</a></span><span class="op">(</span><span class="va">date</span><span class="op">)</span><span class="op">)</span>, 
+            Melt <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/sum.html" class="external-link">sum</a></span><span class="op">(</span><span class="va">Melt</span><span class="op">)</span>, 
+            .lb_Melt <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/ifelse.html" class="external-link">ifelse</a></span><span class="op">(</span><span class="va">Melt</span><span class="op">*</span><span class="op">(</span><span class="fl">1</span><span class="op">-</span><span class="va">error_stats</span><span class="op">$</span><span class="va">sMelt</span><span class="op">)</span><span class="op">&lt;</span><span class="fl">0</span>, <span class="fl">0</span>, 
                               <span class="va">Melt</span><span class="op">*</span><span class="op">(</span><span class="fl">1</span><span class="op">-</span><span class="va">error_stats</span><span class="op">$</span><span class="va">sMelt</span><span class="op">)</span><span class="op">)</span>, 
             .ub_Melt <span class="op">=</span> <span class="va">Melt</span><span class="op">*</span><span class="op">(</span><span class="fl">1</span><span class="op">+</span><span class="va">error_stats</span><span class="op">$</span><span class="va">sMelt</span><span class="op">)</span><span class="op">)</span> |&gt; 
-  <span class="fu">ungroup</span><span class="op">(</span><span class="op">)</span> |&gt; 
-  <span class="fu">dplyr</span><span class="fu">::</span><span class="fu"><a href="https://dplyr.tidyverse.org/reference/filter.html">filter</a></span><span class="op">(</span><span class="va">Hyear</span> <span class="op">&gt;</span> <span class="fu"><a href="https://rdrr.io/r/base/Extremes.html">min</a></span><span class="op">(</span><span class="va">Hyear</span><span class="op">)</span> <span class="op">&amp;</span> <span class="va">Hyear</span> <span class="op">&lt;</span> <span class="fu"><a href="https://rdrr.io/r/base/Extremes.html">max</a></span><span class="op">(</span><span class="va">Hyear</span><span class="op">)</span><span class="op">)</span>
+  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/group_by.html" class="external-link">ungroup</a></span><span class="op">(</span><span class="op">)</span> |&gt; 
+  <span class="fu">dplyr</span><span class="fu">::</span><span class="fu"><a href="https://dplyr.tidyverse.org/reference/filter.html" class="external-link">filter</a></span><span class="op">(</span><span class="va">Hyear</span> <span class="op">&gt;</span> <span class="fu"><a href="https://rdrr.io/r/base/Extremes.html" class="external-link">min</a></span><span class="op">(</span><span class="va">Hyear</span><span class="op">)</span> <span class="op">&amp;</span> <span class="va">Hyear</span> <span class="op">&lt;</span> <span class="fu"><a href="https://rdrr.io/r/base/Extremes.html" class="external-link">max</a></span><span class="op">(</span><span class="va">Hyear</span><span class="op">)</span><span class="op">)</span>
 
 <span class="va">glaciers_hugonnet</span> <span class="op">&lt;-</span> <span class="va">glaciers_hugonnet</span> |&gt; 
-  <span class="fu">mutate</span><span class="op">(</span>Qgl_m3a <span class="op">=</span> <span class="fu"><a href="../reference/glacierDischarge_HM.html">glacierDischarge_HM</a></span><span class="op">(</span><span class="va">dhdt</span><span class="op">)</span>, 
-         .lb_Qgl_m3a <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/ifelse.html">ifelse</a></span><span class="op">(</span>
+  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/mutate.html" class="external-link">mutate</a></span><span class="op">(</span>Qgl_m3a <span class="op">=</span> <span class="fu"><a href="../reference/glacierDischarge_HM.html">glacierDischarge_HM</a></span><span class="op">(</span><span class="va">dhdt</span><span class="op">)</span>, 
+         .lb_Qgl_m3a <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/ifelse.html" class="external-link">ifelse</a></span><span class="op">(</span>
            <span class="va">dhdt</span> <span class="op">&gt;</span> <span class="fl">0</span>, 
-           <span class="fu"><a href="https://rdrr.io/r/base/ifelse.html">ifelse</a></span><span class="op">(</span><span class="va">Qgl_m3a</span><span class="op">*</span><span class="op">(</span><span class="fl">1</span><span class="op">-</span><span class="va">error_stats</span><span class="op">$</span><span class="va">sQglgrowth</span><span class="op">)</span><span class="op">&lt;</span><span class="fl">0</span>, <span class="fl">0</span>, 
+           <span class="fu"><a href="https://rdrr.io/r/base/ifelse.html" class="external-link">ifelse</a></span><span class="op">(</span><span class="va">Qgl_m3a</span><span class="op">*</span><span class="op">(</span><span class="fl">1</span><span class="op">-</span><span class="va">error_stats</span><span class="op">$</span><span class="va">sQglgrowth</span><span class="op">)</span><span class="op">&lt;</span><span class="fl">0</span>, <span class="fl">0</span>, 
                   <span class="va">Qgl_m3a</span><span class="op">*</span><span class="op">(</span><span class="fl">1</span><span class="op">-</span><span class="va">error_stats</span><span class="op">$</span><span class="va">sQglgrowth</span><span class="op">)</span><span class="op">)</span>, 
-           <span class="fu"><a href="https://rdrr.io/r/base/ifelse.html">ifelse</a></span><span class="op">(</span><span class="va">Qgl_m3a</span><span class="op">*</span><span class="op">(</span><span class="fl">1</span><span class="op">-</span><span class="va">error_stats</span><span class="op">$</span><span class="va">sQglmelt</span><span class="op">)</span><span class="op">&lt;</span><span class="fl">0</span>, <span class="fl">0</span>, 
+           <span class="fu"><a href="https://rdrr.io/r/base/ifelse.html" class="external-link">ifelse</a></span><span class="op">(</span><span class="va">Qgl_m3a</span><span class="op">*</span><span class="op">(</span><span class="fl">1</span><span class="op">-</span><span class="va">error_stats</span><span class="op">$</span><span class="va">sQglmelt</span><span class="op">)</span><span class="op">&lt;</span><span class="fl">0</span>, <span class="fl">0</span>, 
                   <span class="va">Qgl_m3a</span><span class="op">*</span><span class="op">(</span><span class="fl">1</span><span class="op">-</span><span class="va">error_stats</span><span class="op">$</span><span class="va">sQglmelt</span><span class="op">)</span><span class="op">)</span><span class="op">)</span>,
-         .ub_Qgl_m3a <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/ifelse.html">ifelse</a></span><span class="op">(</span><span class="va">dhdt</span> <span class="op">&gt;</span> <span class="fl">0</span>, 
+         .ub_Qgl_m3a <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/ifelse.html" class="external-link">ifelse</a></span><span class="op">(</span><span class="va">dhdt</span> <span class="op">&gt;</span> <span class="fl">0</span>, 
                               <span class="va">Qgl_m3a</span><span class="op">*</span><span class="op">(</span><span class="fl">1</span><span class="op">+</span><span class="va">error_stats</span><span class="op">$</span><span class="va">sQglgrowth</span><span class="op">)</span>, 
                               <span class="va">Qgl_m3a</span><span class="op">*</span><span class="op">(</span><span class="fl">1</span><span class="op">+</span><span class="va">error_stats</span><span class="op">$</span><span class="va">sQglmelt</span><span class="op">)</span><span class="op">)</span><span class="op">)</span>
 <span class="va">melt_obs_a</span> <span class="op">&lt;-</span> <span class="va">glaciers_hugonnet</span> |&gt; 
-  <span class="fu">dplyr</span><span class="fu">::</span><span class="fu"><a href="https://dplyr.tidyverse.org/reference/filter.html">filter</a></span><span class="op">(</span><span class="va">RGIId</span> <span class="op">%in%</span> <span class="va">glaciers</span><span class="op">[</span><span class="fl">6</span><span class="op">:</span><span class="fl">9</span><span class="op">]</span>, 
+  <span class="fu">dplyr</span><span class="fu">::</span><span class="fu"><a href="https://dplyr.tidyverse.org/reference/filter.html" class="external-link">filter</a></span><span class="op">(</span><span class="va">RGIId</span> <span class="op"><a href="https://rdrr.io/pkg/raster/man/match.html" class="external-link">%in%</a></span> <span class="va">glaciers</span><span class="op">[</span><span class="fl">6</span><span class="op">:</span><span class="fl">9</span><span class="op">]</span>, 
                 <span class="va">period</span> <span class="op">==</span> <span class="fl">1</span><span class="op">)</span>
   
-<span class="fu">ggplot</span><span class="op">(</span><span class="op">)</span> <span class="op">+</span> 
-  <span class="fu">geom_ribbon</span><span class="op">(</span>data <span class="op">=</span> <span class="va">melt_a</span> |&gt; 
-                <span class="fu">dplyr</span><span class="fu">::</span><span class="fu"><a href="https://dplyr.tidyverse.org/reference/filter.html">filter</a></span><span class="op">(</span><span class="va">RGIId</span> <span class="op">%in%</span> <span class="va">glaciers</span><span class="op">[</span><span class="fl">6</span><span class="op">:</span><span class="fl">9</span><span class="op">]</span><span class="op">)</span>, 
-              <span class="fu">aes</span><span class="op">(</span><span class="va">date</span>, <span class="va">Melt</span><span class="op">/</span><span class="fl">1000</span>, ymin <span class="op">=</span> <span class="va">.lb_Melt</span><span class="op">/</span><span class="fl">1000</span>, ymax <span class="op">=</span> <span class="va">.ub_Melt</span><span class="op">/</span><span class="fl">1000</span>, 
+<span class="fu"><a href="https://ggplot2.tidyverse.org/reference/ggplot.html" class="external-link">ggplot</a></span><span class="op">(</span><span class="op">)</span> <span class="op">+</span> 
+  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/geom_ribbon.html" class="external-link">geom_ribbon</a></span><span class="op">(</span>data <span class="op">=</span> <span class="va">melt_a</span> |&gt; 
+                <span class="fu">dplyr</span><span class="fu">::</span><span class="fu"><a href="https://dplyr.tidyverse.org/reference/filter.html" class="external-link">filter</a></span><span class="op">(</span><span class="va">RGIId</span> <span class="op"><a href="https://rdrr.io/pkg/raster/man/match.html" class="external-link">%in%</a></span> <span class="va">glaciers</span><span class="op">[</span><span class="fl">6</span><span class="op">:</span><span class="fl">9</span><span class="op">]</span><span class="op">)</span>, 
+              <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/aes.html" class="external-link">aes</a></span><span class="op">(</span><span class="va">date</span>, <span class="va">Melt</span><span class="op">/</span><span class="fl">1000</span>, ymin <span class="op">=</span> <span class="va">.lb_Melt</span><span class="op">/</span><span class="fl">1000</span>, ymax <span class="op">=</span> <span class="va">.ub_Melt</span><span class="op">/</span><span class="fl">1000</span>, 
                   fill <span class="op">=</span> <span class="va">RGIId</span><span class="op">)</span>, colour <span class="op">=</span> <span class="cn">NA</span>, alpha <span class="op">=</span> <span class="fl">0.2</span><span class="op">)</span> <span class="op">+</span> 
-  <span class="fu">geom_ribbon</span><span class="op">(</span>data <span class="op">=</span> <span class="va">melt_obs_a</span> |&gt; 
-                <span class="fu">dplyr</span><span class="fu">::</span><span class="fu"><a href="https://dplyr.tidyverse.org/reference/filter.html">filter</a></span><span class="op">(</span><span class="va">RGIId</span> <span class="op">%in%</span> <span class="va">glaciers</span><span class="op">[</span><span class="fl">6</span><span class="op">:</span><span class="fl">9</span><span class="op">]</span><span class="op">)</span>, 
-              <span class="fu">aes</span><span class="op">(</span><span class="va">start</span>, <span class="op">-</span><span class="va">dmdtda</span>, 
+  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/geom_ribbon.html" class="external-link">geom_ribbon</a></span><span class="op">(</span>data <span class="op">=</span> <span class="va">melt_obs_a</span> |&gt; 
+                <span class="fu">dplyr</span><span class="fu">::</span><span class="fu"><a href="https://dplyr.tidyverse.org/reference/filter.html" class="external-link">filter</a></span><span class="op">(</span><span class="va">RGIId</span> <span class="op"><a href="https://rdrr.io/pkg/raster/man/match.html" class="external-link">%in%</a></span> <span class="va">glaciers</span><span class="op">[</span><span class="fl">6</span><span class="op">:</span><span class="fl">9</span><span class="op">]</span><span class="op">)</span>, 
+              <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/aes.html" class="external-link">aes</a></span><span class="op">(</span><span class="va">start</span>, <span class="op">-</span><span class="va">dmdtda</span>, 
                   ymin <span class="op">=</span> <span class="op">-</span><span class="va">dmdtda</span><span class="op">-</span><span class="va">err_dmdtda</span>, 
                   ymax <span class="op">=</span> <span class="op">-</span><span class="va">dmdtda</span><span class="op">+</span><span class="va">err_dmdtda</span>, 
                   colour <span class="op">=</span> <span class="va">RGIId</span>, linetype <span class="op">=</span> <span class="st">"obs"</span>, fill <span class="op">=</span> <span class="va">RGIId</span><span class="op">)</span>, 
               size <span class="op">=</span> <span class="fl">0.2</span>, alpha <span class="op">=</span> <span class="fl">0.2</span><span class="op">)</span> <span class="op">+</span> 
-  <span class="fu">geom_line</span><span class="op">(</span>data <span class="op">=</span> <span class="va">melt_a</span> |&gt; 
-              <span class="fu">dplyr</span><span class="fu">::</span><span class="fu"><a href="https://dplyr.tidyverse.org/reference/filter.html">filter</a></span><span class="op">(</span><span class="va">RGIId</span> <span class="op">%in%</span> <span class="va">glaciers</span><span class="op">[</span><span class="fl">6</span><span class="op">:</span><span class="fl">9</span><span class="op">]</span><span class="op">)</span>, 
-            <span class="fu">aes</span><span class="op">(</span><span class="va">date</span>, <span class="va">Melt</span><span class="op">/</span><span class="fl">1000</span>, colour <span class="op">=</span> <span class="va">RGIId</span>, linetype <span class="op">=</span> <span class="st">"sim"</span><span class="op">)</span><span class="op">)</span> <span class="op">+</span> 
-  <span class="fu">geom_line</span><span class="op">(</span>data <span class="op">=</span> <span class="va">melt_obs_a</span>, <span class="fu">aes</span><span class="op">(</span><span class="va">start</span>, <span class="op">-</span><span class="va">dmdtda</span>, colour <span class="op">=</span> <span class="va">RGIId</span>, 
+  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/geom_path.html" class="external-link">geom_line</a></span><span class="op">(</span>data <span class="op">=</span> <span class="va">melt_a</span> |&gt; 
+              <span class="fu">dplyr</span><span class="fu">::</span><span class="fu"><a href="https://dplyr.tidyverse.org/reference/filter.html" class="external-link">filter</a></span><span class="op">(</span><span class="va">RGIId</span> <span class="op"><a href="https://rdrr.io/pkg/raster/man/match.html" class="external-link">%in%</a></span> <span class="va">glaciers</span><span class="op">[</span><span class="fl">6</span><span class="op">:</span><span class="fl">9</span><span class="op">]</span><span class="op">)</span>, 
+            <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/aes.html" class="external-link">aes</a></span><span class="op">(</span><span class="va">date</span>, <span class="va">Melt</span><span class="op">/</span><span class="fl">1000</span>, colour <span class="op">=</span> <span class="va">RGIId</span>, linetype <span class="op">=</span> <span class="st">"sim"</span><span class="op">)</span><span class="op">)</span> <span class="op">+</span> 
+  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/geom_path.html" class="external-link">geom_line</a></span><span class="op">(</span>data <span class="op">=</span> <span class="va">melt_obs_a</span>, <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/aes.html" class="external-link">aes</a></span><span class="op">(</span><span class="va">start</span>, <span class="op">-</span><span class="va">dmdtda</span>, colour <span class="op">=</span> <span class="va">RGIId</span>, 
                                    linetype <span class="op">=</span> <span class="st">"obs"</span><span class="op">)</span><span class="op">)</span> <span class="op">+</span> 
-  <span class="fu">labs</span><span class="op">(</span>x <span class="op">=</span> <span class="st">"Date"</span>, y <span class="op">=</span> <span class="st">"Melt [m weq/a]"</span><span class="op">)</span> <span class="op">+</span> 
-  <span class="fu">scale_linetype_manual</span><span class="op">(</span>name <span class="op">=</span> <span class="st">"Source"</span>, 
-                        values <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="st">"sim"</span> <span class="op">=</span> <span class="fl">1</span>, <span class="st">"obs"</span> <span class="op">=</span> <span class="fl">2</span><span class="op">)</span><span class="op">)</span> <span class="op">+</span> 
-  <span class="fu">scale_colour_viridis_d</span><span class="op">(</span><span class="op">)</span> <span class="op">+</span> 
-  <span class="fu">scale_fill_viridis_d</span><span class="op">(</span><span class="op">)</span> <span class="op">+</span> 
-  <span class="fu">ggtitle</span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/paste.html">paste0</a></span><span class="op">(</span><span class="st">"MF: "</span>, <span class="va">MF</span>, <span class="st">"Tth: "</span>, <span class="va">threshold_temperature</span><span class="op">)</span><span class="op">)</span> <span class="op">+</span> 
-  <span class="fu">theme_bw</span><span class="op">(</span><span class="op">)</span></code></pre></div>
-<p><img src="glaciers-02-DDMWB_files/figure-html/glaciermeltcomparison-1.png" width="700"></p>
+  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/labs.html" class="external-link">labs</a></span><span class="op">(</span>x <span class="op">=</span> <span class="st">"Date"</span>, y <span class="op">=</span> <span class="st">"Melt [m weq/a]"</span><span class="op">)</span> <span class="op">+</span> 
+  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/scale_manual.html" class="external-link">scale_linetype_manual</a></span><span class="op">(</span>name <span class="op">=</span> <span class="st">"Source"</span>, 
+                        values <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"sim"</span> <span class="op">=</span> <span class="fl">1</span>, <span class="st">"obs"</span> <span class="op">=</span> <span class="fl">2</span><span class="op">)</span><span class="op">)</span> <span class="op">+</span> 
+  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/scale_viridis.html" class="external-link">scale_colour_viridis_d</a></span><span class="op">(</span><span class="op">)</span> <span class="op">+</span> 
+  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/scale_viridis.html" class="external-link">scale_fill_viridis_d</a></span><span class="op">(</span><span class="op">)</span> <span class="op">+</span> 
+  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/labs.html" class="external-link">ggtitle</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/paste.html" class="external-link">paste0</a></span><span class="op">(</span><span class="st">"MF: "</span>, <span class="va">MF</span>, <span class="st">"Tth: "</span>, <span class="va">threshold_temperature</span><span class="op">)</span><span class="op">)</span> <span class="op">+</span> 
+  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/ggtheme.html" class="external-link">theme_bw</a></span><span class="op">(</span><span class="op">)</span></code></pre></div>
+<div class="figure">
+<img src="glaciers-02-DDMWB_files/figure-html/glaciermeltcomparison-1.png" alt="Daily glacier melt per elevation band." width="90%"><p class="caption">
+Daily glacier melt per elevation band.
+</p>
+</div>
 <p>The temperature index model can be calibrated with the specific
 glacier volume change provided by <span class="citation">Hugonnet et al.
 (2021)</span> (see <span class="math inline">\(\ref{fig:glaciermeltcomparison}\)</span>).
 However, the present implementation of the glacier model does not allow
 for growth of glaciers.</p>
 </div>
-<div id="glacier-mass-balance-1" class="section level3">
-<h3 class="hasAnchor">
-<a href="#glacier-mass-balance-1" class="anchor"></a>Glacier mass balance</h3>
+<div class="section level4">
+<h4 id="glacier-mass-balance-1">Glacier mass balance<a class="anchor" aria-label="anchor" href="#glacier-mass-balance-1"></a>
+</h4>
 <p>The following figure shows the components of the glacier mass balance
 for a few glaciers in the Atbashy basin.</p>
 <div class="sourceCode" id="cb9"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="co">#| fig.cap = "Glacier development and discharge." </span>
-<span class="co">#| out.width = 90%</span>
-<span class="va">glacier_balance</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/glacierBalance.html">glacierBalance</a></span><span class="op">(</span>melt_a_eb <span class="op">=</span> <span class="va">melt_a_eb</span>, 
+<code class="sourceCode R"><span class="va">glacier_balance</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/glacierBalance.html">glacierBalance</a></span><span class="op">(</span>melt_a_eb <span class="op">=</span> <span class="va">melt_a_eb</span>, 
                                   rgi_elbands <span class="op">=</span> <span class="va">rgi_elbands</span><span class="op">)</span>
 
 <span class="va">glacier_balance</span> <span class="op">&lt;-</span> <span class="va">glacier_balance</span> |&gt; 
-  <span class="fu">mutate</span><span class="op">(</span>.lb <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/ifelse.html">ifelse</a></span><span class="op">(</span><span class="va">Variable</span> <span class="op">==</span> <span class="st">"A_km2"</span>, 
-                      <span class="fu"><a href="https://rdrr.io/r/base/ifelse.html">ifelse</a></span><span class="op">(</span><span class="va">Value</span><span class="op">*</span><span class="op">(</span><span class="fl">1</span><span class="op">-</span><span class="va">error_stats</span><span class="op">$</span><span class="va">sA</span><span class="op">)</span><span class="op">&gt;</span><span class="fl">0</span>, 
+  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/mutate.html" class="external-link">mutate</a></span><span class="op">(</span>.lb <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/ifelse.html" class="external-link">ifelse</a></span><span class="op">(</span><span class="va">Variable</span> <span class="op">==</span> <span class="st">"A_km2"</span>, 
+                      <span class="fu"><a href="https://rdrr.io/r/base/ifelse.html" class="external-link">ifelse</a></span><span class="op">(</span><span class="va">Value</span><span class="op">*</span><span class="op">(</span><span class="fl">1</span><span class="op">-</span><span class="va">error_stats</span><span class="op">$</span><span class="va">sA</span><span class="op">)</span><span class="op">&gt;</span><span class="fl">0</span>, 
                              <span class="va">Value</span><span class="op">*</span><span class="op">(</span><span class="fl">1</span><span class="op">-</span><span class="va">error_stats</span><span class="op">$</span><span class="va">sA</span><span class="op">)</span>, <span class="fl">0</span><span class="op">)</span>, 
-                      <span class="fu"><a href="https://rdrr.io/r/base/ifelse.html">ifelse</a></span><span class="op">(</span><span class="va">Variable</span> <span class="op">==</span> <span class="st">"V_km3"</span>, 
-                             <span class="fu"><a href="https://rdrr.io/r/base/ifelse.html">ifelse</a></span><span class="op">(</span><span class="va">Value</span><span class="op">*</span><span class="op">(</span><span class="fl">1</span><span class="op">-</span><span class="va">error_stats</span><span class="op">$</span><span class="va">sV</span><span class="op">)</span><span class="op">&gt;</span><span class="fl">0</span>, 
+                      <span class="fu"><a href="https://rdrr.io/r/base/ifelse.html" class="external-link">ifelse</a></span><span class="op">(</span><span class="va">Variable</span> <span class="op">==</span> <span class="st">"V_km3"</span>, 
+                             <span class="fu"><a href="https://rdrr.io/r/base/ifelse.html" class="external-link">ifelse</a></span><span class="op">(</span><span class="va">Value</span><span class="op">*</span><span class="op">(</span><span class="fl">1</span><span class="op">-</span><span class="va">error_stats</span><span class="op">$</span><span class="va">sV</span><span class="op">)</span><span class="op">&gt;</span><span class="fl">0</span>, 
                                     <span class="va">Value</span><span class="op">*</span><span class="op">(</span><span class="fl">1</span><span class="op">-</span><span class="va">error_stats</span><span class="op">$</span><span class="va">sV</span><span class="op">)</span>, <span class="fl">0</span><span class="op">)</span>, 
-                             <span class="fu"><a href="https://rdrr.io/r/base/ifelse.html">ifelse</a></span><span class="op">(</span><span class="va">Variable</span> <span class="op">==</span> <span class="st">"Q_m3a"</span>, 
-                                    <span class="fu"><a href="https://rdrr.io/r/base/ifelse.html">ifelse</a></span><span class="op">(</span><span class="va">Value</span><span class="op">*</span><span class="op">(</span><span class="fl">1</span><span class="op">-</span><span class="va">error_stats</span><span class="op">$</span><span class="va">sQglmelt</span><span class="op">)</span><span class="op">&gt;</span><span class="fl">0</span>,
+                             <span class="fu"><a href="https://rdrr.io/r/base/ifelse.html" class="external-link">ifelse</a></span><span class="op">(</span><span class="va">Variable</span> <span class="op">==</span> <span class="st">"Q_m3a"</span>, 
+                                    <span class="fu"><a href="https://rdrr.io/r/base/ifelse.html" class="external-link">ifelse</a></span><span class="op">(</span><span class="va">Value</span><span class="op">*</span><span class="op">(</span><span class="fl">1</span><span class="op">-</span><span class="va">error_stats</span><span class="op">$</span><span class="va">sQglmelt</span><span class="op">)</span><span class="op">&gt;</span><span class="fl">0</span>,
                                            <span class="va">Value</span><span class="op">*</span><span class="op">(</span><span class="fl">1</span><span class="op">-</span><span class="va">error_stats</span><span class="op">$</span><span class="va">sQglmelt</span><span class="op">)</span>, <span class="fl">0</span><span class="op">)</span>, 
-                                    <span class="fu"><a href="https://rdrr.io/r/base/ifelse.html">ifelse</a></span><span class="op">(</span><span class="va">Variable</span> <span class="op">==</span> <span class="st">"Qimb_m3a"</span>, 
+                                    <span class="fu"><a href="https://rdrr.io/r/base/ifelse.html" class="external-link">ifelse</a></span><span class="op">(</span><span class="va">Variable</span> <span class="op">==</span> <span class="st">"Qimb_m3a"</span>, 
                                            <span class="va">Value</span><span class="op">*</span><span class="op">(</span><span class="fl">1</span><span class="op">-</span><span class="va">error_stats</span><span class="op">$</span><span class="va">sImbal</span><span class="op">)</span>, <span class="cn">NA</span><span class="op">)</span><span class="op">)</span><span class="op">)</span><span class="op">)</span>, 
-         .ub <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/ifelse.html">ifelse</a></span><span class="op">(</span><span class="va">Variable</span> <span class="op">==</span> <span class="st">"A_km2"</span>, 
+         .ub <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/ifelse.html" class="external-link">ifelse</a></span><span class="op">(</span><span class="va">Variable</span> <span class="op">==</span> <span class="st">"A_km2"</span>, 
                       <span class="va">Value</span><span class="op">*</span><span class="op">(</span><span class="fl">1</span><span class="op">+</span><span class="va">error_stats</span><span class="op">$</span><span class="va">sA</span><span class="op">)</span>, 
-                      <span class="fu"><a href="https://rdrr.io/r/base/ifelse.html">ifelse</a></span><span class="op">(</span><span class="va">Variable</span> <span class="op">==</span> <span class="st">"V_km3"</span>, 
+                      <span class="fu"><a href="https://rdrr.io/r/base/ifelse.html" class="external-link">ifelse</a></span><span class="op">(</span><span class="va">Variable</span> <span class="op">==</span> <span class="st">"V_km3"</span>, 
                              <span class="va">Value</span><span class="op">*</span><span class="op">(</span><span class="fl">1</span><span class="op">+</span><span class="va">error_stats</span><span class="op">$</span><span class="va">sV</span><span class="op">)</span>, 
-                             <span class="fu"><a href="https://rdrr.io/r/base/ifelse.html">ifelse</a></span><span class="op">(</span><span class="va">Variable</span> <span class="op">==</span> <span class="st">"Q_m3a"</span>, 
+                             <span class="fu"><a href="https://rdrr.io/r/base/ifelse.html" class="external-link">ifelse</a></span><span class="op">(</span><span class="va">Variable</span> <span class="op">==</span> <span class="st">"Q_m3a"</span>, 
                                     <span class="va">Value</span><span class="op">*</span><span class="op">(</span><span class="fl">1</span><span class="op">+</span><span class="va">error_stats</span><span class="op">$</span><span class="va">sQglmelt</span><span class="op">)</span>, 
-                                    <span class="fu"><a href="https://rdrr.io/r/base/ifelse.html">ifelse</a></span><span class="op">(</span><span class="va">Variable</span> <span class="op">==</span> <span class="st">"Qimb_m3a"</span>, 
+                                    <span class="fu"><a href="https://rdrr.io/r/base/ifelse.html" class="external-link">ifelse</a></span><span class="op">(</span><span class="va">Variable</span> <span class="op">==</span> <span class="st">"Qimb_m3a"</span>, 
                                            <span class="va">Value</span><span class="op">*</span><span class="op">(</span><span class="fl">1</span><span class="op">+</span><span class="va">error_stats</span><span class="op">$</span><span class="va">sImbal</span><span class="op">)</span>, <span class="cn">NA</span><span class="op">)</span><span class="op">)</span><span class="op">)</span><span class="op">)</span><span class="op">)</span>
 
-<span class="fu">ggplot</span><span class="op">(</span><span class="va">glacier_balance</span> |&gt; 
-         <span class="fu">dplyr</span><span class="fu">::</span><span class="fu"><a href="https://dplyr.tidyverse.org/reference/filter.html">filter</a></span><span class="op">(</span><span class="va">RGIId</span> <span class="op">%in%</span> <span class="va">glaciers</span><span class="op">[</span><span class="fl">6</span><span class="op">:</span><span class="fl">9</span><span class="op">]</span>, 
-                       <span class="va">Hyear</span> <span class="op">&gt;</span> <span class="fu"><a href="https://rdrr.io/r/base/Extremes.html">min</a></span><span class="op">(</span><span class="va">Hyear</span><span class="op">)</span> <span class="op">&amp;</span> <span class="va">Hyear</span> <span class="op">&lt;</span> <span class="fu"><a href="https://rdrr.io/r/base/Extremes.html">max</a></span><span class="op">(</span><span class="va">Hyear</span><span class="op">)</span>, 
-                       <span class="va">Variable</span> <span class="op">%in%</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="st">"A_km2"</span>, <span class="st">"V_km3"</span>, <span class="st">"Q_m3a"</span>, <span class="st">"Qimb_m3a"</span><span class="op">)</span><span class="op">)</span><span class="op">)</span> <span class="op">+</span> 
-  <span class="fu">geom_ribbon</span><span class="op">(</span><span class="fu">aes</span><span class="op">(</span><span class="va">Hyear</span>, ymin <span class="op">=</span> <span class="va">.lb</span>, ymax <span class="op">=</span> <span class="va">.ub</span>, fill <span class="op">=</span> <span class="va">RGIId</span><span class="op">)</span>, 
+<span class="fu"><a href="https://ggplot2.tidyverse.org/reference/ggplot.html" class="external-link">ggplot</a></span><span class="op">(</span><span class="va">glacier_balance</span> |&gt; 
+         <span class="fu">dplyr</span><span class="fu">::</span><span class="fu"><a href="https://dplyr.tidyverse.org/reference/filter.html" class="external-link">filter</a></span><span class="op">(</span><span class="va">RGIId</span> <span class="op"><a href="https://rdrr.io/pkg/raster/man/match.html" class="external-link">%in%</a></span> <span class="va">glaciers</span><span class="op">[</span><span class="fl">6</span><span class="op">:</span><span class="fl">9</span><span class="op">]</span>, 
+                       <span class="va">Hyear</span> <span class="op">&gt;</span> <span class="fu"><a href="https://rdrr.io/r/base/Extremes.html" class="external-link">min</a></span><span class="op">(</span><span class="va">Hyear</span><span class="op">)</span> <span class="op">&amp;</span> <span class="va">Hyear</span> <span class="op">&lt;</span> <span class="fu"><a href="https://rdrr.io/r/base/Extremes.html" class="external-link">max</a></span><span class="op">(</span><span class="va">Hyear</span><span class="op">)</span>, 
+                       <span class="va">Variable</span> <span class="op"><a href="https://rdrr.io/pkg/raster/man/match.html" class="external-link">%in%</a></span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"A_km2"</span>, <span class="st">"V_km3"</span>, <span class="st">"Q_m3a"</span>, <span class="st">"Qimb_m3a"</span><span class="op">)</span><span class="op">)</span><span class="op">)</span> <span class="op">+</span> 
+  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/geom_ribbon.html" class="external-link">geom_ribbon</a></span><span class="op">(</span><span class="fu"><a href="https://ggplot2.tidyverse.org/reference/aes.html" class="external-link">aes</a></span><span class="op">(</span><span class="va">Hyear</span>, ymin <span class="op">=</span> <span class="va">.lb</span>, ymax <span class="op">=</span> <span class="va">.ub</span>, fill <span class="op">=</span> <span class="va">RGIId</span><span class="op">)</span>, 
               alpha <span class="op">=</span> <span class="fl">0.2</span>, colour <span class="op">=</span> <span class="cn">NA</span><span class="op">)</span> <span class="op">+</span> 
-  <span class="fu">geom_line</span><span class="op">(</span><span class="fu">aes</span><span class="op">(</span><span class="va">Hyear</span>, <span class="va">Value</span>, colour <span class="op">=</span> <span class="va">RGIId</span><span class="op">)</span><span class="op">)</span> <span class="op">+</span> 
-  <span class="fu">facet_wrap</span><span class="op">(</span><span class="st">"Variable"</span>, scales <span class="op">=</span> <span class="st">"free_y"</span><span class="op">)</span> <span class="op">+</span> 
-  <span class="fu">scale_colour_viridis_d</span><span class="op">(</span><span class="op">)</span> <span class="op">+</span> 
-  <span class="fu">scale_fill_viridis_d</span><span class="op">(</span><span class="op">)</span> <span class="op">+</span> 
-  <span class="fu">theme_bw</span><span class="op">(</span><span class="op">)</span></code></pre></div>
-<p><img src="glaciers-02-DDMWB_files/figure-html/glaciermassbalance-1.png" width="700"></p>
+  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/geom_path.html" class="external-link">geom_line</a></span><span class="op">(</span><span class="fu"><a href="https://ggplot2.tidyverse.org/reference/aes.html" class="external-link">aes</a></span><span class="op">(</span><span class="va">Hyear</span>, <span class="va">Value</span>, colour <span class="op">=</span> <span class="va">RGIId</span><span class="op">)</span><span class="op">)</span> <span class="op">+</span> 
+  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/facet_wrap.html" class="external-link">facet_wrap</a></span><span class="op">(</span><span class="st">"Variable"</span>, scales <span class="op">=</span> <span class="st">"free_y"</span><span class="op">)</span> <span class="op">+</span> 
+  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/scale_viridis.html" class="external-link">scale_colour_viridis_d</a></span><span class="op">(</span><span class="op">)</span> <span class="op">+</span> 
+  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/scale_viridis.html" class="external-link">scale_fill_viridis_d</a></span><span class="op">(</span><span class="op">)</span> <span class="op">+</span> 
+  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/ggtheme.html" class="external-link">theme_bw</a></span><span class="op">(</span><span class="op">)</span></code></pre></div>
+<div class="figure">
+<img src="glaciers-02-DDMWB_files/figure-html/glaciermassbalance-1.png" alt="Glacier development and discharge." width="90%"><p class="caption">
+Glacier development and discharge.
+</p>
+</div>
 <p>We now have glacier discharge (Q_m3s) and the unsustainable
 contribution to glacier discharge, the imbalance ablation (Qimb_m3a)
 which is negative for glacier loss and positive for growing glaciers. We
@@ -607,33 +615,33 @@ us.</p>
 </div>
 </div>
 </div>
-<div id="next-steps" class="section level1">
-<h1 class="hasAnchor">
-<a href="#next-steps" class="anchor"></a>Next steps</h1>
+<div class="section level2">
+<h2 id="next-steps">Next steps<a class="anchor" aria-label="anchor" href="#next-steps"></a>
+</h2>
 <p>Now we have glacier discharge and glacier imbalance ablation. How do
 we include these in our modelling workflow? <a href="glaciers-04-glaciers-RSM.html">Glacier vignette 4</a> explains how
 glaciers are treated in the hydraulic/hydrologic model RS Minerve and
 details a workflow to implement glacier discharge in a model in RS
 Minerve.</p>
 </div>
-<div id="other-glacier-modeling-resources-worth-mentioning" class="section level1">
-<h1 class="hasAnchor">
-<a href="#other-glacier-modeling-resources-worth-mentioning" class="anchor"></a>Other glacier modeling resources worth mentioning</h1>
+<div class="section level2">
+<h2 id="other-glacier-modeling-resources-worth-mentioning">Other glacier modeling resources worth mentioning<a class="anchor" aria-label="anchor" href="#other-glacier-modeling-resources-worth-mentioning"></a>
+</h2>
 <p>Of course there are many more glacier utilities out there which are
 worth checking out if you are interested in more in-depth glacier
 modeling.</p>
-<div id="open-global-glacier-model-oggm" class="section level2">
-<h2 class="hasAnchor">
-<a href="#open-global-glacier-model-oggm" class="anchor"></a>Open Global Glacier Model (OGGM)</h2>
-<p>The <a href="https://oggm.org/" target="_blank">Open Global Glacier
+<div class="section level3">
+<h3 id="open-global-glacier-model-oggm">Open Global Glacier Model (OGGM)<a class="anchor" aria-label="anchor" href="#open-global-glacier-model-oggm"></a>
+</h3>
+<p>The <a href="https://oggm.org/" target="_blank" class="external-link">Open Global Glacier
 Model</a> is a community project which provides glacier modelling tools
 in python and educational resources. The modeling framework includes
 comprehensive tutorials and data-pre and post-processing tools.</p>
 </div>
 </div>
-<div id="references" class="section level1 unnumbered">
-<h1 class="hasAnchor">
-<a href="#references" class="anchor"></a>References</h1>
+<div class="section level2">
+<h2 class="unnumbered" id="references">References<a class="anchor" aria-label="anchor" href="#references"></a>
+</h2>
 <div id="refs" class="references csl-bib-body hanging-indent">
 <div id="ref-erasov_1968" class="csl-entry">
 Erasov, N. V. 1968. <span>“Method for Determining of Volume of Mountain
@@ -643,30 +651,30 @@ Glaciers.”</span> <em>MGI</em>, no. 14: 307–8.
 Farinotti, Daniel, Matthias Huss, Johannes J. Fürst, Johannes Landmann,
 Horst Machguth, Fabien Maussion, and Ankur Pandit. 2019. <span>“A
 Consensus Estimate for the Ice Thickness Distribution of All Glaciers on
-Earth.”</span> <em>Nature Geoscience</em> 12 (3): 168–73. <a href="https://doi.org/10.1038/s41561-019-0300-3">https://doi.org/10.1038/s41561-019-0300-3</a>.
+Earth.”</span> <em>Nature Geoscience</em> 12 (3): 168–73. <a href="https://doi.org/10.1038/s41561-019-0300-3" class="external-link">https://doi.org/10.1038/s41561-019-0300-3</a>.
 </div>
 <div id="ref-hock_temperature_2003" class="csl-entry">
 Hock, Regine. 2003. <span>“Temperature Index Melt Modelling in Mountain
-Areas.”</span> <em>Journal of Hydrology</em> 282 (1): 104–15. <a href="https://doi.org/10.1016/S0022-1694(03)00257-9">https://doi.org/10.1016/S0022-1694(03)00257-9</a>.
+Areas.”</span> <em>Journal of Hydrology</em> 282 (1): 104–15. <a href="https://doi.org/10.1016/S0022-1694(03)00257-9" class="external-link">https://doi.org/10.1016/S0022-1694(03)00257-9</a>.
 </div>
 <div id="ref-hugonnet_accelerated_2021" class="csl-entry">
 Hugonnet, Romain, Robert McNabb, Etienne Berthier, Brian Menounos,
 Christopher Nuth, Luc Girod, Daniel Farinotti, et al. 2021.
 <span>“Accelerated Global Glacier Mass Loss in the Early Twenty-First
-Century.”</span> <em>Nature</em> 592 (7856): 726–31. <a href="https://doi.org/10.1038/s41586-021-03436-z">https://doi.org/10.1038/s41586-021-03436-z</a>.
+Century.”</span> <em>Nature</em> 592 (7856): 726–31. <a href="https://doi.org/10.1038/s41586-021-03436-z" class="external-link">https://doi.org/10.1038/s41586-021-03436-z</a>.
 </div>
 <div id="ref-karger_climatologies_2017" class="csl-entry">
 Karger, Dirk Nikolaus, Olaf Conrad, Jürgen Böhner, Tobias Kawohl, Holger
 Kreft, Rodrigo Wilber Soria-Auza, Niklaus E. Zimmermann, H. Peter
 Linder, and Michael Kessler. 2017. <span>“Climatologies at High
 Resolution for the Earth’s Land Surface Areas.”</span> <em>Scientific
-Data</em> 4 (1): 170122. <a href="https://doi.org/10.1038/sdata.2017.122">https://doi.org/10.1038/sdata.2017.122</a>.
+Data</em> 4 (1): 170122. <a href="https://doi.org/10.1038/sdata.2017.122" class="external-link">https://doi.org/10.1038/sdata.2017.122</a>.
 </div>
 <div id="ref-miles_health_2021" class="csl-entry">
 Miles, Evan, Michael McCarthy, Amaury Dehecq, Marin Kneib, Stefan
 Fugger, and Francesca Pellicciotti. 2021. <span>“Health and
 Sustainability of Glaciers in High Mountain Asia.”</span> <em>Nature
-Communications</em> 12 (2868): 10. https://doi.org/<a href="https://doi.org/10.1038/s41467-021-23073-4">https://doi.org/10.1038/s41467-021-23073-4</a>.
+Communications</em> 12 (2868): 10. https://doi.org/<a href="https://doi.org/10.1038/s41467-021-23073-4" class="external-link">https://doi.org/10.1038/s41467-021-23073-4</a>.
 </div>
 </div>
 </div>
@@ -683,11 +691,14 @@ Communications</em> 12 (2868): 10. https://doi.org/<a href="https://doi.org/10.1
 
 
       <footer><div class="copyright">
-  <p>Developed by Tobias Siegfried, Beatrice Marti.</p>
+  <p></p>
+<p>Developed by Tobias Siegfried, Beatrice Marti.</p>
 </div>
 
 <div class="pkgdown">
-  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.6.1.</p>
+  <p></p>
+<p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a>
+2.0.2.</p>
 </div>
 
       </footer>
@@ -695,6 +706,8 @@ Communications</em> 12 (2868): 10. https://doi.org/<a href="https://doi.org/10.1
 
   
 
+
+  
 
   </body>
 </html>
