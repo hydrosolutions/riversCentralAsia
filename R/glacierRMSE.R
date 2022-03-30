@@ -75,7 +75,7 @@ glacierRMSE <- function(parameters, temperature, hugonnet,
 
   # Calculate melt
   melt <- glacierMelt_TI(temperature = temperature |>
-                         dplyr::select(-year),
+                         dplyr::select(-.data$year),
                          MF = as.numeric(parameters[1]),
                          threshold_temperature = as.numeric(parameters[2]))
 
@@ -83,17 +83,17 @@ glacierRMSE <- function(parameters, temperature, hugonnet,
   cal <- melt |>
     tibble::as_tibble() |>
     dplyr::mutate(year = temperature$year) |>
-    tidyr::pivot_longer(-year, names_to = "ID", values_to = "melt_mma") |>
-    tidyr::separate(ID, into = c("RGIId", "layer"), sep = "_") |>
+    tidyr::pivot_longer(-.data$year, names_to = "ID", values_to = "melt_mma") |>
+    tidyr::separate(.data$ID, into = c("RGIId", "layer"), sep = "_") |>
     dplyr::left_join(hugonnet |>
                        dplyr::mutate(year = lubridate::year(start),
-                                     obs_melt_mma = ifelse(dmdtda > 0, NA,
-                                                           -dmdtda)) |>
+                                     obs_melt_mma = ifelse(.data$dmdtda > 0, NA,
+                                                           -.data$dmdtda)) |>
                        dplyr::select(rgiid, year, obs_melt_mma),
                      by = c("RGIId" = "rgiid", "year" = "year")) |>
     tidyr::drop_na() |>
     dplyr::group_by(RGIId) |>
-    dplyr::summarise(rsme =sqrt(sum((melt_mma - obs_melt_mma)^2)))
+    dplyr::summarise(rsme =sqrt(sum((.data$melt_mma - .data$obs_melt_mma)^2)))
 
   return(cal$rsme[index])
 }
