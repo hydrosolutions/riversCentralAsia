@@ -16,7 +16,7 @@
 #'   temperature matrix.
 #' @param threshold_temperature is a scalar or a named vector with the
 #'   temperature above which glacier melt is produced.
-#' @return A matrix with daily melt rates per glacier/elevation band.
+#' @return A matrix with melt rates in mm per glacier/elevation band.
 #' @examples
 #' # Generate random temperature forcing
 #' number_of_glaciers <- 10

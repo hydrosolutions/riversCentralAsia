@@ -22,7 +22,7 @@ temperature matrix.}
 temperature above which glacier melt is produced.}
 }
 \value{
-A matrix with daily melt rates per glacier/elevation band.
+A matrix with melt rates in mm per glacier/elevation band.
 }
 \description{
 Glacier melt (\code{M}) is produced by multiplying the melt factor

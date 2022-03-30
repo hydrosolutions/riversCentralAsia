@@ -87,8 +87,11 @@ glacierRMSE <- function(parameters, temperature, hugonnet,
     tidyr::separate(.data$ID, into = c("RGIId", "layer"), sep = "_") |>
     dplyr::left_join(hugonnet |>
                        dplyr::mutate(year = lubridate::year(start),
+  # dmdtda is glacier elevation change in m water equivalents per year. It is
+  # negative for glacier mass loss and positive for glacier mass gain. To
+  # compare it to glacier melt in mm/a of we multiply dmdtda by -1000.
                                      obs_melt_mma = ifelse(.data$dmdtda > 0, NA,
-                                                           -.data$dmdtda)) |>
+                                                           -.data$dmdtda*1000)) |>
                        dplyr::select(rgiid, year, obs_melt_mma),
                      by = c("RGIId" = "rgiid", "year" = "year")) |>
     tidyr::drop_na() |>
