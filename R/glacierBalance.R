@@ -35,9 +35,6 @@
 #'     - Estimate the imbalance ablation from the glacier melt
 #'       \code{QglImb(t) = glacierImbalAbl(M(t))} \cr
 #'     - Update the glacier volume \code{V(t) = V(t-1) + QglImb(t)}
-#' @note Known issues: \cr
-#'   The function currently does not allow for one single large glacier. Make
-#'   sure there are either more than one large glaciers in your input or none.
 #' @export
 #' @family glacier functions
 #' @examples
@@ -71,26 +68,27 @@ glacierBalance <- function(melt_a_eb, rgi_elbands, area_threshold = 1) {
     cat("Error. Column A_km2 not found in input rgi_elbands.\n")
     return(NULL)
   }
-  if (!("thickness_m" %in% colnames(rgi_elbands))) {
-    cat("Error. Column thickness_m not found in input rgi_elbands.\n")
-    return(NULL)
-  }
 
+  rgi_elbands <- rgi_elbands |>
+    tidyr::separate(ID, into = c("RGIId2", "layer"), sep = "_", remove = FALSE)
+
+  # Get the larger glaciers into separate dfs
+  large_glaciers <- unique(rgi_elbands$RGIId[rgi_elbands$layer > 1])
 
   # Calculate the initial volume of the glaciers & elevation bands
   if (sum(stringr::str_detect("sf", class(rgi_elbands))) > 0) {
     rgi_elbands <- rgi_elbands |>
       sf::st_drop_geometry()
   }
-  rgi_elbands <- rgi_elbands |>
-    dplyr::mutate(V_km3 = .data$A_km2 * .data$thickness_m*10^(-3))
+  #rgi_elbands <- rgi_elbands |>
+  #  dplyr::mutate(V_km3 = .data$A_km2 * .data$thickness_m*10^(-3))
 
   # Separate small glaciers from large ones
   rgi_small <- rgi_elbands |>
-    dplyr::filter(.data$Area_tot_glacier_km2 < area_threshold)
+    dplyr::filter(!(.data$RGIId %in% large_glaciers))
 
   rgi_large <- rgi_elbands |>
-    dplyr::filter(.data$Area_tot_glacier_km2 >= area_threshold)
+    dplyr::filter(.data$RGIId %in% large_glaciers)
 
   A_small <- rgi_small |>
     dplyr::select(.data$ID, .data$A_km2) |>
@@ -129,7 +127,6 @@ glacierBalance <- function(melt_a_eb, rgi_elbands, area_threshold = 1) {
                                                      as.matrix(),
                                                    V_km3 = V_large |>
                                                      as.matrix())
-
 
   # Return a tibble with the results
   Q_m3a <- cbind(results_small$Q_m3a, results_large$Q_m3a)
@@ -375,14 +372,14 @@ stepWiseGlacierBalancePerElBand <- function(M_mma, A_km2, V_km3) {
       selection <- stringr::str_detect(colnames(M_mma_hist_mat), glacier)
       NelBand <- sum(selection)  # Number of elevation bands
       M_elBand <- M_mma_hist_mat[, stringr::str_detect(colnames(M_mma_hist_mat),
-                                              glacier)]
+                                                       glacier)]
       A_elBand <- A_km2_hist[, stringr::str_detect(colnames(A_km2), glacier)]
-      A_glacier <- rowSums(A_elBand)
+      A_glacier <- as.matrix(rowSums(A_elBand))
       weights_eb <- A_elBand[1, ]/A_glacier[1]
       Q_elBand <- Q_m3a_hist[, selection]
       V_elBand <- V_km3_hist[, stringr::str_detect(colnames(V_km3), glacier)]
-      V_glacier <- rowSums(V_elBand)
-      Q_glacier <- rowSums(Q_elBand)
+      V_glacier <- as.matrix(rowSums(V_elBand))
+      Q_glacier <- as.matrix(rowSums(Q_elBand))
       Qimb_glacier <- as.matrix(glacierImbalAbl(rowMeans(M_elBand)))
       for (time in c((length(years_hist)-1): 1)) {
         Q_elBand[time, ] <- M_elBand[time, ]*10^(-3)*
@@ -434,15 +431,15 @@ stepWiseGlacierBalancePerElBand <- function(M_mma, A_km2, V_km3) {
       selection <- stringr::str_detect(colnames(M_mma_fut_mat), glacier)
       NelBand <- sum(selection)  # Number of elevation bands
       M_elBand <- M_mma_fut_mat[, stringr::str_detect(colnames(M_mma_fut_mat),
-                                             glacier)]
+                                                      glacier)]
       A_elBand <- A_km2_fut[, stringr::str_detect(colnames(A_km2), glacier)]
-      A_glacier <- rowSums(A_elBand)
+      A_glacier <- as.matrix(rowSums(A_elBand))
       weights_eb <- A_elBand[1, ]/A_glacier[1]
       Q_elBand <- Q_m3a_fut[, selection]
       V_elBand <- V_km3_fut[, stringr::str_detect(colnames(V_km3), glacier)]
-      V_glacier <- rowSums(V_elBand)
-      Q_glacier <- rowSums(Q_elBand)
-      Qimb_glacier <- glacierImbalAbl(rowMeans(M_elBand))
+      V_glacier <- as.matrix(rowSums(V_elBand))
+      Q_glacier <- as.matrix(rowSums(Q_elBand))
+      Qimb_glacier <- as.matrix(glacierImbalAbl(rowMeans(M_elBand)))
       for (time in c(2:length(years_fut))) {
         Q_elBand[time, ] <- M_elBand[time, ]*10^(-3)*
           A_elBand[time-1, ]*10^6
