@@ -10,8 +10,11 @@ load_minerve_input_csv(filename)
 \item{filename}{Path to file with input data for RS Minerve.}
 }
 \value{
-Returns a tibble of the same format as \code{data} with data
-        in hourly (climate) to decadal or monthly (discharge) time steps.
+Returns a tibble of the same format as the inbuilt \code{data} in
+  ChirchikRiverBasin with columns \code{date} (POSIXct), \code{basin} (char),
+  \code{type} (char, T, P or Q), \code{unit} (char, C, mm/a or m3/s) and
+  \code{value} (num). Data is in hourly (climate) to decadal (10 days) or
+  monthly (discharge) time steps.
 }
 \description{
 The data is in a csv file that can also be imported to RS Minerve to form a
