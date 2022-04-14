@@ -226,12 +226,11 @@ stepWiseGlacierBalance <- function(M_mma, A_km2) {
     # Step-wise glacier water balance
     for (time in c((length(years_hist)-1): 1)) {
       A_km2_hist[time, ] <- glacierArea_RGIF(V_km3_hist[time+1, ])
-      Q_m3a_hist[time, ] <- M_mma_hist_mat[time, ]*10^(-3)*
-        A_km2_hist[time, ]*10^6
-      # Q_m3a_hist[time, ] <- apply(
-      #   rbind(glacierTotalAbl(M_mma_hist_mat[time, ]),
-      #         V_km3_hist[time-1, ] * 10^9),
-      #   2, min)
+      #Q_m3a_hist[time, ] <- M_mma_hist_mat[time, ]*10^(-3)*
+      #  A_km2_hist[time, ]*10^6
+      Q_m3a_hist[time, ] <- apply(
+        rbind(-glacierTotalAblation_HM(-M_mma_hist_mat[time, ]*10^(-3)),
+              V_km3_hist[time-1, ] * 10^9), 2, min)
       Qimb_m3a_hist[time, ] <- glacierImbalAbl(M_mma_hist_mat[time, ])
       Qimb_m3a_hist[time, ] <- ifelse(Qimb_m3a_hist[time,]< -Q_m3a_hist[time,],
                                       -Q_m3a_hist[time,], Qimb_m3a_hist[time,])
@@ -254,11 +253,11 @@ stepWiseGlacierBalance <- function(M_mma, A_km2) {
       A_km2_fut[time, ] <- glacierArea_RGIF(V_km3_fut[time-1, ])
       # If the remaining glacier volume is smaller than the theoretical glacier
       # melt rate, apply the volume to the actual melt rate.
-      Q_m3a_fut[time, ] <- apply(rbind(M_mma_fut_mat[time, ] * 10^(-3) *
-                                         A_km2_fut[time, ] * 10^6,
-                                       V_km3_fut[time-1, ] * 10^9), 2, min)
-      # Q_m3a_fut[time, ] <- apply(rbind(glacierTotalAbl(M_mma_fut_mat[time, ]),
+      # Q_m3a_fut[time, ] <- apply(rbind(M_mma_fut_mat[time, ] * 10^(-3) *
+      #                                    A_km2_fut[time, ] * 10^6,
       #                                  V_km3_fut[time-1, ] * 10^9), 2, min)
+      Q_m3a_fut[time, ] <- apply(rbind(-glacierTotalAblation_HM(-M_mma_fut_mat[time, ]*10^(-3)),
+                                        V_km3_fut[time-1, ] * 10^9), 2, min)
       # Imbalance ablation cannot be larger than total glacier discharge per year.
       Qimb_m3a_fut[time, ] <- glacierImbalAbl(M_mma_fut_mat[time, ])
       Qimb_m3a_fut[time, ] <- ifelse(Qimb_m3a_fut[time, ] < -Q_m3a_fut[time, ],
@@ -363,6 +362,7 @@ stepWiseGlacierBalancePerElBand <- function(M_mma, A_km2, V_km3) {
                          ncol = length(V_km3), byrow = TRUE)
     colnames(V_km3_hist) <- colnames(V_km3)
     Q_m3a_hist <- M_mma_hist_mat*10^(-3)*A_km2_hist*10^6
+    # Q_m3a_hist <- glacierTotalAblation_HM(M_mma_hist_mat*10^(-3))
     Qimb_m3a_hist <- glacierImbalAbl(M_mma_hist_mat)
     # Step-wise glacier water balance (for each elevation band per glacier)
     for (glacier in glaciers) {

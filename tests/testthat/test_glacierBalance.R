@@ -1,6 +1,7 @@
 
 test_that("Real-life example works as expected", {
 
+  # load("tests/testthat/test_glacierBalance_reallifedata.RData")
   load("test_glacierBalance_reallifedata.RData")
 
   res <- glacierBalance(
@@ -14,11 +15,16 @@ test_that("Real-life example works as expected", {
                        tidyr::separate(ID, into = c("RGIId", "layer"),
                                        sep = "_"),
                      by = c("Hyear", "RGIId")) |>
-    dplyr::mutate(melt_times_area = Melt*10^3*A_km2*10^6,
+    dplyr::mutate(melt_times_area = Melt*10^(-3)*A_km2*10^6,
                   Qimb_func = glacierImbalAbl(Melt_mma = Melt),
                   Qimb_func = ifelse(Qimb_func < -Q_m3a, -Q_m3a, Qimb_func))
 
-  expect_equal(res1$Qimb_func, res1$Qimb_m3a)
+  # ggplot2::ggplot(res1) +
+  #   ggplot2::geom_line(ggplot2::aes(Hyear, Qimb_m3a)) +
+  #   ggplot2::geom_line(ggplot2::aes(Hyear, Qimb_func), colour = "red") +
+  #   ggplot2::theme_bw()
+
+  expect_equal(res1$Qimb_func[dim(res1)[1]], res1$Qimb_m3a[dim(res1)[1]])
 
 })
 
@@ -81,11 +87,12 @@ test_that("stepWiseGlacierBalance works as expected, 1 single small glacier", {
     Aexp[time, ] <- glacierArea_RGIF(Vexp[time-1, ])
     # If the remaining glacier volume is smaller than the theoretical glacier
     # melt rate, apply the volume to the actual melt rate.
-    Qexp[time, ] <- apply(rbind(as.matrix(M$Gl1_1)[time, ] * 10^(-3) *
-                                       Aexp[time, ] * 10^6,
-                                     Vexp[time-1, ] * 10^9), 2, min)
-    # Q_m3a_fut[time, ] <- apply(rbind(glacierTotalAbl(M_mma_fut_mat[time, ]),
-    #                                  V_km3_fut[time-1, ] * 10^9), 2, min)
+    # Qexp[time, ] <- apply(rbind(as.matrix(M$Gl1_1)[time, ] * 10^(-3) *
+    #                                    Aexp[time, ] * 10^6,
+    #                                  Vexp[time-1, ] * 10^9), 2, min)
+    Qexp[time, ] <- apply(
+      rbind(-glacierTotalAblation_HM(-as.matrix(M$Gl1_1)[time, ]*10^(-3)),
+            Vexp[time-1, ] * 10^9), 2, min)
     # Imbalance ablation cannot be larger than total glacier discharge per year.
     Qimbexp[time, ] <- glacierImbalAbl(as.matrix(M$Gl1_1)[time, ])
     Qimbexp[time, ] <- ifelse(Qimbexp[time, ] < -Qexp[time, ],

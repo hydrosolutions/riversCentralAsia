@@ -19,13 +19,14 @@ glacierTotalAblation_HM <- function(dmdtda) {
   factor_melt = 753626.6
 
   Qgl <- ifelse(dmdtda > 0,
-                # growth, less total ablation for large growth rates
-                ifelse(dmdtda > 0.5, intercept_growth / 2,
-                       intercept_growth + factor_growth * dhdt),
-                # melt, higher total ablation for larger melt rates
-                ifelse(dhdt < -1,
-                       intercept_melt + factor_melt * (-2),
-                       intercept_melt + factor_melt * dhdt)) * 10^6
+                # growth, constant total ablation for large growth rates
+                ifelse(dmdtda > 0.5,
+                       intercept_growth + factor_growth * 0.5,
+                       intercept_growth + factor_growth * dmdtda),
+                # melt, constant total ablation for larger melt rates
+                ifelse(dmdtda < -1,
+                       intercept_melt + factor_melt * (-1),
+                       intercept_melt + factor_melt * dmdtda))
 
   return(Qgl)
 
