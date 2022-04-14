@@ -1,7 +1,7 @@
 #' Calculate glacier mass balance of all glaciers in a basin over time.
 #'
-#' Small glaciers below area_threshold in km2 are treated as one unit whereas
-#' large glaciers above area_threshold are treated in elevation bands.
+#' Small glaciers are treated as one unit whereas large glaciers are treated in
+#' elevation bands.
 #'
 #' @param melt_a_eb Annual glacier melt in mm/a for each glacier/elevation band.
 #'   The aggregation period is from October 1 of the previous year to September
@@ -18,9 +18,6 @@
 #'   column called \code{Area_tot_glacier_km2} with the area of the entire
 #'   glacier within the catchment and a column \code{ID} which is consistent with
 #'   the \code{ID} column in object \code{melt_a_eb}.
-#' @param area_threshold Threshold area separating small and large glaciers in
-#'   km2. The default is 1 km2. The threshold value must be consistent with the
-#'   one used to generate the \code{rgi_elvands} object.
 #' @return A tibble containing annual glacier melt,  imbalance ablation,
 #'   glacier volume, glacier area.
 #'
@@ -39,7 +36,7 @@
 #' @family glacier functions
 #' @examples
 #'
-glacierBalance <- function(melt_a_eb, rgi_elbands, area_threshold = 1) {
+glacierBalance <- function(melt_a_eb, rgi_elbands) {
 
   # Test if all needed columns are available in the input variables and throw
   # an error if not.
@@ -262,6 +259,7 @@ stepWiseGlacierBalance <- function(M_mma, A_km2) {
                                        V_km3_fut[time-1, ] * 10^9), 2, min)
       # Q_m3a_fut[time, ] <- apply(rbind(glacierTotalAbl(M_mma_fut_mat[time, ]),
       #                                  V_km3_fut[time-1, ] * 10^9), 2, min)
+      # Imbalance ablation cannot be larger than total glacier discharge per year.
       Qimb_m3a_fut[time, ] <- glacierImbalAbl(M_mma_fut_mat[time, ])
       Qimb_m3a_fut[time, ] <- ifelse(Qimb_m3a_fut[time, ] < -Q_m3a_fut[time, ],
                                      -Q_m3a_fut[time, ], Qimb_m3a_fut[time, ])

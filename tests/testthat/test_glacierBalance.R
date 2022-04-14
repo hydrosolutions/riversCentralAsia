@@ -1,3 +1,27 @@
+
+test_that("Real-life example works as expected", {
+
+  load("test_glacierBalance_reallifedata.RData")
+
+  res <- glacierBalance(
+    melt_a_eb = test_melt_mma,
+    rgi_elbands = test_rgi)
+
+  res1 <- res |>
+    dplyr::filter(RGIId == res$RGIId[1]) |>
+    tidyr::pivot_wider(names_from = Variable, values_from = Value) |>
+    dplyr::left_join(test_melt_mma |>
+                       tidyr::separate(ID, into = c("RGIId", "layer"),
+                                       sep = "_"),
+                     by = c("Hyear", "RGIId")) |>
+    dplyr::mutate(melt_times_area = Melt*10^3*A_km2*10^6,
+                  Qimb_func = glacierImbalAbl(Melt_mma = Melt),
+                  Qimb_func = ifelse(Qimb_func < -Q_m3a, -Q_m3a, Qimb_func))
+
+  expect_equal(res1$Qimb_func, res1$Qimb_m3a)
+
+})
+
 test_that("glacierBalance can handle one single large glacier", {
 
   M <- tibble::tibble(Hyear = c(2000:2003),
@@ -34,8 +58,8 @@ test_that("glacierBalance can handle one single large glacier", {
 
 test_that("stepWiseGlacierBalance works as expected, 1 single small glacier", {
 
-  M <- tibble::tibble(Hyear = c(2000:2003),
-              Gl1_1 = rep.int(400, 4))
+  M <- tibble::tibble(Hyear = c(2000:2020),
+              Gl1_1 = rep.int(800, 21))
   A <- matrix(1, nrow = 1, ncol = 1, dimnames = list(NULL, "Gl1_1"))
   res <- stepWiseGlacierBalance(M, A)
   Qn <- res$Q_m3a
@@ -43,23 +67,36 @@ test_that("stepWiseGlacierBalance works as expected, 1 single small glacier", {
   An <- res$A_km2
   Qimbn <- res$Qimb_m3a
 
+  Qimbtest <- glacierImbalAbl(M$Gl1_1)
+  Qimbtest <- ifelse(Qn < -Qimbtest, -Qn, Qimbtest)
+
+  expect_equal(Qimbn, Qimbtest)
+
   # Calculate WB separately
-  Aexp <- matrix(A, nrow=4, ncol=1, byrow = TRUE)
+  Aexp <- matrix(A, nrow=dim(M)[1], ncol=1, byrow = TRUE)
   Qexp <- M$Gl1_1*10^(-3)*Aexp*10^6
   Vexp <- glacierVolume_RGIF(Aexp)
-  Qimbexp <- glacierImbalAbl(M$Gl1_1)
-  for (time in c(2:4)) {
+  Qimbexp <- as.matrix(glacierImbalAbl(M$Gl1_1))
+  for (time in c(2:dim(M)[1])) {
     Aexp[time, ] <- glacierArea_RGIF(Vexp[time-1, ])
-    Qexp[time, ] <- apply(rbind(M$Gl1_1[time]*10^(-3)*Aexp[time, ]*10^6,
-                                Vexp[time-1, ]*10^9), 2, min)
-    Qimbexp[time] <- glacierImbalAbl(M$Gl1_1[time])
-    Vexp[time, ] <- Vexp[time-1, ] + Qimbexp[time]*10^(-9)
+    # If the remaining glacier volume is smaller than the theoretical glacier
+    # melt rate, apply the volume to the actual melt rate.
+    Qexp[time, ] <- apply(rbind(as.matrix(M$Gl1_1)[time, ] * 10^(-3) *
+                                       Aexp[time, ] * 10^6,
+                                     Vexp[time-1, ] * 10^9), 2, min)
+    # Q_m3a_fut[time, ] <- apply(rbind(glacierTotalAbl(M_mma_fut_mat[time, ]),
+    #                                  V_km3_fut[time-1, ] * 10^9), 2, min)
+    # Imbalance ablation cannot be larger than total glacier discharge per year.
+    Qimbexp[time, ] <- glacierImbalAbl(as.matrix(M$Gl1_1)[time, ])
+    Qimbexp[time, ] <- ifelse(Qimbexp[time, ] < -Qexp[time, ],
+                                   -Qexp[time, ], Qimbexp[time, ])
+    Vexp[time, ] <- apply(rbind(Vexp[time-1,] + Qimbexp[time, ]*10^(-9),
+                                     Vexp[time-1,]*0), 2, max)
   }
-  expect_equal(Qn[1], Qexp[1])
-  expect_equal(Qn[4], Qexp[4])
-  expect_equal(Qimbn[1], Qimbexp[1])
-  expect_equal(Qimbn[4], Qimbexp[4])
-  expect_gte(Qexp[4, 1], -Qimbn[4, 1])
+  expect_equal(Qn[,1], Qexp[,1])
+  expect_equal(Qimbn[,1], Qimbexp[,1])
+  expect_gte(Qexp[1,1], -Qimbn[1,1])
+  expect_gte(Qexp[dim(Qexp)[1],1], -Qimbn[dim(Qimbn)[1],1])
 
   # V(t) should be V(t-1) + Qimb(t). Does this pan out?
   Vexp2 <- Vn
@@ -67,10 +104,8 @@ test_that("stepWiseGlacierBalance works as expected, 1 single small glacier", {
     Vexp2[time] <- Vexp2[time -1] + Qimbn[time]*10^(-9)
   }
 
-  expect_equal(Vn[1], Vexp[1])
-  expect_equal(Vn[4], Vexp[4])
-  expect_equal(Vn[1], Vexp2[1])
-  expect_equal(Vn[4], Vexp2[4])
+  expect_equal(Vn[,1], Vexp[,1])
+  expect_equal(Vn[,1], Vexp2[,1])
 })
 
 
@@ -99,8 +134,7 @@ test_that("glacierBalance produces the same output as stepWiseGlacierBalance", {
     tidyr::pivot_longer(-Hyear, names_to = "ID", values_to = "Melt")
 
   resWB <- glacierBalance(melt_a_eb = Melt,
-                          rgi_elbands = shp,
-                          area_threshold = 2)
+                          rgi_elbands = shp)
 
   expect_equal(as.numeric(An[4,1]),
                as.numeric((resWB |>
@@ -176,8 +210,7 @@ test_that("stepWiseGlacierBalancePerElBand produces the same result as glacierBa
     tidyr::pivot_longer(-Hyear, names_to = "ID", values_to = "Melt")
 
   resWB <- glacierBalance(melt_a_eb = Melt,
-                          rgi_elbands = shp,
-                          area_threshold = 0.5)
+                          rgi_elbands = shp)
 
   Ab <- resWB |>
     dplyr::filter(Variable == "A_km2") |>
