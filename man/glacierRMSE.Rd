@@ -54,6 +54,7 @@ Other glacier functions:
 \code{\link{glacierDischarge_HM}()},
 \code{\link{glacierImbalAbl}()},
 \code{\link{glacierMelt_TI}()},
+\code{\link{glacierTotalAblation_HM}()},
 \code{\link{glacierVolume_Erasov}()},
 \code{\link{glacierVolume_RGIF}()}
 }
