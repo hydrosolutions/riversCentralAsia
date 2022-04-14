@@ -29,6 +29,7 @@ Based on the residuals of the fits for growing and melting glaciers
 Other glacier functions: 
 \code{\link{glacierArea_Erasov}()},
 \code{\link{glacierArea_RGIF}()},
+\code{\link{glacierBalanceP}()},
 \code{\link{glacierBalance}()},
 \code{\link{glacierImbalAbl}()},
 \code{\link{glacierMelt_TI}()},

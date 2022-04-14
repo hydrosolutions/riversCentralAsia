@@ -35,6 +35,7 @@ Assuming a normal distribution of the residuals, the relative
 
 Other glacier functions: 
 \code{\link{glacierArea_Erasov}()},
+\code{\link{glacierBalanceP}()},
 \code{\link{glacierBalance}()},
 \code{\link{glacierDischarge_HM}()},
 \code{\link{glacierImbalAbl}()},

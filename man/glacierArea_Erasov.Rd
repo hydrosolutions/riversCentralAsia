@@ -21,6 +21,7 @@ volume.
 
 Other glacier functions: 
 \code{\link{glacierArea_RGIF}()},
+\code{\link{glacierBalanceP}()},
 \code{\link{glacierBalance}()},
 \code{\link{glacierDischarge_HM}()},
 \code{\link{glacierImbalAbl}()},
