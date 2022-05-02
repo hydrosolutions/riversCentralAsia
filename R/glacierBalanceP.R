@@ -134,16 +134,16 @@ glacierBalanceP <- function(melt_a_eb, prcp_a_eb, rgi_elbands) {
 
   # Calculate glacier mass balance for small glaciers directly and for elevation
   # bands of large glaciers which are then accumulated.
-  results_small <- stepWiseGlacierBalance(M_mma = melt_small,
-                                          P_mma = prcp_small,
-                                          A_km2 = A_small |> as.matrix())
+  results_small <- stepWiseGlacierBalanceP(M_mma = melt_small,
+                                           P_mma = prcp_small,
+                                           A_km2 = A_small |> as.matrix())
 
-  results_large <- stepWiseGlacierBalancePerElBand(M_mma = melt_large,
-                                                   P_mma = prcp_small,
-                                                   A_km2 = A_large |>
-                                                     as.matrix(),
-                                                   V_km3 = V_large |>
-                                                     as.matrix())
+  results_large <- stepWiseGlacierBalancePerElBandP(M_mma = melt_large,
+                                                    P_mma = prcp_large,
+                                                    A_km2 = A_large |>
+                                                      as.matrix(),
+                                                    V_km3 = V_large |>
+                                                      as.matrix())
 
   # Return a tibble with the results
   Q_m3a <- cbind(results_small$Q_m3a, results_large$Q_m3a)
@@ -214,7 +214,7 @@ glacierBalanceP <- function(melt_a_eb, prcp_a_eb, rgi_elbands) {
 #'   same time interval as M_mma. Q_m3a: glacier discharge, V_km3: glacier
 #'   volume in water equivalents, A_km2: glacier area, Qimb_m3a: imbalance
 #'   ablation (<0: glacier melt, >0: glacier increase)
-stepWiseGlacierBalance <- function(M_mma, P_mma, A_km2) {
+stepWiseGlacierBalanceP <- function(M_mma, P_mma, A_km2) {
 
   if (!("Hyear" %in% colnames(M_mma))) {
     cat("Error. Column Hyear not found in input M_mma.\n")
@@ -298,7 +298,7 @@ stepWiseGlacierBalance <- function(M_mma, P_mma, A_km2) {
       # Imbalance ablation cannot be larger than total glacier discharge per year.
       #Qimb_m3a_fut[time, ] <- glacierImbalAbl(M_mma_fut_mat[time, ])
       Qimb_m3a_fut[time, ] <- (P_mma_fut_mat[time, ] - M_mma_fut_mat[time, ])*
-        10^(-3)*A_km2_hist[time, ]*10^6
+        10^(-3)*A_km2_fut[time, ]*10^6
       Qimb_m3a_fut[time, ] <- ifelse(Qimb_m3a_fut[time, ] < -Q_m3a_fut[time, ],
                                      -Q_m3a_fut[time, ], Qimb_m3a_fut[time, ])
       V_km3_fut[time, ] <- apply(rbind(V_km3_fut[time-1,] + Qimb_m3a_fut[time, ]*10^(-9),
@@ -370,7 +370,7 @@ stepWiseGlacierBalance <- function(M_mma, P_mma, A_km2) {
 #'   mean thickness in the elevation bands extracted from Farinotti et al.
 #' @return c(Q_m3a, V_km3, A_km2) List of updated variables over the same time
 #'   interval as M_mma
-stepWiseGlacierBalancePerElBand <- function(M_mma, P_mma, A_km2, V_km3) {
+stepWiseGlacierBalancePerElBandP <- function(M_mma, P_mma, A_km2, V_km3) {
 
   if (!("Hyear" %in% colnames(M_mma))) {
     cat("Error. Column Hyear not found in input M_mma.\n")
@@ -506,7 +506,7 @@ stepWiseGlacierBalancePerElBand <- function(M_mma, P_mma, A_km2, V_km3) {
         Q_elBand[time, ] <- M_elBand[time, ]*10^(-3)*
           A_elBand[time-1, ]*10^6
         Qimb_elBand[time, ] <- (P_elBand[time, ]-M_elBand[time, ])*10^(-3)*
-          A_elBand[time+1, ]*10^6
+          A_elBand[time-1, ]*10^6
         # Limit glacier discharge by the remaining glacier volume.
         Q_glacier[time] <- apply(rbind(sum(Q_elBand[time, ]),
                                        V_glacier[time-1] * 10^9), 2, min)
