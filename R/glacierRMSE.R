@@ -25,6 +25,7 @@
 #' @return RMSE between observed glacier melt and glacier melt simulated with
 #'   the temperature index model of indexed hydrological response units.
 #' @seealso \code{\link{glacierMelt_TI}}
+#' @references Hugonnet et al., 2021. DOI: 10.1038/s41586-021-03436-z.
 #' @export
 #' @family glacier functions
 

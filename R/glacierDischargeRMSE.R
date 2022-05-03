@@ -3,7 +3,7 @@
 #'
 #' @description This function calls ```glacierMelt_TI``` with ```parameters```
 #'   and ```temperature``` and calculates the root mean squared error RMSE
-#'   between the simulated and observed ```hugonnet``` glacier melt. The
+#'   between the simulated and observed ```miles``` glacier melt. The
 #'   optional ```index``` serves to limit the results to one single glacier. \
 #'   This function can be used to calibrate the parameters of the temperature
 #'   index model. TODO write vignette demonstrating use.
@@ -24,6 +24,7 @@
 #'   should be returned. Defaults to all.
 #' @return RMSE between observed glacier melt and glacier melt simulated with
 #'   the temperature index model of indexed hydrological response units.
+#' @references Miles et al., 2021. https://doi.org/10.1038/s41467-021-23073-4.
 #' @seealso \code{\link{glacierMelt_TI}}
 #' @export
 #' @family glacier functions
