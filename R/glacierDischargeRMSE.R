@@ -25,7 +25,7 @@
 #' @return RMSE between observed glacier melt and glacier melt simulated with
 #'   the temperature index model of indexed hydrological response units.
 #' @seealso \code{\link{glacierMelt_TI}}
-#' @export
+# @export
 #' @family glacier functions
 
 glacierDischargeRMSE <- function(parameters, temperature, miles,

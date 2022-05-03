@@ -19,10 +19,11 @@ test_that("Real-life example works as expected", {
                   Qimb_func = glacierImbalAbl(Melt_mma = Melt),
                   Qimb_func = ifelse(Qimb_func < -Q_m3a, -Q_m3a, Qimb_func))
 
-  # ggplot2::ggplot(res1) +
-  #   ggplot2::geom_line(ggplot2::aes(Hyear, Qimb_m3a)) +
-  #   ggplot2::geom_line(ggplot2::aes(Hyear, Qimb_func), colour = "red") +
-  #   ggplot2::theme_bw()
+  ggplot2::ggplot(res1) +
+    ggplot2::geom_line(ggplot2::aes(Hyear, Qimb_m3a)) +
+    ggplot2::geom_line(ggplot2::aes(Hyear, Qimb_func),
+                       colour = "red", linetype = 2) +
+    ggplot2::theme_bw()
 
   expect_equal(res1$Qimb_func[dim(res1)[1]], res1$Qimb_m3a[dim(res1)[1]])
 
@@ -87,12 +88,13 @@ test_that("stepWiseGlacierBalance works as expected, 1 single small glacier", {
     Aexp[time, ] <- glacierArea_RGIF(Vexp[time-1, ])
     # If the remaining glacier volume is smaller than the theoretical glacier
     # melt rate, apply the volume to the actual melt rate.
-    # Qexp[time, ] <- apply(rbind(as.matrix(M$Gl1_1)[time, ] * 10^(-3) *
-    #                                    Aexp[time, ] * 10^6,
-    #                                  Vexp[time-1, ] * 10^9), 2, min)
-    Qexp[time, ] <- apply(
-      rbind(-glacierTotalAblation_HM(-as.matrix(M$Gl1_1)[time, ]*10^(-3)),
-            Vexp[time-1, ] * 10^9), 2, min)
+    Qexp[time, ] <- apply(rbind(as.matrix(M$Gl1_1)[time, ] * 10^(-3) *
+                                  Aexp[time, ] * 10^6,
+                                Vexp[time-1, ] * 10^9), 2, min)
+    # Qexp[time, ] <- apply(
+    #   rbind(-glacierTotalAblation_HM(-as.matrix(M$Gl1_1)[time, ]*10^(-3)),
+    #         Vexp[time-1, ] * 10^9), 2, min)
+
     # Imbalance ablation cannot be larger than total glacier discharge per year.
     Qimbexp[time, ] <- glacierImbalAbl(as.matrix(M$Gl1_1)[time, ])
     Qimbexp[time, ] <- ifelse(Qimbexp[time, ] < -Qexp[time, ],
@@ -100,8 +102,8 @@ test_that("stepWiseGlacierBalance works as expected, 1 single small glacier", {
     Vexp[time, ] <- apply(rbind(Vexp[time-1,] + Qimbexp[time, ]*10^(-9),
                                      Vexp[time-1,]*0), 2, max)
   }
-  #expect_lte(sum(Qn[,1] - Qexp[,1]), 10^(-4))
-  #expect_lte(sum(Qimbn[,1] - Qimbexp[,1]), 10^(-4))
+  expect_lte(sum(Qn[,1] - Qexp[,1]), 10^(-4))
+  expect_lte(sum(Qimbn[,1] - Qimbexp[,1]), 10^(-4))
   expect_gte(Qexp[1,1], -Qimbn[1,1])
   expect_gte(Qexp[dim(Qexp)[1],1], -Qimbn[dim(Qimbn)[1],1])
 
@@ -111,8 +113,8 @@ test_that("stepWiseGlacierBalance works as expected, 1 single small glacier", {
     Vexp2[time] <- Vexp2[time -1] + Qimbn[time]*10^(-9)
   }
 
-  expect_lte(sum(Vn[,1] - Vexp[,1]), 10^(-2))
-  expect_lte(sum(Vn[,1] - Vexp2[,1]), 10^(-2))
+  expect_lte(sum(Vn[,1] - Vexp[,1]), 10^(-4))
+  expect_lte(sum(Vn[,1] - Vexp2[,1]), 10^(-4))
 })
 
 

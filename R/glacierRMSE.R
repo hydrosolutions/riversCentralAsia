@@ -15,7 +15,7 @@
 #'   values for individual hydrological response units in columns. The names of
 #'   the hydrological response units is typically of the form RGIId_layer,
 #'   e.g. RGI60-13.10007_1. The RGIId and the underbar are required as the
-#'   algorithm splits the name at the underbar and mergest the observed glacier
+#'   algorithm splits the name at the underbar and merges the observed glacier
 #'   melt by RGIId.
 #' @param hugonnet A tibble with the yearly glacier melt data by Hugonnet et al.
 #'   ```hugonnet``` must contain the columns rgiid, start and dmdtda. Further

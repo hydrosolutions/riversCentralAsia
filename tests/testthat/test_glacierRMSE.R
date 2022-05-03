@@ -83,5 +83,22 @@ test_that("Shorter observation periods are treated as expected", {
 
 })
 
+test_that("glacierRSME can handle one single glacier", {
+
+  parameters <- c(1, 0)
+  temperature <- tibble::tibble(year = 2001:2010,
+                                "RGI60-13.00001_1" = 1:10*0-5)
+  hugonnet <- tibble::tibble(rgiid = rep("RGI60-13.00001", 1),
+                             start = lubridate::as_date(
+                               paste0(c(2010, 2010),"-01-01")),
+                             dmdtda = rep(-0.5, 1))
+  rmse <- glacierRMSE(parameters = parameters,
+                      temperature = temperature,
+                      hugonnet = hugonnet)
+
+  expect_lte(rmse[1] - 707.1068, 10^(-4))
+
+})
+
 
 
