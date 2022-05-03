@@ -40,10 +40,12 @@ The relative error of the function is estimated to be 0.73%. See
 Other glacier functions: 
 \code{\link{glacierArea_Erasov}()},
 \code{\link{glacierArea_RGIF}()},
+\code{\link{glacierBalanceP}()},
 \code{\link{glacierBalance}()},
 \code{\link{glacierDischarge_HM}()},
 \code{\link{glacierMelt_TI}()},
 \code{\link{glacierRMSE}()},
+\code{\link{glacierTotalAblation_HM}()},
 \code{\link{glacierVolume_Erasov}()},
 \code{\link{glacierVolume_RGIF}()}
 }
