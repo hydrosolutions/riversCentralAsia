@@ -17,8 +17,8 @@
 #'   e.g. RGI60-13.10007_1. The RGIId and the underbar are required as the
 #'   algorithm splits the name at the underbar and mergest the observed glacier
 #'   melt by RGIId.
-#' @param hugonnet A tibble with the yearly glacier melt data by Hugonnet et al.
-#'   ```hugonnet``` must contain the columns rgiid, start and dmdtda. Further
+#' @param miles A tibble with the yearly glacier melt data by Miles et al.
+#'   ```miles``` must contain the columns RGIID, totAbl and Area_m2. Further
 #'   columns are ignored.
 #' @param index (optional) number to indicate for which individual HRU the RMSE
 #'   should be returned. Defaults to all.
@@ -28,8 +28,8 @@
 #' @export
 #' @family glacier functions
 
-glacierRMSE <- function(parameters, temperature, hugonnet,
-                        index = 1:(dim(temperature)[2]-1)) {
+glacierDischargeRMSE <- function(parameters, temperature, miles,
+                                 index = 1:(dim(temperature)[2]-1)) {
 
   # Test validity of input
   if (length(parameters) != 2) {
@@ -52,16 +52,12 @@ glacierRMSE <- function(parameters, temperature, hugonnet,
     return(NULL)
   }
 
-  if (!("rgiid" %in% colnames(hugonnet))) {
-    cat("Error: Did not find column rgiid in hugonnet.\n")
+  if (!("RGIID" %in% colnames(miles))) {
+    cat("Error: Did not find column RGIID in miles.\n")
     return(NULL)
   }
-  if (!("start" %in% colnames(hugonnet))) {
-    cat("Error: Did not find column start in hugonnet.\n")
-    return(NULL)
-  }
-  if (!("dmdtda" %in% colnames(hugonnet))) {
-    cat("Error: Did not find column dmdtda in hugonnet.\n")
+  if (!("totAbl" %in% colnames(miles))) {
+    cat("Error: Did not find column totAbl in miles.\n")
     return(NULL)
   }
 
@@ -75,7 +71,7 @@ glacierRMSE <- function(parameters, temperature, hugonnet,
 
   # Calculate melt
   melt <- glacierMelt_TI(temperature = temperature |>
-                         dplyr::select(-.data$year),
+                           dplyr::select(-.data$year),
                          MF = as.numeric(parameters[1]),
                          threshold_temperature = as.numeric(parameters[2]))
 
@@ -85,19 +81,15 @@ glacierRMSE <- function(parameters, temperature, hugonnet,
     dplyr::mutate(year = temperature$year) |>
     tidyr::pivot_longer(-.data$year, names_to = "ID", values_to = "melt_mma") |>
     tidyr::separate(.data$ID, into = c("RGIId", "layer"), sep = "_") |>
-    dplyr::left_join(hugonnet |>
-                       dplyr::mutate(year = lubridate::year(start),
-  # dmdtda is glacier elevation change in m water equivalents per year. It is
-  # negative for glacier mass loss and positive for glacier mass gain. To
-  # compare it to glacier melt in mm/a of we multiply dmdtda by -1000.
-  # We are only allowing glacier melt.
-                                     obs_melt_mma = ifelse(.data$dmdtda > 0, NA,
-                                                           -.data$dmdtda*1000)) |>
-                       dplyr::select(rgiid, year, obs_melt_mma),
-                     by = c("RGIId" = "rgiid", "year" = "year")) |>
+    dplyr::group_by(RGIId, layer) |>
+    dplyr::summarise(melt_mma = mean(melt_mma)) |>
+    dplyr::ungroup() |>
+    dplyr::left_join(miles |> dplyr::select(RGIID, totAbl, Area_m2),
+                     by = c("RGIId" = "RGIID")) |>
+    dplyr::mutate(totAbl = totAbl / Area_m2 * 10^3) |>  # to mm/a
     tidyr::drop_na() |>
     dplyr::group_by(RGIId) |>
-    dplyr::summarise(rsme =sqrt(sum((.data$melt_mma - .data$obs_melt_mma)^2)))
+    dplyr::summarise(rsme =sqrt(sum((.data$melt_mma - .data$totAbl)^2)))
 
   return(cal$rsme[index])
 }
