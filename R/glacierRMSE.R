@@ -1,12 +1,12 @@
-#' Calculates glacier melt and the root mean squared error between observed
-#' glacier melt and simulated glacier melt.
+#' Deprecated. Calculates glacier melt and the root mean squared error between
+#' observed glacier thinning rates and simulated glacier melt.
 #'
 #' @description This function calls ```glacierMelt_TI``` with ```parameters```
 #'   and ```temperature``` and calculates the root mean squared error RMSE
 #'   between the simulated and observed ```hugonnet``` glacier melt. The
 #'   optional ```index``` serves to limit the results to one single glacier. \
 #'   This function can be used to calibrate the parameters of the temperature
-#'   index model. TODO write vignette demonstrating use.
+#'   index model.
 #' @param parameters The two parameters of the function ```glacierMelt_TI```.
 #'   The first parameter is the melt factor ```MF```, the second parameter is
 #'   the threshold temperature ```threshold_temperature``` above which melt sets
@@ -24,8 +24,11 @@
 #'   should be returned. Defaults to all.
 #' @return RMSE between observed glacier melt and glacier melt simulated with
 #'   the temperature index model of indexed hydrological response units.
-#' @seealso \code{\link{glacierMelt_TI}}
-#' @references Hugonnet et al., 2021. DOI: 10.1038/s41586-021-03436-z.
+#' @note This function is being deprecated. It compares glacier melt to glacier
+#'   thinning rates. Calibrating the temperature index model with glacier
+#'   thinning rates leads to underestimation of glacier melt. Consider using
+#'   ```glacierDischargeRSME``` instead.
+#' @seealso \code{\link{glacierDischargeRMSE}}
 #' @export
 #' @family glacier functions
 

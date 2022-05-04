@@ -92,7 +92,9 @@ error_stats = tibble::tibble(
   sMelt = 2,  # Glacier melt
   sVolumeRGIF = 0.31,  # Calculating glacier volume from glacier area
   sAreaRGIF = 0.53,  # Calculating glacier area from glacier volume
-  sImbal = 0.73)  # Calculating glacier imbalance ablation from glacier melt
+  sImbal = 0.73,  # Calculating glacier imbalance ablation from glacier melt
+  sQglgrowth = 1.6,  # Calculating total ablation from glacier thinning  
+  sQglmelt = 1.6)  
 ```
 
 # Demonstration
@@ -108,6 +110,9 @@ library(exactextractr)
 library(tidyverse)
 library(lubridate)
 library(riversCentralAsia)
+
+# Stochastic optimisation algorithm for model calibration
+library(GA)
 
 # Path to the data directory downloaded from the download link provided above. 
 # Here the data is extracted to a folder called atbashy_glacier_demo_data
@@ -218,6 +223,12 @@ glaciers_hugonnet <- glaciers_hugonnet |>
                                    imbalAblsig), 
             by = c("RGIId" = "RGIID")) |> 
   mutate(Qgl_m3a = ifelse(is.na(totAbl), glacierDischarge_HM(dhdt), -totAbl))
+
+observed_melt <- glaciers_hugonnet |> 
+  st_drop_geometry() |>
+  dplyr::filter(period == 1) |> 
+  dplyr::select(RGIId, start, dhdt, Qgl_m3a) |> 
+  distinct()
 
 totQgl <- glaciers_hugonnet |> 
   st_drop_geometry() |> 
@@ -351,8 +362,8 @@ The code snippet below illustrates how to calculate the daily glacier melt in a 
 ```{r glaciermeltcalculation, message=FALSE, warning=FALSE, fig.cap = "Daily glacier melt per elevation band.", out.width="90%"}
 
 # Default parameters of the temperature index model for glacier melt. 
-MF_small = 1  # Melt coefficient for small glaciers (smaller than 1km2)
-MF_large = 0.5  # Melt coefficient for large glaciers (larger or equal than 1km2)
+MF_small = 2  # Melt coefficient for small glaciers (smaller than 1km2)
+MF_large = 0.1  # Melt coefficient for large glaciers (larger or equal than 1km2)
 threshold_temperature = 0  # Default temperature threshold for glacier melt 
 
 Area <- rgi_elbands |> 
@@ -408,11 +419,17 @@ melt_a <- melt_a_eb |>
                               Melt*(1-error_stats$sMelt)), 
             .ub_Melt = Melt*(1+error_stats$sMelt)) |> 
   ungroup() |> 
-  dplyr::filter(Hyear > min(Hyear) & Hyear < max(Hyear))
+  dplyr::filter(Hyear > min(Hyear) & Hyear < max(Hyear)) |> 
+  left_join(rgi |> dplyr::select(RGIId, Area) |> st_drop_geometry(), 
+            by = "RGIId") |> 
+  # Assume constant glacier area over the comparison period. 
+  mutate(Qgl_m3a = Melt*10^(-3) * Area*10^6, 
+         .lb_Qgl_m3a = Qgl_m3a * (1-sqrt(error_stats$sMelt^2+error_stats$sA^2)),   
+         .lb_Qgl_m3a = ifelse(.lb_Qgl_m3a < 0, 0, .lb_Qgl_m3a), 
+         .ub_Qgl_m3a = Qgl_m3a * (1+sqrt(error_stats$sMelt^2+error_stats$sA^2)))
 
-glaciers_hugonnet <- glaciers_hugonnet |> 
-  mutate(Qgl_m3a = glacierDischarge_HM(dhdt), 
-         .lb_Qgl_m3a = ifelse(
+melt_obs_a <- observed_melt |> 
+  mutate(.lb_Qgl_m3a = ifelse(
            dhdt > 0, 
            ifelse(Qgl_m3a*(1-error_stats$sQglgrowth)<0, 0, 
                   Qgl_m3a*(1-error_stats$sQglgrowth)), 
@@ -421,26 +438,24 @@ glaciers_hugonnet <- glaciers_hugonnet |>
          .ub_Qgl_m3a = ifelse(dhdt > 0, 
                               Qgl_m3a*(1+error_stats$sQglgrowth), 
                               Qgl_m3a*(1+error_stats$sQglmelt)))
-melt_obs_a <- glaciers_hugonnet |> 
-  dplyr::filter(RGIId %in% glaciers[6:9], 
-                period == 1)
+melt_obs_a <- melt_obs_a |> 
+  dplyr::filter(RGIId %in% glaciers[6:9])
   
 ggplot() + 
   geom_ribbon(data = melt_a |> 
                 dplyr::filter(RGIId %in% glaciers[6:9]), 
-              aes(date, Melt/1000, ymin = .lb_Melt/1000, ymax = .ub_Melt/1000, 
+              aes(date, Qgl_m3a, ymin = .lb_Qgl_m3a, ymax = .ub_Qgl_m3a, 
                   fill = RGIId), colour = NA, alpha = 0.1) + 
-  geom_ribbon(data = melt_obs_a |> 
-                dplyr::filter(RGIId %in% glaciers[6:9]), 
-              aes(start, -dmdtda, 
-                  ymin = -dmdtda-err_dmdtda, 
-                  ymax = -dmdtda+err_dmdtda, 
+  geom_ribbon(data = melt_obs_a, 
+              aes(start, Qgl_m3a, 
+                  ymin = .lb_Qgl_m3a, 
+                  ymax = .ub_Qgl_m3a, 
                   colour = RGIId, linetype = "obs", fill = RGIId), 
               size = 0.2, alpha = 0.1) + 
   geom_line(data = melt_a |> 
               dplyr::filter(RGIId %in% glaciers[6:9]), 
-            aes(date, Melt/1000, colour = RGIId, linetype = "sim")) + 
-  geom_line(data = melt_obs_a, aes(start, -dmdtda, colour = RGIId, 
+            aes(date, Qgl_m3a, colour = RGIId, linetype = "sim")) + 
+  geom_line(data = melt_obs_a, aes(start, Qgl_m3a, colour = RGIId, 
                                    linetype = "obs")) + 
   labs(x = "Date", y = "Melt [m weq/a]") + 
   scale_linetype_manual(name = "Source", 
@@ -458,7 +473,27 @@ The temperature index model can be calibrated with the specific glacier volume c
 The 2 parameters of the temperature index model can be calibrated using observed glacier melt rates.
 
 ```{r}
-
+DDFfit <- NULL
+for (id in c(1:length(glaciers))) {
+    cat("Fitting temperature index model for glacier", glaciers[id], "\n")
+    DDFtemp <- c(MF = 20, tth = -20)
+    cat("    Start Parameters: MF =", DDFtemp[1], "Tth =", DDFtemp[2], "\n")
+    
+    tempGA <- ga(type = "real-valued", 
+                 fitness = glacierDischargeRMSE, 
+                 temperature = hist_obs,
+                 observed = observed_melt,
+                 index = id,
+                 lower = c(0.1, -30), upper = c(50, 10), 
+                 parallel = TRUE)
+    #
+    cat("    Result: RMSE = ", temp$objective, "MF =", temp$par[1], "Tth =",
+        temp$par[2], "\n")
+    DDFfit <- rbind(DDfit, tibble(MF = tempGA@solution[1],
+                           Tth = tempGA@solution[2],
+                           rsme = tempGA@fitnessValue) |>
+                      mutate(ID = hrus[id]))
+  }
 ```
 
 ## Glacier mass balance
