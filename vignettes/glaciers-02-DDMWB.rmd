@@ -473,6 +473,8 @@ The temperature index model can be calibrated with the specific glacier volume c
 The 2 parameters of the temperature index model can be calibrated using observed glacier melt rates.
 
 ```{r}
+# Annual 
+
 DDFfit <- NULL
 for (id in c(1:length(glaciers))) {
     cat("Fitting temperature index model for glacier", glaciers[id], "\n")
@@ -487,12 +489,12 @@ for (id in c(1:length(glaciers))) {
                  lower = c(0.1, -30), upper = c(50, 10), 
                  parallel = TRUE)
     #
-    cat("    Result: RMSE = ", temp$objective, "MF =", temp$par[1], "Tth =",
-        temp$par[2], "\n")
+    cat("    Result: RMSE = ", -tempGA$fitnessValue, "MF =", tempGA$par[1], 
+        "Tth =", tempGA$par[2], "\n")
     DDFfit <- rbind(DDfit, tibble(MF = tempGA@solution[1],
                            Tth = tempGA@solution[2],
                            rsme = tempGA@fitnessValue) |>
-                      mutate(ID = hrus[id]))
+                      mutate(ID = glaciers[id]))
   }
 ```
 

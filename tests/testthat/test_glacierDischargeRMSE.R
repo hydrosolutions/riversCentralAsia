@@ -1,6 +1,6 @@
+# Write tests for daily temperature input
 
-
-test_that("glacierRSME works as expected", {
+test_that("glacierRSME works as expected for annual temperature input", {
 
   parameters <- c(20, -10)
   temperature <- tibble::tibble(year = 2001:2010,
@@ -42,7 +42,7 @@ test_that("glacierRSME works as expected", {
 
 })
 
-test_that("Default index works as expected", {
+test_that("Default index works as expected for annual temperature input", {
 
   parameters <- c(1, 0)
   temperature <- tibble::tibble(year = 2001:2010,

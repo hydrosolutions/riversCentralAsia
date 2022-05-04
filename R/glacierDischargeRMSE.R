@@ -72,14 +72,14 @@ glacierDischargeRMSE <- function(parameters, temperature, observed,
 
   # Calculate melt
   melt <- glacierMelt_TI(temperature = temperature |>
-                           dplyr::select(-.data$year),
+                           dplyr::select(-.data$date),
                          MF = as.numeric(parameters[1]),
                          threshold_temperature = as.numeric(parameters[2]))
 
   # reformat and compare to observed melt
   cal <- melt |>
     tibble::as_tibble() |>
-    dplyr::mutate(year = temperature$year) |>
+    dplyr::mutate(year = temperature$date) |>
     tidyr::pivot_longer(-.data$year, names_to = "ID", values_to = "melt_mma") |>
     tidyr::separate(.data$ID, into = c("RGIId", "layer"), sep = "_") |>
     dplyr::group_by(RGIId, layer) |>
