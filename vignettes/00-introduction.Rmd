@@ -1,6 +1,7 @@
 ---
 title: "Introduction to the package"
 output: rmarkdown::html_vignette
+bibliography: [references.bib, HMA_bibliography.bib]
 vignette: >
   %\VignetteIndexEntry{Introduction to the package}
   %\VignetteEngine{knitr::rmarkdown}
@@ -28,6 +29,7 @@ devtools::install_github("hydrosolutions/riversCentralAsia",
                          quiet = TRUE)
 library(riversCentralAsia, quietly = TRUE)
 ```
+
 
 ## Data
 The package includes an example data set with discharge time series as well as temperature and precipitation time series from the runoff formation zone of the Chirchiq river basin. 
@@ -60,7 +62,8 @@ In summary, the functions can be grouped into:
 * Pre- and post-processing of data for hydrolgical modelling with RS Minerve  
 * Glacier modelling tools  
 
-##
+## Acknowledgements
+This packages builds on previous work of R, RStudio and RS Minerve developers. It further relies on free data made available by publicly funded research. Open source R methods books and public forums inspired and supported the writing of the package.       
 
 
 
