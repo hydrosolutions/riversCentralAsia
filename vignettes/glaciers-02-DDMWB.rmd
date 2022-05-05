@@ -109,6 +109,8 @@ library(raster)
 library(exactextractr)
 library(tidyverse)
 library(lubridate)
+devtools::install_github("hydrosolutions/riversCentralAsia", 
+                         ref = "update_vignettes")
 library(riversCentralAsia)
 
 # Stochastic optimisation algorithm for model calibration
