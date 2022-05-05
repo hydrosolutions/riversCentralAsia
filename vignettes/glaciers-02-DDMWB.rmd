@@ -1,5 +1,5 @@
 ---
-title: "Glaciers 02 - Temperature index model"
+title: "Glaciers 02 - Modelling discharge from glaciers"
 editor: visual
 bibliography: [references.bib, HMA_bibliography.bib]
 output: rmarkdown::html_vignette
@@ -262,7 +262,7 @@ tm_shape(dem, name = "DEM") +
   tm_scale_bar(position = c("right", "bottom"))
 ```
 
-The average annual contribution of glacier melt to river runoff is `r totQgl$Qgl_m3s` m3/s. The annual norm discharge at Atbashy gauging station is 16.6 m3/s which yields an average annual glacier contribution of about `r totQgl$Qgl_m3s/16.6*100` % which is reasonable given the high median altitude of the basin of `r quantile(dem)[3]` masl. 
+The average annual contribution of glacier melt to river runoff is `r totQgl$Qgl_m3s` m3/s. The annual norm discharge at Atbashy gauging station is 16.6 m3/s which yields an average annual glacier contribution of about `r totQgl$Qgl_m3s/16.6*100` % which is reasonable given the high median altitude of the basin of `r quantile(dem)[3]` masl.
 
 ## Forcing
 
@@ -475,9 +475,9 @@ The temperature index model can be calibrated with the specific glacier volume c
 
 ### Calibration of the temperature index model
 
-The 2 parameters of the temperature index model can be calibrated using observed glacier melt rates. As mentioned above, the observed glacier melt rates are simulated total ablation by @miles_health_2021 where available or estimated total ablation using an empirical relationship between total glacier ablation by @miles_health_2021 and glacier thinning rates by @hugonnet_accelerated_2021. 
+The 2 parameters of the temperature index model can be calibrated using observed glacier melt rates. As mentioned above, the observed glacier melt rates are simulated total ablation by @miles_health_2021 where available or estimated total ablation using an empirical relationship between total glacier ablation by @miles_health_2021 and glacier thinning rates by @hugonnet_accelerated_2021.
 
-```{r}
+```{r, eval=FALSE}
 DDFfit <- NULL
 for (id in c(1:length(glaciers))) {
   cat("Fitting temperature index model for glacier", glaciers[id], "\n")
@@ -508,8 +508,9 @@ save(DDFfit,
      file = "../../atbashy_glacier_demo_data/GLACIERS/TIparameters.RData")
 ```
 
-Recalculate glacier melt with calibrated parameters. 
-```{r}
+Recalculate glacier melt with calibrated parameters.
+
+```{r, eval=FALSE}
 melt_cal <- glacierMelt_TI(temperature = hist_obs |> 
                              dplyr::select(-date),
                            MF = DDFfit$MF[1],
@@ -570,7 +571,7 @@ ggplot() +
   theme_bw()
 ```
 
-The calibration is done using an R implementation of a genetic algorithm [@scrucca_ga_2013, @scrucca_extensions_2017]. The optimization is slow but it is necessary to use a global optimizer (`nlminb` of the stats package for example will not converge for all glaciers).   
+The calibration is done using an R implementation of a genetic algorithm [@scrucca_ga_2013, @scrucca_extensions_2017]. The optimization is slow but it is necessary to use a global optimizer (`nlminb` of the stats package for example will not converge for all glaciers).
 
 ## Glacier mass balance
 

@@ -4,7 +4,7 @@ editor: visual
 bibliography: [references.bib, HMA_bibliography.bib]
 output: rmarkdown::html_vignette
 vignette: >
-  %\VignetteIndexEntry{Glaciers 01 - Intro}
+  %\VignetteIndexEntry{Glaciers 01 - Introduction & Data}
   %\VignetteEngine{knitr::rmarkdown}
   %\VignetteEncoding{UTF-8}
 ---
@@ -169,15 +169,15 @@ $$
 V = a \cdot A^{b}
 $$
 
-With $a=0.027$ and $b=1.5$. Using the RGI v6.0 glacier outlines of region 13 (Central Asia) and the glacier thickness data set by @farinotti_consensus_2019, the volume of each glacier can be estimated and the area-volume scaling by @erasov_1968 can be validated (see [CAHAM book](<https://hydrosolutions.github.io/caham_book/glacier_modeling.html#glacier-area-volume-scaling>){target="_blank"}). While the relationship derived by Erasov is still valid for  glaciers below 20 km2, it may overestimate the glacier volume of larger glaciers. Using the novel data, the parameters of the empirical scaling function derived by @erasov_1968 can be updated to $a=0.0388$ and $b=1.262$ to form what we call the RGIF scaling relationship. 
+With $a=0.027$ and $b=1.5$. Using the RGI v6.0 glacier outlines of region 13 (Central Asia) and the glacier thickness data set by @farinotti_consensus_2019, the volume of each glacier can be estimated and the area-volume scaling by @erasov_1968 can be validated (see [CAHAM book](https://hydrosolutions.github.io/caham_book/glacier_modeling.html#glacier-area-volume-scaling){target="_blank"}). While the relationship derived by Erasov is still valid for glaciers below 20 km2, it may overestimate the glacier volume of larger glaciers. Using the novel data, the parameters of the empirical scaling function derived by @erasov_1968 can be updated to $a=0.0388$ and $b=1.262$ to form what we call the RGIF scaling relationship.
 
-The scaling relationship can be inverted to derive glacier areas based on glacier volumes as: 
+The scaling relationship can be inverted to derive glacier areas based on glacier volumes as:
 
 $$
 A=\exp{\left(\frac{\left(\log{V} - \log{a}\right)}{b}\right)}
 $$
 
-The package `riversCentralAsia` implements the area-volume scaling and the volume-area scaling with parameter sets from Erasov and derived from @rgi60 and @farinotti_consensus_2019 in the functions `glacierArea_Erasov()`, `glacierArea_RGIF()`, `glacierVolume_Erasov()` and `glacierVolume_RGIF()`.  
+The package `riversCentralAsia` implements the area-volume scaling and the volume-area scaling with parameter sets from Erasov and derived from @rgi60 and @farinotti_consensus_2019 in the functions `glacierArea_Erasov()`, `glacierArea_RGIF()`, `glacierVolume_Erasov()` and `glacierVolume_RGIF()`.
 
 ## Glacier thinning rates
 
@@ -280,9 +280,9 @@ tm_shape(dem, name = "DEM") +
   tm_scale_bar(position = c("right", "bottom"))
 ```
 
-For most hydrological applications, the interest lies on the glacier discharge, i.e. total ablation from glaciers. Despite their large uncertainties, the simulation results by @miles_health_2021 give us an estimate for glacier melt that we can use to calibrate the simpler temperature index models for glacier melt. However, total Ablation is only available for larger glaciers. Contrary to the glacier elevation change rates which are available for all glaciers in the RGI data set. Unfortunately, the relationship between total glacier ablation and glacier elevation change rates is non-linear and not well defined. Nevertheless, it is one more method to estimate glacier contribution to river discharge (apart from long term average glacier mass balance estimates). It is thus possible to estimate total glacier discharge even for glaciers where model results from @miles_health_2021 are not available. 
+For most hydrological applications, the interest lies on the glacier discharge, i.e. total ablation from glaciers. Despite their large uncertainties, the simulation results by @miles_health_2021 give us an estimate for glacier melt that we can use to calibrate the simpler temperature index models for glacier melt. However, total Ablation is only available for larger glaciers. Contrary to the glacier elevation change rates which are available for all glaciers in the RGI data set. Unfortunately, the relationship between total glacier ablation and glacier elevation change rates is non-linear and not well defined. Nevertheless, it is one more method to estimate glacier contribution to river discharge (apart from long term average glacier mass balance estimates). It is thus possible to estimate total glacier discharge even for glaciers where model results from @miles_health_2021 are not available.
 
-The derivation of the scaling relationship between glacier elevation change and total ablation is given in the [CAHAM book](https://hydrosolutions.github.io/caham_book/glacier_modeling.html#glacier-discharge-thinning-scaling){target="_blank"}. It is implemented in the function `glacierDischarge_HM()`. 
+The derivation of the scaling relationship between glacier elevation change and total ablation is given in the [CAHAM book](https://hydrosolutions.github.io/caham_book/glacier_modeling.html#glacier-discharge-thinning-scaling){target="_blank"}. It is implemented in the function `glacierDischarge_HM()`.
 
 ## A note on the uncertainties of glacier data sets
 

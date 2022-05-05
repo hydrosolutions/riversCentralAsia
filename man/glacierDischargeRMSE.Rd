@@ -9,7 +9,7 @@ glacierDischargeRMSE(
   parameters,
   temperature,
   observed,
-  index = 1:(dim(observed)[2] - 1)
+  index = 1:(length(unique(observed$RGIID)))
 )
 }
 \arguments{
