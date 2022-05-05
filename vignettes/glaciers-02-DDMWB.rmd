@@ -488,7 +488,8 @@ for (id in c(1:length(glaciers))) {
                temperature = hist_obs,
                observed = observed_melt |> 
                  rename(RGIID = RGIId, 
-                        totAbl = Qgl_m3a),
+                        totAbl = Qgl_m3a, 
+                        year = start),
                index = id,
                lower = c(0.1, -30), upper = c(50, 10), 
                parallel = TRUE)

@@ -85,6 +85,10 @@ glacierDischargeRMSE <- function(parameters, temperature, observed,
 
   if ("year" %in% colnames(observed)) {
     annual_observations = TRUE
+    # Test if year is an integer or in a date format
+    if (class(observed$year) == "Date") {
+      observed <- dplyr::mutate(observed, year = lubridate::year(year))
+    }
   } else {
     annual_observations = FALSE
   }
