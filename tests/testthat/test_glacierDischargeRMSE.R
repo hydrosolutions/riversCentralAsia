@@ -1,6 +1,117 @@
+test_that("glacierDischargeRSME can handle a time series of observed discharge", {
 
+  parameters_daily <- c(2, 0)
+  parameters_annual <- c(20, -10)
+  dates <- seq(as.Date("2000-01-01"), as.Date("2003-12-31"), 1)
+  years <- unique(lubridate::year(dates))
+  temperature <- tibble::tibble(date = dates,
+                                "RGI60-13.00001_1" = 1:length(dates)*0-5,
+                                "RGI60-13.00002_1" = 1:length(dates)*0+5,
+                                "RGI60-13.00002_2" = 1:length(dates)*0+1)
+  miles_annual <- tibble::tibble(RGIID = rep(c("RGI60-13.00001", "RGI60-13.00002"),
+                                             each = length(years)),
+                          year = c(years, years),
+                          totAbl = rep(c(0.5*10^6, 10^6), each = length(years)),
+                          Area_m2 = rep(c(10^6, 2*10^6), each = length(years)))
+  miles_average <- tibble::tibble(RGIID = c("RGI60-13.00001", "RGI60-13.00002"),
+                                  totAbl = c(0.5*10^6, 10^6),
+                                  Area_m2 = c(10^6, 2*10^6))
 
-test_that("glacierRSME works as expected", {
+  rmse_annualobs <- glacierDischargeRMSE(
+    parameters = parameters_daily,
+    temperature = temperature,
+    observed = miles_annual)
+
+  rmse_averageobs <- glacierDischargeRMSE(
+    parameters = parameters_daily,
+    temperature = temperature,
+    observed = miles_average)
+
+  rmse_annual_annualobs <- glacierDischargeRMSE(
+    parameters = parameters_annual,
+    temperature = temperature |>
+      dplyr::mutate(year = lubridate::year(date)) |>
+      dplyr::select(-date) |>
+      dplyr::group_by(year) |>
+      dplyr::summarise(dplyr::across(dplyr::starts_with("RGI"), mean)) |>
+      dplyr::ungroup(),
+    observed = miles_annual)
+
+  rmse_annual_averageobs <- glacierDischargeRMSE(
+    parameters = parameters_annual,
+    temperature = temperature |>
+      dplyr::mutate(year = lubridate::year(date)) |>
+      dplyr::select(-date) |>
+      dplyr::group_by(year) |>
+      dplyr::summarise(dplyr::across(dplyr::starts_with("RGI"), mean)) |>
+      dplyr::ungroup(),
+    observed = miles_average)
+
+  expect_equal(rmse_averageobs[1], -500)
+  expect_equal(rmse_annualobs[1], -1000)
+  expect_equal(rmse_annual_averageobs[1], -400)
+  expect_equal(rmse_annual_annualobs[1], -800)
+})
+
+test_that("glacierDischargeRSME can handle both daily and annual temperature input", {
+
+  parameters_daily <- c(2, 0)
+  parameters_annual <- c(20, -10)
+  dates <- seq(as.Date("2000-01-01"), as.Date("2003-12-31"), 1)
+  temperature <- tibble::tibble(date = dates,
+                                "RGI60-13.00001_1" = 1:length(dates)*0-5,
+                                "RGI60-13.00002_1" = 1:length(dates)*0+5,
+                                "RGI60-13.00002_2" = 1:length(dates)*0+1)
+  miles <- tibble::tibble(RGIID = c("RGI60-13.00001", "RGI60-13.00002"),
+                          totAbl = c(0.5*10^6, 10^6),
+                          Area_m2 = c(10^6, 2*10^6))
+  rmse_daily <- glacierDischargeRMSE(
+    parameters = parameters_daily,
+    temperature = temperature,
+    observed = miles,
+    index = 1)
+  rmse_annual <- glacierDischargeRMSE(
+    parameters = parameters_annual,
+    temperature = temperature |>
+      dplyr::mutate(year = lubridate::year(date)) |>
+      dplyr::select(-date) |>
+      dplyr::group_by(year) |>
+      dplyr::summarise(dplyr::across(dplyr::starts_with("RGI"), mean)) |>
+      dplyr::ungroup(),
+    observed = miles,
+    index = 1)
+
+  # Calculate melt
+  melt <- glacierMelt_TI(temperature = temperature |>
+                           dplyr::select(-.data$date),
+                         MF = as.numeric(parameters_daily[1]),
+                         threshold_temperature = as.numeric(parameters_daily[2]))
+
+  # reformat and compare to observed melt
+  cal <- melt |>
+    tibble::as_tibble() |>
+    dplyr::mutate(year = lubridate::year(temperature$date)) |>
+    tidyr::pivot_longer(-.data$year, names_to = "ID", values_to = "melt_mma") |>
+    dplyr::group_by(year, ID) |>
+    dplyr::summarise(melt_mma = sum(melt_mma)) |>
+    dplyr::ungroup() |>
+    tidyr::separate(.data$ID, into = c("RGIId", "layer"), sep = "_") |>
+    dplyr::group_by(RGIId) |>
+    dplyr::summarise(melt_mma = mean(melt_mma)) |>
+    dplyr::ungroup() |>
+    dplyr::left_join(miles |> dplyr::select(RGIID, totAbl, Area_m2),
+                     by = c("RGIId" = "RGIID")) |>
+    dplyr::mutate(totAbl = totAbl / Area_m2 * 10^3) |>  # to mm/a
+    tidyr::drop_na() |>
+    dplyr::group_by(RGIId) |>
+    dplyr::summarise(rsme =sqrt(sum((.data$melt_mma - .data$totAbl)^2)))
+
+  expect_equal(rmse_annual, -400)
+  expect_lte(rmse_daily - (-1)*cal$rsme[1], 10^(-3))
+
+})
+
+test_that("glacierDischargeRSME works as expected for annual temperature input", {
 
   parameters <- c(20, -10)
   temperature <- tibble::tibble(year = 2001:2010,
@@ -13,7 +124,7 @@ test_that("glacierRSME works as expected", {
   rmse <- glacierDischargeRMSE(
     parameters = parameters,
     temperature = temperature,
-    miles = miles,
+    observed = miles,
     index = 1)
 
   # Calculate melt
@@ -28,18 +139,21 @@ test_that("glacierRSME works as expected", {
     dplyr::mutate(year = temperature$year) |>
     tidyr::pivot_longer(-.data$year, names_to = "ID", values_to = "melt_mma") |>
     tidyr::separate(.data$ID, into = c("RGIId", "layer"), sep = "_") |>
+    dplyr::group_by(RGIId, layer) |>
+    dplyr::summarise(melt_mma = mean(melt_mma)) |>
+    dplyr::ungroup() |>
     dplyr::left_join(miles |> dplyr::select(RGIID, totAbl, Area_m2),
                      by = c("RGIId" = "RGIID")) |>
-    tidyr::drop_na() |>
     dplyr::mutate(totAbl = totAbl / Area_m2 * 10^3) |>  # to mm/a
+    tidyr::drop_na() |>
     dplyr::group_by(RGIId) |>
     dplyr::summarise(rsme =sqrt(sum((.data$melt_mma - .data$totAbl)^2)))
 
-  expect_lte(rmse, cal$rsme[1])
+  expect_lte(rmse - (-1)*cal$rsme[1], 10^(-3))
 
 })
 
-test_that("Default index works as expected", {
+test_that("Default index works as expected for annual temperature input", {
 
   parameters <- c(1, 0)
   temperature <- tibble::tibble(year = 2001:2010,
@@ -52,7 +166,7 @@ test_that("Default index works as expected", {
   rmse <- glacierDischargeRMSE(
     parameters = parameters,
     temperature = temperature,
-    miles = miles)
+    observed = miles)
 
   expect_equal(length(rmse), 2)
 

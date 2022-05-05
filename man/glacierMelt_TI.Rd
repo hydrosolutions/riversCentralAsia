@@ -47,12 +47,16 @@ MF <- temperature[1, ] * 0 + 1:number_of_glaciers
 # 1 degree Celcius.
 melt <- glacierMelt_TI(temperature, MF, threshold_temperature = 1)
 }
+\references{
+Hock R., 2003. DOI: 10.1016/S0022-1694(03)00257-9.
+}
 \seealso{
 Other glacier functions: 
 \code{\link{glacierArea_Erasov}()},
 \code{\link{glacierArea_RGIF}()},
 \code{\link{glacierBalanceP}()},
 \code{\link{glacierBalance}()},
+\code{\link{glacierDischargeRMSE}()},
 \code{\link{glacierDischarge_HM}()},
 \code{\link{glacierImbalAbl}()},
 \code{\link{glacierRMSE}()},

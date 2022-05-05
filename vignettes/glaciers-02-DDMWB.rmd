@@ -5,10 +5,20 @@ bibliography: [references.bib, HMA_bibliography.bib]
 output: rmarkdown::html_vignette
 fig_caption: yes
 vignette: >
-  %\VignetteIndexEntry{Glaciers 02 - Temperature index model}
+  %\VignetteIndexEntry{Glaciers 02 - Modelling discharge from glaciers}
   %\VignetteEngine{knitr::rmarkdown}
   %\VignetteEncoding{UTF-8}
 ---
+
+# Glacier mass balance
+
+We simplify the glacier mass balance to the following equation
+
+$$
+\Delta S = P-M = A_{imbal}
+$$
+
+where the change of water storage ($\Delta S$) is equal to the precipitation ($P$, assumed solid) minus the glacier melt ($M$). Typically melt excesses precipitation and we have negative imbalance ablation, indicating glacier storage loss. The glacier mass balance is calculated in annual time steps. We thereby refer to the hydrological year starting on October 1st of the previous year to take a full accumulation and ablation season into account.
 
 # Temperature index model
 
@@ -22,16 +32,6 @@ f_{M} \cdot \left( T - T_{threshold} \right), & T >= T_{threshold}
 $$
 
 where $M$ is the glacier melt in $mm/d$, $T$ is the daily average temperature in $^{\circ} C$. The two parameters $f_{M}$ and $T_{\text{threshold}}$ refer to the melt factor and the threshold temperature above which glacier melt occurs and need to be calibrated. They have the units $\frac{mm}{^{\circ} C \cdot d}$ and $^{\circ} C$ respectively. Glacier melt is calculated in daily time steps.
-
-# Glacier mass balance
-
-We simplify the glacier mass balance to the following equation
-
-$$
-\Delta S = P-M = A_{imbal}
-$$
-
-where the change of water storage ($\Delta S$) is equal to the precipitation ($P$, assumed solid) minus the glacier melt ($M$). Typically melt excesses precipitation and we have negative imbalance ablation, indicating glacier storage loss. The glacier mass balance is calculated in annual time steps. We thereby refer to the hydrological year starting on October 1st of the previous year to take a full accumulation and ablation season into account.
 
 # Glacier volume development
 
@@ -63,7 +63,7 @@ The function \code{glacierImbalAbl} is an empirical scaling function relating gl
 
 The initial glacier volume of each glacier is attributed an uncertainty of p/m 26%. This number is based on the average uncertainty of the glacier volume per RGI region reported in @farinotti_consensus_2019 (Table 1). The error is the same for RGI regions 13 and 14. The uncertainty of the area of the RGI v6.0 glacier outlines is not known. We therefore assume that the error of the glacier volume stems to 50% from the estimation of the glacier thickness and to 50% from the glacier area. We further assume that the errors of the glacier area and glacier thickness are un-correlated and can thus estimate the uncertainties of the glacier area data and the glacier thickness data to be p/m 13% each.
 
-For the non-linear relationships \code{glacierVolume_RGIF} and \code{glacierArea_RGIF}, the standard deviation of the residuals of the fit was computed. The estimated error of the fit is assumed to be equal plus/minus twice the standard deviation of the residuals and yields 31% and 53% respectively. The residuals are not normally distributed, their actual distribution in unknown. We assume uncorrelated errors and therefore add the error of the function input to the error of the fit to obtain the error of the function output.
+For the non-linear relationships \code{glacierVolume_RGIF} and \code{glacierArea_RGIF}, the standard deviation of the residuals of the fit was computed. The estimated error of the fit is assumed to be equal plus/minus twice the standard deviation of the residuals and yields 31% and 53% respectively. The residuals are not normally distributed and their actual distribution in unknown. Nevertheless, we apply the principles of linear error propagation for the sake of simplicity. We assume uncorrelated errors and therefore add the error of the function input to the error of the fit to obtain the error of the function output.
 
 $$
 \varepsilon_{V} = \varepsilon_{A} + \varepsilon_{\text{glacierVolume_RGIF}} = 0.26 + 0.31 = 0.57
@@ -73,7 +73,7 @@ $$
 \varepsilon_{A} = \varepsilon_{V} + \varepsilon_{\text{glacierArea_RGIF}} = 0.26 + 0.53 = 0.79
 $$
 
-We do not have an estimate for the error of the temperature index model. We assume a relative error of 2, indicating that the estimated glacier melt is within a range of plus/minus 2 times it's value.
+We do not have an estimate for the error of the temperature index model. We assume a conservative relative error of 2, indicating that the estimated glacier melt is within a range of plus/minus 2 times it's value.
 
 The error of the imbalance ablation amounts to 73%. Assuming independent errors from the temperature index model for glacier melt and the scaling function between imbalance ablation and glacier melt, the error of the imbalance ablation amounts to approximately:
 
@@ -92,52 +92,212 @@ error_stats = tibble::tibble(
   sMelt = 2,  # Glacier melt
   sVolumeRGIF = 0.31,  # Calculating glacier volume from glacier area
   sAreaRGIF = 0.53,  # Calculating glacier area from glacier volume
-  sImbal = 0.73)  # Calculating glacier imbalance ablation from glacier melt
+  sImbal = 0.73,  # Calculating glacier imbalance ablation from glacier melt
+  sQglgrowth = 1.6,  # Calculating total ablation from glacier thinning  
+  sQglmelt = 1.6)  
 ```
 
 # Demonstration
 
-We demonstrate the above described method with the data from the Atbashy basin. As for the [previous chapter](glaciers-01-intro.html) you can download all required data from [this link](https://www.dropbox.com/sh/r0lqggc77ka0uxd/AAChuIyLHHFIfAdgxNKiU2dpa?dl=1){target="_blank"}.
+We demonstrate the above described method with the data from the Atbashy basin, a tributary of the Naryn river. As for the [previous chapter](glaciers-01-intro.html) you can download all required data from [this link](https://www.dropbox.com/sh/r0lqggc77ka0uxd/AAChuIyLHHFIfAdgxNKiU2dpa?dl=1){target="_blank"}.
 
 ```{r, datarefpath, message=FALSE, warning=FALSE}
 library(tmap)
+library(timetk)
 library(sf)
 library(raster)
 library(exactextractr)
 library(tidyverse)
 library(lubridate)
+
+devtools::install_github("hydrosolutions/riversCentralAsia", 
+                         ref = "update_vignettes")
 library(riversCentralAsia)
+
+# Stochastic optimisation algorithm for model calibration
+library(GA)
 
 # Path to the data directory downloaded from the download link provided above. 
 # Here the data is extracted to a folder called atbashy_glacier_demo_data
 data_path <- "../../atbashy_glacier_demo_data/"
 ```
 
+## Spatial discretization
+
+Glacier melt is calculated on elevation bands. The following code chunks show how to derive elevation bands on glaciers.
+
+TODO!
+
+```{r}
+
+```
+
+Below figure shows the division of the larger glaciers into elevation bands. Glaciers smaller than 1 km2 are not sub-divided to limit the use of computational resources. The area threshold of 1 km2 is arbitrary but similar area thresholds have been used in the literature (e.g. @miles_health_2021).
+
+```{r fig-elevationbands, message=FALSE, warning=FALSE, fig.cap = "Glacier elevation bands produced with the function gen_basinElevationBands(). ", out.width="90%"}
+# Load data
+## Digital elevation model (DEM)
+dem <- raster(paste0(data_path, "GIS/16076_DEM.tif"))
+
+## Glacier outlines from the Randolph Glacier Inventory (RGI) v6.0 
+rgi <- st_read(paste0(data_path, "GIS/16076_Glaciers_per_subbasin.shp"), 
+               quiet = TRUE) |> 
+  st_transform(crs = crs(dem))
+
+## Outlines of hydrological response units for the modelling of glacier discharge.  
+rgi_elbands <- st_read(paste0(data_path, 
+                              "GIS/rgi_glaciers_atbaschy_el_bands.shp"), 
+               quiet = TRUE) |> 
+  st_transform(crs = crs(dem))
+
+# Load a pre-processed raster file with glacier thickness in the Atbashy basin
+# (see vignette [glaciers 01]{glaciers-01-intro.html} for details on the pre
+# -processing)
+glacier_thickness <- raster(
+  paste0(data_path, 
+  "GLACIERS/Farinotti/pre-processed_glacier_thickness.tif"))
+
+
+# Only keep the variables we need for this analysis
+rgi_elbands <- rgi_elbands |> 
+  dplyr::select(RGIId, Area, elvtn_b) |> 
+  rename(Area_tot_glacier_km2 = Area) |> 
+  mutate(ID = paste0(RGIId, "_", elvtn_b)) 
+
+# Get mean elevation of each glacier/elevation band from DEM
+rgi_elbands$z_masl <- exact_extract(dem, rgi_elbands, "mean", progress = FALSE)
+
+# Update the glacier area within the basin boundaries
+rgi_elbands$A_km2 <- as.numeric(st_area(rgi_elbands))*10^(-6)
+glaciers <- unique(rgi_elbands$RGIId)
+
+# Calculate the average glacier thickness for each elevation band. 
+rgi_elbands$thickness_m = exact_extract(glacier_thickness, 
+                                        rgi_elbands, "mean", progress = FALSE)
+rgi_elbands$thickness_m[is.na(rgi_elbands$thickness_m)] <- 0
+
+tmap_mode("view")
+tm_shape(dem, name = "DEM") +
+  tm_raster(n = 6, 
+            palette = terrain.colors(6),
+            alpha = 0.4,
+            legend.show = TRUE, 
+            title = "Elevation DEM (masl)") + 
+  tm_shape(rgi, name = "RGI v6.0") + 
+  tm_borders(col = "gray", lwd = 0.4) + 
+  tm_shape(rgi_elbands, name = "Elevation bands") + 
+  tm_polygons(col = "elvtn_b", n = length(unique(rgi_elbands$elvtn_b)), 
+              palette = "Blues", 
+              lwd = 0.2, alpha = 0.8, title = "Elevation band ID") + 
+  tm_scale_bar(position = c("right", "bottom")) 
+```
+
+## Observed glacier melt
+
+Observed average glacier thinning rates by @hugonnet_accelerated_2021 are shown in the figure below. 30 out of 135 glaciers in the Atbashy basin show increase of glacier thickness between 2000 and 2020.
+
+```{r fig-observedmelt, message=FALSE, warning=FALSE, fig.cap = "Average glacier thickness in each elevation band. Glacier thinning rates data from Hugonnet et al., 2021", out.width="90%"}
+
+# Load the glacier thinning data set and filter it to the glaciers in the 
+# catchment of interest.  
+hugonnet <- read_csv(paste0(
+  data_path, "/GLACIERS/Hugonnet/dh_13_rgi60_pergla_rates.csv"), 
+  show_col_types = FALSE)
+hugonnet <- hugonnet |> 
+  dplyr::filter(rgiid %in% rgi$RGIId) |> 
+  tidyr::separate(period, c("start", "end"), sep = "_") |> 
+  mutate(start = as_date(start, format = "%Y-%m-%d"), 
+         end = as_date(end, format = "%Y-%m-%d"), 
+         period = round(as.numeric(end - start, units = "days")/366))
+glaciers_hugonnet <- rgi |> 
+  left_join(hugonnet |> dplyr::select(rgiid, area, start, end, dhdt, err_dhdt, 
+                                      dvoldt, err_dvoldt, dmdt, err_dmdt, 
+                                      dmdtda, err_dmdtda, period),  
+            by = c("RGIId" = "rgiid")) 
+
+# Add glacier discharge by Miles et al.
+miles <- read_delim(paste0(data_path,
+                           "GLACIERS/Miles/Miles2021_Glaciers_summarytable_20210721.csv"),
+                    show_col_types = FALSE, delim = ",") |> 
+  dplyr::filter(RGIID %in% rgi$RGIId & VALID == 1)
+
+glaciers_hugonnet <- glaciers_hugonnet |> 
+  left_join(miles |> dplyr::select(RGIID, totAbl, totAblsig, imbalAbl, 
+                                   imbalAblsig), 
+            by = c("RGIId" = "RGIID")) |> 
+  mutate(Qgl_m3a = ifelse(is.na(totAbl), glacierDischarge_HM(dhdt), -totAbl))
+
+observed_melt <- glaciers_hugonnet |> 
+  st_drop_geometry() |>
+  dplyr::filter(period == 1) |> 
+  dplyr::select(RGIId, start, dhdt, Qgl_m3a, Area) |> 
+  mutate(Area_m2 = Area * 10^6) |> 
+  dplyr::select(-Area) |> 
+  distinct()
+
+totQgl <- glaciers_hugonnet |> 
+  st_drop_geometry() |> 
+  dplyr::filter(period == 20) |> 
+  mutate(Qgl_m3a = ifelse(Qgl_m3a < 0, 0, Qgl_m3a), 
+         dVweqda_m3a = ifelse(dmdtda<0, -dmdtda, 0) * area) |> 
+  summarise(Qgl_m3a = sum(Qgl_m3a), 
+            dVweqda_m3a = sum(dVweqda_m3a)) |> 
+  transmute(Qgl_mcma = Qgl_m3a * 10^(-6), 
+            Qgl_m3s = Qgl_m3a / (60*60*24*365), 
+            dVweqda_mcma = dVweqda_m3a * 10^(-6), 
+            dVweqda_m3s = dVweqda_m3a / (60*60*24*365))
+
+tmap_mode("view")
+tm_shape(dem, name = "DEM") + 
+  tm_raster(n = 6, 
+            palette = terrain.colors(6),
+            alpha = 0.8,
+            legend.show = TRUE, 
+            title = "Elevation (masl)") + 
+  tm_shape(glaciers_hugonnet |> dplyr::filter(period == 20) |> 
+             mutate(Qgl_mcma = Qgl_m3a * 10^(-6)), 
+           name = "Glacier discharge\n[10^6 m3/a]") + 
+  tm_polygons(col = "Qgl_mcma", lwd = 0.4, 
+              title = "Qgl (10^6 m3/a)") + 
+  tm_scale_bar(position = c("right", "bottom"))
+```
+
+The average annual contribution of glacier melt to river runoff is `r totQgl$Qgl_m3s` m3/s. The annual norm discharge at Atbashy gauging station is 16.6 m3/s which yields an average annual glacier contribution of about `r totQgl$Qgl_m3s/16.6*100` % which is reasonable given the high median altitude of the basin of `r quantile(dem)[3]` masl. 
+
 ## Forcing
 
-There will be a separate Vignette to demonstrate how to prepare the forcing. For now, we provide you with the pre-processed forcing data and give you just a brief overview over the data source.
+There will be a separate Vignette to demonstrate how to prepare the forcing. The methodology is described in the [CAHAM book](https://hydrosolutions.github.io/caham_book/climate_data.html){target="_blank"}. For now, we provide you with the pre-processed forcing data and give you just a brief overview over the data source. We have sub-divided the glaciers into elevation bands to be able to reproduce the elevation-dependent temperature forcing on the glacier.
 
 ### Historical temperatures
 
 As meteorological data for high elevations in Central Asia is very scarce we use the CHELSA v2.1 data set [@karger_climatologies_2017]. This is a global data set of forcing data for hydrolgical models based on ERA5 but corrected for biases and especially suited for high elevations. The daily CHELSA forcing has been cut to the Central Region by the originator of the data set, D. Karger, WSL and extracted to the hydrological response units of the glaciers in the Atbashy basin by T. Siegfried.
 
-```{r, histobs, message=FALSE, warning=FALSE, fig.cap = "Daily temperature time series of a glacier. Data source: CHELSA v2.1.", out.width="90%"}
+```{r histobs, message=FALSE, warning=FALSE, fig.cap = "Daily temperature time series of the lowest, a middle-elevation and the highest elevation band of glacier RGI60-13.08930 in the Atbashy basin. Data source: CHELSA v2.1.", out.width="90%"}
 
 hist_obs <- readRDS(file = paste0(data_path, "CLIMATE/hist_obs_glacier_tas.rds"))
 
 # Plot the temperature time series for a given glacier/elevation band
-glacier <- "RGI60-13.08930_1"
-ggplot(hist_obs) + 
-  geom_line(aes(date, get(glacier))) + 
-  labs(x = "Date", y = "T [deg C]", title = glacier) +
-  theme_bw()
+hist_obs[, c(1, 2, 5, 10)] |> 
+  pivot_longer(-date, names_to = "layer", values_to = "Temp_degC") |>
+  mutate(layer = as.numeric(gsub(pattern = "_", "", 
+                                 str_extract(layer, "_\\d$")))) |> 
+  plot_time_series(
+    .date_var = date, 
+    .value = Temp_degC, 
+    .color_var = layer, 
+    .color_lab = "El. band", 
+    .plotly_slider = TRUE, 
+    .smooth = FALSE, 
+    .line_size = 0.5
+  )
+
 ```
 
 ### Future temperatures
 
-Future temperature development per glacier or elevation band is extracted from the 3 CMIP6 GCM models with highest priorities for the region () downloaded from COPERNICUS. We take 4 socioeconomic scenarios into account, covering 4 different emission scenarios. The temperatures of the climate models are bias corrected using the CHELSA data and a quantile mapping method.
+Future temperature development per glacier or elevation band is extracted from the 3 CMIP6 GCM models with highest priorities for the region (TODO Add names and citations) downloaded from COPERNICUS. We take 4 socioeconomic scenarios into account, covering 4 different emission scenarios. The temperatures of the climate models are bias corrected using the CHELSA data and a quantile mapping method. @fig-futsim shows the development of the temperature in the lowest elevation band of glacier RGI60-13.08930 as an example.
 
-```{r futsim, message=FALSE, warning=FALSE, fig.cap = "Annual historical (CHELSA) and future (CMIP6, Copernicus) temperature for a glacier.", out.width="90%"}
+```{r fig-futsim, message=FALSE, warning=FALSE, fig.cap = "Annual historical (CHELSA) and future (CMIP6, Copernicus) temperature for the lowest elevation band of glacier RGI60-13.08930.", out.width="90%"}
 
 fut_sim <- readRDS(file = paste0(data_path, "CLIMATE/fut_sim_glacier_tas_qmapped.RDS"))
 
@@ -182,71 +342,7 @@ ggplot() +
 
 ## Calculate daily glacier melt
 
-### Glacier geometry
-
-```{r geometry, message=FALSE, warning=FALSE}
-# Load data
-## Digital elevation model (DEM)
-dem <- raster(paste0(data_path, "GIS/16076_DEM.tif"))
-
-## Glacier outlines from the Randolph Glacier Inventory (RGI) v6.0 
-rgi <- st_read(paste0(data_path, "GIS/16076_Glaciers_per_subbasin.shp"), 
-               quiet = TRUE) |> 
-  st_transform(crs = crs(dem))
-
-## Outlines of hydrological response units for the modelling of glacier discharge.  
-rgi_elbands <- st_read(paste0(data_path, 
-                              "GIS/rgi_glaciers_atbaschy_el_bands.shp"), 
-               quiet = TRUE) |> 
-  st_transform(crs = crs(dem))
-
-
-# Load a pre-processed raster file with glacier thickness in the Atbashy basin
-# (see vignette [glaciers 01]{glaciers-01-intro.html} for details on the pre
-# -processing)
-glacier_thickness <- raster(
-  paste0(data_path, 
-  "GLACIERS/Farinotti/pre-processed_glacier_thickness.tif"))
-
-# Load the glacier thickness data set and filter it to the glaciers in the 
-# catchment of interest.  
-hugonnet <- read_csv(paste0(
-  data_path, "/GLACIERS/Hugonnet/dh_13_rgi60_pergla_rates.csv"))
-hugonnet <- hugonnet |> 
-  dplyr::filter(rgiid %in% rgi$RGIId) |> 
-  tidyr::separate(period, c("start", "end"), sep = "_") |> 
-  mutate(start = as_date(start, format = "%Y-%m-%d"), 
-         end = as_date(end, format = "%Y-%m-%d"), 
-         period = round(as.numeric(end - start, units = "days")/366))
-glaciers_hugonnet <- rgi |> 
-  left_join(hugonnet |> dplyr::select(rgiid, area, start, end, dhdt, err_dhdt, 
-                                      dvoldt, err_dvoldt, dmdt, err_dmdt, 
-                                      dmdtda, err_dmdtda, period),  
-            by = c("RGIId" = "rgiid")) 
-
-# Only keep the variables we need for this analysis
-rgi_elbands <- rgi_elbands |> 
-  dplyr::select(RGIId, Area, elvtn_b) |> 
-  rename(Area_tot_glacier_km2 = Area) |> 
-  mutate(ID = paste0(RGIId, "_", elvtn_b))
-
-# Get mean elevation of each glacier/elevation band from DEM
-rgi_elbands$z_masl <- exact_extract(dem, rgi_elbands, "mean", progress = FALSE)
-
-# Update the glacier area within the basin boundaries
-rgi_elbands$A_km2 <- as.numeric(st_area(rgi_elbands))*10^(-6)
-glaciers <- unique(rgi_elbands$RGIId)
-
-# Calculate the average glacier thickness for each elevation band. 
-rgi_elbands$thickness_m = exact_extract(glacier_thickness, 
-                                        rgi_elbands, "mean", progress = FALSE)
-```
-
-### Forcing
-
-Temperature time series for each glacier/elevation band are available. Figure \ref{fig::temperature_elevation_bands} shows temperature time series extracted from the CHELSA data set on the example of one of the larger glaciers in the Atbashy basin. The data is aggregated to the hydrological year to better illustrate the temperature gradient over the elevation. The highest temperatures are measured at the lowest elevations and vice versa.
-
-```{r temperature_elevation_bands, message=FALSE, warning=FALSE, fig.cap = "Temperature forcing for the elevation bands of a glacier.", out.width="90%"}
+```{r temperature_elevation_bands, include=FALSE, message=FALSE, warning=FALSE, fig.cap = "Temperature forcing for the elevation bands of a glacier.", out.width="90%"}
 
 ggplot(hist_obs[, 1:9] |> 
          pivot_longer(-date, names_to = "ID", values_to = "Temp") |> 
@@ -266,15 +362,15 @@ ggplot(hist_obs[, 1:9] |>
   theme_bw()
 ```
 
-### Calculating glacier melt
-
-The code snippet below illustrates how to calculate the annual glacier melt of the catchment. The figure shows daily melt rates for the different elevation bands of one of the larger glaciers (same as in the figure above). The highest melt occurs at low elevation bands.
+The code snippet below illustrates how to calculate the daily glacier melt in a river catchment with default parameters for the temperature index model. The figure shows daily melt rates for the different elevation bands of one of the larger glaciers (RGI60-13.08930). The highest melt occurs at low elevation bands. Glacier melt only occurs during the summer months when the average daily temperature is above the threshold temperature for glacier melt.
 
 ```{r glaciermeltcalculation, message=FALSE, warning=FALSE, fig.cap = "Daily glacier melt per elevation band.", out.width="90%"}
 
-MF_small = 1
-MF_large = 0.5
-threshold_temperature = 0
+# Default parameters of the temperature index model for glacier melt. 
+MF_small = 2  # Melt coefficient for small glaciers (smaller than 1km2)
+MF_large = 0.1  # Melt coefficient for large glaciers (larger or equal than 1km2)
+threshold_temperature = 0  # Default temperature threshold for glacier melt 
+
 Area <- rgi_elbands |> 
   st_drop_geometry() |> 
   dplyr::select(ID, A_km2) |> 
@@ -296,8 +392,8 @@ ggplot(melt[, 1:9] |>
          left_join(rgi_elbands |> 
                      st_drop_geometry() |> 
                      dplyr::select(ID, z_masl), by = "ID") |> 
-         mutate("Elevation [masl]" = as.factor(round(z_masl)))) + 
-  geom_line(aes(date, Melt, colour = `Elevation [masl]`)) + 
+         mutate("Mean\nelevation\n[masl]" = as.factor(round(z_masl)))) + 
+  geom_line(aes(date, Melt, colour = `Mean\nelevation\n[masl]`)) + 
   scale_colour_viridis_d() + 
   labs(x = "Date", y = "Melt [mm/d]") + 
   theme_bw()
@@ -328,11 +424,17 @@ melt_a <- melt_a_eb |>
                               Melt*(1-error_stats$sMelt)), 
             .ub_Melt = Melt*(1+error_stats$sMelt)) |> 
   ungroup() |> 
-  dplyr::filter(Hyear > min(Hyear) & Hyear < max(Hyear))
+  dplyr::filter(Hyear > min(Hyear) & Hyear < max(Hyear)) |> 
+  left_join(rgi |> dplyr::select(RGIId, Area) |> st_drop_geometry(), 
+            by = "RGIId") |> 
+  # Assume constant glacier area over the comparison period. 
+  mutate(Qgl_m3a = Melt*10^(-3) * Area*10^6, 
+         .lb_Qgl_m3a = Qgl_m3a * (1-sqrt(error_stats$sMelt^2+error_stats$sA^2)),   
+         .lb_Qgl_m3a = ifelse(.lb_Qgl_m3a < 0, 0, .lb_Qgl_m3a), 
+         .ub_Qgl_m3a = Qgl_m3a * (1+sqrt(error_stats$sMelt^2+error_stats$sA^2)))
 
-glaciers_hugonnet <- glaciers_hugonnet |> 
-  mutate(Qgl_m3a = glacierDischarge_HM(dhdt), 
-         .lb_Qgl_m3a = ifelse(
+melt_obs_a <- observed_melt |> 
+  mutate(.lb_Qgl_m3a = ifelse(
            dhdt > 0, 
            ifelse(Qgl_m3a*(1-error_stats$sQglgrowth)<0, 0, 
                   Qgl_m3a*(1-error_stats$sQglgrowth)), 
@@ -341,26 +443,24 @@ glaciers_hugonnet <- glaciers_hugonnet |>
          .ub_Qgl_m3a = ifelse(dhdt > 0, 
                               Qgl_m3a*(1+error_stats$sQglgrowth), 
                               Qgl_m3a*(1+error_stats$sQglmelt)))
-melt_obs_a <- glaciers_hugonnet |> 
-  dplyr::filter(RGIId %in% glaciers[6:9], 
-                period == 1)
+melt_obs_a <- melt_obs_a |> 
+  dplyr::filter(RGIId %in% glaciers[6:9])
   
 ggplot() + 
   geom_ribbon(data = melt_a |> 
                 dplyr::filter(RGIId %in% glaciers[6:9]), 
-              aes(date, Melt/1000, ymin = .lb_Melt/1000, ymax = .ub_Melt/1000, 
-                  fill = RGIId), colour = NA, alpha = 0.2) + 
-  geom_ribbon(data = melt_obs_a |> 
-                dplyr::filter(RGIId %in% glaciers[6:9]), 
-              aes(start, -dmdtda, 
-                  ymin = -dmdtda-err_dmdtda, 
-                  ymax = -dmdtda+err_dmdtda, 
+              aes(date, Qgl_m3a, ymin = .lb_Qgl_m3a, ymax = .ub_Qgl_m3a, 
+                  fill = RGIId), colour = NA, alpha = 0.1) + 
+  geom_ribbon(data = melt_obs_a, 
+              aes(start, Qgl_m3a, 
+                  ymin = .lb_Qgl_m3a, 
+                  ymax = .ub_Qgl_m3a, 
                   colour = RGIId, linetype = "obs", fill = RGIId), 
-              size = 0.2, alpha = 0.2) + 
+              size = 0.2, alpha = 0.1) + 
   geom_line(data = melt_a |> 
               dplyr::filter(RGIId %in% glaciers[6:9]), 
-            aes(date, Melt/1000, colour = RGIId, linetype = "sim")) + 
-  geom_line(data = melt_obs_a, aes(start, -dmdtda, colour = RGIId, 
+            aes(date, Qgl_m3a, colour = RGIId, linetype = "sim")) + 
+  geom_line(data = melt_obs_a, aes(start, Qgl_m3a, colour = RGIId, 
                                    linetype = "obs")) + 
   labs(x = "Date", y = "Melt [m weq/a]") + 
   scale_linetype_manual(name = "Source", 
@@ -371,9 +471,108 @@ ggplot() +
   theme_bw()
 ```
 
-The temperature index model can be calibrated with the specific glacier volume change provided by @hugonnet_accelerated_2021 (see \ref{fig:glaciermeltcomparison}). However, the present implementation of the glacier model does not allow for growth of glaciers.
+The temperature index model can be calibrated with the specific glacier volume change provided by @hugonnet_accelerated_2021 (see \ref{fig:glaciermeltcomparison}).
 
-### Glacier mass balance
+### Calibration of the temperature index model
+
+The 2 parameters of the temperature index model can be calibrated using observed glacier melt rates. As mentioned above, the observed glacier melt rates are simulated total ablation by @miles_health_2021 where available or estimated total ablation using an empirical relationship between total glacier ablation by @miles_health_2021 and glacier thinning rates by @hugonnet_accelerated_2021. 
+
+```{r}
+DDFfit <- NULL
+for (id in c(1:length(glaciers))) {
+  cat("Fitting temperature index model for glacier", glaciers[id], "\n")
+  DDFtemp <- c(MF = 20, tth = -20)
+  cat("    Start Parameters: MF =", DDFtemp[1], "Tth =", DDFtemp[2], "\n")
+  
+  tempGA <- ga(type = "real-valued", 
+               fitness = glacierDischargeRMSE, 
+               temperature = hist_obs |> 
+                 mutate(date = as_date(date)),
+               observed = observed_melt |> 
+                 rename(RGIID = RGIId, 
+                        totAbl = Qgl_m3a, 
+                        year = start) |> 
+                 mutate(year = year(year)),
+               index = id,
+               lower = c(0.1, -30), upper = c(50, 10), 
+               parallel = (parallel::detectCores()-6))
+  
+  cat("    Result: RMSE = ", -tempGA@fitnessValue, "MF =", tempGA@solution[1], 
+      "Tth =", tempGA@solution[2], "\n")
+  DDFfit <- rbind(DDFfit, tibble(MF = tempGA@solution[1],
+                                Tth = tempGA@solution[2],
+                                rsme = tempGA@fitnessValue) |>
+                    mutate(ID = glaciers[id]))
+}
+save(DDFfit, 
+     file = "../../atbashy_glacier_demo_data/GLACIERS/TIparameters.RData")
+```
+
+Recalculate glacier melt with calibrated parameters. 
+```{r}
+melt_cal <- glacierMelt_TI(temperature = hist_obs |> 
+                             dplyr::select(-date),
+                           MF = DDFfit$MF[1],
+                           threshold_temperature = DDFfit$Tth[1]) |> 
+  mutate(date = hist_obs$date) |> 
+  relocate(date, .before =  where(is.numeric))
+
+melt_a_eb <- melt_cal |> 
+  pivot_longer(-date, names_to = "ID", values_to = "Melt") |> 
+  mutate(Hyear = hyear(date)) |> 
+  group_by(Hyear, ID) |> 
+  summarise(date = first(date), 
+            Melt = sum(Melt), 
+            .lb_Melt = ifelse(Melt*(1-error_stats$sMelt)<0, 0, 
+                              Melt*(1-error_stats$sMelt)), 
+            .ub_Melt = Melt*(1+error_stats$sMelt))|> 
+  ungroup() 
+melt_a <- melt_a_eb |> 
+  separate(ID, into = c("RGIId", "elB"), sep = "_") |> 
+  group_by(Hyear, RGIId) |> 
+  summarise(date = as_date(first(date)), 
+            Melt = sum(Melt), 
+            .lb_Melt = ifelse(Melt*(1-error_stats$sMelt)<0, 0, 
+                              Melt*(1-error_stats$sMelt)), 
+            .ub_Melt = Melt*(1+error_stats$sMelt)) |> 
+  ungroup() |> 
+  dplyr::filter(Hyear > min(Hyear) & Hyear < max(Hyear)) |> 
+  left_join(rgi |> dplyr::select(RGIId, Area) |> st_drop_geometry(), 
+            by = "RGIId") |> 
+  # Assume constant glacier area over the comparison period. 
+  mutate(Qgl_m3a = Melt*10^(-3) * Area*10^6, 
+         .lb_Qgl_m3a = Qgl_m3a * (1-sqrt(error_stats$sMelt^2+error_stats$sA^2)),   
+         .lb_Qgl_m3a = ifelse(.lb_Qgl_m3a < 0, 0, .lb_Qgl_m3a), 
+         .ub_Qgl_m3a = Qgl_m3a * (1+sqrt(error_stats$sMelt^2+error_stats$sA^2)))
+
+ggplot() + 
+  geom_ribbon(data = melt_a |> 
+                dplyr::filter(RGIId %in% glaciers[6:9]), 
+              aes(date, Qgl_m3a, ymin = .lb_Qgl_m3a, ymax = .ub_Qgl_m3a, 
+                  fill = RGIId), colour = NA, alpha = 0.1) + 
+  geom_ribbon(data = melt_obs_a, 
+              aes(start, Qgl_m3a, 
+                  ymin = .lb_Qgl_m3a, 
+                  ymax = .ub_Qgl_m3a, 
+                  colour = RGIId, linetype = "obs", fill = RGIId), 
+              size = 0.2, alpha = 0.1) + 
+  geom_line(data = melt_a |> 
+              dplyr::filter(RGIId %in% glaciers[6:9]), 
+            aes(date, Qgl_m3a, colour = RGIId, linetype = "sim")) + 
+  geom_line(data = melt_obs_a, aes(start, Qgl_m3a, colour = RGIId, 
+                                   linetype = "obs")) + 
+  labs(x = "Date", y = "Melt [m weq/a]") + 
+  scale_linetype_manual(name = "Source", 
+                        values = c("sim" = 1, "obs" = 2)) + 
+  scale_colour_viridis_d() + 
+  scale_fill_viridis_d() + 
+  ggtitle(paste0("MF: ", MF, "Tth: ", threshold_temperature)) + 
+  theme_bw()
+```
+
+The calibration is done using an R implementation of a genetic algorithm [@scrucca_ga_2013, @scrucca_extensions_2017]. The optimization is slow but it is necessary to use a global optimizer (`nlminb` of the stats package for example will not converge for all glaciers).   
+
+## Glacier mass balance
 
 The following figure shows the components of the glacier mass balance for a few glaciers in the Atbashy basin.
 

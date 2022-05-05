@@ -53,6 +53,7 @@ Other glacier functions:
 \code{\link{glacierArea_Erasov}()},
 \code{\link{glacierArea_RGIF}()},
 \code{\link{glacierBalanceP}()},
+\code{\link{glacierDischargeRMSE}()},
 \code{\link{glacierDischarge_HM}()},
 \code{\link{glacierImbalAbl}()},
 \code{\link{glacierMelt_TI}()},

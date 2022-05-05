@@ -1,6 +1,7 @@
 ---
 title: "Introduction to the package"
 output: rmarkdown::html_vignette
+bibliography: [references.bib, HMA_bibliography.bib]
 vignette: >
   %\VignetteIndexEntry{Introduction to the package}
   %\VignetteEngine{knitr::rmarkdown}
@@ -17,8 +18,58 @@ knitr::opts_knit$set(
 )
 ```
 
-```{r setup}
-library(riversCentralAsia)
+This package aims at streamlining pre-and post-processing of various types of data for hydrological modelling in Central Asia. It is under continuous development. 
+
+Several use-cases for the packages functionality are demonstrated in the CAHAM book [Modeling of Hydrological Systems in Semi-Arid Central Asia](https://hydrosolutions.github.io/caham_book/){target="_blank"}. 
+
+## Installation
+```{r, message=FALSE, warning=FALSE, error=FALSE}
+# install.packages("devtools")
+devtools::install_github("hydrosolutions/riversCentralAsia", 
+                         quiet = TRUE)
+library(riversCentralAsia, quietly = TRUE)
 ```
 
-This package aims at streamlining pre-and post-processing of various types of data for hydrological modelling in Central Asia. It is under continuous development. 
+
+## Data
+The package includes an example data set with discharge time series as well as temperature and precipitation time series from the runoff formation zone of the Chirchiq river basin. 
+```{r, warning=FALSE, message=FALSE, error=FALSE, out.width="100%"}
+library(riversCentralAsia, quietly = TRUE)
+library(tidyverse, quietly = TRUE)
+library(timetk, quietly = TRUE)
+ChirchikRiverBasin  # load data
+ChirchikRiverBasin |> 
+  filter(type == "Q", 
+         code %in% c("16279", "16290", "16298", "16300")) |> 
+  group_by(code, station, river) |> 
+  drop_na() |> 
+  plot_time_series(
+    date, data,
+    .interactive = TRUE,
+    .facet_ncol  = 2, 
+    .facet_collapse = TRUE, .facet_collapse_sep = " - ", 
+    .smooth      = FALSE, 
+    .y_lab = "Q [m3/s]")
+```
+
+## Tools
+The package `riversCentralAsia` includes a variety of functions to facilitate data pre- and post-processing for hydrological and hydraulic modelling with RS Minerve in Central Asia.    
+  
+[RS Minerve](https://crealp.ch/rs-minerve/){target="_blank"} is a free hydrological and hydraulic modelling software developed in Switzerland by CREALP and partners. 
+
+In summary, the functions can be grouped into:   
+* Reading and writing of input and output files of RS Minerve    
+* Pre- and post-processing of data for hydrolgical modelling with RS Minerve  
+* Glacier modelling tools  
+
+## Acknowledgements
+This packages builds on previous work of R, RStudio and RS Minerve developers. It further relies on free data made available by publicly funded research. Open source R methods books and public forums inspired and supported the writing of the package.       
+
+
+
+
+
+
+
+
+
