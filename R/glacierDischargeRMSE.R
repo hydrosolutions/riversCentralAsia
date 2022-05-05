@@ -23,9 +23,11 @@
 #'   indicating the (hydrological) year for which glacier melt is calculated.
 #'   The date column must be named ```date``` for sub-annual time steps or
 #'   ```year``` for annual time steps.
-#' @param observed A tibble with the yearly glacier melt data by Miles et al.
-#'   ```observed``` must contain the columns RGIID, totAbl and Area_m2. Further
-#'   columns are ignored.
+#' @param observed A tibble with the glacier melt data by Miles et al.
+#'   ```observed``` must contain the columns RGIID, totAbl and Area_m2. If a
+#'   column ```year``` is present, the algorithm assumes yearly data, else it
+#'   assumes that ```observed``` represents average data over the entire period
+#'   of the temperature time series.
 #' @param index (optional) number to indicate for which individual HRU the RMSE
 #'   should be returned. Defaults to all.
 #' @return -1*RMSE between observed glacier melt and glacier melt simulated with
@@ -81,6 +83,12 @@ glacierDischargeRMSE <- function(parameters, temperature, observed,
     }
   }
 
+  if ("year" %in% colnames(observed)) {
+    annual_observations = TRUE
+  } else {
+    annual_observations = FALSE
+  }
+
 
   # Calculate melt for sub-annual or annual time steps
   if (timestamp == "date") {
@@ -90,24 +98,47 @@ glacierDischargeRMSE <- function(parameters, temperature, observed,
                            MF = as.numeric(parameters[1]),
                            threshold_temperature = as.numeric(parameters[2]))
 
-    # Reformat and compare to observed melt
-    cal <- melt |>
-      tibble::as_tibble() |>
-      dplyr::mutate(year = lubridate::year(temperature$date)) |>
-      tidyr::pivot_longer(-.data$year, names_to = "ID", values_to = "melt_mma") |>
-      dplyr::group_by(year, ID) |>
-      dplyr::summarise(melt_mma = sum(melt_mma)) |>
-      dplyr::ungroup() |>
-      tidyr::separate(.data$ID, into = c("RGIId", "layer"), sep = "_") |>
-      dplyr::group_by(RGIId) |>
-      dplyr::summarise(melt_mma = mean(melt_mma)) |>
-      dplyr::ungroup() |>
-      dplyr::left_join(observed |> dplyr::select(RGIID, totAbl, Area_m2),
-                       by = c("RGIId" = "RGIID")) |>
-      dplyr::mutate(totAbl = totAbl / Area_m2 * 10^3) |>  # to mm/a
-      tidyr::drop_na() |>
-      dplyr::group_by(RGIId) |>
-      dplyr::summarise(rsme =sqrt(sum((.data$melt_mma - .data$totAbl)^2)))
+    if (annual_observations) {
+      # Reformat and compare to observed melt assuming annual observations
+      cal <- melt |>
+        tibble::as_tibble() |>
+        dplyr::mutate(year = lubridate::year(temperature$date)) |>
+        tidyr::pivot_longer(-.data$year, names_to = "ID", values_to = "melt_mma") |>
+        dplyr::group_by(year, ID) |>
+        dplyr::summarise(melt_mma = sum(melt_mma)) |>
+        dplyr::ungroup() |>
+        tidyr::separate(.data$ID, into = c("RGIId", "layer"), sep = "_") |>
+        dplyr::group_by(RGIId, year) |>
+        dplyr::summarise(melt_mma = mean(melt_mma)) |>
+        dplyr::ungroup() |>
+        dplyr::left_join(observed |> dplyr::select(RGIID, totAbl, Area_m2, year),
+                         by = c("RGIId" = "RGIID", "year" = "year")) |>
+        dplyr::mutate(totAbl = totAbl / Area_m2 * 10^3) |>  # to mm/a
+        tidyr::drop_na() |>
+        dplyr::group_by(RGIId) |>
+        dplyr::summarise(rsme =sqrt(sum((.data$melt_mma - .data$totAbl)^2)))
+
+    } else {
+      # Reformat and compare to observed melt assuming average observations
+      cal <- melt |>
+        tibble::as_tibble() |>
+        dplyr::mutate(year = lubridate::year(temperature$date)) |>
+        tidyr::pivot_longer(-.data$year, names_to = "ID", values_to = "melt_mma") |>
+        dplyr::group_by(year, ID) |>
+        dplyr::summarise(melt_mma = sum(melt_mma)) |>
+        dplyr::ungroup() |>
+        tidyr::separate(.data$ID, into = c("RGIId", "layer"), sep = "_") |>
+        dplyr::group_by(RGIId) |>
+        dplyr::summarise(melt_mma = mean(melt_mma)) |>
+        dplyr::ungroup() |>
+        dplyr::left_join(observed |> dplyr::select(RGIID, totAbl, Area_m2),
+                         by = c("RGIId" = "RGIID")) |>
+        dplyr::mutate(totAbl = totAbl / Area_m2 * 10^3) |>  # to mm/a
+        tidyr::drop_na() |>
+        dplyr::group_by(RGIId) |>
+        dplyr::summarise(rsme =sqrt(sum((.data$melt_mma - .data$totAbl)^2)))
+
+    }
 
   } else {
 
@@ -116,21 +147,41 @@ glacierDischargeRMSE <- function(parameters, temperature, observed,
                            MF = as.numeric(parameters[1]),
                            threshold_temperature = as.numeric(parameters[2]))
 
-    # Reformat and compare to observed melt
-    cal <- melt |>
-      tibble::as_tibble() |>
-      dplyr::mutate(year = temperature$year) |>
-      tidyr::pivot_longer(-.data$year, names_to = "ID", values_to = "melt_mma") |>
-      tidyr::separate(.data$ID, into = c("RGIId", "layer"), sep = "_") |>
-      dplyr::group_by(RGIId) |>
-      dplyr::summarise(melt_mma = mean(melt_mma)) |>
-      dplyr::ungroup() |>
-      dplyr::left_join(observed |> dplyr::select(RGIID, totAbl, Area_m2),
-                       by = c("RGIId" = "RGIID")) |>
-      dplyr::mutate(totAbl = totAbl / Area_m2 * 10^3) |>  # to mm/a
-      tidyr::drop_na() |>
-      dplyr::group_by(RGIId) |>
-      dplyr::summarise(rsme =sqrt(sum((.data$melt_mma - .data$totAbl)^2)))
+    if (annual_observations) {
+      # Reformat and compare to observed melt assuming annual observations
+      cal <- melt |>
+        tibble::as_tibble() |>
+        dplyr::mutate(year = temperature$year) |>
+        tidyr::pivot_longer(-.data$year, names_to = "ID", values_to = "melt_mma") |>
+        tidyr::separate(.data$ID, into = c("RGIId", "layer"), sep = "_") |>
+        dplyr::group_by(RGIId, year) |>
+        dplyr::summarise(melt_mma = mean(melt_mma)) |>
+        dplyr::ungroup() |>
+        dplyr::left_join(observed |> dplyr::select(RGIID, totAbl, Area_m2, year),
+                         by = c("RGIId" = "RGIID", "year" = "year")) |>
+        dplyr::mutate(totAbl = totAbl / Area_m2 * 10^3) |>  # to mm/a
+        tidyr::drop_na() |>
+        dplyr::group_by(RGIId) |>
+        dplyr::summarise(rsme =sqrt(sum((.data$melt_mma - .data$totAbl)^2)))
+
+    } else {
+      # Reformat and compare to observed melt assuming average observations
+      cal <- melt |>
+        tibble::as_tibble() |>
+        dplyr::mutate(year = temperature$year) |>
+        tidyr::pivot_longer(-.data$year, names_to = "ID", values_to = "melt_mma") |>
+        tidyr::separate(.data$ID, into = c("RGIId", "layer"), sep = "_") |>
+        dplyr::group_by(RGIId) |>
+        dplyr::summarise(melt_mma = mean(melt_mma)) |>
+        dplyr::ungroup() |>
+        dplyr::left_join(observed |> dplyr::select(RGIID, totAbl, Area_m2),
+                         by = c("RGIId" = "RGIID")) |>
+        dplyr::mutate(totAbl = totAbl / Area_m2 * 10^3) |>  # to mm/a
+        tidyr::drop_na() |>
+        dplyr::group_by(RGIId) |>
+        dplyr::summarise(rsme =sqrt(sum((.data$melt_mma - .data$totAbl)^2)))
+
+    }
   }
 
   return(-1*cal$rsme[index])

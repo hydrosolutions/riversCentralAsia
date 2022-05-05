@@ -1,4 +1,62 @@
-# Write tests for daily temperature input
+test_that("glacierDischargeRSME can handle a time series of observed discharge", {
+
+  parameters_daily <- c(2, 0)
+  parameters_annual <- c(20, -10)
+  dates <- seq(as.Date("2000-01-01"), as.Date("2003-12-31"), 1)
+  years <- unique(lubridate::year(dates))
+  temperature <- tibble::tibble(date = dates,
+                                "RGI60-13.00001_1" = 1:length(dates)*0-5,
+                                "RGI60-13.00002_1" = 1:length(dates)*0+5,
+                                "RGI60-13.00002_2" = 1:length(dates)*0+1)
+  miles_annual <- tibble::tibble(RGIID = rep(c("RGI60-13.00001", "RGI60-13.00002"),
+                                             each = length(years)),
+                          year = c(years, years),
+                          totAbl = rep(c(0.5*10^6, 10^6), each = length(years)),
+                          Area_m2 = rep(c(10^6, 2*10^6), each = length(years)))
+  miles_average <- tibble::tibble(RGIID = c("RGI60-13.00001", "RGI60-13.00002"),
+                                  totAbl = c(0.5*10^6, 10^6),
+                                  Area_m2 = c(10^6, 2*10^6))
+
+  rmse_annualobs <- glacierDischargeRMSE(
+    parameters = parameters_daily,
+    temperature = temperature,
+    observed = miles_annual,
+    index = 1)
+
+  rmse_averageobs <- glacierDischargeRMSE(
+    parameters = parameters_daily,
+    temperature = temperature,
+    observed = miles_average,
+    index = 1)
+
+  rmse_annual_annualobs <- glacierDischargeRMSE(
+    parameters = parameters_annual,
+    temperature = temperature |>
+      dplyr::mutate(year = lubridate::year(date)) |>
+      dplyr::select(-date) |>
+      dplyr::group_by(year) |>
+      dplyr::summarise(dplyr::across(dplyr::starts_with("RGI"), mean)) |>
+      dplyr::ungroup(),
+    observed = miles_annual,
+    index = 1)
+
+  rmse_annual_averageobs <- glacierDischargeRMSE(
+    parameters = parameters_annual,
+    temperature = temperature |>
+      dplyr::mutate(year = lubridate::year(date)) |>
+      dplyr::select(-date) |>
+      dplyr::group_by(year) |>
+      dplyr::summarise(dplyr::across(dplyr::starts_with("RGI"), mean)) |>
+      dplyr::ungroup(),
+    observed = miles_average,
+    index = 1)
+
+  expect_equal(rmse_averageobs, -500)
+  expect_equal(rmse_annualobs, -1000)
+  expect_equal(rmse_annual_averageobs, -400)
+  expect_equal(rmse_annual_annualobs, -800)
+})
+
 test_that("glacierDischargeRSME can handle both daily and annual temperature input", {
 
   parameters_daily <- c(2, 0)

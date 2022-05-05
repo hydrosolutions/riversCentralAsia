@@ -229,7 +229,9 @@ glaciers_hugonnet <- glaciers_hugonnet |>
 observed_melt <- glaciers_hugonnet |> 
   st_drop_geometry() |>
   dplyr::filter(period == 1) |> 
-  dplyr::select(RGIId, start, dhdt, Qgl_m3a) |> 
+  dplyr::select(RGIId, start, dhdt, Qgl_m3a, Area) |> 
+  mutate(Area_m2 = Area * 10^6) |> 
+  dplyr::select(-Area) |> 
   distinct()
 
 totQgl <- glaciers_hugonnet |> 
@@ -472,33 +474,35 @@ The temperature index model can be calibrated with the specific glacier volume c
 
 ### Calibration of the temperature index model
 
-The 2 parameters of the temperature index model can be calibrated using observed glacier melt rates.
+The 2 parameters of the temperature index model can be calibrated using observed glacier melt rates. As mentioned above, the observed glacier melt rates are simulated total ablation by @miles_health_2021 where available or estimated total ablation using an empirical relationship between total glacier ablation by @miles_health_2021 and glacier thinning rates by @hugonnet_accelerated_2021. 
 
 ```{r}
-# Annual 
-
 DDFfit <- NULL
 for (id in c(1:length(glaciers))) {
-    cat("Fitting temperature index model for glacier", glaciers[id], "\n")
-    DDFtemp <- c(MF = 20, tth = -20)
-    cat("    Start Parameters: MF =", DDFtemp[1], "Tth =", DDFtemp[2], "\n")
-    
-    tempGA <- ga(type = "real-valued", 
-                 fitness = glacierDischargeRMSE, 
-                 temperature = hist_obs,
-                 observed = observed_melt,
-                 index = id,
-                 lower = c(0.1, -30), upper = c(50, 10), 
-                 parallel = TRUE)
-    #
-    cat("    Result: RMSE = ", -tempGA$fitnessValue, "MF =", tempGA$par[1], 
-        "Tth =", tempGA$par[2], "\n")
-    DDFfit <- rbind(DDfit, tibble(MF = tempGA@solution[1],
-                           Tth = tempGA@solution[2],
-                           rsme = tempGA@fitnessValue) |>
-                      mutate(ID = glaciers[id]))
-  }
+  cat("Fitting temperature index model for glacier", glaciers[id], "\n")
+  DDFtemp <- c(MF = 20, tth = -20)
+  cat("    Start Parameters: MF =", DDFtemp[1], "Tth =", DDFtemp[2], "\n")
+  
+  tempGA <- ga(type = "real-valued", 
+               fitness = glacierDischargeRMSE, 
+               temperature = hist_obs,
+               observed = observed_melt |> 
+                 rename(RGIID = RGIId, 
+                        totAbl = Qgl_m3a),
+               index = id,
+               lower = c(0.1, -30), upper = c(50, 10), 
+               parallel = TRUE)
+  
+  cat("    Result: RMSE = ", -tempGA$fitnessValue, "MF =", tempGA$par[1], 
+      "Tth =", tempGA$par[2], "\n")
+  DDFfit <- rbind(DDfit, tibble(MF = tempGA@solution[1],
+                                Tth = tempGA@solution[2],
+                                rsme = tempGA@fitnessValue) |>
+                    mutate(ID = glaciers[id]))
+}
 ```
+
+The calibration is done using an R implementation of a genetic algorithm [@scrucca_ga_2013, @scrucca_extensions_2017]. The optimization is slow but it is necessary to use a global optimizer (`nlminb` of the stats package for example will not converge for all glaciers).   
 
 ## Glacier mass balance
 

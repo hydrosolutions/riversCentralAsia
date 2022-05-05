@@ -9,7 +9,7 @@ glacierDischargeRMSE(
   parameters,
   temperature,
   observed,
-  index = 1:(dim(temperature)[2] - 1)
+  index = 1:(dim(observed)[2] - 1)
 )
 }
 \arguments{
@@ -23,11 +23,18 @@ values for individual hydrological response units in columns. The names of
 the hydrological response units is typically of the form RGIId_layer,
 e.g. RGI60-13.10007_1. The RGIId and the underbar are required as the
 algorithm splits the name at the underbar and mergest the observed glacier
-melt by RGIId.}
+melt by RGIId. \cr
+The dates column of the temperature time series can be in the format
+lubridate::date for sub-annual glacier melt simulations or an integer
+indicating the (hydrological) year for which glacier melt is calculated.
+The date column must be named ```date``` for sub-annual time steps or
+```year``` for annual time steps.}
 
-\item{observed}{A tibble with the yearly glacier melt data by Miles et al.
-```observed``` must contain the columns RGIID, totAbl and Area_m2. Further
-columns are ignored.}
+\item{observed}{A tibble with the glacier melt data by Miles et al.
+```observed``` must contain the columns RGIID, totAbl and Area_m2. If a
+column ```year``` is present, the algorithm assumes yearly data, else it
+assumes that ```observed``` represents average data over the entire period
+of the temperature time series.}
 
 \item{index}{(optional) number to indicate for which individual HRU the RMSE
 should be returned. Defaults to all.}
