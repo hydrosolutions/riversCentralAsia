@@ -495,15 +495,79 @@ for (id in c(1:length(glaciers))) {
                  mutate(year = year(year)),
                index = id,
                lower = c(0.1, -30), upper = c(50, 10), 
-               parallel = TRUE)
+               parallel = (parallel::detectCores()-6))
   
   cat("    Result: RMSE = ", -tempGA@fitnessValue, "MF =", tempGA@solution[1], 
       "Tth =", tempGA@solution[2], "\n")
-  DDFfit <- rbind(DDfit, tibble(MF = tempGA@solution[1],
+  DDFfit <- rbind(DDFfit, tibble(MF = tempGA@solution[1],
                                 Tth = tempGA@solution[2],
                                 rsme = tempGA@fitnessValue) |>
                     mutate(ID = glaciers[id]))
 }
+save(DDFfit, 
+     file = "../../atbashy_glacier_demo_data/GLACIERS/TIparameters.RData")
+```
+
+Recalculate glacier melt with calibrated parameters. 
+```{r}
+melt_cal <- glacierMelt_TI(temperature = hist_obs |> 
+                             dplyr::select(-date),
+                           MF = DDFfit$MF[1],
+                           threshold_temperature = DDFfit$Tth[1]) |> 
+  mutate(date = hist_obs$date) |> 
+  relocate(date, .before =  where(is.numeric))
+
+melt_a_eb <- melt_cal |> 
+  pivot_longer(-date, names_to = "ID", values_to = "Melt") |> 
+  mutate(Hyear = hyear(date)) |> 
+  group_by(Hyear, ID) |> 
+  summarise(date = first(date), 
+            Melt = sum(Melt), 
+            .lb_Melt = ifelse(Melt*(1-error_stats$sMelt)<0, 0, 
+                              Melt*(1-error_stats$sMelt)), 
+            .ub_Melt = Melt*(1+error_stats$sMelt))|> 
+  ungroup() 
+melt_a <- melt_a_eb |> 
+  separate(ID, into = c("RGIId", "elB"), sep = "_") |> 
+  group_by(Hyear, RGIId) |> 
+  summarise(date = as_date(first(date)), 
+            Melt = sum(Melt), 
+            .lb_Melt = ifelse(Melt*(1-error_stats$sMelt)<0, 0, 
+                              Melt*(1-error_stats$sMelt)), 
+            .ub_Melt = Melt*(1+error_stats$sMelt)) |> 
+  ungroup() |> 
+  dplyr::filter(Hyear > min(Hyear) & Hyear < max(Hyear)) |> 
+  left_join(rgi |> dplyr::select(RGIId, Area) |> st_drop_geometry(), 
+            by = "RGIId") |> 
+  # Assume constant glacier area over the comparison period. 
+  mutate(Qgl_m3a = Melt*10^(-3) * Area*10^6, 
+         .lb_Qgl_m3a = Qgl_m3a * (1-sqrt(error_stats$sMelt^2+error_stats$sA^2)),   
+         .lb_Qgl_m3a = ifelse(.lb_Qgl_m3a < 0, 0, .lb_Qgl_m3a), 
+         .ub_Qgl_m3a = Qgl_m3a * (1+sqrt(error_stats$sMelt^2+error_stats$sA^2)))
+
+ggplot() + 
+  geom_ribbon(data = melt_a |> 
+                dplyr::filter(RGIId %in% glaciers[6:9]), 
+              aes(date, Qgl_m3a, ymin = .lb_Qgl_m3a, ymax = .ub_Qgl_m3a, 
+                  fill = RGIId), colour = NA, alpha = 0.1) + 
+  geom_ribbon(data = melt_obs_a, 
+              aes(start, Qgl_m3a, 
+                  ymin = .lb_Qgl_m3a, 
+                  ymax = .ub_Qgl_m3a, 
+                  colour = RGIId, linetype = "obs", fill = RGIId), 
+              size = 0.2, alpha = 0.1) + 
+  geom_line(data = melt_a |> 
+              dplyr::filter(RGIId %in% glaciers[6:9]), 
+            aes(date, Qgl_m3a, colour = RGIId, linetype = "sim")) + 
+  geom_line(data = melt_obs_a, aes(start, Qgl_m3a, colour = RGIId, 
+                                   linetype = "obs")) + 
+  labs(x = "Date", y = "Melt [m weq/a]") + 
+  scale_linetype_manual(name = "Source", 
+                        values = c("sim" = 1, "obs" = 2)) + 
+  scale_colour_viridis_d() + 
+  scale_fill_viridis_d() + 
+  ggtitle(paste0("MF: ", MF, "Tth: ", threshold_temperature)) + 
+  theme_bw()
 ```
 
 The calibration is done using an R implementation of a genetic algorithm [@scrucca_ga_2013, @scrucca_extensions_2017]. The optimization is slow but it is necessary to use a global optimizer (`nlminb` of the stats package for example will not converge for all glaciers).   
