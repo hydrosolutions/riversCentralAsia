@@ -109,6 +109,7 @@ library(raster)
 library(exactextractr)
 library(tidyverse)
 library(lubridate)
+
 devtools::install_github("hydrosolutions/riversCentralAsia", 
                          ref = "update_vignettes")
 library(riversCentralAsia)
@@ -485,17 +486,19 @@ for (id in c(1:length(glaciers))) {
   
   tempGA <- ga(type = "real-valued", 
                fitness = glacierDischargeRMSE, 
-               temperature = hist_obs,
+               temperature = hist_obs |> 
+                 mutate(date = as_date(date)),
                observed = observed_melt |> 
                  rename(RGIID = RGIId, 
                         totAbl = Qgl_m3a, 
-                        year = start),
+                        year = start) |> 
+                 mutate(year = year(year)),
                index = id,
                lower = c(0.1, -30), upper = c(50, 10), 
                parallel = TRUE)
   
-  cat("    Result: RMSE = ", -tempGA$fitnessValue, "MF =", tempGA$par[1], 
-      "Tth =", tempGA$par[2], "\n")
+  cat("    Result: RMSE = ", -tempGA@fitnessValue, "MF =", tempGA@solution[1], 
+      "Tth =", tempGA@solution[2], "\n")
   DDFfit <- rbind(DDfit, tibble(MF = tempGA@solution[1],
                                 Tth = tempGA@solution[2],
                                 rsme = tempGA@fitnessValue) |>

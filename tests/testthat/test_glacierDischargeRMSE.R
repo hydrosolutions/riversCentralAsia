@@ -20,14 +20,12 @@ test_that("glacierDischargeRSME can handle a time series of observed discharge",
   rmse_annualobs <- glacierDischargeRMSE(
     parameters = parameters_daily,
     temperature = temperature,
-    observed = miles_annual,
-    index = 1)
+    observed = miles_annual)
 
   rmse_averageobs <- glacierDischargeRMSE(
     parameters = parameters_daily,
     temperature = temperature,
-    observed = miles_average,
-    index = 1)
+    observed = miles_average)
 
   rmse_annual_annualobs <- glacierDischargeRMSE(
     parameters = parameters_annual,
@@ -37,8 +35,7 @@ test_that("glacierDischargeRSME can handle a time series of observed discharge",
       dplyr::group_by(year) |>
       dplyr::summarise(dplyr::across(dplyr::starts_with("RGI"), mean)) |>
       dplyr::ungroup(),
-    observed = miles_annual,
-    index = 1)
+    observed = miles_annual)
 
   rmse_annual_averageobs <- glacierDischargeRMSE(
     parameters = parameters_annual,
@@ -48,13 +45,12 @@ test_that("glacierDischargeRSME can handle a time series of observed discharge",
       dplyr::group_by(year) |>
       dplyr::summarise(dplyr::across(dplyr::starts_with("RGI"), mean)) |>
       dplyr::ungroup(),
-    observed = miles_average,
-    index = 1)
+    observed = miles_average)
 
-  expect_equal(rmse_averageobs, -500)
-  expect_equal(rmse_annualobs, -1000)
-  expect_equal(rmse_annual_averageobs, -400)
-  expect_equal(rmse_annual_annualobs, -800)
+  expect_equal(rmse_averageobs[1], -500)
+  expect_equal(rmse_annualobs[1], -1000)
+  expect_equal(rmse_annual_averageobs[1], -400)
+  expect_equal(rmse_annual_annualobs[1], -800)
 })
 
 test_that("glacierDischargeRSME can handle both daily and annual temperature input", {

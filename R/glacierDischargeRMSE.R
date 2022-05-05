@@ -37,7 +37,7 @@
 #' @family glacier functions
 
 glacierDischargeRMSE <- function(parameters, temperature, observed,
-                                 index = 1:(dim(observed)[2]-1)) {
+                                 index = 1:(length(unique(observed$RGIID)))) {
 
   # Test validity of input
   if (length(parameters) != 2) {
@@ -115,9 +115,11 @@ glacierDischargeRMSE <- function(parameters, temperature, observed,
         dplyr::group_by(RGIId, year) |>
         dplyr::summarise(melt_mma = mean(melt_mma)) |>
         dplyr::ungroup() |>
-        dplyr::left_join(observed |> dplyr::select(RGIID, totAbl, Area_m2, year),
+        dplyr::left_join(observed |>
+                           dplyr::select(.data$RGIID, .data$totAbl,
+                                         .data$Area_m2, .data$year),
                          by = c("RGIId" = "RGIID", "year" = "year")) |>
-        dplyr::mutate(totAbl = totAbl / Area_m2 * 10^3) |>  # to mm/a
+        dplyr::mutate(totAbl = .data$totAbl / .data$Area_m2 * 10^3) |>  # to mm/a
         tidyr::drop_na() |>
         dplyr::group_by(RGIId) |>
         dplyr::summarise(rsme =sqrt(sum((.data$melt_mma - .data$totAbl)^2)))
@@ -135,9 +137,11 @@ glacierDischargeRMSE <- function(parameters, temperature, observed,
         dplyr::group_by(RGIId) |>
         dplyr::summarise(melt_mma = mean(melt_mma)) |>
         dplyr::ungroup() |>
-        dplyr::left_join(observed |> dplyr::select(RGIID, totAbl, Area_m2),
+        dplyr::left_join(observed |>
+                           dplyr::select(.data$RGIID, .data$totAbl,
+                                         .data$Area_m2),
                          by = c("RGIId" = "RGIID")) |>
-        dplyr::mutate(totAbl = totAbl / Area_m2 * 10^3) |>  # to mm/a
+        dplyr::mutate(totAbl = .data$totAbl / .data$Area_m2 * 10^3) |>  # to mm/a
         tidyr::drop_na() |>
         dplyr::group_by(RGIId) |>
         dplyr::summarise(rsme =sqrt(sum((.data$melt_mma - .data$totAbl)^2)))
@@ -161,9 +165,11 @@ glacierDischargeRMSE <- function(parameters, temperature, observed,
         dplyr::group_by(RGIId, year) |>
         dplyr::summarise(melt_mma = mean(melt_mma)) |>
         dplyr::ungroup() |>
-        dplyr::left_join(observed |> dplyr::select(RGIID, totAbl, Area_m2, year),
+        dplyr::left_join(observed |>
+                           dplyr::select(.data$RGIID, .data$totAbl,
+                                         .data$Area_m2, .data$year),
                          by = c("RGIId" = "RGIID", "year" = "year")) |>
-        dplyr::mutate(totAbl = totAbl / Area_m2 * 10^3) |>  # to mm/a
+        dplyr::mutate(totAbl = .data$totAbl / .data$Area_m2 * 10^3) |>  # to mm/a
         tidyr::drop_na() |>
         dplyr::group_by(RGIId) |>
         dplyr::summarise(rsme =sqrt(sum((.data$melt_mma - .data$totAbl)^2)))
@@ -178,9 +184,11 @@ glacierDischargeRMSE <- function(parameters, temperature, observed,
         dplyr::group_by(RGIId) |>
         dplyr::summarise(melt_mma = mean(melt_mma)) |>
         dplyr::ungroup() |>
-        dplyr::left_join(observed |> dplyr::select(RGIID, totAbl, Area_m2),
+        dplyr::left_join(observed |>
+                           dplyr::select(.data$RGIID, .data$totAbl,
+                                         .data$Area_m2),
                          by = c("RGIId" = "RGIID")) |>
-        dplyr::mutate(totAbl = totAbl / Area_m2 * 10^3) |>  # to mm/a
+        dplyr::mutate(totAbl = .data$totAbl / .data$Area_m2 * 10^3) |>  # to mm/a
         tidyr::drop_na() |>
         dplyr::group_by(RGIId) |>
         dplyr::summarise(rsme =sqrt(sum((.data$melt_mma - .data$totAbl)^2)))
