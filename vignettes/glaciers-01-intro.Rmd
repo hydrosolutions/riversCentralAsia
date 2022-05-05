@@ -68,7 +68,7 @@ library(lubridate)
 
 # The package riversCentralAsia is not available from cran. It is installed 
 # directly from github via: 
-# devtools::install_github("hydrosolutions/riversCentralAsia")
+devtools::install_github("hydrosolutions/riversCentralAsia")
 # Make sure to update the package from time to time as it is under constant 
 # development. 
 library(riversCentralAsia)

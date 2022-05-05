@@ -102,20 +102,19 @@ error_stats = tibble::tibble(
 We demonstrate the above described method with the data from the Atbashy basin, a tributary of the Naryn river. As for the [previous chapter](glaciers-01-intro.html) you can download all required data from [this link](https://www.dropbox.com/sh/r0lqggc77ka0uxd/AAChuIyLHHFIfAdgxNKiU2dpa?dl=1){target="_blank"}.
 
 ```{r, datarefpath, message=FALSE, warning=FALSE}
-library(tmap)
-library(timetk)
-library(sf)
-library(raster)
-library(exactextractr)
-library(tidyverse)
-library(lubridate)
+library(tmap, quietly = TRUE)
+library(timetk, quietly = TRUE)
+library(sf, quietly = TRUE)
+library(raster, quietly = TRUE)
+library(exactextractr, quietly = TRUE)
+library(tidyverse, quietly = TRUE)
+library(lubridate, quietly = TRUE)
 
-devtools::install_github("hydrosolutions/riversCentralAsia", 
-                         ref = "update_vignettes")
-library(riversCentralAsia)
+devtools::install_github("hydrosolutions/riversCentralAsia", quiet = TRUE)
+library(riversCentralAsia, quietly = TRUE)
 
 # Stochastic optimisation algorithm for model calibration
-library(GA)
+library(GA, quietly = TRUE)
 
 # Path to the data directory downloaded from the download link provided above. 
 # Here the data is extracted to a folder called atbashy_glacier_demo_data
@@ -571,7 +570,7 @@ ggplot() +
   theme_bw()
 ```
 
-The calibration is done using an R implementation of a genetic algorithm [@scrucca_ga_2013, @scrucca_extensions_2017]. The optimization is slow but it is necessary to use a global optimizer (`nlminb` of the stats package for example will not converge for all glaciers).
+The calibration is done using an R implementation of a genetic algorithm [@scrucca_ga_2013; @scrucca_extensions_2017]. The optimization is slow but it is necessary to use a global optimizer (`nlminb` of the stats package for example will NOT converge for all glaciers).
 
 ## Glacier mass balance
 
