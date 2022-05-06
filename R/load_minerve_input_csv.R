@@ -10,14 +10,17 @@
 #'   \code{type} (char, T, P or Q), \code{unit} (char, C, mm/a or m3/s) and
 #'   \code{value} (num). Data is in hourly (climate) to decadal (10 days) or
 #'   monthly (discharge) time steps.
+#' @note this function is being phased out and will disappear in future
+#'   package releases. Please refer to the function \code{readDBCSV} instead.
 #'
 #' @examples
 #' \dontrun{
 #' load_minerve_input_csv("path_to_file.csv")
 #' }
 #'
-#' @author Beatrice Marti, hydrosolutions
 #' @export
+#' @family RS Minerve IO
+#' @seealso \code{[readDBCSV]}
 
 load_minerve_input_csv <- function(filename) {
 

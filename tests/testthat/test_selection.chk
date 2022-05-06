@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Selection>
+  <Name>New selection</Name>
+  <Path>Model Koksu\Source QSpring\Kichkinesay - QUp (m3/s)</Path>
+  <Path>Model Koksu\Comparator Comparator 1\QReference (m3/s)</Path>
+  <Path>Model Koksu\Comparator Comparator 1\QSimulation (m3/s)</Path>
+  <Path>Model Koksu\HBV92 Koksu downstream_eb1\Qr (m3/s)</Path>
+  <Path>Model Koksu\HBV92 Koksu downstream_eb1\Qu (m3/s)</Path>
+  <Path>Model Koksu\HBV92 Koksu downstream_eb1\Ql (m3/s)</Path>
+  <Path>Model Koksu\HBV92 Koksu downstream_eb1\ETR (m/s)</Path>
+  <Path>Model Koksu\HBV92 Koksu downstream_eb1\Peq (m/s)</Path>
+  <Path>Model Koksu\HBV92 Koksu downstream_eb1\SWE (m)</Path>
+  <Path>Model Koksu\HBV92 Koksu downstream_eb1\WH (-)</Path>
+  <Path>Model Koksu\HBV92 Koksu downstream_eb1\Hum (m)</Path>
+  <Path>Model Koksu\HBV92 Koksu downstream_eb1\SU (m)</Path>
+  <Path>Model Koksu\HBV92 Koksu downstream_eb1\SL (m)</Path>
+  <Path>Model Koksu\HBV92 Koksu downstream_eb1\iPerc (m/s)</Path>
+  <Path>Model Koksu\HBV92 Koksu downstream_eb1\iRecharge (m/s)</Path>
+  <Path>Model Koksu\HBV92 Koksu downstream_eb1\Qtot (m3/s)</Path>
+  <Path>Model Koksu\HBV92 Kichkinesay_eb1\Qtot (m3/s)</Path>
+  <Path>Model Koksu\HBV92 Kichkinesay_eb1\Qr (m3/s)</Path>
+  <Path>Model Koksu\HBV92 Kichkinesay_eb1\Qu (m3/s)</Path>
+  <Path>Model Koksu\HBV92 Kichkinesay_eb1\Ql (m3/s)</Path>
+  <Path>Model Koksu\HBV92 Kichkinesay_eb1\ETR (m/s)</Path>
+  <Path>Model Koksu\HBV92 Kichkinesay_eb1\Peq (m/s)</Path>
+  <Path>Model Koksu\HBV92 Kichkinesay_eb1\SWE (m)</Path>
+  <Path>Model Koksu\HBV92 Kichkinesay_eb1\WH (-)</Path>
+  <Path>Model Koksu\HBV92 Kichkinesay_eb1\Hum (m)</Path>
+  <Path>Model Koksu\HBV92 Kichkinesay_eb1\iRecharge (m/s)</Path>
+  <Path>Model Koksu\HBV92 Kichkinesay_eb1\SU (m)</Path>
+  <Path>Model Koksu\HBV92 Kichkinesay_eb1\iPerc (m/s)</Path>
+  <Path>Model Koksu\HBV92 Kichkinesay_eb1\SL (m)</Path>
+</Selection>
