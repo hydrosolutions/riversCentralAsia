@@ -1,0 +1,33 @@
+﻿RS MINERVE - Parameters
+Version 4.0.0.0 - Wednesday, June 23, 2021 2:03 PM
+Model: C:\Users\bea\Documents\test_rsminerve\RSM_Scripts\Example VBS\Inputs\Model_test.rsm
+Description: Model_test
+Database: C:\Users\bea\Documents\test_rsminerve\RSM_Scripts\Example VBS\Inputs\MeteoInputs.dbx
+OBJECTS
+GSM	1
+HBV92	1
+Junction	3
+Kinematic	2
+SOCONT	3
+Station	4
+VALUES
+GSM	Zone	A (m2)	S (mm/°C/d)	CFR (-)	SInt (mm/°C/d)	SMin (mm/°C/d)	Sph (d)	ThetaCri (-)	bp (d/mm)	Tcp1 (°C)	Tcp2 (°C)	Tcf (°C)	G (mm/°C/d)	GInt (mm/°C/d)	GMin (mm/°C/d)	Tcg (°C)	Kgl (1/d)	Ksn (1/d)
+GSM 1	A	28267674	6	1	0	0	80	0.1	0.0125	0	4	0	3	0	0	0	0.8	0.3
+HBV92	Zone	A (m2)	CFMax (mm/°C/d)	CFR (-)	CWH (-)	TT (°C)	TTInt (°C)	TTSM (°C)	Beta (-)	FC (mm)	PWP (-)	SUMax (mm)	Kr (1/d)	Ku (1/d)	Kl (1/d)	Kperc (1/d)
+HBV 1	A	10	5	0.05	0.1	2	2	0	2.5	250	0.5	50	0.3	0.1	0.02	0.15
+Junction	Zone
+Confluencia A	A
+Confluencia B	A
+Desembocadura	A
+Kinematic	Zone	L (m)	B0 (m)	m (-)	J0 (-)	K (m1/3/s)	N (-)
+Río B	A	7558	4	1	0.0004	30	1
+Rio A	A	6565	5	1	0.0001	30	1
+SOCONT	Zone	A (m2)	S (mm/°C/d)	CFR (-)	SInt (mm/°C/d)	SMin (mm/°C/d)	SPh (d)	ThetaCri (-)	bp (d/mm)	Tcp1 (°C)	Tcp2 (°C)	Tcf (°C)	HGR3Max (m)	KGR3 (1/s)	L (m)	J0 (-)	Kr (m1/3/s)
+SOCONT 1	A	48302423	7	1	0	0	80	0.1	0.0125	0	4	0	0.8	0.001	2500	0.01	2
+SOCONT 2	A	38025778	7	1	0	0	80	0.1	0.0125	0	4	0	1	0.001	1500	0.01	2
+SOCONT 3	A	52640259	7	1	0	0	80	0.1	0.0125	0	4	0	1	0.001	2000	0.01	3
+Station	Zone	X (m)	Y (m)	Z (m)	Search Radius (m)	No. min. of stations (-)	Gradient P (1/m)	Gradient T (°C/m)	Gradient ETP (1/m)	Coeff P (-)	Coeff T (-)	Coeff ETP (-)
+Estacion GSM 1	A	606636	108339	3025	10000	1	0	-0.0065	0	1	0	1
+Estacion SOCONT 1	A	601667	107380	2889	10000	1	0	-0.0065	0	1	0	1
+Estacion SOCONT 2	A	606291	101382	2406	10000	1	0	-0.0065	0	1	0	1
+Estacion SOCONT 3	A	605067	95762	1947	10000	1	0	-0.0065	0	1	0	1

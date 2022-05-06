@@ -20,12 +20,29 @@ Returns a tibble of the same format as the inbuilt \code{data} in
 The data is in a csv file that can also be imported to RS Minerve to form a
 database.
 }
+\note{
+this function is being phased out and will disappear in future
+  package releases. Please refer to the function \code{readDBCSV} instead.
+}
 \examples{
 \dontrun{
 load_minerve_input_csv("path_to_file.csv")
 }
 
 }
-\author{
-Beatrice Marti, hydrosolutions
+\seealso{
+\code{[readDBCSV]}
+
+Other RS Minerve IO: 
+\code{\link{getChunkSize}()},
+\code{\link{readDBCSV}()},
+\code{\link{readForcingCSV}()},
+\code{\link{readForcingSTR}()},
+\code{\link{readRSMParameters}()},
+\code{\link{readResultCSV}()},
+\code{\link{readResultDST}()},
+\code{\link{readSelectionCHK}()},
+\code{\link{writeRSMParameters}()},
+\code{\link{writeSelectionCHK}()}
 }
+\concept{RS Minerve IO}
