@@ -34,7 +34,7 @@
 #'   the temperature index model of indexed hydrological response units.
 #' @seealso \code{\link{glacierMelt_TI}}
 #' @export
-#' @family glacier functions
+#' @family Glacier functions
 
 glacierDischargeRMSE <- function(parameters, temperature, observed,
                                  index = 1:(length(unique(observed$RGIID)))) {

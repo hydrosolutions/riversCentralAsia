@@ -1,11 +1,16 @@
-#' Assesses the quality of decadal or monthly forecasts as done in Central Asian Hydrometeorological Agencies.
+#' Assesses the quality of decadal or monthly forecasts as done in Central Asian
+#' Hydrometeorological Agencies.
 #'
-#' This function computes a per period (decade or month) forecast quality assessment for each forecast for the test set provided.
+#' This function computes a per period (decade or month) forecast quality
+#' assessment for each forecast for the test set provided.
 #' Ideally, the user provides an out-of-sample testset
 #'
-#' @param df tibble with date, obs, pred and per column where the per column is either the decade or the month specifier (normally given as factor).
+#' @param df tibble with date, obs, pred and per column where the per column is
+#'   either the decade or the month specifier (normally given as factor).
 #' @param plot TRUE/FALSE if plot should be generated
-#' @return A list with a tibble of per period forecasts that are acceptable expressed as percentages of the total test set length
+#' @return A list with a tibble of per period forecasts that are acceptable
+#'   expressed as percentages of the total test set length
+#' @family Helper functions
 #' @export
 assess_fc_qual <- function(df,plot){
   # errors

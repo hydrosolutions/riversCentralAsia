@@ -30,7 +30,7 @@
 #'   ```glacierDischargeRSME``` instead.
 #' @seealso \code{\link{glacierDischargeRMSE}}
 #' @export
-#' @family glacier functions
+#' @family Glacier functions
 
 glacierRMSE <- function(parameters, temperature, hugonnet,
                         index = 1:(dim(temperature)[2]-1)) {

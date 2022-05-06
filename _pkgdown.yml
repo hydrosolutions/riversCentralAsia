@@ -15,3 +15,12 @@ reference:
   desc: Functions for modeling glacier discharge in R
 - contents:
   - has_concept("Glacier functions")
+- title: Helper functions
+  desc: Functions for date handling and aggregation
+- contents:
+  - has_concept("Helper functions")
+- title: Demo data sets
+  desc: Data for use with the package
+- contents:
+  - has_concept("Demo data")
+

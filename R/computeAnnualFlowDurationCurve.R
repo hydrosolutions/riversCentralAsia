@@ -9,6 +9,7 @@
 #'   Pa: Exceedance probability in percent
 #' @note If the input data tibble is grouped, the duration stats will be computed
 #'   within each group.
+#' @family Post-processing
 #' @examples
 #' # Monthly flow duration curve
 #' Qdf <- tibble::tibble(

@@ -24,6 +24,7 @@
 #'   \item{altitude_masl}{num: Altitude of station in meter above mean sea level.}
 #'   \item{basinSize_sqkm}{num: Size of the basin in square kilometers (km2).}
 #' }
+#' @family Demo data
 #' @source Uzbek HydroMet 2021, Andrey Yakovlev
 "ChirchikRiverBasin"
 

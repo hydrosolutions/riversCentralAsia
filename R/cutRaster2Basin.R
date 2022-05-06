@@ -8,6 +8,7 @@
 #' @param aoiBasin_UTM Extent object of the basin shapefile
 #' @param proj_UTM CRS of UTM projection (i.e. for 42N in Central Asia, use "+init=epsg:32642")
 #' @return Projected raster cut to basin
+#' @family Helper functions
 #' @export
 cutRaster2Basin = function(rasterIn,aoiRegion_latlon,aoiBasin_UTM,proj_UTM){
   rasterRegion <- raster::crop(rasterIn,aoiRegion_latlon)

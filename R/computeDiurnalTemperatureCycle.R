@@ -5,6 +5,7 @@
 #' @param era5_data ERA5 csv-file (RS MINERVE Database input) with details on stations and hourly P,T and Q data.
 #' @param param Parameter list with year_min and year_max fields that denote the period of interest for which the mean diurnal per-sttion cycles should be computed.
 #' @return Tibble with average diurnal temperature cycles stored in each column for each station.
+#' @family Pre-processing
 #' @export
 computeDiurnalTemperatureCycle <- function(era5_data,param){
 

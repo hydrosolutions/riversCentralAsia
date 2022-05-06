@@ -1,5 +1,7 @@
-#' Extracts ERA5 basin domain from ERA5 raster bricks and scales fields with PBCORR CHELSA data so that monthly totals match.
-#' Writes resulting bias corrected (scaled) data bricks to a (newly) created subdirectory where the raw ERA5 data files are stored.
+#' Extracts ERA5 basin domain from ERA5 raster bricks and scales fields with
+#' PBCORR CHELSA data so that monthly totals match.
+#' Writes resulting bias corrected (scaled) data bricks to a (newly) created
+#' subdirectory where the raw ERA5 data files are stored.
 #'
 #'
 #' @param dir_ERA5_hourly Directory where hourly ERA5 data annual NetCDF files are stored.
@@ -10,6 +12,7 @@
 #' @param basinName Name of basin to extract, process and store data
 #' @param basin_shape_LatLon Basin Shapefile in latlon coordinates
 #' @return Dateframe with dates in dd.mm.yyyy hh:mm:ss representation
+#' @family Pre-processing
 #' @export
 biasCorrect_ERA5_CHELSA <- function(dir_ERA5_hourly,dataType_ERA5,dir_CHELSA,startY,endY,basinName,basin_shape_LatLon){
 

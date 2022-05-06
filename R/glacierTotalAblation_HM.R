@@ -9,7 +9,7 @@
 #' @return Total glacier ablation in m3/a.
 #'   Negative for glacier melt and positive for glacier gain.
 #' @export
-#' @family glacier functions
+#' @family Glacier functions
 
 glacierTotalAblation_HM <- function(dmdtda) {
 

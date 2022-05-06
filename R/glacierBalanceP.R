@@ -36,7 +36,7 @@
 #'       \code{QglImb(t) = glacierImbalAbl(M(t))} \cr
 #'     - Update the glacier volume \code{V(t) = V(t-1) + QglImb(t)}
 #' @export
-#' @family glacier functions
+#' @family Glacier functions
 #' @examples
 #'
 glacierBalanceP <- function(melt_a_eb, prcp_a_eb, rgi_elbands) {

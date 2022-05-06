@@ -9,6 +9,7 @@
 #' @return A list with dLt and Lt. dLt is a tibble with the changes of glacier length in km ("dL(t) [km]") over time (Year) for each Glacier, Model, and RCP scenario. Lt is a tibble of glacier length in km ("L(t) [km]") over time (Year) for each Glacier, Model and RCP scenario.
 #' @note This function is suitable if you have the climate data in a long table format. If you have the climate data in a wide table format with the forcing per glacier in columns use \code{\link{OerlemansGlacierLengthModel}} instead.
 #' @references Oerlemans (2005) Extracting a Climate Signal from 169 Glacier Records. Science. DOI: 10.1126/science.1107046.
+#' @family Glacier functions
 #' @examples
 #'   glaciers <- dplyr::tibble(ID = c(1, 2, 3),
 #'                             Lmax = c(500, 5000, 13000),

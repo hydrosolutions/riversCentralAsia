@@ -32,7 +32,7 @@
 #' melt <- glacierMelt_TI(temperature, MF, threshold_temperature = 1)
 #' @export
 #' @references Hock R., 2003. DOI: 10.1016/S0022-1694(03)00257-9.
-#' @family glacier functions
+#' @family Glacier functions
 
 glacierMelt_TI <- function(temperature, MF = 4, threshold_temperature = 0) {
 

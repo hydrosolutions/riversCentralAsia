@@ -15,7 +15,7 @@
 #' @export
 #' @examples
 #'   imbalAbl_m3a <- glacierImbalAbl(c(1,2,3,4,5)*10^3)
-#' @family glacier functions
+#' @family Glacier functions
 #' @details The relative error of the function is estimated to be 0.73%. See
 #'   [vignette glaciers 02]{glaciers-o2-DDMWB.html} on a demonstration how
 #'   to use that information.

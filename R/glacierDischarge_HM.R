@@ -8,7 +8,7 @@
 #' @return Total glacier melt in m3/a.
 #'   Negative for glacier melt and positive for glacier gain.
 #' @export
-#' @family glacier functions
+#' @family Glacier functions
 #' @details Based on the residuals of the fits for growing and melting glaciers
 #'   the following relative errors have been derived: 1.42% and 0.63%
 #'   respectively. The average error of the glacier elevation change is 0.74%.

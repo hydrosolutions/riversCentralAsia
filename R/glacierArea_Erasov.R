@@ -5,7 +5,7 @@
 #' @param volume_km3 Glacier volume in km3
 #' @return Glacier area in km2
 #' @export
-#' @family glacier functions
+#' @family Glacier functions
 #' @seealso \code{\link{glacierVolume_Erasov}}, \code{\link{glacierArea_RGIF}}
 glacierArea_Erasov <- function(volume_km3) {
   area_km2 <- ifelse(

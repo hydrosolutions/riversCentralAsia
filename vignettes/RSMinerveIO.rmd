@@ -21,9 +21,9 @@ Writing parameter files for import to RS Minerve can speed up the configuration 
 Please note that not all objects implemented in RS Minerve are also supported in this present versions of `readRSMParameters` and `writeRSMParameters` of the `riversCentralAsia` package. See section below for a list of supported objects. 
 
 ```{r}
-library(tidyverse)
-devtools::install_github("hydrosolutions/riversCentralAsia")
-library(riversCentralAsia)
+library(tidyverse, quietly = TRUE)
+devtools::install_github("hydrosolutions/riversCentralAsia", quiet = TRUE)
+library(riversCentralAsia, quietly = TRUE)
 
 # 1. Export a default parameter file for your model in RS Minerve
 
@@ -37,7 +37,7 @@ params <- params |>
                          Values/2, Values))
 
 # 4. Write the edited parameters and import them into RS Minerve
-writeRSMParameters(params, 
+out <- writeRSMParameters(params, 
                    "../../atbashy_glacier_demo_data/RSMINERVE/params.txt")
 ```
 
@@ -58,13 +58,14 @@ The parameters for these objects are described in the RS Minerve User Manual ava
 In RS Minerve, simulation results can be viewed in the selection and plots tab and exported to csv file format. To export model states or fluxes from large models can be time consuming to set up manually. The following code chunk demonstrates how to write a check node file for the export of snow water equivalent from all HBV modules in the RS Minerve model. 
 
 ```{r}
-library(tidyverse)
-library(sf)
-devtools::install_github("hydrosolutions/riversCentralAsia")
-library(riversCentralAsia)
+library(tidyverse, quietly = TRUE)
+library(sf, quietly = TRUE)
+devtools::install_github("hydrosolutions/riversCentralAsia", quiet = TRUE)
+library(riversCentralAsia, quietly = TRUE)
 
 # Get the model object IDs, here from the GIS layer used for automated model creation 
-Object_IDs <- st_read("../../atbashy_glacier_demo_data/GIS/16076_HRU.shp") |> 
+Object_IDs <- st_read("../../atbashy_glacier_demo_data/GIS/16076_HRU.shp", 
+                      quiet = TRUE) |> 
   st_drop_geometry() 
 
 # Generate a table for each variable per model object to be visualized or 
