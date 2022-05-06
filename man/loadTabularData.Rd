@@ -42,3 +42,18 @@ monthly or decadal (10-day) data is provided. The function automatically compute
 the long-term norm of the data provided and returns a time aware tibble with
 date, data, data norm columns and code columns.
 }
+\seealso{
+Other Pre-processing: 
+\code{\link{biasCorrect_ERA5_CHELSA}()},
+\code{\link{climateScenarioPreparation_RMAWGEN}()},
+\code{\link{computeDiurnalTemperatureCycle}()},
+\code{\link{doQuantileMapping_Tobi}()},
+\code{\link{downscale_ClimPred_monthly_BasinElBands}()},
+\code{\link{gen_HRU_Climate_CSV_RSMinerve}()},
+\code{\link{gen_basinElevationBands}()},
+\code{\link{generate_ERA5_Subbasin_CSV}()},
+\code{\link{import_iEasyHydro_data}()},
+\code{\link{plotNormDevHYY}()},
+\code{\link{prepare_RMAWGEN_input_data}()}
+}
+\concept{Pre-processing}

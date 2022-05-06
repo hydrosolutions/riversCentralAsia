@@ -8,6 +8,7 @@
 #' @param endY Last year of climate projections.
 #' @param basinElBandsShape Basin shapefile with elevation bands and subbasins that are implemented in the the semi-distributed rainfall-runoff model.
 #' @return List with 4 elements (tibbles), including downscaled monthly precipitation (pr), monthly mean minimum temperature (tasmean), monthly mean temperature (tasmean) and monthly mean maximum temperature (tasmax).
+#' @family Pre-processing
 #' @export
 downscale_ClimPred_monthly_BasinElBands <- function(pathN,fileListSearchpattern,startY,endY,basinElBandsShape){
   # Preparatory work

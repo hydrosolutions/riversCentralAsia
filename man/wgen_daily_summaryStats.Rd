@@ -23,3 +23,19 @@ Lists with precipitation and temperature summary statistics for each station in 
 \description{
 Function to generate precipitation and min./max. summary statistics tables from 1 stochastic daily climate realization. param$nscenario > 1 not yet supported.
 }
+\seealso{
+Other Helper functions: 
+\code{\link{aggregate_to_monthly}()},
+\code{\link{assess_fc_qual}()},
+\code{\link{convert2HYY}()},
+\code{\link{cutRaster2Basin}()},
+\code{\link{decadeMaker}()},
+\code{\link{generateHourlyFromDaily_PT}()},
+\code{\link{generateSeqDates}()},
+\code{\link{hyear}()},
+\code{\link{monDateSeq}()},
+\code{\link{monthlyNorms_ClimateScenario}()},
+\code{\link{posixct2rsminerveChar}()},
+\code{\link{wgen_daily_PT}()}
+}
+\concept{Helper functions}

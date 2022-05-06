@@ -9,6 +9,7 @@
 #' @param e end date in YYYY-mm-dd format
 #' @param type 'start' creates starting decade dates, 'end' creates ending decade dates.
 #' @return A sequence of decadal dates
+#' @family Helper functions
 #' @export
 decadeMaker <- function(s,e,type){
   s_year <- s %>% zoo::as.Date() %>% lubridate::year() %>% zoo::yearmon() %>% zoo::as.Date()

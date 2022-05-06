@@ -37,3 +37,18 @@ It also applies different clean up operations that require user specified values
 smoothr::drop_crumbs() and smoothr::fill_holes() functions. These sub-basins, once stored as a
 shape file can then be further edited in QGIS.
 }
+\seealso{
+Other Pre-processing: 
+\code{\link{biasCorrect_ERA5_CHELSA}()},
+\code{\link{climateScenarioPreparation_RMAWGEN}()},
+\code{\link{computeDiurnalTemperatureCycle}()},
+\code{\link{doQuantileMapping_Tobi}()},
+\code{\link{downscale_ClimPred_monthly_BasinElBands}()},
+\code{\link{gen_HRU_Climate_CSV_RSMinerve}()},
+\code{\link{generate_ERA5_Subbasin_CSV}()},
+\code{\link{import_iEasyHydro_data}()},
+\code{\link{loadTabularData}()},
+\code{\link{plotNormDevHYY}()},
+\code{\link{prepare_RMAWGEN_input_data}()}
+}
+\concept{Pre-processing}

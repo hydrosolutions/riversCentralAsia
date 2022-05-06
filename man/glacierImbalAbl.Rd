@@ -37,7 +37,11 @@ The relative error of the function is estimated to be 0.73%. See
   imbalAbl_m3a <- glacierImbalAbl(c(1,2,3,4,5)*10^3)
 }
 \seealso{
-Other glacier functions: 
+Other Glacier functions: 
+\code{\link{AizensGlacierFunctions}()},
+\code{\link{ErazovsGlacierFunction}()},
+\code{\link{OerlemansGlacierLengthModel_FormatLong}()},
+\code{\link{OerlemansGlacierLengthModel}()},
 \code{\link{glacierArea_Erasov}()},
 \code{\link{glacierArea_RGIF}()},
 \code{\link{glacierBalanceP}()},
@@ -50,4 +54,4 @@ Other glacier functions:
 \code{\link{glacierVolume_Erasov}()},
 \code{\link{glacierVolume_RGIF}()}
 }
-\concept{glacier functions}
+\concept{Glacier functions}

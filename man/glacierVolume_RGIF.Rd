@@ -28,7 +28,11 @@ The derivation of the empirical relationship as well as a comparison
 \seealso{
 \code{\link{glacierArea_RGIF}}, \code{\link{glacierVolume_Erasov}}
 
-Other glacier functions: 
+Other Glacier functions: 
+\code{\link{AizensGlacierFunctions}()},
+\code{\link{ErazovsGlacierFunction}()},
+\code{\link{OerlemansGlacierLengthModel_FormatLong}()},
+\code{\link{OerlemansGlacierLengthModel}()},
 \code{\link{glacierArea_Erasov}()},
 \code{\link{glacierArea_RGIF}()},
 \code{\link{glacierBalanceP}()},
@@ -41,4 +45,4 @@ Other glacier functions:
 \code{\link{glacierTotalAblation_HM}()},
 \code{\link{glacierVolume_Erasov}()}
 }
-\concept{glacier functions}
+\concept{Glacier functions}

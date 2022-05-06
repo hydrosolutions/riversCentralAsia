@@ -19,3 +19,19 @@ List with climate scenario dependent hourly P and T data as direct input for RS 
 \description{
 The function uses different gap filling methods to a) compute hourly precipitation, and b) compute hourly temperatures for all stations/elevation bands. Daily precipitation values are uniformly distributed over the day and temerpatures are calculated to fit a typical diurnal station cycle between daily Tmin and Tmax (output of stochastic weather generator). The diurnal cycle can be calculated by the function diurnalTempCycle_stations().
 }
+\seealso{
+Other Helper functions: 
+\code{\link{aggregate_to_monthly}()},
+\code{\link{assess_fc_qual}()},
+\code{\link{convert2HYY}()},
+\code{\link{cutRaster2Basin}()},
+\code{\link{decadeMaker}()},
+\code{\link{generateSeqDates}()},
+\code{\link{hyear}()},
+\code{\link{monDateSeq}()},
+\code{\link{monthlyNorms_ClimateScenario}()},
+\code{\link{posixct2rsminerveChar}()},
+\code{\link{wgen_daily_PT}()},
+\code{\link{wgen_daily_summaryStats}()}
+}
+\concept{Helper functions}

@@ -21,3 +21,19 @@ This function creates a sequence of monthly dates between a start and an end
 date. It requires the specification of the start and end dates and the frequency.
 If a continuous sequence is requested, then freq should be 12.
 }
+\seealso{
+Other Helper functions: 
+\code{\link{aggregate_to_monthly}()},
+\code{\link{assess_fc_qual}()},
+\code{\link{convert2HYY}()},
+\code{\link{cutRaster2Basin}()},
+\code{\link{decadeMaker}()},
+\code{\link{generateHourlyFromDaily_PT}()},
+\code{\link{generateSeqDates}()},
+\code{\link{hyear}()},
+\code{\link{monthlyNorms_ClimateScenario}()},
+\code{\link{posixct2rsminerveChar}()},
+\code{\link{wgen_daily_PT}()},
+\code{\link{wgen_daily_summaryStats}()}
+}
+\concept{Helper functions}

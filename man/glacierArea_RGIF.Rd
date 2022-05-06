@@ -33,7 +33,11 @@ Assuming a normal distribution of the residuals, the relative
 \seealso{
 \code{[glacierVolume_RGIF]}, \code{[glacierArea_Erasov]}
 
-Other glacier functions: 
+Other Glacier functions: 
+\code{\link{AizensGlacierFunctions}()},
+\code{\link{ErazovsGlacierFunction}()},
+\code{\link{OerlemansGlacierLengthModel_FormatLong}()},
+\code{\link{OerlemansGlacierLengthModel}()},
 \code{\link{glacierArea_Erasov}()},
 \code{\link{glacierBalanceP}()},
 \code{\link{glacierBalance}()},
@@ -46,4 +50,4 @@ Other glacier functions:
 \code{\link{glacierVolume_Erasov}()},
 \code{\link{glacierVolume_RGIF}()}
 }
-\concept{glacier functions}
+\concept{Glacier functions}

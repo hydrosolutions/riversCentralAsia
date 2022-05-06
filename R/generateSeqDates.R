@@ -6,6 +6,7 @@
 #' @param endY Ending year for sequence of dates
 #' @param freq "hour", "day", "week", "month", "quarter" or "year"
 #' @return Tibble with date sequence with date frequency as specified. The date sequence starts at 00:00:00
+#' @family Helper functions
 #' @export
 generateSeqDates <- function(startY,endY,freq,tz="UTC"){
   sTime <- base::paste0(startY,'-01-01 00:00:00')

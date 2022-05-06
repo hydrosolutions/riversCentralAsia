@@ -15,6 +15,7 @@
 #' @param dataType Type of data, either `Q` (discharge data), `T` (temperature data) or `P` (precipitation data)
 #' @param units Data units
 #' @return Time-aware tibble with relevant data
+#' @family Pre-processing
 #' @export
 loadTabularData <- function(fPath,fName,code,stationName,rName,rBasin,dataType,units){
   dataMat <- readr::read_csv(paste(fPath,fName,sep=""), col_names = FALSE, col_types = readr::cols())

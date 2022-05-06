@@ -26,7 +26,11 @@ Based on the residuals of the fits for growing and melting glaciers
   See glacier vignette 02 for a demonstration on how to use that information.
 }
 \seealso{
-Other glacier functions: 
+Other Glacier functions: 
+\code{\link{AizensGlacierFunctions}()},
+\code{\link{ErazovsGlacierFunction}()},
+\code{\link{OerlemansGlacierLengthModel_FormatLong}()},
+\code{\link{OerlemansGlacierLengthModel}()},
 \code{\link{glacierArea_Erasov}()},
 \code{\link{glacierArea_RGIF}()},
 \code{\link{glacierBalanceP}()},
@@ -39,4 +43,4 @@ Other glacier functions:
 \code{\link{glacierVolume_Erasov}()},
 \code{\link{glacierVolume_RGIF}()}
 }
-\concept{glacier functions}
+\concept{Glacier functions}

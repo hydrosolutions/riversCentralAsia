@@ -17,3 +17,18 @@ Tibble with average diurnal temperature cycles stored in each column for each st
 \description{
 The function takes the tabular ERA5 input data and computes the diurnal cycle for a period of interest between param$year_min and param$yearmax
 }
+\seealso{
+Other Pre-processing: 
+\code{\link{biasCorrect_ERA5_CHELSA}()},
+\code{\link{climateScenarioPreparation_RMAWGEN}()},
+\code{\link{doQuantileMapping_Tobi}()},
+\code{\link{downscale_ClimPred_monthly_BasinElBands}()},
+\code{\link{gen_HRU_Climate_CSV_RSMinerve}()},
+\code{\link{gen_basinElevationBands}()},
+\code{\link{generate_ERA5_Subbasin_CSV}()},
+\code{\link{import_iEasyHydro_data}()},
+\code{\link{loadTabularData}()},
+\code{\link{plotNormDevHYY}()},
+\code{\link{prepare_RMAWGEN_input_data}()}
+}
+\concept{Pre-processing}

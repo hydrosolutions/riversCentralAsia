@@ -33,3 +33,22 @@ Aizen, Aizen & Kuzmichonok (2007) Glaciers and hydrological
   changes in the Tien Shan: simulation and prediction. Environmental Research
   Letters. DOI: 10.1088/1748-9326/2/4/045019.
 }
+\seealso{
+Other Glacier functions: 
+\code{\link{ErazovsGlacierFunction}()},
+\code{\link{OerlemansGlacierLengthModel_FormatLong}()},
+\code{\link{OerlemansGlacierLengthModel}()},
+\code{\link{glacierArea_Erasov}()},
+\code{\link{glacierArea_RGIF}()},
+\code{\link{glacierBalanceP}()},
+\code{\link{glacierBalance}()},
+\code{\link{glacierDischargeRMSE}()},
+\code{\link{glacierDischarge_HM}()},
+\code{\link{glacierImbalAbl}()},
+\code{\link{glacierMelt_TI}()},
+\code{\link{glacierRMSE}()},
+\code{\link{glacierTotalAblation_HM}()},
+\code{\link{glacierVolume_Erasov}()},
+\code{\link{glacierVolume_RGIF}()}
+}
+\concept{Glacier functions}

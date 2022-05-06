@@ -2,19 +2,39 @@
 % Please edit documentation in R/assess_fc_qual.R
 \name{assess_fc_qual}
 \alias{assess_fc_qual}
-\title{Assesses the quality of decadal or monthly forecasts as done in Central Asian Hydrometeorological Agencies.}
+\title{Assesses the quality of decadal or monthly forecasts as done in Central Asian
+Hydrometeorological Agencies.}
 \usage{
 assess_fc_qual(df, plot)
 }
 \arguments{
-\item{df}{tibble with date, obs, pred and per column where the per column is either the decade or the month specifier (normally given as factor).}
+\item{df}{tibble with date, obs, pred and per column where the per column is
+either the decade or the month specifier (normally given as factor).}
 
 \item{plot}{TRUE/FALSE if plot should be generated}
 }
 \value{
-A list with a tibble of per period forecasts that are acceptable expressed as percentages of the total test set length
+A list with a tibble of per period forecasts that are acceptable
+  expressed as percentages of the total test set length
 }
 \description{
-This function computes a per period (decade or month) forecast quality assessment for each forecast for the test set provided.
+This function computes a per period (decade or month) forecast quality
+assessment for each forecast for the test set provided.
 Ideally, the user provides an out-of-sample testset
 }
+\seealso{
+Other Helper functions: 
+\code{\link{aggregate_to_monthly}()},
+\code{\link{convert2HYY}()},
+\code{\link{cutRaster2Basin}()},
+\code{\link{decadeMaker}()},
+\code{\link{generateHourlyFromDaily_PT}()},
+\code{\link{generateSeqDates}()},
+\code{\link{hyear}()},
+\code{\link{monDateSeq}()},
+\code{\link{monthlyNorms_ClimateScenario}()},
+\code{\link{posixct2rsminerveChar}()},
+\code{\link{wgen_daily_PT}()},
+\code{\link{wgen_daily_summaryStats}()}
+}
+\concept{Helper functions}

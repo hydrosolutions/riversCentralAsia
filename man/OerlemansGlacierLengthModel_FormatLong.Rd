@@ -108,3 +108,22 @@ This function is suitable if you have the climate data in a long table format. I
 \references{
 Oerlemans (2005) Extracting a Climate Signal from 169 Glacier Records. Science. DOI: 10.1126/science.1107046.
 }
+\seealso{
+Other Glacier functions: 
+\code{\link{AizensGlacierFunctions}()},
+\code{\link{ErazovsGlacierFunction}()},
+\code{\link{OerlemansGlacierLengthModel}()},
+\code{\link{glacierArea_Erasov}()},
+\code{\link{glacierArea_RGIF}()},
+\code{\link{glacierBalanceP}()},
+\code{\link{glacierBalance}()},
+\code{\link{glacierDischargeRMSE}()},
+\code{\link{glacierDischarge_HM}()},
+\code{\link{glacierImbalAbl}()},
+\code{\link{glacierMelt_TI}()},
+\code{\link{glacierRMSE}()},
+\code{\link{glacierTotalAblation_HM}()},
+\code{\link{glacierVolume_Erasov}()},
+\code{\link{glacierVolume_RGIF}()}
+}
+\concept{Glacier functions}

@@ -8,6 +8,7 @@
 #' @param en end date
 #' @param freq frequence of dates (12 for continuous monthly dates)
 #' @return A sequence of dates
+#' @family Helper functions
 #' @export
 monDateSeq <- function(st, en, freq) {
   st <- zoo::as.Date(zoo::as.yearmon(st))

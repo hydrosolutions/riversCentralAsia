@@ -7,6 +7,7 @@
 #' @param station_data Station ERA5 data prepared with riversCentralAsia::prepare_RMAWGEN_input_data() function.
 #' @param station_subset Character vector with station names to provided summary statistics for. If is.null(station_subset)==TRUE, station_subset = param$station.
 #' @param clim_scen Climate scenario under consideration which was also used in the generation of the simulated climate in PT_sim. If is.null(clim_scen)==TRUE, the observed (ERA5) values are compared with the simulated values.
+#' @family Helper functions
 #' @return Lists with precipitation and temperature summary statistics for each station in the station_subset variable.
 #' @export
 wgen_daily_summaryStats <- function(PT_sim,param,station_data,station_subset,clim_scen){

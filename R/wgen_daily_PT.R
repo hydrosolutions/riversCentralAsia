@@ -8,6 +8,7 @@
 #' @param climScen Optional climate scenario that conditions the generation of future stochastic weather variables on norm climate (output from GMCs) for the individual stations. If NULL, the simulated period will cover the observation periuod.
 #' @param returnVAR Return the var models? If this option is set to FALSE, the P_gen and T_gen files become more manageable.
 #' @return Stochastic multi-site weather generator RMAWGEN precipitation and temperature models.
+#' @family Helper functions
 #' @export
 wgen_daily_PT <- function(param, station_data, station_subset, clim_scen,returnVAR){
 

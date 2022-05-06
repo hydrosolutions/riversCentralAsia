@@ -11,6 +11,7 @@
 #' @param dataType String, either 'Q' for mean discharge in m3/s, 'T' for temperature in degrees Celsius or 'P' for precipitation in mm/yr.
 #' @param stationID String of station name, e.g. 'Khorog-Gunt 17050'
 #' @return ggplot object
+#' @family Pre-processing
 #' @export
 plotNormDevHYY <- function(data2Plot,dataType,stationID){
   # rename columns just to ensure proper functioning of the function after changes in the naming convention of convert2HYY()

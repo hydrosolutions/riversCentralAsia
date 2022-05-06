@@ -4,6 +4,7 @@
 #'
 #' @param rsMinerve_data_csv_tibble RS MINERVE loaded csv file - read.table(paste0(filePath,fileName),sep=',') -
 #' @return List with 4 elements, including downscaled monthly precipitation (pr), monthly mean minimum temperature (tasmean), monthly mean temperature (tasmean) and monthly mean maximum temperature (tasmax).
+#' @family Pre-processing
 #' @export
 prepare_RMAWGEN_input_data <- function(rsMinerve_data_csv_tibble){
 

@@ -37,4 +37,5 @@ ChirchikRiverBasin
 A dataset containing the 10-day (decadal) or monthly data for discharge,
 precipitation and temperature in the Chirchiq river basin, Uzbekistan.
 }
+\concept{Demo data}
 \keyword{datasets}

@@ -11,6 +11,7 @@
 #' @param startY Starting year for which data should be made available (assuming data 'is' available from the start of that year)
 #' @param endY Ending year from which data should be extracted (assuming data 'is' actually available until the end of that year)
 #' @return Dataframe tibble with temperature in deg. C. or precipitation in mm/h
+#' @family Pre-processing
 #' @export
 generate_ERA5_Subbasin_CSV <- function(dir_ERA5_hourly,catchmentName,dataType,elBands_shp,startY,endY){
 

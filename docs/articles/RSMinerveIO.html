@@ -56,9 +56,6 @@
       <a href="../articles/glaciers-01-intro.html">Glaciers 01 - Introduction &amp; Data</a>
     </li>
     <li>
-      <a href="../articles/glaciers-02-DDMWB.html">Glaciers 02 - Modelling discharge from glaciers</a>
-    </li>
-    <li>
       <a href="../articles/glaciers-03-oerlemans.html">Glaciers 03 - Estimating glacier lengths in Central Asia</a>
     </li>
     <li>
@@ -124,7 +121,7 @@ supported in this present versions of <code>readRSMParameters</code> and
 <code>writeRSMParameters</code> of the <code>riversCentralAsia</code>
 package. See section below for a list of supported objects.</p>
 <div class="sourceCode" id="cb1"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://tidyverse.tidyverse.org" class="external-link">tidyverse</a></span><span class="op">)</span></code></pre></div>
+<code class="sourceCode R"><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://tidyverse.tidyverse.org" class="external-link">tidyverse</a></span>, quietly <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></code></pre></div>
 <pre><code><span class="co">## -- <span style="font-weight: bold;">Attaching packages</span> --------------------------------------- tidyverse 1.3.1 --</span></code></pre>
 <pre><code><span class="co">## <span style="color: #00BB00;">v</span> <span style="color: #0000BB;">ggplot2</span> 3.3.5     <span style="color: #00BB00;">v</span> <span style="color: #0000BB;">purrr  </span> 0.3.4</span>
 <span class="co">## <span style="color: #00BB00;">v</span> <span style="color: #0000BB;">tibble </span> 3.1.6     <span style="color: #00BB00;">v</span> <span style="color: #0000BB;">dplyr  </span> 1.0.9</span>
@@ -134,11 +131,8 @@ package. See section below for a list of supported objects.</p>
 <span class="co">## <span style="color: #BB0000;">x</span> <span style="color: #0000BB;">dplyr</span>::<span style="color: #00BB00;">filter()</span> masks <span style="color: #0000BB;">stats</span>::filter()</span>
 <span class="co">## <span style="color: #BB0000;">x</span> <span style="color: #0000BB;">dplyr</span>::<span style="color: #00BB00;">lag()</span>    masks <span style="color: #0000BB;">stats</span>::lag()</span></code></pre>
 <div class="sourceCode" id="cb5"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="fu">devtools</span><span class="fu">::</span><span class="fu"><a href="https://devtools.r-lib.org/reference/remote-reexports.html" class="external-link">install_github</a></span><span class="op">(</span><span class="st">"hydrosolutions/riversCentralAsia"</span><span class="op">)</span></code></pre></div>
-<pre><code><span class="co">## Skipping install of 'riversCentralAsia' from a github remote, the SHA1 (47c4e80c) has not changed since last install.</span>
-<span class="co">##   Use `force = TRUE` to force installation</span></code></pre>
-<div class="sourceCode" id="cb7"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://hydrosolutions.github.io/riversCentralAsia/index.html" class="external-link">riversCentralAsia</a></span><span class="op">)</span>
+<code class="sourceCode R"><span class="fu">devtools</span><span class="fu">::</span><span class="fu"><a href="https://devtools.r-lib.org/reference/remote-reexports.html" class="external-link">install_github</a></span><span class="op">(</span><span class="st">"hydrosolutions/riversCentralAsia"</span>, quiet <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span>
+<span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://hydrosolutions.github.io/riversCentralAsia/index.html" class="external-link">riversCentralAsia</a></span>, quietly <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span>
 
 <span class="co"># 1. Export a default parameter file for your model in RS Minerve</span>
 
@@ -152,9 +146,8 @@ package. See section below for a list of supported objects.</p>
                          <span class="va">Values</span><span class="op">/</span><span class="fl">2</span>, <span class="va">Values</span><span class="op">)</span><span class="op">)</span>
 
 <span class="co"># 4. Write the edited parameters and import them into RS Minerve</span>
-<span class="fu"><a href="../reference/writeRSMParameters.html">writeRSMParameters</a></span><span class="op">(</span><span class="va">params</span>, 
+<span class="va">out</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/writeRSMParameters.html">writeRSMParameters</a></span><span class="op">(</span><span class="va">params</span>, 
                    <span class="st">"../../atbashy_glacier_demo_data/RSMINERVE/params.txt"</span><span class="op">)</span></code></pre></div>
-<pre><code><span class="co">## NULL</span></code></pre>
 <div class="section level3">
 <h3 id="rs-minerve-objects-supported-in-riverscentralasia">RS Minerve objects supported in <code>riversCentralAsia</code><a class="anchor" aria-label="anchor" href="#rs-minerve-objects-supported-in-riverscentralasia"></a>
 </h3>
@@ -182,30 +175,20 @@ fluxes from large models can be time consuming to set up manually. The
 following code chunk demonstrates how to write a check node file for the
 export of snow water equivalent from all HBV modules in the RS Minerve
 model.</p>
-<div class="sourceCode" id="cb9"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://tidyverse.tidyverse.org" class="external-link">tidyverse</a></span><span class="op">)</span>
-<span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://r-spatial.github.io/sf/" class="external-link">sf</a></span><span class="op">)</span></code></pre></div>
+<div class="sourceCode" id="cb6"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://tidyverse.tidyverse.org" class="external-link">tidyverse</a></span>, quietly <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span>
+<span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://r-spatial.github.io/sf/" class="external-link">sf</a></span>, quietly <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></code></pre></div>
 <pre><code><span class="co">## Linking to GEOS 3.9.1, GDAL 3.2.1, PROJ 7.2.1; sf_use_s2() is TRUE</span></code></pre>
-<div class="sourceCode" id="cb11"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="fu">devtools</span><span class="fu">::</span><span class="fu"><a href="https://devtools.r-lib.org/reference/remote-reexports.html" class="external-link">install_github</a></span><span class="op">(</span><span class="st">"hydrosolutions/riversCentralAsia"</span><span class="op">)</span></code></pre></div>
-<pre><code><span class="co">## Skipping install of 'riversCentralAsia' from a github remote, the SHA1 (47c4e80c) has not changed since last install.</span>
-<span class="co">##   Use `force = TRUE` to force installation</span></code></pre>
-<div class="sourceCode" id="cb13"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://hydrosolutions.github.io/riversCentralAsia/index.html" class="external-link">riversCentralAsia</a></span><span class="op">)</span>
+<div class="sourceCode" id="cb8"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="fu">devtools</span><span class="fu">::</span><span class="fu"><a href="https://devtools.r-lib.org/reference/remote-reexports.html" class="external-link">install_github</a></span><span class="op">(</span><span class="st">"hydrosolutions/riversCentralAsia"</span>, quiet <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span>
+<span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://hydrosolutions.github.io/riversCentralAsia/index.html" class="external-link">riversCentralAsia</a></span>, quietly <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span>
 
 <span class="co"># Get the model object IDs, here from the GIS layer used for automated model creation </span>
-<span class="va">Object_IDs</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://r-spatial.github.io/sf/reference/st_read.html" class="external-link">st_read</a></span><span class="op">(</span><span class="st">"../../atbashy_glacier_demo_data/GIS/16076_HRU.shp"</span><span class="op">)</span> |&gt; 
-  <span class="fu"><a href="https://r-spatial.github.io/sf/reference/st_geometry.html" class="external-link">st_drop_geometry</a></span><span class="op">(</span><span class="op">)</span> </code></pre></div>
-<pre><code><span class="co">## Reading layer `16076_HRU' from data source </span>
-<span class="co">##   `C:\Users\marti\Dropbox (hydrosolutions)\marti\github\atbashy_glacier_demo_data\GIS\16076_HRU.shp' </span>
-<span class="co">##   using driver `ESRI Shapefile'</span>
-<span class="co">## Simple feature collection with 40 features and 3 fields</span>
-<span class="co">## Geometry type: MULTIPOLYGON</span>
-<span class="co">## Dimension:     XY</span>
-<span class="co">## Bounding box:  xmin: 1105700 ymin: 4575416 xmax: 1197076 ymax: 4616616</span>
-<span class="co">## Projected CRS: WGS 84 / UTM zone 42N</span></code></pre>
-<div class="sourceCode" id="cb15"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="co"># Generate a table for each variable per model object to be visualized or </span>
+<span class="va">Object_IDs</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://r-spatial.github.io/sf/reference/st_read.html" class="external-link">st_read</a></span><span class="op">(</span><span class="st">"../../atbashy_glacier_demo_data/GIS/16076_HRU.shp"</span>, 
+                      quiet <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span> |&gt; 
+  <span class="fu"><a href="https://r-spatial.github.io/sf/reference/st_geometry.html" class="external-link">st_drop_geometry</a></span><span class="op">(</span><span class="op">)</span> 
+
+<span class="co"># Generate a table for each variable per model object to be visualized or </span>
 <span class="co"># exported in RS Minerve</span>
 <span class="va">data</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://r-spatial.github.io/sf/reference/tibble.html" class="external-link">tibble</a></span><span class="op">(</span>
   Model <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/rep.html" class="external-link">rep</a></span><span class="op">(</span><span class="st">"Model Atbasy"</span>, <span class="fu"><a href="https://rdrr.io/r/base/length.html" class="external-link">length</a></span><span class="op">(</span><span class="va">Object_IDs</span><span class="op">$</span><span class="va">name</span><span class="op">)</span><span class="op">)</span>, 

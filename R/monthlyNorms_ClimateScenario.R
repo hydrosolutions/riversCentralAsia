@@ -4,6 +4,7 @@
 #'
 #' @param climScenario Climate scenario (see also function climateScenarioPreparation_RMAWGEN())
 #' @return climScenario list with added norms (prec_norm, tasmin_norm, tasmax_norm)
+#' @family Helper functions
 #' @export
 monthlyNorms_ClimateScenario <- function(climScenario){
 

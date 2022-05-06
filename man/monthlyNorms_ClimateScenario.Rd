@@ -15,3 +15,19 @@ climScenario list with added norms (prec_norm, tasmin_norm, tasmax_norm)
 \description{
 Helper function to compute monthly norms of climate variables
 }
+\seealso{
+Other Helper functions: 
+\code{\link{aggregate_to_monthly}()},
+\code{\link{assess_fc_qual}()},
+\code{\link{convert2HYY}()},
+\code{\link{cutRaster2Basin}()},
+\code{\link{decadeMaker}()},
+\code{\link{generateHourlyFromDaily_PT}()},
+\code{\link{generateSeqDates}()},
+\code{\link{hyear}()},
+\code{\link{monDateSeq}()},
+\code{\link{posixct2rsminerveChar}()},
+\code{\link{wgen_daily_PT}()},
+\code{\link{wgen_daily_summaryStats}()}
+}
+\concept{Helper functions}

@@ -6,6 +6,7 @@
 #' @param era5_data Full ERA5 data frame
 #' @param param Stochastic weather simulation parameters
 #' @return List with climate scenario dependent hourly P and T data as direct input for RS MINERVE.
+#' @family Helper functions
 #' @export
 generateHourlyFromDaily_PT <- function(PT_sim,era5_data,param){
 

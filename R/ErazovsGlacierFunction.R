@@ -14,6 +14,10 @@
 #'                          Area = c(0.57, 0.56, 0.55, 0.55, 0.54, 0.53, 0.53,
 #'                                   0.52, 0.051, 0.05, 0.048))
 #' ErazovsGlacierFunction(glacier)
+#' @note This function is being deprecated. Please use glacierVolume_Erasov()
+#'   instead.
+#' @seealso \code{[glacierVolume_Erasov]}
+#' @family Glacier functions
 #' @export
 ErazovsGlacierFunction <- function(glaciers) {
 

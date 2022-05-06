@@ -14,6 +14,7 @@
 #' @param holeSize_km2 Minimum Size of holes that will be kept during cleaning operation (in square kilometers)
 #' @param smoothFact smoothness of final elevation bands (smoothness parameter of smoothr::smooth() function)
 #' @return Simple feature (sf) multi-polygon. Returns NULL if not successfull.
+#' @family Pre-processing
 #' @export
 gen_basinElevationBands <- function(dem_PathN, dem_FileN = "DEM.tif", demAggFact, band_interval, holeSize_km2, smoothFact){
 

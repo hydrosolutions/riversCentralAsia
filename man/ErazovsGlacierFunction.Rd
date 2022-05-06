@@ -19,6 +19,10 @@ ErazovsGlacierFunction implements the empirical relationship between glacier
 area and volume. It can be used to estimate regional glacier volumes in
 Central Asia.
 }
+\note{
+This function is being deprecated. Please use glacierVolume_Erasov()
+  instead.
+}
 \examples{
 glacier <- dplyr::tibble(Year = c(2000:2010),
                          Area = c(0.57, 0.56, 0.55, 0.55, 0.54, 0.53, 0.53,
@@ -28,3 +32,24 @@ ErazovsGlacierFunction(glacier)
 \references{
 Erazov, N. V. (1968). Method for determining of volume of mountain glaciers. MGI 14, pp 307-308.
 }
+\seealso{
+\code{[glacierVolume_Erasov]}
+
+Other Glacier functions: 
+\code{\link{AizensGlacierFunctions}()},
+\code{\link{OerlemansGlacierLengthModel_FormatLong}()},
+\code{\link{OerlemansGlacierLengthModel}()},
+\code{\link{glacierArea_Erasov}()},
+\code{\link{glacierArea_RGIF}()},
+\code{\link{glacierBalanceP}()},
+\code{\link{glacierBalance}()},
+\code{\link{glacierDischargeRMSE}()},
+\code{\link{glacierDischarge_HM}()},
+\code{\link{glacierImbalAbl}()},
+\code{\link{glacierMelt_TI}()},
+\code{\link{glacierRMSE}()},
+\code{\link{glacierTotalAblation_HM}()},
+\code{\link{glacierVolume_Erasov}()},
+\code{\link{glacierVolume_RGIF}()}
+}
+\concept{Glacier functions}

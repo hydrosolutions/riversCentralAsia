@@ -25,7 +25,7 @@ gen_HRU_Climate_CSV_RSMinerve(
 
 \item{catchmentName}{Name of catchment for which data should be extracted}
 
-\item{elBands_shp}{Shapefile with hydrological response units. The column containing the names of the hydrological response 
+\item{elBands_shp}{Shapefile with hydrological response units. The column containing the names of the hydrological response
 units must be \code{name} and the column containing the average elevation of the elevation band must be \code{Z}.}
 
 \item{startY}{Starting year for which data should be made available (assuming data 'is' available from the start of that year)}
@@ -53,3 +53,18 @@ GCM-simulated history hist_sim and GCM-simulated future fut_sim) and prepares a 
 later import in RSMinerve (use readr::write_csv(.,col_names=FALSE)). tp and tas_ have to be exported,
 the function has to be called twice and the resulting tibble columns added.
 }
+\seealso{
+Other Pre-processing: 
+\code{\link{biasCorrect_ERA5_CHELSA}()},
+\code{\link{climateScenarioPreparation_RMAWGEN}()},
+\code{\link{computeDiurnalTemperatureCycle}()},
+\code{\link{doQuantileMapping_Tobi}()},
+\code{\link{downscale_ClimPred_monthly_BasinElBands}()},
+\code{\link{gen_basinElevationBands}()},
+\code{\link{generate_ERA5_Subbasin_CSV}()},
+\code{\link{import_iEasyHydro_data}()},
+\code{\link{loadTabularData}()},
+\code{\link{plotNormDevHYY}()},
+\code{\link{prepare_RMAWGEN_input_data}()}
+}
+\concept{Pre-processing}

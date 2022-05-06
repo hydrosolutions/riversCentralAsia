@@ -15,3 +15,18 @@ List with 4 elements, including downscaled monthly precipitation (pr), monthly m
 \description{
 Based on the basin-specific RS MINERVE database csv file, the function computes input files for the RMAWGEN precipitation and temperature weather generator.
 }
+\seealso{
+Other Pre-processing: 
+\code{\link{biasCorrect_ERA5_CHELSA}()},
+\code{\link{climateScenarioPreparation_RMAWGEN}()},
+\code{\link{computeDiurnalTemperatureCycle}()},
+\code{\link{doQuantileMapping_Tobi}()},
+\code{\link{downscale_ClimPred_monthly_BasinElBands}()},
+\code{\link{gen_HRU_Climate_CSV_RSMinerve}()},
+\code{\link{gen_basinElevationBands}()},
+\code{\link{generate_ERA5_Subbasin_CSV}()},
+\code{\link{import_iEasyHydro_data}()},
+\code{\link{loadTabularData}()},
+\code{\link{plotNormDevHYY}()}
+}
+\concept{Pre-processing}

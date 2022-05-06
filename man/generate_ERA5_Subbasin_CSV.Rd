@@ -34,3 +34,18 @@ Function extracts precipitation (tp) or temperature (t2m) data from raster brick
 later import in RSMinerve (use write.table() function to export as csv). If tp and t2m have to be exported,
 the function has to be called twice and the resulting tibble columns added.
 }
+\seealso{
+Other Pre-processing: 
+\code{\link{biasCorrect_ERA5_CHELSA}()},
+\code{\link{climateScenarioPreparation_RMAWGEN}()},
+\code{\link{computeDiurnalTemperatureCycle}()},
+\code{\link{doQuantileMapping_Tobi}()},
+\code{\link{downscale_ClimPred_monthly_BasinElBands}()},
+\code{\link{gen_HRU_Climate_CSV_RSMinerve}()},
+\code{\link{gen_basinElevationBands}()},
+\code{\link{import_iEasyHydro_data}()},
+\code{\link{loadTabularData}()},
+\code{\link{plotNormDevHYY}()},
+\code{\link{prepare_RMAWGEN_input_data}()}
+}
+\concept{Pre-processing}

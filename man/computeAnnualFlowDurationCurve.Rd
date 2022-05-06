@@ -46,3 +46,8 @@ Qdfdaily <- tibble::tibble(Date = Date,
     runif(length(Date))*2)
 DurationCurve <- computeAnnualFlowDurationCurve(Qdfdaily, "Q", "Date")
 }
+\seealso{
+Other Post-processing: 
+\code{\link{plotAnnualFlowDurationCurve}()}
+}
+\concept{Post-processing}

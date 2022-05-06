@@ -49,6 +49,7 @@
 #' results <- doQuantileMapping(hist_obs, hist_sim, fut_sim)
 #' mapped_hist_sim <- results[[1]]
 #' mapped_fut_sim <- results[[2]]
+#' @family Pre-processing
 #' @export
 doQuantileMapping_Tobi <- function(hist_obs, hist_sim, fut_sim){
 

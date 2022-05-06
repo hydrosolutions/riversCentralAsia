@@ -5,11 +5,11 @@
 #' later import in RSMinerve (use readr::write_csv(.,col_names=FALSE)). tp and tas_ have to be exported,
 #' the function has to be called twice and the resulting tibble columns added.
 #'
-#' @param climate_files List of either temperature or precipitation climate .nc files to process (do not mix!). Make sure the file list time interval is consistent with startY and endY. 
+#' @param climate_files List of either temperature or precipitation climate .nc files to process (do not mix!). Make sure the file list time interval is consistent with startY and endY.
 #' @param catchmentName Name of catchment for which data should be extracted
 #' @param dataType Either 'Temperature' or 'Precipitation'
-#' @param elBands_shp Shapefile with hydrological response units. The column containing the names of the hydrological response 
-#'   units must be \code{name} and the column containing the average elevation of the elevation band must be \code{Z}. 
+#' @param elBands_shp Shapefile with hydrological response units. The column containing the names of the hydrological response
+#'   units must be \code{name} and the column containing the average elevation of the elevation band must be \code{Z}.
 #' @param startY Starting year for which data should be made available (assuming data 'is' available from the start of that year)
 #' @param endY Ending year from which data should be extracted (assuming data 'is' actually available until the end of that year)
 #' @param obs_frequency Climate observation frequency ('hour', 'day', 'month')
@@ -18,6 +18,7 @@
 #' @param output_file_dir Path to output file dir (if empty, file will not be written)
 #' @param tz Time zone information. Default "UTC" which can be overridden.
 #' @return Dataframe tibble with temperature in deg. C. or precipitation in mm/h
+#' @family Pre-processing
 #' @export
 gen_HRU_Climate_CSV_RSMinerve <- function(climate_files,
                                           catchmentName,

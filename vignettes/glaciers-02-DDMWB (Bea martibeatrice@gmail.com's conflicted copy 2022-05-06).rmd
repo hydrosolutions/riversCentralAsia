@@ -1,5 +1,5 @@
 ---
-title: "Glaciers 02 - Temperature index model"
+title: "Glaciers 02 - Modelling discharge from glaciers"
 editor: visual
 bibliography: [references.bib, HMA_bibliography.bib]
 output: rmarkdown::html_vignette
@@ -102,19 +102,19 @@ error_stats = tibble::tibble(
 We demonstrate the above described method with the data from the Atbashy basin, a tributary of the Naryn river. As for the [previous chapter](glaciers-01-intro.html) you can download all required data from [this link](https://www.dropbox.com/sh/r0lqggc77ka0uxd/AAChuIyLHHFIfAdgxNKiU2dpa?dl=1){target="_blank"}.
 
 ```{r, datarefpath, message=FALSE, warning=FALSE}
-library(tmap)
-library(timetk)
-library(sf)
-library(raster)
-library(exactextractr)
-library(tidyverse)
-library(lubridate)
+library(tmap, quietly = TRUE)
+library(timetk, quietly = TRUE)
+library(sf, quietly = TRUE)
+library(raster, quietly = TRUE)
+library(exactextractr, quietly = TRUE)
+library(tidyverse, quietly = TRUE)
+library(lubridate, quietly = TRUE)
 
-devtools::install_github("hydrosolutions/riversCentralAsia")
-library(riversCentralAsia)
+devtools::install_github("hydrosolutions/riversCentralAsia", quiet = TRUE)
+library(riversCentralAsia, quietly = TRUE)
 
 # Stochastic optimisation algorithm for model calibration
-library(GA)
+library(GA, quietly = TRUE)
 
 # Path to the data directory downloaded from the download link provided above. 
 # Here the data is extracted to a folder called atbashy_glacier_demo_data
@@ -476,41 +476,22 @@ The temperature index model can be calibrated with the specific glacier volume c
 
 The 2 parameters of the temperature index model can be calibrated using observed glacier melt rates. As mentioned above, the observed glacier melt rates are simulated total ablation by @miles_health_2021 where available or estimated total ablation using an empirical relationship between total glacier ablation by @miles_health_2021 and glacier thinning rates by @hugonnet_accelerated_2021.
 
-```{r}
-# Calibrating many glaciers takes a lot of time. 
-# Reduce the amount of time required and only calibrate the glaciers that are 
-# larger or equal than 0.2 km2. That represents 83% of the glacier volume in the 
-# Atbashy basin but reduces the number of glaciers to be calibrated by 65%. 
-# Or, in the cas of an Area threshold of 0.5 km2, the glacier volume covered is 
-# 59% and the glacier number reduction is 92% 
-rgi <- rgi |> mutate(Vol_km3 = glacierVolume_RGIF(Area))
-rgi_cal <- rgi |> 
-  dplyr::filter(Area >= 0) 
-
-temperature_cal <- hist_obs |> 
-  mutate(date = as_date(date)) |> 
-  dplyr::select(c(date, starts_with(rgi_cal$RGIId)))
-
-observed_cal <- observed_melt |> 
-  rename(RGIID = RGIId, 
-         totAbl = Qgl_m3a, 
-         year = start) |> 
-  mutate(year = year(year)) |> 
-  dplyr::filter(RGIID %in% rgi_cal$RGIId)
-
-glaciers_cal <- rgi_cal$RGIId
-
+```{r, eval=FALSE}
 DDFfit <- NULL
-for (id in c(1:length(glaciers_cal))) {
-  cat("Fitting temperature index model for glacier", glaciers_cal[id], "id =",
-      id, "\n")
+for (id in c(1:length(glaciers))) {
+  cat("Fitting temperature index model for glacier", glaciers[id], "\n")
   DDFtemp <- c(MF = 20, tth = -20)
   cat("    Start Parameters: MF =", DDFtemp[1], "Tth =", DDFtemp[2], "\n")
   
   tempGA <- ga(type = "real-valued", 
                fitness = glacierDischargeRMSE, 
-               temperature = temperature_cal,
-               observed = observed_cal,
+               temperature = hist_obs |> 
+                 mutate(date = as_date(date)),
+               observed = observed_melt |> 
+                 rename(RGIID = RGIId, 
+                        totAbl = Qgl_m3a, 
+                        year = start) |> 
+                 mutate(year = year(year)),
                index = id,
                lower = c(0.1, -30), upper = c(50, 10), 
                parallel = (parallel::detectCores()-6))
@@ -520,36 +501,19 @@ for (id in c(1:length(glaciers_cal))) {
   DDFfit <- rbind(DDFfit, tibble(MF = tempGA@solution[1],
                                 Tth = tempGA@solution[2],
                                 rsme = tempGA@fitnessValue) |>
-                    mutate(ID = glaciers_cal[id]))
-save(DDFfit, 
-     file = "../../atbashy_glacier_demo_data/GLACIERS/TIparametersAll.RData")
+                    mutate(ID = glaciers[id]))
 }
 save(DDFfit, 
-     file = "../../atbashy_glacier_demo_data/GLACIERS/TIparametersAll.RData")
-load("../../atbashy_glacier_demo_data/GLACIERS/TIparametersAll.RData")
-
-# Assign default parameters to all other glaciers
-MFmean <- DDFfit$MF |> mean()
-Tthmean <- DDFfit$Tth |> mean()
-
-DDFfit <- DDFfit |> 
-  full_join(rgi |> st_drop_geometry() |> dplyr::select(RGIId), 
-            by = c("ID" = "RGIId")) |> 
-  mutate(MF = ifelse(is.na(MF), MFmean, MF), 
-         Tth = ifelse(is.na(Tth), Tthmean, Tth)) 
+     file = "../../atbashy_glacier_demo_data/GLACIERS/TIparameters.RData")
 ```
 
 Recalculate glacier melt with calibrated parameters.
 
-```{r}
-MFvec <- DDFfit$MF
-names(MFvec) <- DDFfit$ID
-Tthvec <- DDFfit$Tth
-names(Tthvec) <- DDFfit$ID
+```{r, eval=FALSE}
 melt_cal <- glacierMelt_TI(temperature = hist_obs |> 
                              dplyr::select(-date),
-                           MF = MFvec,
-                           threshold_temperature = Tthvec) |> 
+                           MF = DDFfit$MF[1],
+                           threshold_temperature = DDFfit$Tth[1]) |> 
   mutate(date = hist_obs$date) |> 
   relocate(date, .before =  where(is.numeric))
 
@@ -606,7 +570,7 @@ ggplot() +
   theme_bw()
 ```
 
-The calibration is done using an R implementation of a genetic algorithm [@scrucca_ga_2013, @scrucca_extensions_2017]. The optimization is slow but it is necessary to use a global optimizer (`nlminb` of the stats package for example will not converge for all glaciers).
+The calibration is done using an R implementation of a genetic algorithm [@scrucca_ga_2013; @scrucca_extensions_2017]. The optimization is slow but it is necessary to use a global optimizer (`nlminb` of the stats package for example will NOT converge for all glaciers).
 
 ## Glacier mass balance
 

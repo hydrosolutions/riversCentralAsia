@@ -24,3 +24,18 @@ the cold season (Oct. to Mar. in Central Asia) and warm season (Apr. to Sept. in
 dataType(s) are accepted: 'Q' for discharge, 'T' temperature in deg. C. and 'P' for precipitation in mm/year.
 The data2Plot tibble can easily be produced with the function convert2HYY() that is part of the package.
 }
+\seealso{
+Other Pre-processing: 
+\code{\link{biasCorrect_ERA5_CHELSA}()},
+\code{\link{climateScenarioPreparation_RMAWGEN}()},
+\code{\link{computeDiurnalTemperatureCycle}()},
+\code{\link{doQuantileMapping_Tobi}()},
+\code{\link{downscale_ClimPred_monthly_BasinElBands}()},
+\code{\link{gen_HRU_Climate_CSV_RSMinerve}()},
+\code{\link{gen_basinElevationBands}()},
+\code{\link{generate_ERA5_Subbasin_CSV}()},
+\code{\link{import_iEasyHydro_data}()},
+\code{\link{loadTabularData}()},
+\code{\link{prepare_RMAWGEN_input_data}()}
+}
+\concept{Pre-processing}

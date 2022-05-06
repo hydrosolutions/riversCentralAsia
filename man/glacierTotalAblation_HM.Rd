@@ -21,7 +21,11 @@ Regression derived from the data set by Hugonnet et al., 2021 (dmdtda) and
 Miles et al., 2021 (totAbl).
 }
 \seealso{
-Other glacier functions: 
+Other Glacier functions: 
+\code{\link{AizensGlacierFunctions}()},
+\code{\link{ErazovsGlacierFunction}()},
+\code{\link{OerlemansGlacierLengthModel_FormatLong}()},
+\code{\link{OerlemansGlacierLengthModel}()},
 \code{\link{glacierArea_Erasov}()},
 \code{\link{glacierArea_RGIF}()},
 \code{\link{glacierBalanceP}()},
@@ -34,4 +38,4 @@ Other glacier functions:
 \code{\link{glacierVolume_Erasov}()},
 \code{\link{glacierVolume_RGIF}()}
 }
-\concept{glacier functions}
+\concept{Glacier functions}

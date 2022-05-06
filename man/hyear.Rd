@@ -18,3 +18,19 @@ In Central Asia the hydrological year starts in October of the previous year.
 \examples{
 Hyear <- hyear(lubridate::as_date(c("2015-09-30", "2015-10-01", "2016-01-27")))
 }
+\seealso{
+Other Helper functions: 
+\code{\link{aggregate_to_monthly}()},
+\code{\link{assess_fc_qual}()},
+\code{\link{convert2HYY}()},
+\code{\link{cutRaster2Basin}()},
+\code{\link{decadeMaker}()},
+\code{\link{generateHourlyFromDaily_PT}()},
+\code{\link{generateSeqDates}()},
+\code{\link{monDateSeq}()},
+\code{\link{monthlyNorms_ClimateScenario}()},
+\code{\link{posixct2rsminerveChar}()},
+\code{\link{wgen_daily_PT}()},
+\code{\link{wgen_daily_summaryStats}()}
+}
+\concept{Helper functions}

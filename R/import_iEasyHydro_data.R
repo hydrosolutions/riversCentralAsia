@@ -18,6 +18,7 @@
 #' @param masl station elevation
 #' @param basin_size basin size in km^2
 #' @return Time-aware tibble with relevant data
+#' @family Pre-processing
 #' @export
 import_iEasyHydro_data <- function(fPath,fName,code,stationName,rName,rBasin,dataType,units,x_UTM42N,y_UTM42N,masl,basin_size){
 

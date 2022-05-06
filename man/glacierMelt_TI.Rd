@@ -51,7 +51,11 @@ melt <- glacierMelt_TI(temperature, MF, threshold_temperature = 1)
 Hock R., 2003. DOI: 10.1016/S0022-1694(03)00257-9.
 }
 \seealso{
-Other glacier functions: 
+Other Glacier functions: 
+\code{\link{AizensGlacierFunctions}()},
+\code{\link{ErazovsGlacierFunction}()},
+\code{\link{OerlemansGlacierLengthModel_FormatLong}()},
+\code{\link{OerlemansGlacierLengthModel}()},
 \code{\link{glacierArea_Erasov}()},
 \code{\link{glacierArea_RGIF}()},
 \code{\link{glacierBalanceP}()},
@@ -64,4 +68,4 @@ Other glacier functions:
 \code{\link{glacierVolume_Erasov}()},
 \code{\link{glacierVolume_RGIF}()}
 }
-\concept{glacier functions}
+\concept{Glacier functions}

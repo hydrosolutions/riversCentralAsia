@@ -1,11 +1,18 @@
 #' Translate csv to dst
 #'
-#' !UNDER DEVELOPMENT! This function is meant to translate forcing data for RSMinerve in the csv format to dst which can be loaded when scripting RSMinerve. The dst output file is written to the same location as the input file.
+#' !UNDER DEVELOPMENT! This function is meant to translate forcing data for
+#' RSMinerve in the csv format to dst which can be loaded when scripting
+#' RSMinerve. The dst output file is written to the same location as the input
+#' file.
 #'
 #' @param csvfilepath string path to csv file to be read.
 #' @param tz Time zone string to be passed to base::format. Defaults to "UTC".
 #' @return NULL for success and 1 for failure.
-#' @details When scripting RSMinerve, climate forcing is read from dst files and not from csv files as are used when RSMinerve is run from the user interface. The csv files can be transformed to dst files using this function.
+#' @details When scripting RSMinerve, climate forcing is read from dst files and
+#'   not from csv files as are used when RSMinerve is run from the user
+#'   interface. The csv files can be transformed to dst files using this
+#'   function.
+#' @family RS Minerve IO
 #' @export
 translateCSVtoDST <- function(csvfilepath, tz = "UTC") {
   if (base::file.exists(csvfilepath)) {

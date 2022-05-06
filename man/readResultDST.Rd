@@ -45,6 +45,7 @@ Other RS Minerve IO:
 \code{\link{readRSMParameters}()},
 \code{\link{readResultCSV}()},
 \code{\link{readSelectionCHK}()},
+\code{\link{translateCSVtoDST}()},
 \code{\link{writeRSMParameters}()},
 \code{\link{writeSelectionCHK}()}
 }

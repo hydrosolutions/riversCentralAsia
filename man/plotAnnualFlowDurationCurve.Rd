@@ -13,7 +13,7 @@ plotAnnualFlowDurationCurve(data, column)
 computeAnnualFlowDurationCurve()).}
 }
 \value{
-A figure with the yearly average rating curve (black line) and the 
+A figure with the yearly average rating curve (black line) and the
   data of the individual years in grey.
 }
 \description{
@@ -21,4 +21,8 @@ plot the annual flow duration curve of a river discharge data set.
 }
 \seealso{
 [computeAnnualFlowDurationCurve()]
+
+Other Post-processing: 
+\code{\link{computeAnnualFlowDurationCurve}()}
 }
+\concept{Post-processing}

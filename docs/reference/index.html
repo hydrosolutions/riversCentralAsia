@@ -38,9 +38,6 @@
       <a href="../articles/glaciers-01-intro.html">Glaciers 01 - Introduction &amp; Data</a>
     </li>
     <li>
-      <a href="../articles/glaciers-02-DDMWB.html">Glaciers 02 - Modelling discharge from glaciers</a>
-    </li>
-    <li>
       <a href="../articles/glaciers-03-oerlemans.html">Glaciers 03 - Estimating glacier lengths in Central Asia</a>
     </li>
     <li>
@@ -75,11 +72,71 @@
           <h2 id="pre-processing">Pre-processing <a href="#pre-processing" class="anchor" aria-hidden="true"></a></h2>
           <p class="section-desc"></p><p>Functions supporting the pre-processing of data for hydrological modelling in RS Minerve.</p>
         </th>
-      </tr></tbody><tbody></tbody><tbody><tr><th colspan="2">
+      </tr></tbody><tbody><tr><td>
+          <p><code><a href="biasCorrect_ERA5_CHELSA.html">biasCorrect_ERA5_CHELSA()</a></code> </p>
+        </td>
+        <td><p>Extracts ERA5 basin domain from ERA5 raster bricks and scales fields with
+PBCORR CHELSA data so that monthly totals match.
+Writes resulting bias corrected (scaled) data bricks to a (newly) created
+subdirectory where the raw ERA5 data files are stored.</p></td>
+      </tr><tr><td>
+          <p><code><a href="climateScenarioPreparation_RMAWGEN.html">climateScenarioPreparation_RMAWGEN()</a></code> </p>
+        </td>
+        <td><p>Climate Scenario Preparations</p></td>
+      </tr><tr><td>
+          <p><code><a href="computeDiurnalTemperatureCycle.html">computeDiurnalTemperatureCycle()</a></code> </p>
+        </td>
+        <td><p>Using ERA5 hourly data, the function computes the diurnal temperature cycle for each station.</p></td>
+      </tr><tr><td>
+          <p><code><a href="doQuantileMapping_Tobi.html">doQuantileMapping_Tobi()</a></code> </p>
+        </td>
+        <td><p>Performs a quantile mapping bias correction</p></td>
+      </tr><tr><td>
+          <p><code><a href="downscale_ClimPred_monthly_BasinElBands.html">downscale_ClimPred_monthly_BasinElBands()</a></code> </p>
+        </td>
+        <td><p>Downscaling monthly climate predicitons to basin elevation bands</p></td>
+      </tr><tr><td>
+          <p><code><a href="generate_ERA5_Subbasin_CSV.html">generate_ERA5_Subbasin_CSV()</a></code> </p>
+        </td>
+        <td><p>Extract subbasin-level and elevation band-specific hourly time series from ERA5 raster bricks</p></td>
+      </tr><tr><td>
+          <p><code><a href="gen_basinElevationBands.html">gen_basinElevationBands()</a></code> </p>
+        </td>
+        <td><p>Generate basin elevation bands from DEM</p></td>
+      </tr><tr><td>
+          <p><code><a href="gen_HRU_Climate_CSV_RSMinerve.html">gen_HRU_Climate_CSV_RSMinerve()</a></code> </p>
+        </td>
+        <td><p>Extract hydrological response unit HRU specific climate time series from nc-files.</p></td>
+      </tr><tr><td>
+          <p><code><a href="import_iEasyHydro_data.html">import_iEasyHydro_data()</a></code> </p>
+        </td>
+        <td><p>Import iEasyHydro Data</p></td>
+      </tr><tr><td>
+          <p><code><a href="loadTabularData.html">loadTabularData()</a></code> </p>
+        </td>
+        <td><p>Load Tabular Hydro-Meteorological Data</p></td>
+      </tr><tr><td>
+          <p><code><a href="plotNormDevHYY.html">plotNormDevHYY()</a></code> </p>
+        </td>
+        <td><p>Helper function to plot value deviations from norms for entire hydrological years and
+cold and warm seasons.</p></td>
+      </tr><tr><td>
+          <p><code><a href="prepare_RMAWGEN_input_data.html">prepare_RMAWGEN_input_data()</a></code> </p>
+        </td>
+        <td><p>Prepare RMAWGEN input files from RS MINERVE data file that contains hourly observations</p></td>
+      </tr></tbody><tbody><tr><th colspan="2">
           <h2 id="post-processing">Post-processing <a href="#post-processing" class="anchor" aria-hidden="true"></a></h2>
           <p class="section-desc"></p><p>Functions supporting the post-processing of data from hydrological modelling in RS Minerve</p>
         </th>
-      </tr></tbody><tbody></tbody><tbody><tr><th colspan="2">
+      </tr></tbody><tbody><tr><td>
+          <p><code><a href="computeAnnualFlowDurationCurve.html">computeAnnualFlowDurationCurve()</a></code> </p>
+        </td>
+        <td><p>Computes the annual flow duration curve of a river discharge data set.</p></td>
+      </tr><tr><td>
+          <p><code><a href="plotAnnualFlowDurationCurve.html">plotAnnualFlowDurationCurve()</a></code> </p>
+        </td>
+        <td><p>plot the annual flow duration curve of a river discharge data set.</p></td>
+      </tr></tbody><tbody><tr><th colspan="2">
           <h2 id="rsminerveio">RSMinerveIO <a href="#rsminerveio" class="anchor" aria-hidden="true"></a></h2>
           <p class="section-desc"></p><p>Functions facilitating reading and writing of text files from RS Minerve</p>
         </th>
@@ -121,6 +178,10 @@ component.</p></td>
         </td>
         <td><p>Reads a chk file containing the variables selected for printing</p></td>
       </tr><tr><td>
+          <p><code><a href="translateCSVtoDST.html">translateCSVtoDST()</a></code> </p>
+        </td>
+        <td><p>Translate csv to dst</p></td>
+      </tr><tr><td>
           <p><code><a href="writeRSMParameters.html">writeRSMParameters()</a></code> </p>
         </td>
         <td><p>Write parameters to RS Minerve parameter file</p></td>
@@ -132,7 +193,141 @@ component.</p></td>
           <h2 id="glacier-functions">Glacier functions <a href="#glacier-functions" class="anchor" aria-hidden="true"></a></h2>
           <p class="section-desc"></p><p>Functions for modeling glacier discharge in R</p>
         </th>
-      </tr></tbody><tbody></tbody></table></div>
+      </tr></tbody><tbody><tr><td>
+          <p><code><a href="AizensGlacierFunctions.html">AizensGlacierFunctions()</a></code> </p>
+        </td>
+        <td><p>Estimates glacier surface area and glacier volume.</p></td>
+      </tr><tr><td>
+          <p><code><a href="ErazovsGlacierFunction.html">ErazovsGlacierFunction()</a></code> </p>
+        </td>
+        <td><p>Estimates glacier surface area and glacier volume.</p></td>
+      </tr><tr><td>
+          <p><code><a href="glacierArea_Erasov.html">glacierArea_Erasov()</a></code> </p>
+        </td>
+        <td><p>Calculates glacier area from glacier volume</p></td>
+      </tr><tr><td>
+          <p><code><a href="glacierArea_RGIF.html">glacierArea_RGIF()</a></code> </p>
+        </td>
+        <td><p>Calculates glacier area based on glacier volume</p></td>
+      </tr><tr><td>
+          <p><code><a href="glacierBalance.html">glacierBalance()</a></code> </p>
+        </td>
+        <td><p>Calculate glacier mass balance of all glaciers in a basin over time.</p></td>
+      </tr><tr><td>
+          <p><code><a href="glacierBalanceP.html">glacierBalanceP()</a></code> </p>
+        </td>
+        <td><p>Calculate glacier mass balance of all glaciers in a basin over time.</p></td>
+      </tr><tr><td>
+          <p><code><a href="glacierDischargeRMSE.html">glacierDischargeRMSE()</a></code> </p>
+        </td>
+        <td><p>Calculates glacier melt and the root mean squared error between observed
+glacier melt and simulated glacier melt.</p></td>
+      </tr><tr><td>
+          <p><code><a href="glacierDischarge_HM.html">glacierDischarge_HM()</a></code> </p>
+        </td>
+        <td><p>Estimates the total glacier discharge based on glacier thinning rates</p></td>
+      </tr><tr><td>
+          <p><code><a href="glacierImbalAbl.html">glacierImbalAbl()</a></code> </p>
+        </td>
+        <td><p>Estimates the imbalance ablation based on the total glacier discharge</p></td>
+      </tr><tr><td>
+          <p><code><a href="glacierMelt_TI.html">glacierMelt_TI()</a></code> </p>
+        </td>
+        <td><p>Glacier melt computed with a temperature index model</p></td>
+      </tr><tr><td>
+          <p><code><a href="glacierRMSE.html">glacierRMSE()</a></code> </p>
+        </td>
+        <td><p>Deprecated. Calculates glacier melt and the root mean squared error between
+observed glacier thinning rates and simulated glacier melt.</p></td>
+      </tr><tr><td>
+          <p><code><a href="glacierTotalAblation_HM.html">glacierTotalAblation_HM()</a></code> </p>
+        </td>
+        <td><p>Estimates the total glacier ablation based on glacier mass loss rates.</p></td>
+      </tr><tr><td>
+          <p><code><a href="glacierVolume_Erasov.html">glacierVolume_Erasov()</a></code> </p>
+        </td>
+        <td><p>Calculates glacier volume from glacier area.</p></td>
+      </tr><tr><td>
+          <p><code><a href="glacierVolume_RGIF.html">glacierVolume_RGIF()</a></code> </p>
+        </td>
+        <td><p>Calculates glacier volume based on glacier area</p></td>
+      </tr><tr><td>
+          <p><code><a href="OerlemansGlacierLengthModel.html">OerlemansGlacierLengthModel()</a></code> </p>
+        </td>
+        <td><p>Calculates glacier length following Oerleman 2005.</p></td>
+      </tr><tr><td>
+          <p><code><a href="OerlemansGlacierLengthModel_FormatLong.html">OerlemansGlacierLengthModel_FormatLong()</a></code> </p>
+        </td>
+        <td><p>Calculates glacier length following Oerleman 2005.</p></td>
+      </tr></tbody><tbody><tr><th colspan="2">
+          <h2 id="helper-functions">Helper functions <a href="#helper-functions" class="anchor" aria-hidden="true"></a></h2>
+          <p class="section-desc"></p><p>Functions for date handling and aggregation</p>
+        </th>
+      </tr></tbody><tbody><tr><td>
+          <p><code><a href="aggregate_to_monthly.html">aggregate_to_monthly()</a></code> </p>
+        </td>
+        <td><p>Aggregates the sub-monthly data in a riversCentralAsia data set to monthly
+data.</p></td>
+      </tr><tr><td>
+          <p><code><a href="assess_fc_qual.html">assess_fc_qual()</a></code> </p>
+        </td>
+        <td><p>Assesses the quality of decadal or monthly forecasts as done in Central Asian
+Hydrometeorological Agencies.</p></td>
+      </tr><tr><td>
+          <p><code><a href="convert2HYY.html">convert2HYY()</a></code> </p>
+        </td>
+        <td><p>Converts monthly hydro-meteorological time-series data to hydrological year values.</p></td>
+      </tr><tr><td>
+          <p><code><a href="cutRaster2Basin.html">cutRaster2Basin()</a></code> </p>
+        </td>
+        <td><p>Cutting raster file to basin shape with reprojection</p></td>
+      </tr><tr><td>
+          <p><code><a href="decadeMaker.html">decadeMaker()</a></code> </p>
+        </td>
+        <td><p>Creates a vector of decadal (10 days) dates</p></td>
+      </tr><tr><td>
+          <p><code><a href="generateHourlyFromDaily_PT.html">generateHourlyFromDaily_PT()</a></code> </p>
+        </td>
+        <td><p>Generate hourly precipitation and temperature time series from daily data</p></td>
+      </tr><tr><td>
+          <p><code><a href="generateSeqDates.html">generateSeqDates()</a></code> </p>
+        </td>
+        <td><p>POSIXct date sequence generator</p></td>
+      </tr><tr><td>
+          <p><code><a href="hyear.html">hyear()</a></code> </p>
+        </td>
+        <td><p>Calculates the hydrological year for a given date</p></td>
+      </tr><tr><td>
+          <p><code><a href="monDateSeq.html">monDateSeq()</a></code> </p>
+        </td>
+        <td><p>Create a monthly sequence date vector with end of month day dates</p></td>
+      </tr><tr><td>
+          <p><code><a href="monthlyNorms_ClimateScenario.html">monthlyNorms_ClimateScenario()</a></code> </p>
+        </td>
+        <td><p>Compute Monthly Norm of Min. and Max. Temperature and Precipitation of a Climate Scenario</p></td>
+      </tr><tr><td>
+          <p><code><a href="posixct2rsminerveChar.html">posixct2rsminerveChar()</a></code> </p>
+        </td>
+        <td><p>Function to convert POSIXCT-dates to a character representation as required
+by RSminerve</p></td>
+      </tr><tr><td>
+          <p><code><a href="wgen_daily_PT.html">wgen_daily_PT()</a></code> </p>
+        </td>
+        <td><p>Compute stochastic daily weather time series using RMAWGEN and a climate scenario</p></td>
+      </tr><tr><td>
+          <p><code><a href="wgen_daily_summaryStats.html">wgen_daily_summaryStats()</a></code> </p>
+        </td>
+        <td><p>wgen_daily_summaryStats</p></td>
+      </tr></tbody><tbody><tr><th colspan="2">
+          <h2 id="demo-data-sets">Demo data sets <a href="#demo-data-sets" class="anchor" aria-hidden="true"></a></h2>
+          <p class="section-desc"></p><p>Data for use with the package</p>
+        </th>
+      </tr></tbody><tbody><tr><td>
+          <p><code><a href="ChirchikRiverBasin.html">ChirchikRiverBasin</a></code> </p>
+        </td>
+        <td><p>Discharge, precipitation and temperature in the Chirchik river basin,
+Uzbekistan.</p></td>
+      </tr></tbody></table></div>
 
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
     <nav id="toc" data-toggle="toc" class="sticky-top"><h2 data-toc-skip>Contents</h2>

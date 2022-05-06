@@ -57,6 +57,7 @@ Other RS Minerve IO:
 \code{\link{readResultCSV}()},
 \code{\link{readResultDST}()},
 \code{\link{readSelectionCHK}()},
+\code{\link{translateCSVtoDST}()},
 \code{\link{writeSelectionCHK}()}
 }
 \concept{RS Minerve IO}
