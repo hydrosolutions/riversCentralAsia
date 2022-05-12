@@ -20,9 +20,9 @@ As implied above, the GSM model in RSM assumes a constant glacier area. It is th
 
 In practice, two pathways are possible to handle the weakness of the model when simulating climate change impacts:
 
--   The modeler periodically stops the simulation and checks which glaciers have disappeared, then manually adapts the model parameters.
+-   The modeler periodically stops the RS Minerve simulation and checks which glaciers have disappeared, then manually adapts the model GSM parameters to turn off glacier melt.
 
--   The glacier melt is simulated outside RS Minerve and subsequently introduced to RS Minerve as a water source.
+-   The glacier melt is simulated outside RS Minerve and subsequently introduced to RS Minerve as a water source (similar to a spring).
 
 The first approach is suitable for one-time simulations but it is labor intensive and thus hardly scalable. It further does not solve the problem that the glacier area remains constant in the model. The latter approach requires the separation of seasonal glacier discharge under balance conditions (i.e. the seasonal glacier melt which is compensated by accumulation of snow in winter) and the imbalance ablation which represent glacier melt due to rising temperatures.
 

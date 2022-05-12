@@ -476,7 +476,7 @@ The temperature index model can be calibrated with the specific glacier volume c
 
 The 2 parameters of the temperature index model can be calibrated using observed glacier melt rates. As mentioned above, the observed glacier melt rates are simulated total ablation by @miles_health_2021 where available or estimated total ablation using an empirical relationship between total glacier ablation by @miles_health_2021 and glacier thinning rates by @hugonnet_accelerated_2021.
 
-```{r}
+```{r, eval=FALSE}
 # Calibrating many glaciers takes a lot of time. 
 # Reduce the amount of time required and only calibrate the glaciers that are 
 # larger or equal than 0.2 km2. That represents 83% of the glacier volume in the 
@@ -485,7 +485,7 @@ The 2 parameters of the temperature index model can be calibrated using observed
 # 59% and the glacier number reduction is 92% 
 rgi <- rgi |> mutate(Vol_km3 = glacierVolume_RGIF(Area))
 rgi_cal <- rgi |> 
-  dplyr::filter(Area >= 0) 
+  dplyr::filter(Area >= 0.2) 
 
 temperature_cal <- hist_obs |> 
   mutate(date = as_date(date)) |> 
@@ -513,6 +513,7 @@ for (id in c(1:length(glaciers_cal))) {
                observed = observed_cal,
                index = id,
                lower = c(0.1, -30), upper = c(50, 10), 
+               popSize = 200, maxiter = 100, 
                parallel = (parallel::detectCores()-6))
   
   cat("    Result: RMSE = ", -tempGA@fitnessValue, "MF =", tempGA@solution[1], 
@@ -522,30 +523,33 @@ for (id in c(1:length(glaciers_cal))) {
                                 rsme = tempGA@fitnessValue) |>
                     mutate(ID = glaciers_cal[id]))
 save(DDFfit, 
-     file = "../../atbashy_glacier_demo_data/GLACIERS/TIparametersAll.RData")
+     file = "../../atbashy_glacier_demo_data/GLACIERS/TIparameters.RData")
 }
-save(DDFfit, 
-     file = "../../atbashy_glacier_demo_data/GLACIERS/TIparametersAll.RData")
-load("../../atbashy_glacier_demo_data/GLACIERS/TIparametersAll.RData")
+```
 
-# Assign default parameters to all other glaciers
+Recalculate glacier melt with calibrated parameters.
+```{r, echo=FALSE}
+load("../../atbashy_glacier_demo_data/GLACIERS/TIparameters.RData")
+```
+
+
+```{r}
+# Fill in the missing parameters 
 MFmean <- DDFfit$MF |> mean()
 Tthmean <- DDFfit$Tth |> mean()
 
 DDFfit <- DDFfit |> 
-  full_join(rgi |> st_drop_geometry() |> dplyr::select(RGIId), 
-            by = c("ID" = "RGIId")) |> 
+  rename(RGIId = ID) |> 
+  full_join(rgi_elbands |> st_drop_geometry() |> dplyr::select(RGIId, ID), 
+            by = c("RGIId" = "RGIId")) |> 
   mutate(MF = ifelse(is.na(MF), MFmean, MF), 
          Tth = ifelse(is.na(Tth), Tthmean, Tth)) 
-```
 
-Recalculate glacier melt with calibrated parameters.
-
-```{r}
 MFvec <- DDFfit$MF
 names(MFvec) <- DDFfit$ID
 Tthvec <- DDFfit$Tth
 names(Tthvec) <- DDFfit$ID
+
 melt_cal <- glacierMelt_TI(temperature = hist_obs |> 
                              dplyr::select(-date),
                            MF = MFvec,
@@ -563,6 +567,7 @@ melt_a_eb <- melt_cal |>
                               Melt*(1-error_stats$sMelt)), 
             .ub_Melt = Melt*(1+error_stats$sMelt))|> 
   ungroup() 
+
 melt_a <- melt_a_eb |> 
   separate(ID, into = c("RGIId", "elB"), sep = "_") |> 
   group_by(Hyear, RGIId) |> 
@@ -580,6 +585,7 @@ melt_a <- melt_a_eb |>
          .lb_Qgl_m3a = Qgl_m3a * (1-sqrt(error_stats$sMelt^2+error_stats$sA^2)),   
          .lb_Qgl_m3a = ifelse(.lb_Qgl_m3a < 0, 0, .lb_Qgl_m3a), 
          .ub_Qgl_m3a = Qgl_m3a * (1+sqrt(error_stats$sMelt^2+error_stats$sA^2)))
+
 
 ggplot() + 
   geom_ribbon(data = melt_a |> 
@@ -607,6 +613,7 @@ ggplot() +
 ```
 
 The calibration is done using an R implementation of a genetic algorithm [@scrucca_ga_2013, @scrucca_extensions_2017]. The optimization is slow but it is necessary to use a global optimizer (`nlminb` of the stats package for example will not converge for all glaciers).
+
 
 ## Glacier mass balance
 
@@ -653,6 +660,192 @@ ggplot(glacier_balance |>
 
 We now have glacier discharge (Q_m3s) and the unsustainable contribution to glacier discharge, the imbalance ablation (Qimb_m3a) which is negative for glacier loss and positive for growing glaciers. We are only interested in the contribution of imbalance ablation to river discharge, that is, only the negative part of Qimb_m3a is relevant to us.
 
+
+## Future glacier melt
+
+```{r}
+scenarios <- names(fut_sim)
+fut_melt_d <- NULL
+fut_melt_a_eb <- NULL
+fut_glacier_balance <- NULL
+for (scenario in scenarios) {
+  temp_melt_d <- glacierMelt_TI(temperature = fut_sim[[scenario]] |>
+                     dplyr::select(-Date),
+                   MF = MFvec,
+                   threshold_temperature = Tthvec) |> 
+      mutate(Scenario = scenario, 
+             date = fut_sim[[scenario]]$Date) |>
+      relocate(date, .before =  where(is.numeric))  |>
+      pivot_longer(-c(date, Scenario), names_to = "ID", 
+                   values_to = "Melt") 
+  temp_melt <- temp_melt_d |>
+      mutate(Hyear = hyear(date)) |> 
+      # Sum melt per year
+      group_by(Hyear, Scenario, ID) |> 
+      summarise(date = first(date), 
+                Melt = sum(Melt)) |> 
+      ungroup()
+  
+  fut_melt_d <- rbind(fut_melt_d, temp_melt_d)
+  fut_melt_a_eb <- rbind(fut_melt_a_eb, temp_melt)
+  
+  fut_glacier_balance <- rbind(
+    fut_glacier_balance, 
+    glacierBalance(melt_a_eb = temp_melt,
+                   rgi_elbands = rgi_elbands) |> 
+      mutate(Scenario = scenario))
+
+} 
+
+```
+
+
+```{r}
+fut_melt_amean <- fut_melt_a_eb |>
+  # Mean melt rate per glacier
+  # mutate(RGIId = gsub("\\_\\{d}+$", "", ID)) |> 
+  # group_by(Hyear, Scenario, RGIId) |> 
+  # summarise(Melt = mean(Melt)) |> 
+  # Mean melt rate in the catchment
+  group_by(Hyear, Scenario) |> 
+  summarise(date = as_date(first(date)), 
+            Melt_mma = mean(Melt)) |> 
+  ungroup() |> 
+  separate(Scenario, into = c("GCM", "SSP"), sep = "_") |> 
+  mutate(SSP = factor(SSP, levels = c("ssp585", "ssp370", "ssp245", "ssp126"))) |> 
+  # dplyr::filter(!str_detect(GCM, "UK")) |>  
+  dplyr::filter(!str_detect(GCM, "IPSL"), 
+                Hyear < max(Hyear)) |> 
+  group_by(Hyear, SSP) |> 
+  mutate(lb = min(Melt_mma), 
+         ub = max(Melt_mma), 
+         mean = mean(Melt_mma)) |> 
+  ungroup()
+
+melt_amean <- melt_a |> 
+  dplyr::select(Hyear, date, Melt) |> 
+  group_by(Hyear) |>  
+  dplyr::summarise(date = first(date), 
+                   Melt_mma = mean(Melt)) |> 
+  ungroup()
+
+ggplot(fut_melt_amean) + 
+  geom_ribbon(aes(date, ymin = lb, ymax = ub, fill = SSP), alpha = 0.2) + 
+  geom_line(aes(date, mean, colour = SSP)) + 
+  geom_line(data = melt_amean, aes(date, Melt_mma)) + 
+  # geom_smooth(aes(date, mean, colour = SSP), method = "loess", se = FALSE) + 
+  # geom_smooth(data = melt_amean, aes(date, Melt_mma), method = "loess", 
+  #             se = FALSE) + 
+  scale_colour_viridis_d() + 
+  scale_fill_viridis_d() + 
+  ylab("Melt [mm/a]") + 
+  xlab("Year") + 
+  theme_bw()
+```
+
+
+## Glacier balance over climate scenarios
+```{r}
+fut_glacier_balance <- fut_glacier_balance |> 
+  dplyr::filter(!str_detect(Scenario, "IPSL")) |> 
+  mutate(GCM = gsub("\\_ssp\\d{3}$", "", Scenario), 
+         SSP = str_extract(Scenario, "ssp\\d{3}$")) |> 
+  group_by(Hyear, RGIId, SSP, Variable) |> 
+  mutate(.lb = min(Value, na.rm = TRUE), 
+         .ub = max(Value, na.rm = TRUE), 
+         .m = mean(Value, na.rm = TRUE), 
+         # deal with missing values
+         .lb = ifelse(is.infinite(.lb), NA, .lb), 
+         .ub = ifelse(is.infinite(.ub), NA, .ub), 
+         .m = ifelse(is.infinite(.m), NA, .m)) |> 
+  ungroup()
+
+fut_glacier_balance_basin <- fut_glacier_balance |> 
+  dplyr::filter(Hyear > min(Hyear) & Hyear < max(Hyear), 
+                Variable %in% c("A_km2", "V_km3", "Q_m3a", "Qimb_m3a")) |> 
+  group_by(Hyear, Variable, Scenario) |> 
+  summarise(Value = sum(Value, na.rm = TRUE), 
+            GCM = first(GCM), 
+            SSP = first(SSP)) |> 
+  mutate(SSP = factor(SSP, 
+                      levels = c("ssp585", "ssp370", "ssp245", "ssp126"))) |> 
+  group_by(Hyear, Variable, SSP) |> 
+  mutate(.lb = min(Value, na.rm = TRUE), 
+         .ub = max(Value, na.rm = TRUE), 
+         .m = mean(Value, na.rm = TRUE), 
+         # deal with missing values
+         .lb = ifelse(is.infinite(.lb), NA, .lb), 
+         .ub = ifelse(is.infinite(.ub), NA, .ub), 
+         .m = ifelse(is.infinite(.m), NA, .m)) |> 
+  ungroup()
+
+ggplot() + 
+  geom_ribbon(data = fut_glacier_balance_basin, 
+         aes(Hyear, ymin = .lb, ymax = .ub, fill = SSP), 
+              alpha = 0.2, colour = NA) + 
+  geom_line(data = fut_glacier_balance_basin, 
+         aes(Hyear, .m, colour = SSP)) + 
+  facet_wrap("Variable", scales = "free_y") + 
+  scale_colour_viridis_d() + 
+  scale_fill_viridis_d() + 
+  theme_bw()
+```
+
+# Uncertainties
+The shaded area in the above figure indicates the spread of the GCM ensemble used. The width of the uncertainty band of the model method is at least twice the width of the above uncertainty bands, such that it is near impossible to differentiate between the impact of the different socio-economic scenarios. Dramatic glacier volume reduction cannot be avoided even with the least emissions scenario ssp126.
+
+# Peak water
+```{r, fig.cap="Estimated development of glacier discharge."}
+ggplot(fut_glacier_balance_basin |> 
+         dplyr::filter(Variable == "Q_m3a")) + 
+  geom_ribbon(aes(Hyear, ymin = .lb, ymax = .ub, fill = SSP), 
+              alpha = 0.2, colour = NA) +
+  #geom_line(aes(Hyear, .m, colour = SSP)) +
+  geom_smooth(aes(Hyear, .m, colour = SSP), linetype = 2, size = 0.4,  
+              method = "loess", span = 0.6, se = FALSE) + 
+  scale_colour_viridis_d() + 
+  scale_fill_viridis_d() + 
+  ylab("Q [m3/a]") + 
+  theme_bw()
+```
+
+According to the model, peak water is already reached for the lesser emissions scenarios. We appear to be approximately at peak water for the higher emission scenarios (for which we are on track). 
+
+# Glacier volume loss
+```{r, fig.cap="Estimated development of glacier volume."}
+ggplot(fut_glacier_balance_basin |> 
+         dplyr::select(-GCM) |> 
+         dplyr::filter(Variable == "V_km3") |> 
+         dplyr::select(-c(Variable, Scenario, Value)) |> 
+         distinct() |> 
+         mutate(firstm = ifelse(Hyear == 2013, .m, NA), 
+                firstlb = ifelse(Hyear == 2013, .lb, NA), 
+                firstub = ifelse(Hyear == 2013, .ub, NA)) |> 
+         group_by(SSP) |> 
+         fill(firstm, .direction = "down") |>  
+         fill(firstlb, .direction = "down") |> 
+         fill(firstub, .direction = "down") |> 
+         group_by(Hyear, SSP) |> 
+         mutate(V = .m/firstm*100, 
+                .lv = .lb/firstlb*100, 
+                .uv = .ub/firstub*100) |> 
+         ungroup() |> 
+         mutate(SSP = factor(SSP, 
+                             levels = c("ssp126", "ssp245", "ssp370", 
+                                        "ssp585")))) + 
+  geom_ribbon(aes(Hyear, ymin = .lv, ymax = .uv, fill = SSP), 
+              alpha = 0.2) + 
+  geom_line(aes(Hyear, V, colour = SSP)) +
+  scale_colour_viridis_d() + 
+  scale_fill_viridis_d() + 
+  ylab("V [%]") + 
+  ylim(c(0, 100)) + 
+  theme_bw()
+```
+
+The reduction of the glacier water reservoirs in the Atbashy basin will amount to about 68%-76% of the current glacier volume.  
+
+
 # Next steps
 
 Now we have glacier discharge and glacier imbalance ablation. How do we include these in our modelling workflow? [Glacier vignette 4](glaciers-04-glaciers-RSM.html) explains how glaciers are treated in the hydraulic/hydrologic model RS Minerve and details a workflow to implement glacier discharge in a model in RS Minerve.
@@ -665,19 +858,33 @@ melt_d <- melt |>
   group_by(date, RGIId) |> 
   summarize(melt = sum(melt)) |> 
   ungroup()
+
+fut_melt_d <- fut_melt_d |> 
+  # Average per glacier 
+  mutate(RGIId = gsub("\\_\\d+$", "", ID)) |> 
+  group_by(date, Scenario, RGIId) |> 
+  mutate(Melt_mmd = mean(Melt)) |> 
+  ungroup() |> 
+  dplyr::select(-Melt)
+
 saveRDS(melt_d |> rename(M_mmd = melt), 
-        file = paste0(data_path, "GLACIERS/pre-processed-daily_glacier_melt.rds"))
+        file = paste0(data_path, 
+                      "GLACIERS/pre-processed-hist_daily_glacier_melt.rds"))
+saveRDS(fut_melt_d, 
+        file = paste0(data_path, 
+                      "GLACIERS/pre-processed-fut_daily_glacier_melt.rds"))
+
 
 saveRDS(glacier_balance, 
-        file = paste0(data_path, "GLACIERS/pre-processed-glacier_balance.rds"))
+        file = paste0(data_path, 
+                      "GLACIERS/pre-processed-hist_glacier_balance.rds"))
+saveRDS(fut_glacier_balance, 
+        file = paste0(data_path, 
+                      "GLACIERS/pre-processed-fut_glacier_balance.rds"))
 ```
 
-# Other glacier modeling resources worth mentioning
+# Open Global Glacier Model (OGGM)
 
-Of course there are many more glacier utilities out there which are worth checking out if you are interested in more in-depth glacier modeling.
-
-## Open Global Glacier Model (OGGM)
-
-The [Open Global Glacier Model](https://oggm.org/){target="_blank"} is a community project which provides glacier modelling tools in python and educational resources. The modeling framework includes comprehensive tutorials and data-pre and post-processing tools.
+The [Open Global Glacier Model](https://oggm.org/){target="_blank"} is a community project which provides open-source glacier modelling tools in python and educational resources. The modeling framework includes comprehensive tutorials and data-pre and post-processing tools. It can be used as an alternative to the glacier modelling work flow presented here. 
 
 # References
