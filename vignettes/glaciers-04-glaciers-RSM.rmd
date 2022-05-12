@@ -53,9 +53,9 @@ The glacier mass balance is done on a yearly basis (if not at lower frequency). 
 # Read in the daily glacier melt and the annual glacier discharge and imbalance 
 # ablation computed in glacier vignette 2. 
 melt_mmd <- readRDS(paste0(data_path, 
-                           "GLACIERS/pre-processed-daily_glacier_melt.rds"))
+                           "GLACIERS/pre-processed-hist_daily_glacier_melt.rds"))
 glacier_balance <- readRDS(paste0(data_path, 
-                                  "GLACIERS/pre-processed-glacier_balance.rds"))
+                                  "GLACIERS/pre-processed-hist_glacier_balance.rds"))
 
 # Compute the annual glacier melt
 melt_mma <- melt_mmd |> 

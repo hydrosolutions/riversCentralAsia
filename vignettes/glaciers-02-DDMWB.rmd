@@ -294,7 +294,7 @@ hist_obs[, c(1, 2, 5, 10)] |>
 
 ### Future temperatures
 
-Future temperature development per glacier or elevation band is extracted from the 3 CMIP6 GCM models with highest priorities for the region (TODO Add names and citations) downloaded from COPERNICUS. We take 4 socioeconomic scenarios into account, covering 4 different emission scenarios. The temperatures of the climate models are bias corrected using the CHELSA data and a quantile mapping method. @fig-futsim shows the development of the temperature in the lowest elevation band of glacier RGI60-13.08930 as an example.
+Future temperature development per glacier or elevation band is extracted from the 3 CMIP6 GCM models with highest priorities for the region (TODO Add names and citations) downloaded from COPERNICUS. We take 4 socioeconomic scenarios into account, covering 4 different emission scenarios. The temperatures of the climate models are bias corrected using the CHELSA data and a quantile mapping method. The figure below shows the development of the temperature in the lowest elevation band of glacier RGI60-13.08930 as an example.
 
 ```{r fig-futsim, message=FALSE, warning=FALSE, fig.cap = "Annual historical (CHELSA) and future (CMIP6, Copernicus) temperature for the lowest elevation band of glacier RGI60-13.08930.", out.width="90%"}
 
@@ -443,11 +443,11 @@ melt_obs_a <- observed_melt |>
                               Qgl_m3a*(1+error_stats$sQglgrowth), 
                               Qgl_m3a*(1+error_stats$sQglmelt)))
 melt_obs_a <- melt_obs_a |> 
-  dplyr::filter(RGIId %in% glaciers[6:9])
+  dplyr::filter(RGIId %in% glaciers[c(6, 7)])
   
 ggplot() + 
   geom_ribbon(data = melt_a |> 
-                dplyr::filter(RGIId %in% glaciers[6:9]), 
+                dplyr::filter(RGIId %in% glaciers[c(6,7)]), 
               aes(date, Qgl_m3a, ymin = .lb_Qgl_m3a, ymax = .ub_Qgl_m3a, 
                   fill = RGIId), colour = NA, alpha = 0.1) + 
   geom_ribbon(data = melt_obs_a, 
@@ -457,7 +457,7 @@ ggplot() +
                   colour = RGIId, linetype = "obs", fill = RGIId), 
               size = 0.2, alpha = 0.1) + 
   geom_line(data = melt_a |> 
-              dplyr::filter(RGIId %in% glaciers[6:9]), 
+              dplyr::filter(RGIId %in% glaciers[c(6,7)]), 
             aes(date, Qgl_m3a, colour = RGIId, linetype = "sim")) + 
   geom_line(data = melt_obs_a, aes(start, Qgl_m3a, colour = RGIId, 
                                    linetype = "obs")) + 
@@ -533,7 +533,7 @@ load("../../atbashy_glacier_demo_data/GLACIERS/TIparameters.RData")
 ```
 
 
-```{r}
+```{r, message=FALSE, warning=FALSE}
 # Fill in the missing parameters 
 MFmean <- DDFfit$MF |> mean()
 Tthmean <- DDFfit$Tth |> mean()
@@ -589,7 +589,7 @@ melt_a <- melt_a_eb |>
 
 ggplot() + 
   geom_ribbon(data = melt_a |> 
-                dplyr::filter(RGIId %in% glaciers[6:9]), 
+                dplyr::filter(RGIId %in% glaciers[c(6,7)]), 
               aes(date, Qgl_m3a, ymin = .lb_Qgl_m3a, ymax = .ub_Qgl_m3a, 
                   fill = RGIId), colour = NA, alpha = 0.1) + 
   geom_ribbon(data = melt_obs_a, 
@@ -599,7 +599,7 @@ ggplot() +
                   colour = RGIId, linetype = "obs", fill = RGIId), 
               size = 0.2, alpha = 0.1) + 
   geom_line(data = melt_a |> 
-              dplyr::filter(RGIId %in% glaciers[6:9]), 
+              dplyr::filter(RGIId %in% glaciers[c(6, 7)]), 
             aes(date, Qgl_m3a, colour = RGIId, linetype = "sim")) + 
   geom_line(data = melt_obs_a, aes(start, Qgl_m3a, colour = RGIId, 
                                    linetype = "obs")) + 
@@ -646,7 +646,7 @@ glacier_balance <- glacier_balance |>
                                            Value*(1+error_stats$sImbal), NA)))))
 
 ggplot(glacier_balance |> 
-         dplyr::filter(RGIId %in% glaciers[6:9], 
+         dplyr::filter(RGIId %in% glaciers[6:7], 
                        Hyear > min(Hyear) & Hyear < max(Hyear), 
                        Variable %in% c("A_km2", "V_km3", "Q_m3a", "Qimb_m3a"))) + 
   geom_ribbon(aes(Hyear, ymin = .lb, ymax = .ub, fill = RGIId), 
@@ -663,7 +663,7 @@ We now have glacier discharge (Q_m3s) and the unsustainable contribution to glac
 
 ## Future glacier melt
 
-```{r}
+```{r, message=FALSE, warning=FALSE}
 scenarios <- names(fut_sim)
 fut_melt_d <- NULL
 fut_melt_a_eb <- NULL
@@ -700,7 +700,7 @@ for (scenario in scenarios) {
 ```
 
 
-```{r}
+```{r, message=FALSE, warning=FALSE}
 fut_melt_amean <- fut_melt_a_eb |>
   # Mean melt rate per glacier
   # mutate(RGIId = gsub("\\_\\{d}+$", "", ID)) |> 
@@ -745,7 +745,7 @@ ggplot(fut_melt_amean) +
 
 
 ## Glacier balance over climate scenarios
-```{r}
+```{r, message=FALSE, warning=FALSE}
 fut_glacier_balance <- fut_glacier_balance |> 
   dplyr::filter(!str_detect(Scenario, "IPSL")) |> 
   mutate(GCM = gsub("\\_ssp\\d{3}$", "", Scenario), 
@@ -795,7 +795,7 @@ ggplot() +
 The shaded area in the above figure indicates the spread of the GCM ensemble used. The width of the uncertainty band of the model method is at least twice the width of the above uncertainty bands, such that it is near impossible to differentiate between the impact of the different socio-economic scenarios. Dramatic glacier volume reduction cannot be avoided even with the least emissions scenario ssp126.
 
 # Peak water
-```{r, fig.cap="Estimated development of glacier discharge."}
+```{r, message=FALSE, warning=FALSE, fig.cap="Estimated development of glacier discharge."}
 ggplot(fut_glacier_balance_basin |> 
          dplyr::filter(Variable == "Q_m3a")) + 
   geom_ribbon(aes(Hyear, ymin = .lb, ymax = .ub, fill = SSP), 
@@ -812,7 +812,7 @@ ggplot(fut_glacier_balance_basin |>
 According to the model, peak water is already reached for the lesser emissions scenarios. We appear to be approximately at peak water for the higher emission scenarios (for which we are on track). 
 
 # Glacier volume loss
-```{r, fig.cap="Estimated development of glacier volume."}
+```{r, message=FALSE, warning=FALSE, fig.cap="Estimated development of glacier volume."}
 ggplot(fut_glacier_balance_basin |> 
          dplyr::select(-GCM) |> 
          dplyr::filter(Variable == "V_km3") |> 
@@ -850,7 +850,7 @@ The reduction of the glacier water reservoirs in the Atbashy basin will amount t
 
 Now we have glacier discharge and glacier imbalance ablation. How do we include these in our modelling workflow? [Glacier vignette 4](glaciers-04-glaciers-RSM.html) explains how glaciers are treated in the hydraulic/hydrologic model RS Minerve and details a workflow to implement glacier discharge in a model in RS Minerve.
 
-```{r, include=FALSE, eval=TRUE}
+```{r, include=FALSE, eval=FALSE}
 # Saving variables for continuing demo in vignette 4
 melt_d <- melt |> 
   pivot_longer(-date, names_to = "ID", values_to = "melt") |> 
