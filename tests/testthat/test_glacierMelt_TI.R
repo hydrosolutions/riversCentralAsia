@@ -81,7 +81,7 @@ test_that("Scalar MF and data.frame temperature", {
   MF <- 1
 
   # Calculate glacier melt assuming a threshold temperature for glacier melt of
-  # 1 degree Celcius.
+  # 0 degree Celcius.
   melt <- glacierMelt_TI(temperature, MF, threshold_temperature = 0)
 
   expect_null(melt)

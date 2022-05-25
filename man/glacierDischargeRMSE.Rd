@@ -16,7 +16,10 @@ glacierDischargeRMSE(
 \item{parameters}{The two parameters of the function ```glacierMelt_TI```.
 The first parameter is the melt factor ```MF```, the second parameter is
 the threshold temperature ```threshold_temperature``` above which melt sets
-on. Example: c(4, 0).}
+on. Example: c(4, 0). Alternatively, a list with MF and Tth for each HRU.
+Example: list(MF, Tth) with MF = tibble(MF = c(4, 2, 1), .rows = <ID>) and
+Tth in the same format. The row names correspond to the row names of the
+temperature object described below.}
 
 \item{temperature}{A tibble with the time steps in rows and temperature
 values for individual hydrological response units in columns. The names of

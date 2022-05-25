@@ -11,7 +11,10 @@
 #' @param parameters The two parameters of the function ```glacierMelt_TI```.
 #'   The first parameter is the melt factor ```MF```, the second parameter is
 #'   the threshold temperature ```threshold_temperature``` above which melt sets
-#'   on. Example: c(4, 0).
+#'   on. Example: c(4, 0). Alternatively, a list with MF and Tth for each HRU.
+#'   Example: list(MF, Tth) with MF = tibble(MF = c(4, 2, 1), .rows = <ID>) and
+#'   Tth in the same format. The row names correspond to the row names of the
+#'   temperature object described below.
 #' @param temperature A tibble with the time steps in rows and temperature
 #'   values for individual hydrological response units in columns. The names of
 #'   the hydrological response units is typically of the form RGIId_layer,
@@ -41,8 +44,36 @@ glacierDischargeRMSE <- function(parameters, temperature, observed,
 
   # Test validity of input
   if (length(parameters) != 2) {
-    cat("Error: Function requires 2 parameters c(MF, threshold temperature).\n")
+    cat("Error: Function requires 2 parameters c(MF, threshold temperature) if MF and \n
+        threshold temperature are numbers or a list of parameters list(MF, threshold \n
+        temperature) if MF and threshold temperature are given for each HRU.\n
+        E.g. c(2, 0) or list(MF, Tth) with MF = tibble(MF = c(4, 2, 1), .rows = <ID>)\n
+        and corresponding Tth. ")
     return(NULL)
+  } else {
+    # Test if we have one parameter for each HRU or individual parameters for each HRU
+    if (length(parameters[[1]]) == 1) {
+      # MF is a scalar. Make sure Tth is one too
+      if (length(parameters[[2]]) == 1) {
+        MF = as.numeric(parameters[1])
+        Tth = as.numeric(parameters[2])
+      }
+    } else {
+      # Test if we have the correct number of parameter values
+      if ((length(parameters[[1]]) == (dim(temperature)[2]-1)) &
+          (length(parameters[[1]]) == length(parameters[[2]]))) {
+        if ((sum(colnames(parameters[[1]]) %in% colnames(temperature)) > 0) &
+            (sum(colnames(parameters[[1]]) == colnames(parameters[[2]])) > 0)) {
+          # All fine
+          MF = parameters[[1]]
+          Tth = parameters[[2]]
+        } else {
+          cat("Error colnames of parameters not consistent with temperature input.")
+        }
+      } else {
+        cat("Error dimensions of parameters not consistent with temperature input.")
+      }
+    }
   }
 
   if (!("year" %in% colnames(temperature))) {
@@ -99,8 +130,8 @@ glacierDischargeRMSE <- function(parameters, temperature, observed,
 
     melt <- glacierMelt_TI(temperature = temperature |>
                              dplyr::select(-.data$date),
-                           MF = as.numeric(parameters[1]),
-                           threshold_temperature = as.numeric(parameters[2]))
+                           MF = MF,
+                           threshold_temperature = Tth)
 
     if (annual_observations) {
       # Reformat and compare to observed melt assuming annual observations
@@ -152,8 +183,8 @@ glacierDischargeRMSE <- function(parameters, temperature, observed,
 
     melt <- glacierMelt_TI(temperature = temperature |>
                              dplyr::select(-.data$year),
-                           MF = as.numeric(parameters[1]),
-                           threshold_temperature = as.numeric(parameters[2]))
+                           MF = MF,
+                           threshold_temperature = Tth)
 
     if (annual_observations) {
       # Reformat and compare to observed melt assuming annual observations

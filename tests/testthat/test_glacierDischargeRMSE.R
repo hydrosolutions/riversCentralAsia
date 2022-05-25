@@ -1,3 +1,35 @@
+test_that("glacierDischargeRSME can apply individual parameters to glacier HRUs", {
+
+  dates <- seq(as.Date("2000-01-01"), as.Date("2003-12-31"), 1)
+  years <- unique(lubridate::year(dates))
+  temperature <- tibble::tibble(date = dates,
+                                "RGI60-13.00001_1" = 1:length(dates)*0-5,
+                                "RGI60-13.00002_1" = 1:length(dates)*0+5,
+                                "RGI60-13.00002_2" = 1:length(dates)*0+1)
+  parameters_MF <- temperature[1, 2:4] * 0 + 2
+  parameters_Tth <- parameters_MF * 0
+  miles_annual <- tibble::tibble(RGIID = rep(c("RGI60-13.00001", "RGI60-13.00002"),
+                                             each = length(years)),
+                                 year = c(years, years),
+                                 totAbl = rep(c(0.5*10^6, 10^6), each = length(years)),
+                                 Area_m2 = rep(c(10^6, 2*10^6), each = length(years)))
+  rmse <- glacierDischargeRMSE(
+    parameters = list(parameters_MF, parameters_Tth),
+    temperature = temperature,
+    observed = miles_annual)
+
+  expect_equal(rmse[1], -1000)
+
+  parameters_scalars <- c(2, 0)
+
+  rmse_scalar_parameters <- glacierDischargeRMSE(
+    parameters = parameters_scalars,
+    temperature = temperature,
+    observed = miles_annual)
+
+  expect_equal(rmse, rmse_scalar_parameters)
+})
+
 test_that("glacierDischargeRSME can handle a time series of observed discharge", {
 
   parameters_daily <- c(2, 0)

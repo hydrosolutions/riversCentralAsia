@@ -20,7 +20,7 @@ Writing parameter files for import to RS Minerve can speed up the configuration 
 
 Please note that not all objects implemented in RS Minerve are also supported in this present versions of `readRSMParameters` and `writeRSMParameters` of the `riversCentralAsia` package. See section below for a list of supported objects. 
 
-```{r}
+```{r, eval=FALSE}
 library(tidyverse, quietly = TRUE)
 devtools::install_github("hydrosolutions/riversCentralAsia", quiet = TRUE)
 library(riversCentralAsia, quietly = TRUE)
@@ -57,7 +57,7 @@ The parameters for these objects are described in the RS Minerve User Manual ava
 ## Writing check node files 
 In RS Minerve, simulation results can be viewed in the selection and plots tab and exported to csv file format. To export model states or fluxes from large models can be time consuming to set up manually. The following code chunk demonstrates how to write a check node file for the export of snow water equivalent from all HBV modules in the RS Minerve model. 
 
-```{r}
+```{r, eval=FALSE}
 library(tidyverse, quietly = TRUE)
 library(sf, quietly = TRUE)
 devtools::install_github("hydrosolutions/riversCentralAsia", quiet = TRUE)
