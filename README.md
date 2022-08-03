@@ -56,6 +56,7 @@ You can install the development version from
 # install.packages("devtools")
 devtools::install_github("hydrosolutions/riversCentralAsia")
 ```
+Note that Windows users require RTools to install R packages from github. 
 
 ## Example
 
