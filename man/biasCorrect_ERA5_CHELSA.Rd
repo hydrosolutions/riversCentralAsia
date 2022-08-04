@@ -45,7 +45,7 @@ subdirectory where the raw ERA5 data files are stored.
 Other Pre-processing: 
 \code{\link{climateScenarioPreparation_RMAWGEN}()},
 \code{\link{computeDiurnalTemperatureCycle}()},
-\code{\link{doQuantileMapping_Tobi}()},
+\code{\link{doQuantileMapping}()},
 \code{\link{downscale_ClimPred_monthly_BasinElBands}()},
 \code{\link{gen_HRU_Climate_CSV_RSMinerve}()},
 \code{\link{gen_basinElevationBands}()},

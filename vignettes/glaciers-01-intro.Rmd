@@ -13,7 +13,7 @@ vignette: >
 
 In the Central Asia region, there are key figures to keep in mind in relation to runoff formation: Snow melt is the most important contribution to discharge (\~ 80 %, on average), followed by runoff from liquid precipitation (\~ 17 %, on average) and, finally, glacier melt (\~ 3 %, on average) (personal communication with A. Yakovlev, 2019). @armstrong_runoff_2019 obtain similar orders of magnitude with 65%-75% snow melt, 23% precipitation and 2-8% glacier melt for the basins of the rivers Syr Darya and Amu Darya. In smaller, highly glaciated catchments, the glacier contribution to discharge can be more important [@pohl_glacier_2017, @dhaubanjar_systematic_2021]. The cryosphere is therefore a major contributor to the water balance in Central Asia [@barandun_state_2020]. While glacier runoff is a small contributor to the annual runoff, it is seasonally important as it covers the irrigation demand in summer, when snow melt is over [@kaser_contribution_2010]. Gaining a proper understanding of climate change impacts on the region's hydrology is not just of interest to the scientific community but also of greatest relevance to the local communities and riparian states that depend crucially on the availability of runoff at the right time and location.
 
-Among other things, climate impacts translate into long-term changes of runoff formation fractions and the distribution of runoff formation *within* the hydrological year. Typical rainfall-runoff models such as the HBV Model simulate the fractionation of precipitation into snow and rain with a temperature threshold method. Snow and liquid water reservoirs and corresponding fluxes are then accounted for. However, these models have only a limited understanding of glacier processes which are normally inadequate at best to estimate glacier contributions to discharge. We present a short introduction to glaciers in water resources and a workflow for an empirical method and one via a temperature index model and a simple glacier mass balance.
+Among other things, climate impacts translate into long-term changes of runoff formation fractions and the distribution of runoff formation *within* the hydrological year. Typical rainfall-runoff models such as the HBV Model simulate the fractionation of precipitation into snow and rain with a temperature threshold method. Snow and liquid water reservoirs and corresponding fluxes are then accounted for. However, these models have only a limited understanding of glacier processes which are normally inadequate at best to estimate glacier contributions to discharge. We present a short introduction to glaciers in water resources and a workflow to include state-of-the-art glacier data from the scientific community in day-to-day hydrological modelling.
 
 # Glaciers in Water Resources Modelling
 
@@ -31,7 +31,7 @@ $$
 \Delta S = \text{accumulation} - \text{ablation} \approx P - M
 $$
 
-where $\Delta S$ is the change of water storage in the glacier, $P$ is the precipitation over the glacier (assumed to be solid precipitation) and $M$ is glacier melt. If $\Delta S$ is larger than 0 (i.e., $P > M$), the glacier accumulates snow and ice and is growing. If $\Delta S$ is smaller than 0 (i.e., $P < M$), we have *imbalance ablation* and the glacier shrinks. Glacier melt $M$ can be modeled using full energy balance models or simplifications thereof, e.g. temperature index models [@hock_temperature_2003]. We'll introduce a temperature index model in (the following glacier vignette chapter)[<https://hydrosolutions.github.io/riversCentralAsia/articles/glaciers-02-DDMWB.html>].
+where $\Delta S$ is the change of water storage in the glacier, $P$ is the precipitation over the glacier (assumed to be solid precipitation) and $M$ is glacier melt. If $\Delta S$ is larger than 0 (i.e., $P > M$), the glacier accumulates snow and ice and is growing. If $\Delta S$ is smaller than 0 (i.e., $P < M$), we have *imbalance ablation* and the glacier shrinks. Glacier melt $M$ can be modeled using full energy balance models or simplifications thereof, e.g. temperature index models [@hock_temperature_2003]. We'll introduce a temperature index model in [the following glacier vignette chapter](https://hydrosolutions.github.io/riversCentralAsia/articles/glaciers-02-DDMWB.html)
 
 In simplified words, if a glacier, on average, accumulates as much snow as it looses to melt, it is in balance. The average annual glacier discharge is equivalent to the average annual snow fall and called *balance ablation*. The ELA does not move. If the glacier produces more discharge than it accumulates from snow fall, it is not in balance. The ELA moves upwards. The excess melt is called *imbalance ablation*, as also explained in the previous paragraph. If more snow falls that melts, the ELA moves downstream and the glacier grows [@cogley_glossary_2011].
 
@@ -80,7 +80,7 @@ data_path <- "../../atbashy_glacier_demo_data/"
 
 ## Randolph glacier inventory
 
-The Randolph Glacier Inventory (RGI) v6.0 [@rgi60] makes a consistent global glacier data base publicly available. It includes geo-located glacier geometry and some additional parameters like elevation, length, slope and aspect. A new version (v7) is under review at the time of writing beginning of 2022. For Central Asian water resources modelling, RGI regions 13 (Central Asia) and 14 (South Asia West) are relevant. You can download the glacier geometries for all RGI regions from [the GLIMS RGI v6.0 web site](https://www.glims.org/RGI/rgi60_dl.html){target="_blank"}. For this demo, the data is available from the data download link given above.
+The Randolph Glacier Inventory (RGI) v6.0 [@rgi60] makes a consistent global glacier data base publicly available. It includes geo-located glacier geometry and some additional parameters, for example elevation, length, slope and aspect. A new version (v7) is under review at the time of writing mid 2022. For Central Asian water resources modelling, RGI regions 13 (Central Asia) and 14 (South Asia West) are relevant. You can download the glacier geometries for all RGI regions from [the GLIMS RGI v6.0 web site](https://www.glims.org/RGI/rgi60_dl.html){target="_blank"}. For this demo, the data is available from the data download link given above.
 
 ```{r, rgi, message=FALSE, warning=FALSE, fig.cap="DEM & Glaciers (light gray) of the demo basin.", out.width="90%"}
 
@@ -104,7 +104,13 @@ tm_shape(dem, name = "DEM") +
 
 ```
 
+The python package [rgitools](https://github.com/GLIMS-RGI/rgitools) provides functions pre-processing RGI glacier outlines, such as automated data quality checks or glacier hypsometry data[^1].
+
+[^1]: If you are not familiar with python yet: We recommend the free version of Visual Studio Code, a graphical user interface where you can install support for both python and R code). There is a wealth of resources for beginners to get started, see for example [the python *getting started* site](https://www.python.org/about/gettingstarted/). You can also run python code in RStudio using the [reticulate](https://rstudio.github.io/reticulate/) package
+
 ## Glacier thickness
+
+Two global glacier thickness datasets are currently publicly available: @farinotti_consensus_2019_dataset and @milan_ice_2021_dataset.
 
 @farinotti_consensus_2019 make distributed glacier thickness maps available for each glacier in the RGI v6 data set. We have downloaded the required maps of glacier thickness for you and made them available in the download link above. We will refer to this data set as the glacier thickness data set or the Farinotti data set.
 
@@ -112,7 +118,7 @@ The original glacier thickness data set is available from the [data collection](
 
 The following section demonstrates how to extract glacier thickness data from the Farinotti data set.
 
-### How to extract glacier thickness
+#### How to extract glacier thickness data
 
 ```{r, thicknessExtraction, eval=TRUE, message=FALSE, warning=FALSE}
 # Get a list of all files in the glacier thickness data set. The files are named 
@@ -163,7 +169,7 @@ Note: A newer glacier thickness data set has recently become available from @mil
 
 ## Glacier area-volume scaling
 
-Well-established methods exist to derive the outlines of glaciers from remote sensing data [@rgi60], i.e. the glacier areas are relatively well known (on a global scale). Until recently, glacier volumes have not been available to the wider public and scaling relationships have been used to derive glacier volumes based on glacier area or length. In Central Asia, the scaling relationship by @erasov_1968 is the most widely applied method, an empirical function of the form:
+Well-established methods exist to derive the outlines of glaciers from remote sensing data [@rgi60], i.e. the glacier areas are relatively well known (on a global scale). Until recently, glacier volumes have not been available to the wider public and scaling relationships have been used to derive glacier volumes based on glacier area or length, for example [@bahr_physical_1997; @van_de_wal_modelling_2001; @radic_modeling_2006]. And although these scaling relationships have been derived from glaciers presumably in steady-state conditions, @radic_volumearea_2007 have found it to be suitable for long-term glacier development. In Central Asia, the scaling relationship by @erasov_1968 is the most widely applied method, an empirical function of the form:
 
 $$
 V = a \cdot A^{b}
