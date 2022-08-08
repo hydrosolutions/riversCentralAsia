@@ -16,14 +16,14 @@
 #' @param units Data units
 #' @return Time-aware tibble with relevant data
 #' @details Note that the input file needs to be in coma-separated format and
-#'   without header. \n
-#' \n
-#' The most common format for hydrological data in Central Asia is in tabular form with the years in rows and the months or decades in columns, i.e. the data has 13 columns and as many rows as years of data. An input file containing monthly data might look like follows: \n
-#'   1990,0.1,0.1,0.2,0.2,0.3,0.3,0.4,0.4,0.3,0.2,0.1,0.1 \n
-#'   1991,0.1,0.1,0.2,0.2,0.3,0.3,0.4,0.4,0.3,0.2,0.1,0.1 \n
-#'   1992,0.1,0.1,0.2,0.2,0.3,0.3,0.4,0.4,0.3,0.2,0.1,0.1 \n
-#'   ... \n
-#' An input file containing decadal data (every 10 days) would have 37 columns, the first for the year and the following for each decade in a year. \n
+#'   without header. \cr
+#' \cr
+#' The most common format for hydrological data in Central Asia is in tabular form with the years in rows and the months or decades in columns, i.e. the data has 13 columns and as many rows as years of data. An input file containing monthly data might look like follows: \cr
+#'   1990,0.1,0.1,0.2,0.2,0.3,0.3,0.4,0.4,0.3,0.2,0.1,0.1 \cr
+#'   1991,0.1,0.1,0.2,0.2,0.3,0.3,0.4,0.4,0.3,0.2,0.1,0.1 \cr
+#'   1992,0.1,0.1,0.2,0.2,0.3,0.3,0.4,0.4,0.3,0.2,0.1,0.1 \cr
+#'   ... \cr
+#' An input file containing decadal data (every 10 days) would have 37 columns, the first for the year and the following for each decade in a year. \cr
 #' @family Pre-processing
 #' @examples
 #' \dontrun{

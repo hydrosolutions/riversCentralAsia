@@ -3,7 +3,7 @@ title: "Discharge processing examples"
 output: rmarkdown::html_vignette
 bibliography: [references.bib, HMA_bibliography.bib]
 vignette: >
-  %\VignetteIndexEntry{Discharge processing}
+  %\VignetteIndexEntry{Discharge processing examples}
   %\VignetteEngine{knitr::rmarkdown}
   %\VignetteEncoding{UTF-8}
 ---

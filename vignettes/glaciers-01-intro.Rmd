@@ -31,7 +31,9 @@ $$
 \Delta S = \text{accumulation} - \text{ablation} \approx P - M
 $$
 
-where $\Delta S$ is the change of water storage in the glacier, $P$ is the precipitation over the glacier (assumed to be solid precipitation) and $M$ is glacier melt. If $\Delta S$ is larger than 0 (i.e., $P > M$), the glacier accumulates snow and ice and is growing. If $\Delta S$ is smaller than 0 (i.e., $P < M$), we have *imbalance ablation* and the glacier shrinks. Glacier melt $M$ can be modeled using full energy balance models or simplifications thereof, e.g. temperature index models [@hock_temperature_2003]. We'll introduce a temperature index model in [the following glacier vignette chapter](https://hydrosolutions.github.io/riversCentralAsia/articles/glaciers-02-DDMWB.html)
+where $\Delta S$ is the change of water storage in the glacier, $P$ is the precipitation over the glacier (assumed to be solid precipitation) and $M$ is glacier melt. If $\Delta S$ is larger than 0 (i.e., $P > M$), the glacier accumulates snow and ice and is growing. If $\Delta S$ is smaller than 0 (i.e., $P < M$), we have *imbalance ablation* and the glacier shrinks.
+
+Glacier melt $M$ can be modeled using full energy balance models or simplifications thereof, e.g. temperature index models [@hock_temperature_2003]. We'll introduce a temperature index model in [the following glacier vignette chapter](https://hydrosolutions.github.io/riversCentralAsia/articles/glaciers-02-DDMWB.html)
 
 In simplified words, if a glacier, on average, accumulates as much snow as it looses to melt, it is in balance. The average annual glacier discharge is equivalent to the average annual snow fall and called *balance ablation*. The ELA does not move. If the glacier produces more discharge than it accumulates from snow fall, it is not in balance. The ELA moves upwards. The excess melt is called *imbalance ablation*, as also explained in the previous paragraph. If more snow falls that melts, the ELA moves downstream and the glacier grows [@cogley_glossary_2011].
 
@@ -43,9 +45,9 @@ Most glaciers worldwide are currently not in equilibrium with the warmer than lo
 
 Water resources managers in glaciated catchments are highly interested in knowing when peak water will be reached as measures to adapt for lower water availability need time to implement.
 
-Without in-situ measurements (and actually even with in-situ measurements) it is no easy feat to model the evolution of the water storage in a glacier. The best we can do in water resources modelling is: Use results from existing glacier models and feed them to the water resources model or, alternatively, use the best data available to estimate glacier melt with simple models.
+Without in-situ measurements (and actually even with in-situ measurements) it is no easy feat to model the evolution of the water storage in a glacier. The best we can do in water resources modelling is: Use results from existing glacier models and feed them to the water resources model or, alternatively, use the best data available to estimate glacier melt with simple models. As state-of-the-art glacier models are available as open source software [@maussion_open_2019, @rounce_glacier_2020], and even simulation results are published for public use [@rounce_glacier_2020], there is no need to implement an own glacier evolution model. New glacier thickness data sets can be used to update glacier-volume scaling relationships derived for glaciers in Central Asia.
 
-The present vignette gives an overview over the available glacier-related data, illustrated using the catchment area of the river Atbashy, a tributary of the Naryn river in Central Asia (status early 2022). In the [second vignette](glaciers-02-DDMWB.html), a method to estimate glacier discharge for a catchment based on a temperature driven degree-day melt function and a simplified glacier mass balance is introduced and it's implementation is demonstrated on the Atbashy catchment. [Vignette 3](glaciers-03-oerlemans.html) demonstrates an empirical glacier volume scaling method based on temperature and precipitation measurements that can be used to estimate glacier lengths on a regional scale. [Vignette 4](glaciers-04-glaciers-RSM.html) shows how to include glacier discharge in a hydrological model in RS Minerve.
+The present vignette gives an overview over the relevant glacier-related data, illustrated using the catchment area of the river Atbashy, a tributary of the Naryn river in Central Asia (status mid 2022). In the [second vignette](glaciers-02-DDMWB.html), a method to estimate glacier discharge for a catchment based on a temperature driven degree-day melt function and a simplified glacier mass balance is introduced and it's implementation is demonstrated on the Atbashy catchment. [Vignette 3](glaciers-03-oerlemans.html) demonstrates an empirical glacier volume scaling method based on temperature and precipitation measurements that can be used to estimate glacier lengths on a regional scale. [Vignette 4](glaciers-04-glaciers-RSM.html) shows how to include glacier discharge in a hydrological model in RS Minerve.
 
 # Availability on glacier-related data
 
@@ -82,7 +84,7 @@ data_path <- "../../atbashy_glacier_demo_data/"
 
 The Randolph Glacier Inventory (RGI) v6.0 [@rgi60] makes a consistent global glacier data base publicly available. It includes geo-located glacier geometry and some additional parameters, for example elevation, length, slope and aspect. A new version (v7) is under review at the time of writing mid 2022. For Central Asian water resources modelling, RGI regions 13 (Central Asia) and 14 (South Asia West) are relevant. You can download the glacier geometries for all RGI regions from [the GLIMS RGI v6.0 web site](https://www.glims.org/RGI/rgi60_dl.html){target="_blank"}. For this demo, the data is available from the data download link given above.
 
-```{r, rgi, message=FALSE, warning=FALSE, fig.cap="DEM & Glaciers (light gray) of the demo basin.", out.width="90%"}
+```{r, rgi, message=FALSE, warning=FALSE, fig.cap="DEM & Glacier outlines (light gray) of the demo basin.", out.width="90%"}
 
 dem <- raster(paste0(data_path, "GIS/16076_DEM.tif"))
 basin <- st_read(paste0(data_path, "GIS/16076_Basin_outline.shp"), quiet=TRUE)
@@ -120,52 +122,26 @@ The following section demonstrates how to extract glacier thickness data from th
 
 #### How to extract glacier thickness data
 
-```{r, thicknessExtraction, eval=TRUE, message=FALSE, warning=FALSE}
-# Get a list of all files in the glacier thickness data set. The files are named 
-# after the glacier ID in the RGI v6.0 data set (variable RGIId).  
-glacier_thickness_dir <- paste0(data_path, "GLACIERS/Farinotti/") 
+```{r}
+thickness <- raster(paste0(data_path, 
+                           "GLACIERS/Milan_glacier_thickness.tif"))
 
-filelist <- list.files(path = glacier_thickness_dir, pattern = ".tif$", 
-                       full.names = TRUE)
+values(thickness)[values(thickness) <= 0] = NA
 
-# Filter the glacier thickness file list for the glacier ids in the catchment of 
-# interest. 
-filelist <- filelist[sapply(rgi$RGIId, grep, filelist)]
-
-# Get the maximum glacier thickness for each of the glaciers in filelist. 
-# Note: this works only for small catchments as the origin of the rasters to be 
-# mosaiced needs to be consistent. For a larger data set you will need to implement
-# a loop over all glaciers to extract the thickness per glacier or per elevation 
-# band. This operation can take a while. 
-glacier_thickness <- Reduce(function(x, y) raster::mosaic(x, y, fun = max),
-                            lapply(filelist, raster::raster)) 
-
-# For plotting, clip the glacier thickness raster of the basin to the basin boundary
-glacier_thickness <- mask(glacier_thickness |> 
-                            projectRaster(crs = crs(dem)), rgi)
-```
-
-```{r, thickness, message=FALSE, warning=FALSE, fig.cap = "Glacier thickness by Farinotti et al., 2019", out.width="90%"}
 tmap_mode("view")
-tm_shape(dem, name = "DEM") + 
+tm_shape(dem, name = "DEM") +
   tm_raster(n = 6, 
             palette = terrain.colors(6),
             alpha = 0.8,
             legend.show = TRUE, 
             title = "Elevation (masl)") + 
-  tm_shape(glacier_thickness, name = "Thickness [m]") +
+  tm_shape(thickness, name = "Thickness") + 
   tm_raster(n = 6, 
-            palette = "Blues",
-            legend.show = TRUE, 
-            title = "Glacier thickness\n(m)") + 
-  tm_shape(rgi, name = "RGI v6.0") + 
-  tm_borders(col = "gray", lwd = 0.4) + 
-  tm_shape(basin, name = "Basin outline") + 
-  tm_borders(col = "black", lwd = 0.6) + 
-  tm_scale_bar(position = c("right", "bottom"))
+            palette = "Blues", 
+            title = "Thickness [m]") + 
+  tm_scale_bar(position = c("right", "bottom")) 
 ```
 
-Note: A newer glacier thickness data set has recently become available from @millan_ice_2022 which can be used as an alternative to the data set described above.
 
 ## Glacier area-volume scaling
 
@@ -184,6 +160,9 @@ A=\exp{\left(\frac{\left(\log{V} - \log{a}\right)}{b}\right)}
 $$
 
 The package `riversCentralAsia` implements the area-volume scaling and the volume-area scaling with parameter sets from Erasov and derived from @rgi60 and @farinotti_consensus_2019 in the functions `glacierArea_Erasov()`, `glacierArea_RGIF()`, `glacierVolume_Erasov()` and `glacierVolume_RGIF()`.
+
+## Glacier runoff
+@rounce_glacier_2020 
 
 ## Glacier thinning rates
 

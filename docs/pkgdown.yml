@@ -3,11 +3,14 @@ pkgdown: 2.0.6
 pkgdown_sha: ~
 articles:
   00-introduction: 00-introduction.html
+  01-discharge-processing-examples: 01-discharge-processing-examples.html
+  02-preparation-of-climate-forcing: 02-preparation-of-climate-forcing.html
+  03-RSMinerveIO: 03-RSMinerveIO.html
   glaciers-01-intro: glaciers-01-intro.html
   glaciers-02-DDMWB: glaciers-02-DDMWB.html
   glaciers-03-oerlemans: glaciers-03-oerlemans.html
   glaciers-04-glaciers-RSM: glaciers-04-glaciers-RSM.html
   RSMinerveIO: RSMinerveIO.html
   snow-manual-calibration-SWE: snow-manual-calibration-SWE.html
-last_built: 2022-08-04T18:49Z
+last_built: 2022-08-08T14:52Z
 
