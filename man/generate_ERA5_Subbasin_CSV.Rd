@@ -39,13 +39,12 @@ Other Pre-processing:
 \code{\link{biasCorrect_ERA5_CHELSA}()},
 \code{\link{climateScenarioPreparation_RMAWGEN}()},
 \code{\link{computeDiurnalTemperatureCycle}()},
+\code{\link{convert2HYY}()},
 \code{\link{doQuantileMapping}()},
 \code{\link{downscale_ClimPred_monthly_BasinElBands}()},
 \code{\link{gen_HRU_Climate_CSV_RSMinerve}()},
 \code{\link{gen_basinElevationBands}()},
-\code{\link{import_iEasyHydro_data}()},
 \code{\link{loadTabularData}()},
-\code{\link{plotNormDevHYY}()},
-\code{\link{prepare_RMAWGEN_input_data}()}
+\code{\link{plotNormDevHYY}()}
 }
 \concept{Pre-processing}

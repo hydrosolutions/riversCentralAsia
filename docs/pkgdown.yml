@@ -1,5 +1,5 @@
-pandoc: 2.17.1.1
-pkgdown: 2.0.3
+pandoc: '2.18'
+pkgdown: 2.0.6
 pkgdown_sha: ~
 articles:
   00-introduction: 00-introduction.html
@@ -8,5 +8,6 @@ articles:
   glaciers-03-oerlemans: glaciers-03-oerlemans.html
   glaciers-04-glaciers-RSM: glaciers-04-glaciers-RSM.html
   RSMinerveIO: RSMinerveIO.html
-last_built: 2022-05-25T10:16Z
+  snow-manual-calibration-SWE: snow-manual-calibration-SWE.html
+last_built: 2022-08-04T18:49Z
 

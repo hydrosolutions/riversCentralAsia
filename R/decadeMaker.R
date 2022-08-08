@@ -18,7 +18,7 @@ decadeMaker <- function(s,e,type){
   decade <- rep(decade, times = ydiff) # this replicates decades for exactly the number of years
   temp <- zoo::zooreg(decade, frequency = 36, start=zoo::as.yearmon(s_year))
   eom <- seq.Date(zoo::as.Date(s_year),by='month',length.out = ydiff * 12) %>%
-    zoo::as.yearmon() %>% zoo::as.Date(,frac=1) %>% format('%d') %>% as.numeric
+    zoo::as.yearmon() %>% zoo::as.Date(.,frac=1) %>% format('%d') %>% as.numeric
   if (all(type=='end')){
     daysV <- cbind(10,20,eom) %>% t %>% as.vector()
   } else if (all(type=='start')){
@@ -28,5 +28,5 @@ decadeMaker <- function(s,e,type){
   decade <- zoo::zoo(decade, temp.Date) %>%
     timetk::tk_tbl() %>%
     dplyr::rename(date=index,dec=value) %>%
-    dplyr::filter(date<=e) %>% filter(date>=s)
+    dplyr::filter(date<=e) %>% dplyr::filter(date>=s)
 }

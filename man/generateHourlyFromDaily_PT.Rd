@@ -21,17 +21,15 @@ The function uses different gap filling methods to a) compute hourly precipitati
 }
 \seealso{
 Other Helper functions: 
+\code{\link{\%>\%}()},
 \code{\link{aggregate_to_monthly}()},
 \code{\link{assess_fc_qual}()},
-\code{\link{convert2HYY}()},
 \code{\link{cutRaster2Basin}()},
 \code{\link{decadeMaker}()},
 \code{\link{generateSeqDates}()},
 \code{\link{hyear}()},
 \code{\link{monDateSeq}()},
 \code{\link{monthlyNorms_ClimateScenario}()},
-\code{\link{posixct2rsminerveChar}()},
-\code{\link{wgen_daily_PT}()},
-\code{\link{wgen_daily_summaryStats}()}
+\code{\link{posixct2rsminerveChar}()}
 }
 \concept{Helper functions}

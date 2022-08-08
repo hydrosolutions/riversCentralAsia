@@ -54,21 +54,24 @@ plotNormDevHYY <- function(data2Plot,dataType,stationID){
   completeHYY <- data_norms %>%
     ggplot2::ggplot(ggplot2::aes(x = hyYear, y = delta_data)) +
     ggplot2::geom_bar(ggplot2::aes(fill = delta_data < 0), stat = "identity") +
-    ggplot2::scale_fill_manual(guide = FALSE, breaks = c(TRUE, FALSE), values = c("red", "blue")) +
+    ggplot2::scale_fill_manual(guide = "none", breaks = c(TRUE, FALSE), values = c("red", "blue")) +
     ggplot2::xlab('Hydrological year') + ggplot2::ylab(ylabText) +
-    ggplot2::ggtitle(titleText_HYY)
+    ggplot2::ggtitle(titleText_HYY) +
+    ggplot2::theme_bw()
   csHYY <- data_norms %>%
     ggplot2::ggplot(aes(x = hyYear, y = delta_data_cs)) +
     ggplot2::geom_bar(aes(fill = delta_data_cs < 0), stat = "identity") +
-    ggplot2::scale_fill_manual(guide = FALSE, breaks = c(TRUE, FALSE), values = c("red", "blue")) +
+    ggplot2::scale_fill_manual(guide = "none", breaks = c(TRUE, FALSE), values = c("red", "blue")) +
     ggplot2::xlab('Hydrological year') + ggplot2::ylab(ylabText) +
-    ggplot2::ggtitle(titleText_cs)
+    ggplot2::ggtitle(titleText_cs) +
+    ggplot2::theme_bw()
   wsHYY <- data_norms %>%
     ggplot2::ggplot(ggplot2::aes(x = hyYear, y = delta_data_ws)) +
     ggplot2::geom_bar(ggplot2::aes(fill = delta_data_ws < 0), stat = "identity") +
-    ggplot2::scale_fill_manual(guide = FALSE, breaks = c(TRUE, FALSE), values = c("red", "blue")) +
+    ggplot2::scale_fill_manual(guide = "none", breaks = c(TRUE, FALSE), values = c("red", "blue")) +
     ggplot2::xlab('Hydrological year') + ggplot2::ylab(ylabText) +
-    ggplot2::ggtitle(titleText_ws)
+    ggplot2::ggtitle(titleText_ws) +
+    ggplot2::theme_bw()
 
   ggpubr::ggarrange(completeHYY, csHYY, wsHYY, ncol = 1) %>% return()
 }

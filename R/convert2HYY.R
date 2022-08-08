@@ -7,7 +7,7 @@
 #' @param stationCode String with 5-digit station code
 #' @param typeSel Either 'Q' for discharge, 'mean(T)' for mean temperatures or 'P' for total precipitation
 #' @return tibble dataframe date column and hydrological year, cold season and warm season values columns.
-#' @family Helper functions
+#' @family Pre-processing
 #' @export
 convert2HYY <- function(data2convert,stationCode,typeSel){
 

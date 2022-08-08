@@ -1,8 +1,8 @@
-test_that("readSelectionCHK returns expected", {
+test_that("writeRSMParameters returns expected", {
 
-  readfilepath <- normalizePath(file.path("../atbashy_glacier_demo_data/RSMINERVE/initial_params.txt"),
+  readfilepath <- normalizePath(file.path("RSM_parameters_write_test_initial.txt"),
                                 mustWork = FALSE)
-  writefilepath <- normalizePath(file.path("tests/testthat/RSM_parameters_write_test.txt"),
+  writefilepath <- normalizePath(file.path("RSM_parameters_write_test.txt"),
                                  mustWork = FALSE)
 
   params <- riversCentralAsia::readRSMParameters(readfilepath)

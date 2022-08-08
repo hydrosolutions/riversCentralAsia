@@ -1,3 +1,6 @@
+template:
+  bootstrap: 5
+  bootswatch: materia
 reference:
 - title: Pre-processing
   desc: Functions supporting the pre-processing of data for hydrological modelling in RS Minerve.

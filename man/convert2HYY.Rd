@@ -21,18 +21,16 @@ Conversion to hydrological year values from Oct. to the following year end of Se
 components are calculated.
 }
 \seealso{
-Other Helper functions: 
-\code{\link{aggregate_to_monthly}()},
-\code{\link{assess_fc_qual}()},
-\code{\link{cutRaster2Basin}()},
-\code{\link{decadeMaker}()},
-\code{\link{generateHourlyFromDaily_PT}()},
-\code{\link{generateSeqDates}()},
-\code{\link{hyear}()},
-\code{\link{monDateSeq}()},
-\code{\link{monthlyNorms_ClimateScenario}()},
-\code{\link{posixct2rsminerveChar}()},
-\code{\link{wgen_daily_PT}()},
-\code{\link{wgen_daily_summaryStats}()}
+Other Pre-processing: 
+\code{\link{biasCorrect_ERA5_CHELSA}()},
+\code{\link{climateScenarioPreparation_RMAWGEN}()},
+\code{\link{computeDiurnalTemperatureCycle}()},
+\code{\link{doQuantileMapping}()},
+\code{\link{downscale_ClimPred_monthly_BasinElBands}()},
+\code{\link{gen_HRU_Climate_CSV_RSMinerve}()},
+\code{\link{gen_basinElevationBands}()},
+\code{\link{generate_ERA5_Subbasin_CSV}()},
+\code{\link{loadTabularData}()},
+\code{\link{plotNormDevHYY}()}
 }
-\concept{Helper functions}
+\concept{Pre-processing}

@@ -6,7 +6,7 @@
 <!-- badges: start -->
 <!-- badges: end -->
 
-riversCentralAsia is an R Package with helper functions to - load,
+`riversCentralAsia` is an R Package with helper functions to - load,
 manage and analyze hydrometeorological data from Central Asia, - process
 and analyze as well as downscale ERA5 reanalysis data for arbitrary
 basins in the region (shapefile required), - process and analyze

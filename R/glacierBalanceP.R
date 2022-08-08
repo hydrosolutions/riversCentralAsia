@@ -214,6 +214,7 @@ glacierBalanceP <- function(melt_a_eb, prcp_a_eb, rgi_elbands) {
 #'   same time interval as M_mma. Q_m3a: glacier discharge, V_km3: glacier
 #'   volume in water equivalents, A_km2: glacier area, Qimb_m3a: imbalance
 #'   ablation (<0: glacier melt, >0: glacier increase)
+#' @keyword internal
 stepWiseGlacierBalanceP <- function(M_mma, P_mma, A_km2) {
 
   if (!("Hyear" %in% colnames(M_mma))) {
@@ -370,6 +371,7 @@ stepWiseGlacierBalanceP <- function(M_mma, P_mma, A_km2) {
 #'   mean thickness in the elevation bands extracted from Farinotti et al.
 #' @return c(Q_m3a, V_km3, A_km2) List of updated variables over the same time
 #'   interval as M_mma
+#' @keyword internal
 stepWiseGlacierBalancePerElBandP <- function(M_mma, P_mma, A_km2, V_km3) {
 
   if (!("Hyear" %in% colnames(M_mma))) {
