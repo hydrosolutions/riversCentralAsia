@@ -39,7 +39,7 @@ readForcingSTR <- function(string, tz = "UTC") {
   data$Date <- date_vec
 
   data <- data |>
-    dplyr::mutate(dplyr::across(where(base::is.character),
+    dplyr::mutate(dplyr::across(base::is.character,
                                 base::as.numeric))
   # Reformat data table and drop superfluous rows
   data_long <- tidyr::pivot_longer(data, -.data$Date,

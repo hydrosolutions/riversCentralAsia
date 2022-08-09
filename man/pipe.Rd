@@ -10,14 +10,12 @@ function composition into a series of imperative statements.
 \seealso{
 Other Helper functions: 
 \code{\link{aggregate_to_monthly}()},
-\code{\link{assess_fc_qual}()},
 \code{\link{cutRaster2Basin}()},
 \code{\link{decadeMaker}()},
 \code{\link{generateHourlyFromDaily_PT}()},
 \code{\link{generateSeqDates}()},
 \code{\link{hyear}()},
 \code{\link{monDateSeq}()},
-\code{\link{monthlyNorms_ClimateScenario}()},
 \code{\link{posixct2rsminerveChar}()}
 }
 \concept{Helper functions}

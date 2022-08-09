@@ -22,13 +22,11 @@ Hyear <- hyear(lubridate::as_date(c("2015-09-30", "2015-10-01", "2016-01-27")))
 Other Helper functions: 
 \code{\link{\%>\%}()},
 \code{\link{aggregate_to_monthly}()},
-\code{\link{assess_fc_qual}()},
 \code{\link{cutRaster2Basin}()},
 \code{\link{decadeMaker}()},
 \code{\link{generateHourlyFromDaily_PT}()},
 \code{\link{generateSeqDates}()},
 \code{\link{monDateSeq}()},
-\code{\link{monthlyNorms_ClimateScenario}()},
 \code{\link{posixct2rsminerveChar}()}
 }
 \concept{Helper functions}

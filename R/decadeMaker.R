@@ -12,6 +12,7 @@
 #' @family Helper functions
 #' @export
 decadeMaker <- function(s,e,type){
+  . <- NULL
   s_year <- s %>% zoo::as.Date() %>% lubridate::year() %>% zoo::yearmon() %>% zoo::as.Date()
   decade <- 1 : 36 # Preparation of decade indicators
   ydiff <- as.Date(e) %>% lubridate::year() - as.Date(s) %>% lubridate::year() + 1
@@ -27,6 +28,6 @@ decadeMaker <- function(s,e,type){
   temp.Date <- zoo::as.Date(stats::time(temp)) + daysV - 1
   decade <- zoo::zoo(decade, temp.Date) %>%
     timetk::tk_tbl() %>%
-    dplyr::rename(date=index,dec=value) %>%
+    dplyr::rename(date=.data$index,dec=.data$value) %>%
     dplyr::filter(date<=e) %>% dplyr::filter(date>=s)
 }

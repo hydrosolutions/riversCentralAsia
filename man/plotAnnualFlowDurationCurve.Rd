@@ -23,6 +23,7 @@ plot the annual flow duration curve of a river discharge data set.
 [computeAnnualFlowDurationCurve()]
 
 Other Post-processing: 
+\code{\link{assess_fc_qual}()},
 \code{\link{computeAnnualFlowDurationCurve}()}
 }
 \concept{Post-processing}

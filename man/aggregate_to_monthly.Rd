@@ -8,8 +8,8 @@ data.}
 aggregate_to_monthly(dataTable, funcTypeLib)
 }
 \arguments{
-\item{dataTable}{A tibble of the format \code{ChirchikRiverBasin}. Must contain at
-least the columns date, data, norm, type and code.}
+\item{dataTable}{A tibble of the format \code{ChirchikRiverBasin}. Must
+contain at least the columns date, data, norm, type and code.}
 
 \item{funcTypeLib}{is a list of functions with associated data types that
 will be applied to the data. Currently, the aggregation functions
@@ -35,19 +35,16 @@ timetk's summarise_by_time.
 dataTable <- ChirchikRiverBasin
 funcTypeLib <- list(mean = c("Q", "T"), sum= "P")
 data_mon <- aggregate_to_monthly(dataTable, funcTypeLib)
-
 }
 \seealso{
 Other Helper functions: 
 \code{\link{\%>\%}()},
-\code{\link{assess_fc_qual}()},
 \code{\link{cutRaster2Basin}()},
 \code{\link{decadeMaker}()},
 \code{\link{generateHourlyFromDaily_PT}()},
 \code{\link{generateSeqDates}()},
 \code{\link{hyear}()},
 \code{\link{monDateSeq}()},
-\code{\link{monthlyNorms_ClimateScenario}()},
 \code{\link{posixct2rsminerveChar}()}
 }
 \concept{Helper functions}

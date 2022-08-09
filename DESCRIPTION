@@ -1,7 +1,7 @@
 Package: riversCentralAsia
 Type: Package
 Title: Accompanying R Package to Applied Modeling of Hydrological Systems in Central Asia Course
-Version: 1.0.1
+Version: 1.1.0
 Date: 2022-08-03
 Authors@R: c(
   person("Tobias", "Siegfried", 
@@ -10,14 +10,45 @@ Authors@R: c(
          role = c("cre", "aut")), 
   person("Beatrice", "Marti", 
          email = "marti@hydrosolutions.ch", 
-         role = "aut"))
+         comment = "hydrosolutions GmbH, www.hydrosolutions.ch", 
+         role = c("aut")))
 Description: riversCentralAsia is an R Package with helper functions to load, manage and analyze hydrometeorological data from Central Asia. Furthermore, it contains some workhorse function to prepare input data for RSMINERVE (www.crealp.ch) which is a hydrological-hydraulic modeling suite that can be used for river basin planning and management purposes and climate impact analysis, among other things. It also contains a bias correction and downscaling workflow of the CHELSA V21 high resolution climatologies and CMIP6 climate projections.
-License: GPL-3
+License: GPL (>= 3) 
 RoxygenNote: 7.2.1
 URL: https://hydrosolutions.github.io/riversCentralAsia/index.html
 BugReports: https://github.com/hydrosolutions/riversCentralAsia/issues
-Imports: magrittr, rlang
+Imports: 
+    dplyr,
+    exactextractr,
+    GGally,
+    ggplot2,
+    ggpubr,
+    lubridate,
+    magrittr,
+    numform,
+    pillar,
+    purrr,
+    qmap,
+    R.utils,
+    raster,
+    readr,
+    rlang,
+    sf,
+    smoothr,
+    stringr,
+    tibble,
+    tidyr,
+    tidyselect,
+    timetk,
+    units,
+    xml2,
+    zoo
 LazyData: true
 Encoding: UTF-8
 Depends: 
     R (>= 3.5.0)
+Suggests: 
+    testthat, 
+    rmarkdown, 
+    knitr
+VignetteBuilder: knitr

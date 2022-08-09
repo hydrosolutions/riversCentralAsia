@@ -34,11 +34,6 @@ The package was developed within the frame of a master level course on applied h
 
 The [package documentation](https://hydrosolutions.github.io/riversCentralAsia/index.html) includes further background and examples.   
 
-### Direct links to articles and use cases
-[Introduction on glaciers in water resources modelling and available data](https://hydrosolutions.github.io/riversCentralAsia/articles/glaciers-01-intro.html)  
-[Temperature index models for estimating glacier melt](https://hydrosolutions.github.io/riversCentralAsia/articles/glaciers-02-DDMWB.html)  
-[How to include glacier melt in RS Minerve](https://hydrosolutions.github.io/riversCentralAsia/articles/glaciers-04-glaciers-RSM.html)
-
 ## Related packages
 The R package [RSMinverveR](https://github.com/hydrosolutions/RSMinerveR) allows the running of the hydrologic-hydraulic modelling software [RS Minerve](https://crealp.ch/rs-minerve/) directly from R without using the RS Minerve user interface. This functionality is for advanced R and RS Minerve users that wish to further speed up their modelling workflow.     
 

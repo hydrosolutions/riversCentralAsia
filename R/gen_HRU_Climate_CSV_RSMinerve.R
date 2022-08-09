@@ -1,24 +1,41 @@
-#' Extract hydrological response unit HRU specific climate time series from nc-files.
+#' Extract hydrological response unit HRU specific climate time series from
+#' nc-files.
 #'
-#' Function extracts precipitation (tp) or temperature (tas_) data from climate raster bricks (observed history obs_hist,
-#' GCM-simulated history hist_sim and GCM-simulated future fut_sim) and prepares a dataframe for
-#' later import in RSMinerve (use readr::write_csv(.,col_names=FALSE)). tp and tas_ have to be exported,
-#' the function has to be called twice and the resulting tibble columns added.
+#' Function extracts precipitation (tp) or temperature (tas_) data from climate
+#' raster bricks (observed history obs_hist, GCM-simulated history hist_sim and
+#' GCM-simulated future fut_sim) and prepares a dataframe for later import in
+#' RSMinerve (use readr::write_csv(.,col_names=FALSE)). tp and tas_ have to be
+#' exported, the function has to be called twice and the resulting tibble
+#' columns added.
 #'
-#' @param climate_files List of either temperature or precipitation climate .nc files to process (do not mix!). Make sure the file list time interval is consistent with startY and endY.
+#' @param climate_files List of either temperature or precipitation climate .nc
+#'   files to process (do not mix!). Make sure the file list time interval is
+#'   consistent with startY and endY.
 #' @param catchmentName Name of catchment for which data should be extracted
-#' @param dataType Either 'Temperature' or 'Precipitation'
-#' @param elBands_shp Shapefile with hydrological response units. The column containing the names of the hydrological response
-#'   units must be \code{name} and the column containing the average elevation of the elevation band must be \code{Z}.
-#' @param startY Starting year for which data should be made available (assuming data 'is' available from the start of that year)
-#' @param endY Ending year from which data should be extracted (assuming data 'is' actually available until the end of that year)
+#' @param temp_or_precip Either 'Temperature' or 'Precipitation'
+#' @param elBands_shp Shapefile with hydrological response units. The column
+#'   containing the names of the hydrological response units must be \code{name}
+#'   and the column containing the average elevation of the elevation band must
+#'   be \code{Z}.
+#' @param startY Starting year for which data should be made available (assuming
+#'   data 'is' available from the start of that year)
+#' @param endY Ending year from which data should be extracted (assuming data
+#'   'is' actually available until the end of that year)
 #' @param obs_frequency Climate observation frequency ('hour', 'day', 'month')
-#' @param climate_data_type String of denoting observation type. Either 'hist_obs' (historical observations, i.e. CHELSA V21 high resolution climate data), 'hist_sim' (GCM model output data over the historical period) and 'fut_sim' (fture GCM simulations)
-#' @param crs_in_use 4 digit crs code to ensure projection consistency between raster and shapefile.
-#' @param output_file_dir Path to output file dir (if empty, file will not be written)
+#' @param climate_data_type String of denoting observation type. Either
+#'   'hist_obs' (historical observations, i.e. CHELSA V21 high resolution
+#'   climate data), 'hist_sim' (GCM model output data over the historical
+#'   period) and 'fut_sim' (fture GCM simulations)
+#' @param crs_in_use 4 digit crs code to ensure projection consistency between
+#'   raster and shapefile.
+#' @param output_file_dir Path to output file dir (if empty, file will not be
+#'   written)
+#' @param gcm_model String specifying data for a given gcm model to write
+#' @param gcm_scenario String specifying data for a given scenario to write
 #' @param tz Time zone information. Default "UTC" which can be overridden.
 #' @return Dataframe tibble with temperature in deg. C. or precipitation in mm/h
 #' @family Pre-processing
+#' @importFrom rlang .data
 #' @export
 gen_HRU_Climate_CSV_RSMinerve <- function(climate_files,
                                           catchmentName,
@@ -34,16 +51,20 @@ gen_HRU_Climate_CSV_RSMinerve <- function(climate_files,
                                           gcm_scenario=0,
                                           tz = "UTC"){
 
+  . <- NULL
+
   # Ensure conforming crs
   elBands_shp_latlon <- sf::st_transform(elBands_shp,crs = sf::st_crs(crs_in_use))
 
   # Generate date sequence in accordance with RSMinerve Requirements
   dateElBands <- riversCentralAsia::generateSeqDates(startY,endY,obs_frequency,tz)
-  datesChar <- riversCentralAsia::posixct2rsminerveChar(dateElBands$date,tz) %>% dplyr::rename(Station=value)
+  datesChar <- riversCentralAsia::posixct2rsminerveChar(dateElBands$date,tz) %>%
+    dplyr::rename(Station=.data$value)
 
   # Get names of elevation bands
   namesElBands <- elBands_shp$name
-  dataElBands_df <- namesElBands %>% purrr::map_dfc(setNames, object = base::list(base::logical())) # fancy trick to generate an empty dataframe with column names from a vector of characters.
+  dataElBands_df <- namesElBands %>%
+    purrr::map_dfc(stats::setNames, object = base::list(base::logical())) # fancy trick to generate an empty dataframe with column names from a vector of characters.
 
   # .nc-file extraction
   for (yrIDX in 1:base::length(climate_files)){
@@ -60,11 +81,11 @@ gen_HRU_Climate_CSV_RSMinerve <- function(climate_files,
   # Construct csv-file header.  See the definition of the RSMinerve .csv database file at:
   # https://www.youtube.com/watch?v=p4Zh7zBoQho
   dataElbands_df_header_Station <- tibble::tibble(Station = c('X','Y','Z','Sensor','Category','Unit','Interpolation'))
-  dataElBands_df_body <- namesElBands %>% purrr::map_dfc(setNames, object = base::list(base::logical()))
+  dataElBands_df_body <- namesElBands %>% purrr::map_dfc(stats::setNames, object = base::list(base::logical()))
 
   # Get XY (via centroids) and Z (mean alt. band elevation)
   elBands_XY <- sf::st_transform(elBands_shp,crs = sf::st_crs(32642)) %>% sf::st_centroid() %>% sf::st_coordinates() %>% tibble::as_tibble()
-  elBands_Z <- elBands_shp$Z %>% tibble::as_tibble() %>% dplyr::rename(Z = value)
+  elBands_Z <- elBands_shp$Z %>% tibble::as_tibble() %>% dplyr::rename(Z = .data$value)
   elBands_XYZ <- base::cbind(elBands_XY, elBands_Z) %>% base::as.matrix() %>% base::t() %>% tibble::as_tibble() %>% dplyr::mutate_all(as.character)
   base::names(elBands_XYZ) <- base::names(dataElBands_df_body)
 

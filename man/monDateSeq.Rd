@@ -25,13 +25,11 @@ If a continuous sequence is requested, then freq should be 12.
 Other Helper functions: 
 \code{\link{\%>\%}()},
 \code{\link{aggregate_to_monthly}()},
-\code{\link{assess_fc_qual}()},
 \code{\link{cutRaster2Basin}()},
 \code{\link{decadeMaker}()},
 \code{\link{generateHourlyFromDaily_PT}()},
 \code{\link{generateSeqDates}()},
 \code{\link{hyear}()},
-\code{\link{monthlyNorms_ClimateScenario}()},
 \code{\link{posixct2rsminerveChar}()}
 }
 \concept{Helper functions}

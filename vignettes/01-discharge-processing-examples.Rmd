@@ -4,7 +4,7 @@ output: rmarkdown::html_vignette
 bibliography: [references.bib, HMA_bibliography.bib]
 vignette: >
   %\VignetteIndexEntry{Discharge processing examples}
-  %\VignetteEngine{knitr::rmarkdown}
+  %\VignetteEngine{knitr::knitr}
   %\VignetteEncoding{UTF-8}
 ---
 

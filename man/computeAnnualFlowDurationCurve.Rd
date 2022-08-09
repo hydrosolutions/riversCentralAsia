@@ -4,7 +4,7 @@
 \alias{computeAnnualFlowDurationCurve}
 \title{Computes the annual flow duration curve of a river discharge data set.}
 \usage{
-computeAnnualFlowDurationCurve(data, column, date = Date)
+computeAnnualFlowDurationCurve(data, column, date = "Date")
 }
 \arguments{
 \item{data}{Tibble with date and discharge in columns.}
@@ -48,6 +48,7 @@ DurationCurve <- computeAnnualFlowDurationCurve(Qdfdaily, "Q", "Date")
 }
 \seealso{
 Other Post-processing: 
+\code{\link{assess_fc_qual}()},
 \code{\link{plotAnnualFlowDurationCurve}()}
 }
 \concept{Post-processing}

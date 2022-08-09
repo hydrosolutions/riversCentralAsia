@@ -2,7 +2,8 @@
 % Please edit documentation in R/gen_HRU_Climate_CSV_RSMinerve.R
 \name{gen_HRU_Climate_CSV_RSMinerve}
 \alias{gen_HRU_Climate_CSV_RSMinerve}
-\title{Extract hydrological response unit HRU specific climate time series from nc-files.}
+\title{Extract hydrological response unit HRU specific climate time series from
+nc-files.}
 \usage{
 gen_HRU_Climate_CSV_RSMinerve(
   climate_files,
@@ -21,46 +22,61 @@ gen_HRU_Climate_CSV_RSMinerve(
 )
 }
 \arguments{
-\item{climate_files}{List of either temperature or precipitation climate .nc files to process (do not mix!). Make sure the file list time interval is consistent with startY and endY.}
+\item{climate_files}{List of either temperature or precipitation climate .nc
+files to process (do not mix!). Make sure the file list time interval is
+consistent with startY and endY.}
 
 \item{catchmentName}{Name of catchment for which data should be extracted}
 
-\item{elBands_shp}{Shapefile with hydrological response units. The column containing the names of the hydrological response
-units must be \code{name} and the column containing the average elevation of the elevation band must be \code{Z}.}
+\item{temp_or_precip}{Either 'Temperature' or 'Precipitation'}
 
-\item{startY}{Starting year for which data should be made available (assuming data 'is' available from the start of that year)}
+\item{elBands_shp}{Shapefile with hydrological response units. The column
+containing the names of the hydrological response units must be \code{name}
+and the column containing the average elevation of the elevation band must
+be \code{Z}.}
 
-\item{endY}{Ending year from which data should be extracted (assuming data 'is' actually available until the end of that year)}
+\item{startY}{Starting year for which data should be made available (assuming
+data 'is' available from the start of that year)}
+
+\item{endY}{Ending year from which data should be extracted (assuming data
+'is' actually available until the end of that year)}
 
 \item{obs_frequency}{Climate observation frequency ('hour', 'day', 'month')}
 
-\item{climate_data_type}{String of denoting observation type. Either 'hist_obs' (historical observations, i.e. CHELSA V21 high resolution climate data), 'hist_sim' (GCM model output data over the historical period) and 'fut_sim' (fture GCM simulations)}
+\item{climate_data_type}{String of denoting observation type. Either
+'hist_obs' (historical observations, i.e. CHELSA V21 high resolution
+climate data), 'hist_sim' (GCM model output data over the historical
+period) and 'fut_sim' (fture GCM simulations)}
 
-\item{crs_in_use}{4 digit crs code to ensure projection consistency between raster and shapefile.}
+\item{crs_in_use}{4 digit crs code to ensure projection consistency between
+raster and shapefile.}
 
-\item{output_file_dir}{Path to output file dir (if empty, file will not be written)}
+\item{output_file_dir}{Path to output file dir (if empty, file will not be
+written)}
+
+\item{gcm_model}{String specifying data for a given gcm model to write}
+
+\item{gcm_scenario}{String specifying data for a given scenario to write}
 
 \item{tz}{Time zone information. Default "UTC" which can be overridden.}
-
-\item{dataType}{Either 'Temperature' or 'Precipitation'}
 }
 \value{
 Dataframe tibble with temperature in deg. C. or precipitation in mm/h
 }
 \description{
-Function extracts precipitation (tp) or temperature (tas_) data from climate raster bricks (observed history obs_hist,
-GCM-simulated history hist_sim and GCM-simulated future fut_sim) and prepares a dataframe for
-later import in RSMinerve (use readr::write_csv(.,col_names=FALSE)). tp and tas_ have to be exported,
-the function has to be called twice and the resulting tibble columns added.
+Function extracts precipitation (tp) or temperature (tas_) data from climate
+raster bricks (observed history obs_hist, GCM-simulated history hist_sim and
+GCM-simulated future fut_sim) and prepares a dataframe for later import in
+RSMinerve (use readr::write_csv(.,col_names=FALSE)). tp and tas_ have to be
+exported, the function has to be called twice and the resulting tibble
+columns added.
 }
 \seealso{
 Other Pre-processing: 
 \code{\link{biasCorrect_ERA5_CHELSA}()},
-\code{\link{climateScenarioPreparation_RMAWGEN}()},
 \code{\link{computeDiurnalTemperatureCycle}()},
 \code{\link{convert2HYY}()},
 \code{\link{doQuantileMapping}()},
-\code{\link{downscale_ClimPred_monthly_BasinElBands}()},
 \code{\link{gen_basinElevationBands}()},
 \code{\link{generate_ERA5_Subbasin_CSV}()},
 \code{\link{loadTabularData}()},

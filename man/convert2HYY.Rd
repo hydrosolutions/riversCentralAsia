@@ -2,31 +2,33 @@
 % Please edit documentation in R/convert2HYY.R
 \name{convert2HYY}
 \alias{convert2HYY}
-\title{Converts monthly hydro-meteorological time-series data to hydrological year values.}
+\title{Converts monthly hydro-meteorological time-series data to hydrological year
+values.}
 \usage{
 convert2HYY(data2convert, stationCode, typeSel)
 }
 \arguments{
-\item{data2convert}{tibble with the format as packaged in the accompagning dataset ChirchikRiverData}
+\item{data2convert}{tibble with the format as packaged in the accompagning
+dataset ChirchikRiverData}
 
 \item{stationCode}{String with 5-digit station code}
 
-\item{typeSel}{Either 'Q' for discharge, 'mean(T)' for mean temperatures or 'P' for total precipitation}
+\item{typeSel}{Either 'Q' for discharge, 'mean(T)' for mean temperatures or
+'P' for total precipitation}
 }
 \value{
-tibble dataframe date column and hydrological year, cold season and warm season values columns.
+tibble dataframe date column and hydrological year, cold season and
+  warm season values columns.
 }
 \description{
-Conversion to hydrological year values from Oct. to the following year end of Sept.. Cold season and warm season
-components are calculated.
+Conversion to hydrological year values from Oct. to the following year end of
+Sept. Cold season and warm season components are calculated.
 }
 \seealso{
 Other Pre-processing: 
 \code{\link{biasCorrect_ERA5_CHELSA}()},
-\code{\link{climateScenarioPreparation_RMAWGEN}()},
 \code{\link{computeDiurnalTemperatureCycle}()},
 \code{\link{doQuantileMapping}()},
-\code{\link{downscale_ClimPred_monthly_BasinElBands}()},
 \code{\link{gen_HRU_Climate_CSV_RSMinerve}()},
 \code{\link{gen_basinElevationBands}()},
 \code{\link{generate_ERA5_Subbasin_CSV}()},

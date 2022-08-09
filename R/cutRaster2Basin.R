@@ -11,6 +11,7 @@
 #' @family Helper functions
 #' @export
 cutRaster2Basin = function(rasterIn,aoiRegion_latlon,aoiBasin_UTM,proj_UTM){
+  . <- NULL
   rasterRegion <- raster::crop(rasterIn,aoiRegion_latlon)
   rasterRegion_proj <- rasterRegion %>% raster::projectRaster(., crs = proj_UTM)
   rasterBasin_proj <- raster::crop(rasterRegion_proj,aoiBasin_UTM)

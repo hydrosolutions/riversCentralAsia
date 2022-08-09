@@ -1,7 +1,11 @@
 template:
   bootstrap: 5
-  bootswatch: materia
+  bootswatch: litera
 reference:
+- title: Package description
+  desc: Description of the package
+- contents:
+  - has_concept("Package description")
 - title: Pre-processing
   desc: Functions supporting the pre-processing of data for hydrological modelling in RS Minerve.
 - contents:

@@ -20,31 +20,33 @@ a raster object.}
 
 \item{dem_FileN}{DEM file name (optional, defaults to DEM.tif)}
 
-\item{demAggFact}{Aggregation factor to down-sample DEM (greatly improves computational efficiency)}
+\item{demAggFact}{Aggregation factor to down-sample DEM (greatly improves
+computational efficiency)}
 
 \item{band_interval}{Elevation bands interval / spacing (in meters)}
 
-\item{holeSize_km2}{Minimum Size of holes that will be kept during cleaning operation (in square kilometers)}
+\item{holeSize_km2}{Minimum Size of holes that will be kept during cleaning
+operation (in square kilometers)}
 
-\item{smoothFact}{smoothness of final elevation bands (smoothness parameter of smoothr::smooth() function)}
+\item{smoothFact}{smoothness of final elevation bands (smoothness parameter
+of smoothr::smooth() function)}
 }
 \value{
-Simple feature (sf) multi-polygon. Returns NULL if not successfull.
+Simple feature (sf) multi-polygon. Returns NULL if not successful.
 }
 \description{
-This function takes a DEM and generates altitude bands according to the interval spacing chosen.
-It also applies different clean up operations that require user specified values for the
-smoothr::drop_crumbs() and smoothr::fill_holes() functions. These sub-basins, once stored as a
+This function takes a DEM and generates altitude bands according to the
+interval spacing chosen. It also applies different clean up operations that
+require user specified values for the smoothr::drop_crumbs() and
+smoothr::fill_holes() functions. These sub-basins, once stored as a
 shape file can then be further edited in QGIS.
 }
 \seealso{
 Other Pre-processing: 
 \code{\link{biasCorrect_ERA5_CHELSA}()},
-\code{\link{climateScenarioPreparation_RMAWGEN}()},
 \code{\link{computeDiurnalTemperatureCycle}()},
 \code{\link{convert2HYY}()},
 \code{\link{doQuantileMapping}()},
-\code{\link{downscale_ClimPred_monthly_BasinElBands}()},
 \code{\link{gen_HRU_Climate_CSV_RSMinerve}()},
 \code{\link{generate_ERA5_Subbasin_CSV}()},
 \code{\link{loadTabularData}()},

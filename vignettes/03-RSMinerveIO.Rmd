@@ -4,7 +4,7 @@ output: rmarkdown::html_vignette
 bibliography: [references.bib, HMA_bibliography.bib]
 vignette: >
   %\VignetteIndexEntry{I/O for RS Minerve}
-  %\VignetteEngine{knitr::rmarkdown}
+  %\VignetteEngine{knitr::knitr}
   %\VignetteEncoding{UTF-8}
 ---
 
@@ -25,8 +25,22 @@ Using the package `RSMinerveR`, the software can be run from inside R.
 
 For details on model components please refer to the [RS Minerve manuals](https://crealp.github.io/rsminerve-releases/){target="_blank"}. 
 
-```{r fig.cap="Storage coefficient of the upper reservoirs in the HBV models by zone."}
+## Reading and writing parameters
+The following RSMinerve objects are currently supported in the `riversCentralAsia` package:\
+- Station\
+- Source\
+- SOCONT\
+- Kinematic\
+- Junction\
+- GSM\
+- HBV92\
+- Comparator
+
+The parameters for these objects are described in the [RS Minerve User Manual](https://crealp.github.io/rsminerve-releases/){target="_blank"}. 
+
+```{r fig.cap="Storage coefficient of the upper reservoirs in the HBV models by zone.", message=FALSE, warning=FALSE, error=FALSE}
 library(tidyverse)
+library(lubridate)
 library(riversCentralAsia)
 
 parameters_orig <- readRSMParameters("../../atbashy_glacier_demo_data/RSMINERVE/Atbaschy_PAR_postCal.txt") |> 
@@ -42,7 +56,8 @@ The following shows an example how the model parameters can be changed and writt
 
 ```{r}
 # Doubble all Ku-values in zone A: 
-parameters <- readRSMParameters("../../atbashy_glacier_demo_data/RSMINERVE/Atbaschy_PAR_postCal.txt") |> 
+parameters <- readRSMParameters(
+  "../../atbashy_glacier_demo_data/RSMINERVE/Atbaschy_PAR_postCal.txt") |> 
   mutate(Values = ifelse(Parameters == "Ku [1/d]" & Zone == "A", Values * 2, 
                          Values))
 
@@ -57,11 +72,15 @@ ggplot(comparison) +
   ylab(parameters_orig$Parameters[1]) + 
   theme_bw()
 
+# Uncomment to write
 # writeRSMParameters(parameters, "Parameters_modified_Ku.txt")
 ```
 
+## Reading simulation results
+
 Another useful application for the RS Minerve I/O functions is the reading of simulation results and the analysis of the partitioning of the total basin discharge into the individual fluxes. The code below illustrates how this may be done: 
 
+### Writing a check node file
 Writing a selection node file that can be imported to RS Minerve where the selection can be used to export the selected simulation results. This is useful for large models with many model objects where it is cumbersome to manually toggle the desired results in RS Minerve.  
 
 ```{r, eval=FALSE}
@@ -91,6 +110,8 @@ writeSelectionCHK(filepath = paste0(data_path,
 
 We then read the simulation results. 
 
+### Reading & plotting results
+
 ```{r, message=FALSE, warning=FALSE, error=FALSE, fig.cap="Average seasonal solid and liquid precipitation and contribution of the HBV model compartments and glacier melt to river discharge."}
 
 data_path <- "../../atbashy_glacier_demo_data/"
@@ -103,8 +124,8 @@ fs <- readResultCSV(paste0(data_path,
 Tth <- 1  # HBV model parameter for partitioning of solid and liquid precipitation
 forcing <- readForcingCSV(paste0(data_path, 
                                  "RSMINERVE/hist_obs_rsm.csv")) |> 
-  dplyr::select(-Category) |> 
-  pivot_wider(names_from = c(Sensor, Unit), names_sep = "_", values_from = Value)  |> 
+  dplyr::select(-c(X, Y, Z, Category)) |> 
+  pivot_wider(names_from = c(Sensor, Unit), names_sep = "_", values_from = Value) |> 
   mutate(Month = month(Date), 
          P_mmd = `P_mm/d`, 
          Rain_mmd = ifelse(T_C >=  Tth, `P_mm/d`, 0), 
@@ -177,6 +198,7 @@ discharge_plot <- ggplot(mean_monthly_fluxes) +
 gridExtra::grid.arrange(forcing_plot, discharge_plot, ncol = 1)
 ```
 
+### Flow duration curves
 And last but not least a modeler might wish to produce flow duration curves based on simulation results. Flow duration curves are used, for example, for the design of hydraulic infrastructure.
 
 ```{r, message=FALSE, warning=FALSE, error=FALSE, fig.cap="Flow duration curve of simulated monthly discharge at the planning location for a small hydropower plant. Black: Average flow duration curve over the period 1990-2021, grey: flow duration curve for the years 1990 - 2011."}
@@ -200,7 +222,7 @@ fdc_mean <- fdc |>
   ungroup()
   
 ggplot(fdc) + 
-  geom_line(aes(Ma, Qtot_m3s, colour = Year), size = 0.6, alpha = 0.2,
+  geom_line(aes(Ma, Qtot_m3s, colour = Year), size = 0.6, alpha = 0.6,
             show.legend = FALSE) + 
   geom_line(data = fdc_mean, 
             aes(Ma, Qtot_m3s)) + 
