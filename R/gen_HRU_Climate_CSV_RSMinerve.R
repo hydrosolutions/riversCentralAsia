@@ -50,6 +50,7 @@ gen_HRU_Climate_CSV_RSMinerve <- function(climate_files,
                                           tz = "UTC"){
 
   # Ensure conforming crs
+  crs_elBands <- sf::st_crs(elBands_shp)
   elBands_shp_latlon <- sf::st_transform(elBands_shp,
                                          crs = sf::st_crs(crs_in_use))
 
@@ -88,7 +89,7 @@ gen_HRU_Climate_CSV_RSMinerve <- function(climate_files,
     purrr::map_dfc(setNames, object = base::list(base::logical()))
 
   # Get XY (via centroids) and Z (mean alt. band elevation)
-  elBands_XY <- sf::st_transform(elBands_shp, crs = sf::st_crs(crs_in_use)) %>%
+  elBands_XY <- sf::st_transform(elBands_shp, crs = sf::st_crs(crs_elBands)) %>%
     sf::st_centroid() %>% sf::st_coordinates() %>% tibble::as_tibble()
   elBands_Z <- elBands_shp$Z %>% tibble::as_tibble() %>% dplyr::rename(Z = value)
   elBands_XYZ <- base::cbind(elBands_XY, elBands_Z) %>% base::as.matrix() %>%
