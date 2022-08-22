@@ -39,7 +39,7 @@ knitr::opts_chunk$set(
 
 The R package riversCentralAsia includes a set of tools to facilitate and automate data preparation for hydrological modelling. It thus contributes to more reproducible modeling workflows and makes hydrological modeling more accessible to students. 
 
-The package has been developed within the frame of a master level course on applied hydrological modelling in Central Asia and is extensively used in the open-source book [Modeling of Hydrological Systems in Semi-Arid Central Asia](https://hydrosolutions.github.io/caham_book/)[@CAHAM:2022]. The workflows are further validated within the Horizon 2020 project [HYDRO4U](https://hydro4u.eu/). 
+The package has been developed within the frame of a master level course on applied hydrological modelling in Central Asia and is extensively used in the open-source book [Modeling of Hydrological Systems in Semi-Arid Central Asia](https://hydrosolutions.github.io/caham_book/){target="_blank"}[@CAHAM:2022]. The workflows are further validated within the Horizon 2020 project [HYDRO4U](https://hydro4u.eu/){target="_blank"}. 
 
 While the package has been developed for the Central Asia region, most of the functions are generic and can be used for modelling projects anywhere in the world. 
 
@@ -55,20 +55,20 @@ Data preparation comes before hydrological modelling and is actually one of the 
 
 - Post-processing of simulation results, e.g. computation of flow duration curves
 
-- I/O interface with the hydrologic-hydraulic modelling software [RS Minerve](https://crealp.ch/rs-minerve/) which can be accessed within R using the package [RSMinerveR](https://github.com/hydrosolutions/RSMinerveR).  
+- I/O interface with the hydrologic-hydraulic modelling software [RS Minerve](https://crealp.ch/rs-minerve/){target="_blank"} which can be accessed within R using the package [RSMinerveR](https://github.com/hydrosolutions/RSMinerveR){target="_blank"}.  
 
-While here, we focus on the description of the individual functions, the strengths of the package comes to play mostly when the functions are connected to automatize the data preparation process. These workflows are extensively documented in the book [Modeling of Hydrological Systems in Semi-Arid Central Asia](https://hydrosolutions.github.io/caham_book/). 
+While here, we focus on the description of the individual functions, the strengths of the package comes to play mostly when the functions are connected to automatize the data preparation process. These workflows are extensively documented in the book [Modeling of Hydrological Systems in Semi-Arid Central Asia](https://hydrosolutions.github.io/caham_book/){target="_blank"}. 
 
 
 Currently, a relatively complete dataset of the Chirchik River Basin with decadal and monthly data on discharge, precipitation and temperature is included. 
 
 
 ## Related packages
-The R package [RSMinverveR](https://github.com/hydrosolutions/RSMinerveR) allows the running of the hydrologic-hydraulic modelling software [RS Minerve](https://crealp.ch/rs-minerve/) directly from R without using the RS Minerve user interface. This functionality is for advanced R and RS Minerve users that wish to further speed up their modelling workflow.     
+The R package [RSMinverveR](https://github.com/hydrosolutions/RSMinerveR){target="_blank"} allows the running of the hydrologic-hydraulic modelling software [RS Minerve](https://crealp.ch/rs-minerve/){target="_blank"} directly from R without using the RS Minerve user interface. This functionality is for advanced R and RS Minerve users that wish to further speed up their modelling workflow.     
 
 ## Installation
 
-You can install the development version from [GitHub](https://github.com/) with:
+You can install the development version from [GitHub](https://github.com/){target="_blank"} with:
 
 ```{r}
 # install.packages("devtools")
@@ -76,13 +76,13 @@ devtools::install_github("hydrosolutions/riversCentralAsia")
 library(riversCentralAsia)
 ```
 
-Note that windows users require a working installation of [RTools](https://cran.r-project.org/bin/windows/Rtools/). 
+Note that windows users require a working installation of [RTools](https://cran.r-project.org/bin/windows/Rtools/){target="_blank"} to install packages from github. 
 
 
 ## Community guidelines
-Please consult the documentation and the examples provided in the [package documentation](https://hydrosolutions.github.io/riversCentralAsia/index.html) and in the open-source course book [Modeling of Hydrological Systems in Semi-Arid Central Asia](https://hydrosolutions.github.io/caham_book/). 
+Please consult the documentation and the examples provided in the [package documentation](https://hydrosolutions.github.io/riversCentralAsia/index.html){target="_blank"} and in the open-source course book [Modeling of Hydrological Systems in Semi-Arid Central Asia](https://hydrosolutions.github.io/caham_book/){target="_blank"}. 
 
-For problems using the functions of for suggestions, please use the [issue tool](https://github.com/hydrosolutions/riversCentralAsia/issues). 
+For problems using the functions of for suggestions, please use the [issue tool](https://github.com/hydrosolutions/riversCentralAsia/issues){target="_blank"}. 
 
 ## How to cite
 Please cite the package as: 
@@ -121,6 +121,17 @@ ChirchikRiverBasin |>
     .title = "Discharge time series in the ChirchikRiverBasin data set"
     )
 ```
+
+## Mentions
+The package is used extensively in the course book [Modeling of Hydrological Systems in Semi-Arid Central Asia](https://hydrosolutions.github.io/caham_book/){target="_blank"}[@CAHAM:2022]. 
+
+The workflows presented in the course book, using the riversCentralAsia package, are further validated within the Horizon 2020 project [HYDRO4U](https://hydro4u.eu/){target="_blank"} where future small hydro power potential is evaluated using hydrological modelling. 
+
+For R & RS Minerve users, the package [RSMinverveR](https://github.com/hydrosolutions/RSMinerveR){target="_blank"} is recommended which allows the interfacing between R and RS Minerve (with examples based on the Visual Basic Script examples by CREALP).  
+
+## Acknowledgement
+The preparation of the course book and thus the preparation of the package was financially supported by the Swiss Agency for Development and Cooperation, the German Kazakh University in Almaty and hydrosolutions. 
+
 
 ## References
 

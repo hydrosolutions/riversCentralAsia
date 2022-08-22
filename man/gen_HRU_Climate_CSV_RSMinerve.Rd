@@ -28,12 +28,10 @@ consistent with startY and endY.}
 
 \item{catchmentName}{Name of catchment for which data should be extracted}
 
-\item{temp_or_precip}{Either 'Temperature' or 'Precipitation'}
-
 \item{elBands_shp}{Shapefile with hydrological response units. The column
 containing the names of the hydrological response units must be \code{name}
 and the column containing the average elevation of the elevation band must
-be \code{Z}.}
+be \code{Z}. Please make sure that the shape file is in UTM coordinates.}
 
 \item{startY}{Starting year for which data should be made available (assuming
 data 'is' available from the start of that year)}
@@ -54,11 +52,9 @@ raster and shapefile.}
 \item{output_file_dir}{Path to output file dir (if empty, file will not be
 written)}
 
-\item{gcm_model}{String specifying data for a given gcm model to write}
-
-\item{gcm_scenario}{String specifying data for a given scenario to write}
-
 \item{tz}{Time zone information. Default "UTC" which can be overridden.}
+
+\item{dataType}{Either 'Temperature' or 'Precipitation'}
 }
 \value{
 Dataframe tibble with temperature in deg. C. or precipitation in mm/h
@@ -66,7 +62,7 @@ Dataframe tibble with temperature in deg. C. or precipitation in mm/h
 \description{
 Function extracts precipitation (tp) or temperature (tas_) data from climate
 raster bricks (observed history obs_hist, GCM-simulated history hist_sim and
-GCM-simulated future fut_sim) and prepares a dataframe for later import in
+GCM-simulated future (fut_sim) and prepares a dataframe for later import in
 RSMinerve (use readr::write_csv(.,col_names=FALSE)). tp and tas_ have to be
 exported, the function has to be called twice and the resulting tibble
 columns added.
