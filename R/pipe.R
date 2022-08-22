@@ -7,4 +7,5 @@
 #' @name %>%
 #' @rdname pipe
 #' @export
+#' @family Helper functions
 NULL

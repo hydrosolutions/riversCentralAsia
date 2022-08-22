@@ -15,26 +15,59 @@
 #' @param dataType Type of data, either `Q` (discharge data), `T` (temperature data) or `P` (precipitation data)
 #' @param units Data units
 #' @return Time-aware tibble with relevant data
+#' @details Note that the input file needs to be in coma-separated format and
+#'   without header. \cr
+#' \cr
+#' The most common format for hydrological data in Central Asia is in tabular form with the years in rows and the months or decades in columns, i.e. the data has 13 columns and as many rows as years of data. An input file containing monthly data might look like follows: \cr
+#'   1990,0.1,0.1,0.2,0.2,0.3,0.3,0.4,0.4,0.3,0.2,0.1,0.1 \cr
+#'   1991,0.1,0.1,0.2,0.2,0.3,0.3,0.4,0.4,0.3,0.2,0.1,0.1 \cr
+#'   1992,0.1,0.1,0.2,0.2,0.3,0.3,0.4,0.4,0.3,0.2,0.1,0.1 \cr
+#'   ... \cr
+#' An input file containing decadal data (every 10 days) would have 37 columns, the first for the year and the following for each decade in a year. \cr
 #' @family Pre-processing
+#' @examples
+#' \dontrun{
+#' demo_data <- loadTabularData(
+#'   fPath = "./",
+#'   fName = "discharge.csv",
+#'   code = "ABC",
+#'   stationName = "DemoStation",
+#'   rName = "Demo River",
+#'   rBasin = "Demo Basin",
+#'   dataType = "Q",
+#'   unit = "m3/s")
+#' }
 #' @export
 loadTabularData <- function(fPath,fName,code,stationName,rName,rBasin,dataType,units){
-  dataMat <- readr::read_csv(paste(fPath,fName,sep=""), col_names = FALSE, col_types = readr::cols())
-  if (dim(dataMat)[2] == 13){type = 'mon'} else {type = 'dec'}
+
+  dataMat <- readr::read_csv(paste(fPath,fName,sep=""), col_names = FALSE,
+                             col_types = readr::cols())
+
+  if (dim(dataMat)[2] == 13){
+    type = 'mon'
+  } else if(dim(dataMat)[2] == 37) {
+    type = 'dec'
+  } else {
+    cat("ERROR please verify that input file has number of columns 13 for monthly data or 37 for decadal data.")
+    return(NULL)
+  }
+
   yS <- dataMat$X1 %>% dplyr::first()
   yE <- dataMat$X1 %>% dplyr::last()
-  dataMat <- dataMat %>% dplyr::select(-X1)
+  dataMat <- dataMat %>% dplyr::select(-.data$X1)
   norm <- dataMat %>% dplyr::summarise_all(mean,na.rm=TRUE) %>% as.numeric() %>%
     kronecker(matrix(1,1,dim(dataMat)[1])) %>% as.numeric()
-  data <- dataMat %>% t() %>% dplyr::as_tibble() %>% tidyr::gather()
+  data <- dataMat %>% t() %>% dplyr::as_tibble(.name_repair = "unique") %>% tidyr::gather()
   s <- paste(as.character(yS),"-01-01",sep="")
   e <- paste(as.character(yE),"-12-31",sep="")
   if (type=='dec'){
     dates <- riversCentralAsia::decadeMaker(s,e,'end') #%>% tk_tbl()
-    dates <- dates %>% dplyr::select(-dec)
+    dates <- dates %>% dplyr::select(-.data$dec)
   } else {
     dates <- riversCentralAsia::monDateSeq(s,e,12) %>% timetk::tk_tbl(preserve_index = FALSE)
     dates <- dplyr::rename(dates, date = data)
   }
+
   dates$data <- data$value
   dates$norm <- norm
   dates$units <- units

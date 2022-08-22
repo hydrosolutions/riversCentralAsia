@@ -33,6 +33,7 @@
 #' @param tz Time zone information. Default "UTC" which can be overridden.
 #' @return Dataframe tibble with temperature in deg. C. or precipitation in mm/h
 #' @family Pre-processing
+#' @importFrom rlang .data
 #' @export
 
 gen_HRU_Climate_CSV_RSMinerve <- function(climate_files,
@@ -48,6 +49,8 @@ gen_HRU_Climate_CSV_RSMinerve <- function(climate_files,
                                           gcm_model=0,
                                           gcm_scenario=0,
                                           tz = "UTC"){
+
+  . <- NULL
 
   # Ensure conforming crs
   crs_elBands <- sf::st_crs(elBands_shp)

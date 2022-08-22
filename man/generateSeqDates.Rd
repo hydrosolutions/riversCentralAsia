@@ -12,26 +12,27 @@ generateSeqDates(startY, endY, freq, tz = "UTC")
 \item{endY}{Ending year for sequence of dates}
 
 \item{freq}{"hour", "day", "week", "month", "quarter" or "year"}
+
+\item{tz}{time zone. Default UTC.}
 }
 \value{
-Tibble with date sequence with date frequency as specified. The date sequence starts at 00:00:00
+Tibble with date sequence with date frequency as specified. The date
+  sequence starts at 00:00:00
 }
 \description{
-Simple helper function that generates a simple sequence of POSIXct dates between a specified starting year and an ending year. The frequency can be specified. The date sequence starts at 00:00:00.
+Simple helper function that generates a simple sequence of POSIXct dates
+between a specified starting year and an ending year. The frequency can be
+specified. The date sequence starts at 00:00:00.
 }
 \seealso{
 Other Helper functions: 
+\code{\link{\%>\%}()},
 \code{\link{aggregate_to_monthly}()},
-\code{\link{assess_fc_qual}()},
-\code{\link{convert2HYY}()},
 \code{\link{cutRaster2Basin}()},
 \code{\link{decadeMaker}()},
 \code{\link{generateHourlyFromDaily_PT}()},
 \code{\link{hyear}()},
 \code{\link{monDateSeq}()},
-\code{\link{monthlyNorms_ClimateScenario}()},
-\code{\link{posixct2rsminerveChar}()},
-\code{\link{wgen_daily_PT}()},
-\code{\link{wgen_daily_summaryStats}()}
+\code{\link{posixct2rsminerveChar}()}
 }
 \concept{Helper functions}

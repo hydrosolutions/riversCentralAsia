@@ -2,7 +2,8 @@
 % Please edit documentation in R/generate_ERA5_Subbasin_CSV.R
 \name{generate_ERA5_Subbasin_CSV}
 \alias{generate_ERA5_Subbasin_CSV}
-\title{Extract subbasin-level and elevation band-specific hourly time series from ERA5 raster bricks}
+\title{Extract subbasin-level and elevation band-specific hourly time series from
+ERA5 raster bricks}
 \usage{
 generate_ERA5_Subbasin_CSV(
   dir_ERA5_hourly,
@@ -14,38 +15,41 @@ generate_ERA5_Subbasin_CSV(
 )
 }
 \arguments{
-\item{dir_ERA5_hourly}{Path to original stored DEM file (generate_ERA5_Subbasin_CSV assumes the following folder structure: <dir_ERA5_hourly>/<tp or t2m>/<catchmentName>/*.nc)}
+\item{dir_ERA5_hourly}{Path to original stored DEM file
+(generate_ERA5_Subbasin_CSV assumes the following folder structure:
+<dir_ERA5_hourly>/<tp or t2m>/<catchmentName>/*.nc)}
 
-\item{catchmentName}{Name of catchment for which data should be extracted (depends on proper local file storage)}
+\item{catchmentName}{Name of catchment for which data should be extracted
+(depends on proper local file storage)}
 
 \item{dataType}{Currently, only 'tp' or 't2m' as valid options}
 
 \item{elBands_shp}{Subbasin-level shapefile with elevation bands}
 
-\item{startY}{Starting year for which data should be made available (assuming data 'is' available from the start of that year)}
+\item{startY}{Starting year for which data should be made available (assuming
+data 'is' available from the start of that year)}
 
-\item{endY}{Ending year from which data should be extracted (assuming data 'is' actually available until the end of that year)}
+\item{endY}{Ending year from which data should be extracted (assuming data
+'is' actually available until the end of that year)}
 }
 \value{
 Dataframe tibble with temperature in deg. C. or precipitation in mm/h
 }
 \description{
-Function extracts precipitation (tp) or temperature (t2m) data from raster bricks and prepares a dataframe for
-later import in RSMinerve (use write.table() function to export as csv). If tp and t2m have to be exported,
+Function extracts precipitation (tp) or temperature (t2m) data from raster
+bricks and prepares a dataframe for later import in RSMinerve (use
+write.table() function to export as csv). If tp and t2m have to be exported,
 the function has to be called twice and the resulting tibble columns added.
 }
 \seealso{
 Other Pre-processing: 
 \code{\link{biasCorrect_ERA5_CHELSA}()},
-\code{\link{climateScenarioPreparation_RMAWGEN}()},
 \code{\link{computeDiurnalTemperatureCycle}()},
-\code{\link{doQuantileMapping_Tobi}()},
-\code{\link{downscale_ClimPred_monthly_BasinElBands}()},
+\code{\link{convert2HYY}()},
+\code{\link{doQuantileMapping}()},
 \code{\link{gen_HRU_Climate_CSV_RSMinerve}()},
 \code{\link{gen_basinElevationBands}()},
-\code{\link{import_iEasyHydro_data}()},
 \code{\link{loadTabularData}()},
-\code{\link{plotNormDevHYY}()},
-\code{\link{prepare_RMAWGEN_input_data}()}
+\code{\link{plotNormDevHYY}()}
 }
 \concept{Pre-processing}

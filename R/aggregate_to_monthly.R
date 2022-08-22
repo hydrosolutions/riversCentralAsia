@@ -8,8 +8,8 @@
 #' The user specifies which aggregation function to use for each data type using
 #' timetk's summarise_by_time.
 #'
-#' @param dataTable A tibble of the format \code{ChirchikRiverBasin}. Must contain at
-#'             least the columns date, data, norm, type and code.
+#' @param dataTable A tibble of the format \code{ChirchikRiverBasin}. Must
+#'             contain at least the columns date, data, norm, type and code.
 #' @param funcTypeLib is a list of functions with associated data types that
 #'             will be applied to the data. Currently, the aggregation functions
 #'             \code{mean} and \code{sum} are supported. The user specifies the
@@ -25,13 +25,13 @@
 #' dataTable <- ChirchikRiverBasin
 #' funcTypeLib <- list(mean = c("Q", "T"), sum= "P")
 #' data_mon <- aggregate_to_monthly(dataTable, funcTypeLib)
-#'
+#' @importFrom rlang .data
 #' @family Helper functions
 #' @export
 
 aggregate_to_monthly <- function(dataTable, funcTypeLib) {
 
-  . = NULL
+  . <- NULL
 
   # Make sure data contains the required columns in the required format.
   required_columns <- c("date", "data", "type", "code", "norm")
@@ -62,33 +62,33 @@ aggregate_to_monthly <- function(dataTable, funcTypeLib) {
   }
 
   # Aggregation
-  data_mon <- dataTable %>%
-    dplyr::group_by(., .data$type, .data$code) %>%
-    dplyr::filter(., .data$type %in% unlist(funcTypeLib[1])) %>%
+  data_mon <- dataTable |>
+    dplyr::group_by(.data$type, .data$code) |>
+    dplyr::filter(.data$type %in% unlist(funcTypeLib[1])) |>
     timetk::summarise_by_time(.date_var = date,
                               .by = "month",
-                              data = mean(data),
-                              norm = mean(norm)) %>%
-    dplyr::ungroup() %>%
-    tibble::add_row(., dataTable %>%
-                     dplyr::group_by(., .data$type, .data$code) %>%
-                     dplyr::filter(., .data$type %in% unlist(funcTypeLib[2])) %>%
-                     timetk::summarise_by_time(., .date_var = date,
+                              data = mean(.data$data),
+                              norm = mean(norm)) |>
+    dplyr::ungroup() |>
+    tibble::add_row(dataTable |>
+                     dplyr::group_by(.data$type, .data$code) |>
+                     dplyr::filter(.data$type %in% unlist(funcTypeLib[2])) |>
+                     timetk::summarise_by_time(.date_var = date,
                                                .by = "month",
-                                               data = sum(data),
-                                               norm = sum(norm)) %>%
-                     dplyr::ungroup()) %>%
-    dplyr::mutate(., resolution = "mon") %>%
-    tidyr::drop_na(., .data$data)
+                                               data = sum(.data$data),
+                                               norm = sum(norm)) |>
+                     dplyr::ungroup()) |>
+    dplyr::mutate(resolution = "mon") |>
+    tidyr::drop_na(.data$data)
 
   # Add remaining columns from data.
-  temp <- dataTable %>%
-    dplyr::select(-dplyr::any_of(c("data", "norm", "resolution"))) %>%
+  temp <- dataTable |>
+    dplyr::select(-dplyr::any_of(c("data", "norm", "resolution"))) |>
     dplyr::group_by(.data$type,
-                    .data$code) %>%
-    timetk::summarise_by_time(.,.date_var = date,
-                                    .by = "month",
-                                    dplyr::across(dplyr::everything(), dplyr::first))
+                    .data$code) |>
+    timetk::summarise_by_time(.date_var = date,
+                              .by = "month",
+                              dplyr::across(dplyr::everything(), dplyr::first))
   data_mon <- dplyr::left_join(data_mon, temp, by = c("date", "type", "code"))
 
   return(data_mon)

@@ -51,7 +51,7 @@
 #' mapped_fut_sim <- results[[2]]
 #' @family Pre-processing
 #' @export
-doQuantileMapping_Tobi <- function(hist_obs, hist_sim, fut_sim){
+doQuantileMapping <- function(hist_obs, hist_sim, fut_sim){
 
   # Detect data type from first tibble
   if ("Ta" %in% base::colnames(hist_obs)) {

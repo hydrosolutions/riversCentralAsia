@@ -70,6 +70,7 @@ writeRSMParameters <- function(parameters, outfilepath) {
     }
 
     # Write parameters per object
+    # Note the degree symbol has to be escaped with \u00B0
     base::writeLines("VALUES", conn)
     parameter_summary <- parameters |>
       dplyr::filter(.data$`Parameter set` == i)
@@ -85,7 +86,7 @@ writeRSMParameters <- function(parameters, outfilepath) {
         temp <- parameter_summary |>
           dplyr::filter(.data$Object == "GSM")
         names <- base::unique(temp$Name)
-        base::writeLines("GSM	Zone	A (m2)	An (mm/°C/day)	ThetaCri (-)	bp (d/mm)	Tcp1 (°C)	Tcp2 (°C)	Tcf (°C)	Agl (mm/°C/day)	Tcg (°C)	Kgl (1/d)	Ksn (1/d)", conn)
+        base::writeLines("GSM	Zone	A (m2)	An (mm/\u00B0C/day)	ThetaCri (-)	bp (d/mm)	Tcp1 (\u00B0C)	Tcp2 (\u00B0C)	Tcf (\u00B0C)	Agl (mm/\u00B0C/day)	Tcg (\u00B0C)	Kgl (1/d)	Ksn (1/d)", conn)
         for (l in c(1:base::length(names))) {
           temp2 <- parameter_summary |>
             dplyr::filter(.data$Name == names[l])
@@ -99,7 +100,7 @@ writeRSMParameters <- function(parameters, outfilepath) {
         temp <- parameter_summary |>
           dplyr::filter(.data$Object == "HBV92")
         names <- base::unique(temp$Name)
-        base::writeLines("HBV92	Zone	A (m2)	CFMax (mm/°C/d)	CFR (-)	CWH (-)	TT (°C)	TTInt (°C)	TTSM (°C)	Beta (-)	FC (mm)	PWP (-)	SUMax (mm)	Kr (1/d)	Ku (1/d)	Kl (1/d)	Kperc (1/d)", conn)
+        base::writeLines("HBV92	Zone	A (m2)	CFMax (mm/\u00B0C/d)	CFR (-)	CWH (-)	TT (\u00B0C)	TTInt (\u00B0C)	TTSM (\u00B0C)	Beta (-)	FC (mm)	PWP (-)	SUMax (mm)	Kr (1/d)	Ku (1/d)	Kl (1/d)	Kperc (1/d)", conn)
         for (l in c(1:base::length(names))) {
           temp2 <- parameter_summary |>
             dplyr::filter(.data$Name == names[l])
@@ -134,7 +135,7 @@ writeRSMParameters <- function(parameters, outfilepath) {
         temp <- parameter_summary |>
           dplyr::filter(.data$Object == "SOCONT")
         names <- base::unique(temp$Name)
-        base::writeLines("SOCONT	Zone	A (m2)	An (mm/°C/day)	ThetaCri (-)	bp (d/mm)	Tcp1 (°C)	Tcp2 (°C)	Tcf (°C)	HGR3Max (m)	KGR3 (1/s)	L (m)	J0 (-)	Kr (m1/3/s)", conn)
+        base::writeLines("SOCONT	Zone	A (m2)	An (mm/\u00B0C/day)	ThetaCri (-)	bp (d/mm)	Tcp1 (\u00B0C)	Tcp2 (\u00B0C)	Tcf (\u00B0C)	HGR3Max (m)	KGR3 (1/s)	L (m)	J0 (-)	Kr (m1/3/s)", conn)
         for (l in c(1:base::length(names))) {
           temp2 <- parameter_summary |>
             dplyr::filter(.data$Name == names[l])

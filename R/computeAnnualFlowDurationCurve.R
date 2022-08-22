@@ -31,7 +31,7 @@
 #' DurationCurve <- computeAnnualFlowDurationCurve(Qdfdaily, "Q", "Date")
 #' @export
 
-computeAnnualFlowDurationCurve <- function(data, column, date = Date){
+computeAnnualFlowDurationCurve <- function(data, column, date = "Date"){
 
   if(!(column %in% colnames(data))) {
     cat("Error in columns of data:", column, "not found.\n")
@@ -53,7 +53,7 @@ computeAnnualFlowDurationCurve <- function(data, column, date = Date){
   output <- data |>
     dplyr::mutate(yearday = lubridate::yday(.data$Date)) |>
     dplyr::group_by(.data$Year, .add = TRUE) |>
-    dplyr::arrange(desc(.data[[column]]), .by_group = TRUE) |>
+    dplyr::arrange(dplyr::desc(.data[[column]]), .by_group = TRUE) |>
     dplyr::mutate(na = dplyr::n(),
                   Ma = dplyr::row_number(),
                   Pa = 100 * (.data$Ma / (.data$na + 1))) |>

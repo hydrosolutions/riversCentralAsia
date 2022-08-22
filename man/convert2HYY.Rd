@@ -2,37 +2,37 @@
 % Please edit documentation in R/convert2HYY.R
 \name{convert2HYY}
 \alias{convert2HYY}
-\title{Converts monthly hydro-meteorological time-series data to hydrological year values.}
+\title{Converts monthly hydro-meteorological time-series data to hydrological year
+values.}
 \usage{
 convert2HYY(data2convert, stationCode, typeSel)
 }
 \arguments{
-\item{data2convert}{tibble with the format as packaged in the accompagning dataset ChirchikRiverData}
+\item{data2convert}{tibble with the format as packaged in the accompagning
+dataset ChirchikRiverData}
 
 \item{stationCode}{String with 5-digit station code}
 
-\item{typeSel}{Either 'Q' for discharge, 'mean(T)' for mean temperatures or 'P' for total precipitation}
+\item{typeSel}{Either 'Q' for discharge, 'mean(T)' for mean temperatures or
+'P' for total precipitation}
 }
 \value{
-tibble dataframe date column and hydrological year, cold season and warm season values columns.
+tibble dataframe date column and hydrological year, cold season and
+  warm season values columns.
 }
 \description{
-Conversion to hydrological year values from Oct. to the following year end of Sept.. Cold season and warm season
-components are calculated.
+Conversion to hydrological year values from Oct. to the following year end of
+Sept. Cold season and warm season components are calculated.
 }
 \seealso{
-Other Helper functions: 
-\code{\link{aggregate_to_monthly}()},
-\code{\link{assess_fc_qual}()},
-\code{\link{cutRaster2Basin}()},
-\code{\link{decadeMaker}()},
-\code{\link{generateHourlyFromDaily_PT}()},
-\code{\link{generateSeqDates}()},
-\code{\link{hyear}()},
-\code{\link{monDateSeq}()},
-\code{\link{monthlyNorms_ClimateScenario}()},
-\code{\link{posixct2rsminerveChar}()},
-\code{\link{wgen_daily_PT}()},
-\code{\link{wgen_daily_summaryStats}()}
+Other Pre-processing: 
+\code{\link{biasCorrect_ERA5_CHELSA}()},
+\code{\link{computeDiurnalTemperatureCycle}()},
+\code{\link{doQuantileMapping}()},
+\code{\link{gen_HRU_Climate_CSV_RSMinerve}()},
+\code{\link{gen_basinElevationBands}()},
+\code{\link{generate_ERA5_Subbasin_CSV}()},
+\code{\link{loadTabularData}()},
+\code{\link{plotNormDevHYY}()}
 }
-\concept{Helper functions}
+\concept{Pre-processing}

@@ -12,13 +12,14 @@
 #' @family Helper functions
 #' @export
 decadeMaker <- function(s,e,type){
+  . <- NULL
   s_year <- s %>% zoo::as.Date() %>% lubridate::year() %>% zoo::yearmon() %>% zoo::as.Date()
   decade <- 1 : 36 # Preparation of decade indicators
   ydiff <- as.Date(e) %>% lubridate::year() - as.Date(s) %>% lubridate::year() + 1
   decade <- rep(decade, times = ydiff) # this replicates decades for exactly the number of years
   temp <- zoo::zooreg(decade, frequency = 36, start=zoo::as.yearmon(s_year))
   eom <- seq.Date(zoo::as.Date(s_year),by='month',length.out = ydiff * 12) %>%
-    zoo::as.yearmon() %>% zoo::as.Date(,frac=1) %>% format('%d') %>% as.numeric
+    zoo::as.yearmon() %>% zoo::as.Date(.,frac=1) %>% format('%d') %>% as.numeric
   if (all(type=='end')){
     daysV <- cbind(10,20,eom) %>% t %>% as.vector()
   } else if (all(type=='start')){
@@ -27,6 +28,6 @@ decadeMaker <- function(s,e,type){
   temp.Date <- zoo::as.Date(stats::time(temp)) + daysV - 1
   decade <- zoo::zoo(decade, temp.Date) %>%
     timetk::tk_tbl() %>%
-    dplyr::rename(date=index,dec=value) %>%
-    dplyr::filter(date<=e) %>% filter(date>=s)
+    dplyr::rename(date=.data$index,dec=.data$value) %>%
+    dplyr::filter(date<=e) %>% dplyr::filter(date>=s)
 }

@@ -42,18 +42,39 @@ monthly or decadal (10-day) data is provided. The function automatically compute
 the long-term norm of the data provided and returns a time aware tibble with
 date, data, data norm columns and code columns.
 }
+\details{
+Note that the input file needs to be in coma-separated format and
+  without header. \cr
+\cr
+The most common format for hydrological data in Central Asia is in tabular form with the years in rows and the months or decades in columns, i.e. the data has 13 columns and as many rows as years of data. An input file containing monthly data might look like follows: \cr
+  1990,0.1,0.1,0.2,0.2,0.3,0.3,0.4,0.4,0.3,0.2,0.1,0.1 \cr
+  1991,0.1,0.1,0.2,0.2,0.3,0.3,0.4,0.4,0.3,0.2,0.1,0.1 \cr
+  1992,0.1,0.1,0.2,0.2,0.3,0.3,0.4,0.4,0.3,0.2,0.1,0.1 \cr
+  ... \cr
+An input file containing decadal data (every 10 days) would have 37 columns, the first for the year and the following for each decade in a year. \cr
+}
+\examples{
+\dontrun{
+demo_data <- loadTabularData(
+  fPath = "./",
+  fName = "discharge.csv",
+  code = "ABC",
+  stationName = "DemoStation",
+  rName = "Demo River",
+  rBasin = "Demo Basin",
+  dataType = "Q",
+  unit = "m3/s")
+}
+}
 \seealso{
 Other Pre-processing: 
 \code{\link{biasCorrect_ERA5_CHELSA}()},
-\code{\link{climateScenarioPreparation_RMAWGEN}()},
 \code{\link{computeDiurnalTemperatureCycle}()},
-\code{\link{doQuantileMapping_Tobi}()},
-\code{\link{downscale_ClimPred_monthly_BasinElBands}()},
+\code{\link{convert2HYY}()},
+\code{\link{doQuantileMapping}()},
 \code{\link{gen_HRU_Climate_CSV_RSMinerve}()},
 \code{\link{gen_basinElevationBands}()},
 \code{\link{generate_ERA5_Subbasin_CSV}()},
-\code{\link{import_iEasyHydro_data}()},
-\code{\link{plotNormDevHYY}()},
-\code{\link{prepare_RMAWGEN_input_data}()}
+\code{\link{plotNormDevHYY}()}
 }
 \concept{Pre-processing}

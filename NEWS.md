@@ -1,4 +1,7 @@
-# riversCentralAsia (Development Version)
+# riversCentralAsia
+
+## riversCentralAsia 1.1.0 cleaning up of the package functions and documentation
+- release
 
 ## riversCentralAsia 0.4.1. Added import function of iEasyHydro .csv files
 - import_iEasyHydro_data()
