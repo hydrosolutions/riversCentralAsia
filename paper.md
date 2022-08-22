@@ -11,7 +11,7 @@ authors:
     equal-contrib: true
     affiliation: 1
   - name: Tobias Siegfried
-    ocrid: 0000-0002-2995-9253
+    orcid: 0000-0002-2995-9253
     equal-contrib: true
     affiliation: 1
 affiliations:
@@ -61,44 +61,12 @@ There are a number of existing R packages available that support data preparatio
 
 You can install the development version from [GitHub](https://github.com/){target="_blank"} with:
 
-```{r, eval=FALSE}
-# install.packages("devtools")
-devtools::install_github("hydrosolutions/riversCentralAsia")
-library(riversCentralAsia)
-```
+```# install.packages("devtools")```
+```devtools::install_github("hydrosolutions/riversCentralAsia")```
+```library(riversCentralAsia)```
 
 Note that windows users require a working installation of [RTools](https://cran.r-project.org/bin/windows/Rtools/){target="_blank"} to install packages from github.
 
-
-
-## Examples
-
-This is a basic example which shows you how to visualize some of the included data.
-
-
-```{r example, echo=TRUE, eval=FALSE}
-library(riversCentralAsia)
-library(tidyverse)
-library(timetk)
-
-# Loading and visualising discharge data
-ChirchikRiverBasin  # load data
-ChirchikRiverBasin |>
-  # Filter for the data type, here discharge "Q"
-  dplyr::filter(type == "Q") |>
-  drop_na() |>
-  group_by(river) |>
-  plot_time_series(
-    date,
-    data,
-    .interactive = FALSE,
-    .facet_ncol = 2,
-    .smooth = FALSE,
-    .y_lab = "Discharge [m3/s]",
-    .x_lab = "Year",
-    .title = "Discharge time series in the ChirchikRiverBasin data set"
-    )
-```
 
 ## Mentions
 The package is used extensively in the course book [Modeling of Hydrological Systems in Semi-Arid Central Asia](https://hydrosolutions.github.io/caham_book/){target="_blank"} [@CAHAM:2022].
