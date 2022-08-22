@@ -50,5 +50,7 @@ Depends:
 Suggests: 
     testthat, 
     rmarkdown, 
-    knitr
+    knitr, 
+    devtools, 
+    forecast
 VignetteBuilder: knitr

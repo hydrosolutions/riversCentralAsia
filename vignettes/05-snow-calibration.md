@@ -1,7 +1,7 @@
 ---
 title: "Manual calibration of snow water equivalent"
 author: "Beatrice Marti"
-date: '`r Sys.Date()`'
+date: '2022-08-22'
 bibliography: references.bib
 output: rmarkdown::html_vignette
 fig_caption: yes
@@ -11,18 +11,10 @@ vignette: >
   %\VignetteEncoding{UTF-8}
 ---
 
-```{r setup, include=FALSE}
-knitr::opts_chunk$set(
-  collapse = TRUE,
-  comment = "#>", 
-  eval = nzchar(Sys.getenv("riversCentralAsia_vignette_eval"))
-)
-knitr::opts_knit$set(
-  rmarkdown.html_vignette.check_title = FALSE
-)
-```
 
-```{r, message=FALSE, error=FALSE, warning=FALSE}
+
+
+```r
 library(tidyverse)
 library(lubridate)
 library(sf)
@@ -52,7 +44,8 @@ Actually observed SWE is not typically available for hydrological modeling in ma
 
 The downloaded data is subsequently pre-processed to extract the daily average SWE per HRU on the valid pixels of the data set (note that HMASR is not available on areas with permanent snow or ice cover). The following code sniped shows how this can be done.
 
-```{r, eval=FALSE}
+
+```r
 library(tmap)
 library(sf)
 library(raster)
@@ -187,7 +180,8 @@ You find 2 sample files from the HMASR product available in the Atbashy demo dat
 
 Data can be exported from RS Minerve with various methods. The manual export of all SWE model results in a larger model can become time consuming, therefore RS Minerve offers the possibility to import a so called check node file to specify a selection of model variables to export. The below code snipped shows how to write a check node file for the extracting of SWE simulation results from RS Minerve.
 
-```{r, eval=FALSE}
+
+```r
 Object_IDs <- st_read(paste0(data_path, 
                              "GIS/16076_HRU.shp")) |> 
   st_drop_geometry() 
@@ -210,7 +204,8 @@ In RS Minerve selection and plots tab, import the check node file SWE.chk writte
 
 Below we read the simulated SWE produced with an initial parameter set that was created without taking into account SWE observations.
 
-```{r, message=FALSE, warning=FALSE, error=FALSE, fig.cap="Simulated SWE per HRU in the Atbashy model."}
+
+```r
 swe_sim <- readResultCSV(
   paste0(data_path, 
          "RSMINERVE/Atbaschy_Results_SWE_initial_params.csv")) |>  
@@ -223,8 +218,9 @@ ggplot(swe_sim) +
   scale_colour_viridis_d() + 
   facet_wrap("Subbasin") + 
   theme_bw()
-  
 ```
+
+![Simulated SWE per HRU in the Atbashy model.](figure/unnamed-chunk-4-1.png)
 
 This data can be used to manually validate the SWE with secondary data sources like for example the High Mountain Asia Snow Reanalysis Product (Liu et al., 2021. https://doi.org/10.5067/HNAUGJQXSCVU).
 
@@ -232,7 +228,8 @@ This data can be used to manually validate the SWE with secondary data sources l
 
 The data has been downloaded and pre-processed (see above).
 
-```{r, message=FALSE, warning=FALSE, error=FALSE, fig.cap="Overall observed vs. simulated snow water equivalent in the Atbashy model."}
+
+```r
 # Loads SWE extracted from HMASR per HRU in the Atbashy model.
 load(paste0(data_path, "/SNOW/SWE.RData"))
 
@@ -263,7 +260,10 @@ ggplot(compare_swe) +
   theme_bw()
 ```
 
-```{r, message=FALSE, warning=FALSE, error=FALSE, fig.cap="Observed vs. simulated snow water equivalent per month and per elevation band in the Atbashy model."}
+![Overall observed vs. simulated snow water equivalent in the Atbashy model.](figure/unnamed-chunk-5-1.png)
+
+
+```r
 ggplot(compare_swe) +
   geom_abline(intercept = 0, slope = 1) + 
   geom_point(aes(Obs, Sim, colour = `Elevation band`), size = 0.4) +
@@ -275,11 +275,14 @@ ggplot(compare_swe) +
   theme_bw()
 ```
 
+![Observed vs. simulated snow water equivalent per month and per elevation band in the Atbashy model.](figure/unnamed-chunk-6-1.png)
+
 Now we can adjust the parameters of the snow modules in the HBV model objects in RS Minerve and iteratively improve the fit between the observed and simulated snow water equivalent.
 
 We can also write the HMASR data to a csv file (see chunk below) and import it to RS Minerve for time series comparison and to facilitate manual calibration.
 
-```{r, eval=FALSE}
+
+```r
 # Generate date sequence in accordance with RSMinerve Requirements
 dates <- tibble(Date = swel$Date |> unique())
 datesChar <- posixct2rsminerveChar(dates$Date, tz = "UTC") |> 
@@ -328,7 +331,8 @@ write_csv(file2write, paste0(data_path, "RSMINERVE/SWEobs.csv"),
 
 ### View SWE simulation results after manual calibration
 
-```{r, message=FALSE, warning=FALSE, error=FALSE, fig.cap="Overall observed vs. simulated snow water equivalent in the Atbashy model after manual calibration using SWE extracted from HMASR."}
+
+```r
 swe_sim <- readResultCSV(
   paste0(data_path, 
          "RSMINERVE/Atbaschy_Results_SWE_manual_cal.csv")) |> 
@@ -365,7 +369,10 @@ ggplot(compare_swe) +
   theme_bw()
 ```
 
-```{r, message=FALSE, warning=FALSE, error=FALSE, fig.cap="Observed vs. simulated snow water equivalent per month and per elevation band in the Atbashy model after manual calibration against SWE from HMASR."}
+![Overall observed vs. simulated snow water equivalent in the Atbashy model after manual calibration using SWE extracted from HMASR.](figure/unnamed-chunk-8-1.png)
+
+
+```r
 ggplot(compare_swe) +
   geom_abline(intercept = 0, slope = 1) + 
   geom_point(aes(Obs, Sim, colour = `Elevation band`), size = 0.4) +
@@ -375,8 +382,9 @@ ggplot(compare_swe) +
   facet_wrap("Month_str") + 
   coord_fixed() + xlim(0, 1.5) + ylim(0, 1.5) + 
   theme_bw()
-  
 ```
+
+![Observed vs. simulated snow water equivalent per month and per elevation band in the Atbashy model after manual calibration against SWE from HMASR.](figure/unnamed-chunk-9-1.png)
 
 The use of the SWE from the HMASR product improves the hydrological model.
 

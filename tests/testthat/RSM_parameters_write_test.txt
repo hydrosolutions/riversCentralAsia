@@ -1,5 +1,5 @@
 RS MINERVE - Parameters
-Version 4.0.0.0 - 2022-08-09 15:54:01
+Version 4.0.0.0 - 2022-08-22 08:43:53
 Model: PATH
 Description: Model
 Database:

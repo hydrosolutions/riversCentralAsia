@@ -9,16 +9,7 @@ vignette: >
   %\VignetteEncoding{UTF-8}
 ---
 
-```{r, include=FALSE}
-knitr::opts_chunk$set(
-  collapse = TRUE,
-  comment = "#>", 
-  eval = nzchar(Sys.getenv("riversCentralAsia_vignette_eval"))
-)
-knitr::opts_knit$set(
-  rmarkdown.html_vignette.check_title = FALSE
-)
-```
+
 
 # Background & Motivation
 
@@ -66,7 +57,8 @@ Recent advances in glacier research yielded a stupendous amount of novel data se
 
 We use the catchment of the gauging station on the Atabshy river, a tributary to the Naryn river in Central Asia as a demo site. If you'd like to reproduce the examples presented in this vignette you can download the zipped data by clicking this [link](https://www.dropbox.com/sh/r0lqggc77ka0uxd/AAChuIyLHHFIfAdgxNKiU2dpa?dl=1){target="_blank"}. You can extract the the downloaded data into a location of your choice and adapt the reference path in the code chunk below. The rest of the code will run as it is, provided you have the required r packages installed. The size of the data package is approximately 1 GB.
 
-```{r datarefpath, datarefpath, message=FALSE, warning=FALSE}
+
+```r
 # Install the libraries required to reproduce this vignette
 # The below packages are available from cran and can be installed using the 
 # command install.packages. Example: install.packages("tmap")
@@ -92,7 +84,8 @@ data_path <- "../../atbashy_glacier_demo_data/"
 
 The Randolph Glacier Inventory (RGI) v6.0 [@rgi60] makes a consistent global glacier data base publicly available. It includes geo-located glacier geometry and some additional parameters, for example elevation, length, slope and aspect. A new version (v7) is under review at the time of writing mid 2022. For Central Asian water resources modelling, RGI regions 13 (Central Asia) and 14 (South Asia West) are relevant. You can download the glacier geometries for all RGI regions from [the GLIMS RGI v6.0 web site](https://www.glims.org/RGI/rgi60_dl.html){target="_blank"}. For this demo, the data is available from the data download link given above.
 
-```{r, rgi, message=FALSE, warning=FALSE, fig.cap="DEM & Glacier outlines (light gray) of the demo basin.", out.width="90%"}
+
+```r
 
 dem <- raster(paste0(data_path, "GIS/16076_DEM.tif"))
 basin <- st_read(paste0(data_path, "GIS/16076_Basin_outline.shp"), quiet=TRUE)
@@ -124,7 +117,8 @@ Two global glacier thickness datasets are currently publicly available: @farinot
 
 @farinotti_consensus_2019 make distributed glacier thickness maps available for each glacier in the RGI v6 data set as individual tifs. @millan_ice_2022 provide one tif for each RGI region which is more convenient to handle.
 
-```{r, message=FALSE, warning=FALSE, error=FALSE, fig.cap="Glacier thickness by Milan et al., 2022."}
+
+```r
 thickness <- raster(paste0(data_path, 
                            "GLACIERS/Milan_glacier_thickness.tif"))
 
@@ -190,7 +184,8 @@ $$V=0.018484 \cdot A + 0.021875 \cdot A^{1.3521}\text{ }\text{ }\text{ for }\tex
 
 The per-glacier time series of thinning rates is available from the [data repository](https://www.sedoo.fr/theia-publication-products/?uuid=c428c5b9-df8f-4f86-9b75-e04c778e29b9){target="_blank"} as described in the [github site](https://github.com/rhugonnet/ww_tvol_study){target="_blank"} linked under the code availability section of the [online paper](https://www.nature.com/articles/s41586-021-03436-z){target="_blank"} of @hugonnet_accelerated_2021.
 
-```{r, thinning, message=FALSE, warning=FALSE, fig.cap = "Average glacier mass change by Hugonnet et al., 2021.", out.width="90%"}
+
+```r
 
 hugonnet <- read_csv(paste0(data_path, "/GLACIERS/Hugonnet/dh_13_rgi60_pergla_rates.csv"))
 
@@ -246,7 +241,8 @@ Glacier thinning rates can be viewed as net glacier mass change or glacier imbal
 
 The original data is available from the [data repository](https://zenodo.org/record/5119153#.Yfjv6-rMKF4){target="_blank"} linked in the [online version of the paper](https://www.nature.com/articles/s41467-021-23073-4){target="_blank"}.
 
-```{r, glacierDischarge, message=FALSE, warning=FALSE, fig.cap = "Glacier discharge derived from Miles et al., 2021.", out.width="90%"}
+
+```r
 # Calculate glacier discharge using the glacierDischarge_HM function of the 
 # riversCentralAsia package. An empirical relationship between glacier thinning 
 # rates by Hugonnet et al., 2021 and glacier discharge by Miles et al., 2021.  

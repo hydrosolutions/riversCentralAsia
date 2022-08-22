@@ -8,16 +8,7 @@ vignette: >
   %\VignetteEncoding{UTF-8}
 ---
 
-```{r, include = FALSE}
-knitr::opts_chunk$set(
-  collapse = TRUE,
-  comment = "#>", 
-  eval = nzchar(Sys.getenv("riversCentralAsia_vignette_eval"))
-)
-knitr::opts_knit$set(
-  rmarkdown.html_vignette.check_title = FALSE)
 
-```
 
 Typically, a river basin is discretized into hydrological response units (HRU) that capture the hydrological properties of a zone within the river basin. Often, HRU are derived from digital elevation models (DEMs) to be able to represent the elevation-dependent timing of snow melt in a basin. This is especially suitable for mountainous basins where gravity flow determines the river runoff. However, in lower lying basins, geology or land use may dominate the hydrology and thus HRU may have to be derived from geological or land use maps.  
 
@@ -25,7 +16,8 @@ The function `gen_basinElevationBands` allows the generation of a shape layer wi
 
 To reproduce this vignette, please download the DEM [here](https://www.dropbox.com/s/g4cudydy3stcxih/16076_DEM.tif?dl=0). 
 
-```{r fig.cap="Broad elevation bands generated for the Atbashy basin.", message=FALSE, warning=FALSE, error=FALSE}
+
+```r
 library(tidyverse)
 library(lubridate)
 library(timetk)

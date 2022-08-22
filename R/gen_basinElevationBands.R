@@ -25,7 +25,7 @@ gen_basinElevationBands <- function(
     smoothFact){
 
   # Load DEM & define bands
-  if (class(dem_PathN) == "RasterLayer") {
+  if (inherits(dem_PathN, "RasterLayer")) {
     dem <- dem_PathN
   } else if (utils::file_test("-f", dem_PathN)) {
     filepath <- dem_PathN

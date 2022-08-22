@@ -8,16 +8,7 @@ vignette: >
   %\VignetteEncoding{UTF-8}
 ---
 
-```{r, include = FALSE}
-knitr::opts_chunk$set(
-  collapse = TRUE,
-  comment = "#>", 
-  eval = nzchar(Sys.getenv("riversCentralAsia_vignette_eval"))
-)
-knitr::opts_knit$set(
-  rmarkdown.html_vignette.check_title = FALSE
-)
-```
+
 
 [RS Minerve](https://crealp.ch/rs-minerve/){target="_blank"} is a free to use hydrologic-hydraulic modelling software. It's accessibility makes is especially suitable for typical Hydromet tasks like flow forecasting. The package riversCentralAsia includes a number of functions to read and write files which interact with RS Minerve. 
 These tools are interesting for automated writing of forcing files and for reading post-processing and visualization of simulation results or model parameters. 
@@ -39,7 +30,8 @@ The following RSMinerve objects are currently supported in the `riversCentralAsi
 
 The parameters for these objects are described in the [RS Minerve User Manual](https://crealp.github.io/rsminerve-releases/){target="_blank"}. 
 
-```{r fig.cap="Storage coefficient of the upper reservoirs in the HBV models by zone.", message=FALSE, warning=FALSE, error=FALSE}
+
+```r
 library(tidyverse)
 library(lubridate)
 library(riversCentralAsia)
@@ -55,7 +47,8 @@ ggplot(parameters_orig) +
 
 The following shows an example how the model parameters can be changed and written to a RS Minerve-readable format. 
 
-```{r}
+
+```r
 # Doubble all Ku-values in zone A: 
 parameters <- readRSMParameters(
   "../../atbashy_glacier_demo_data/RSMINERVE/Atbaschy_PAR_postCal.txt") |> 
@@ -84,7 +77,8 @@ Another useful application for the RS Minerve I/O functions is the reading of si
 ### Writing a check node file
 Writing a selection node file that can be imported to RS Minerve where the selection can be used to export the selected simulation results. This is useful for large models with many model objects where it is cumbersome to manually toggle the desired results in RS Minerve.  
 
-```{r, eval=FALSE}
+
+```r
 # Write check node file
 hbv_var_list <- c("Qr (m3/s)", "Qu (m3/s)", "Ql (m3/s)", "SWE (m)", "HUM (m)", 
                   "SU (m)", "SL (m)", "Peq (m/s)")
@@ -113,7 +107,8 @@ We then read the simulation results.
 
 ### Reading & plotting results
 
-```{r, message=FALSE, warning=FALSE, error=FALSE, fig.cap="Average seasonal solid and liquid precipitation and contribution of the HBV model compartments and glacier melt to river discharge."}
+
+```r
 
 data_path <- "../../atbashy_glacier_demo_data/"
 
@@ -202,7 +197,8 @@ gridExtra::grid.arrange(forcing_plot, discharge_plot, ncol = 1)
 ### Flow duration curves
 And last but not least a modeler might wish to produce flow duration curves based on simulation results. Flow duration curves are used, for example, for the design of hydraulic infrastructure.
 
-```{r, message=FALSE, warning=FALSE, error=FALSE, fig.cap="Flow duration curve of simulated monthly discharge at the planning location for a small hydropower plant. Black: Average flow duration curve over the period 1990-2021, grey: flow duration curve for the years 1990 - 2011."}
+
+```r
 # Calculate the flow duration curve
 Qtot <- fs |> 
   dplyr::filter(unit == "m3/s", 
