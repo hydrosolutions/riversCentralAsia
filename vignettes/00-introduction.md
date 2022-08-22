@@ -20,6 +20,9 @@ Several use-cases for the packages functionality are demonstrated in the CAHAM b
 # install.packages("devtools")
 devtools::install_github("hydrosolutions/riversCentralAsia", 
                          quiet = TRUE)
+#> package 'xfun' successfully unpacked and MD5 sums checked
+#> package 'terra' successfully unpacked and MD5 sums checked
+#> package 'raster' successfully unpacked and MD5 sums checked
 library(riversCentralAsia, quietly = TRUE)
 ```
 
@@ -49,7 +52,6 @@ ChirchikRiverBasin  # load data
 #> # … with 29,882 more rows, 3 more variables: lat_UTM42 <dbl>,
 #> #   altitude_masl <dbl>, basinSize_sqkm <dbl>, and abbreviated variable names
 #> #   ¹​resolution, ²​lon_UTM42
-#> # ℹ Use `print(n = ...)` to see more rows, and `colnames()` to see all variable names
 ChirchikRiverBasin |> 
   filter(type == "Q", 
          code %in% c("16279", "16290", "16298", "16300")) |> 

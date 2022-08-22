@@ -45,7 +45,7 @@
     <a class="dropdown-item" href="articles/01-discharge-processing-examples.html">Discharge processing examples</a>
     <a class="dropdown-item" href="articles/02-preparation-of-climate-forcing.html">Preparation of climate forcing</a>
     <a class="dropdown-item" href="articles/03-RSMinerveIO.html">I/O for RS Minerve</a>
-    <a class="dropdown-item" href="articles/04-glacier-functions.html">Glacier functions</a>
+    <a class="dropdown-item" href="articles/04-glacier-functions.html">Glacier utilities</a>
     <a class="dropdown-item" href="articles/05-snow-calibration.html">Manual calibration of snow water equivalent</a>
   </div>
 </li>
@@ -72,27 +72,39 @@
 </nav><div class="container template-home">
 <div class="row">
   <main id="main" class="col-md-9"><div class="section level1">
-<div class="page-header"><h1 id="riverscentralasia">riversCentralAsia<a class="anchor" aria-label="anchor" href="#riverscentralasia"></a>
+<div class="page-header"><h1 id="riverscentralasia-an-r-package-for-hydrological-modelling">riversCentralAsia: An R package for hydrological modelling<a class="anchor" aria-label="anchor" href="#riverscentralasia-an-r-package-for-hydrological-modelling"></a>
 </h1></div>
-<!-- badges: start -->
-<!-- badges: end -->
-<p><code>riversCentralAsia</code> is an R Package with helper functions to - load, manage and analyze hydrometeorological data from Central Asia, - process and analyze as well as downscale ERA5 reanalysis data for arbitrary basins in the region (shapefile required), - process and analyze high-resolution past, current and future monthly CHELSA climatologies, - generate daily/hourly climate scenarios using the stochastic weather generator RMAWGEN, - prepare export files for hydrological-hydraulic modeling using the RS MINERVE software, and - analyze climate impact scenarios.</p>
-<p>Currently, a relatively complete dataset of the Chirchik River Basin with decadal and monthly data on discharge, precipitation and temperature is included. More data will be made available in upcoming iterations of the package</p>
-<p><a href="https://doi.org/10.5281/zenodo.4667422" class="external-link"><img src="https://zenodo.org/badge/DOI/10.5281/zenodo.4667422.svg" alt="DOI"></a></p>
-<div class="section level2">
-<h2 id="documentation--use-cases">Documentation &amp; use cases<a class="anchor" aria-label="anchor" href="#documentation--use-cases"></a>
-</h2>
-<p>We now have a <a href="https://hydrosolutions.github.io/riversCentralAsia/index.html" class="external-link">web-site</a> for the package where you can find articles (vignettes) on how to use the functions. Please note that the web-site is work in progress and continuously being updated.</p>
-<div class="section level3">
-<h3 id="direct-links-to-articles-and-use-cases">Direct links to articles and use cases<a class="anchor" aria-label="anchor" href="#direct-links-to-articles-and-use-cases"></a>
-</h3>
-<p><a href="https://hydrosolutions.github.io/riversCentralAsia/articles/glaciers-01-intro.html" class="external-link">Introduction on glaciers in water resources modelling and available data</a><br><a href="https://hydrosolutions.github.io/riversCentralAsia/articles/glaciers-02-DDMWB.html" class="external-link">Temperature index models for estimating glacier melt</a><br><a href="https://hydrosolutions.github.io/riversCentralAsia/articles/glaciers-04-glaciers-RSM.html" class="external-link">How to include glacier melt in RS Minerve</a></p>
+<p>3 August 2022</p>
+<!-- README.md is generated from README.Rmd. Please edit that file -->
 </div>
+<div class="section level1">
+<h1 id="riverscentralasia">riversCentralAsia<a class="anchor" aria-label="anchor" href="#riverscentralasia"></a>
+</h1>
+<div class="section level2">
+<h2 id="summary">Summary<a class="anchor" aria-label="anchor" href="#summary"></a>
+</h2>
+<p>The R package riversCentralAsia includes a set of tools to facilitate and automate data preparation for hydrological modelling. It thus contributes to more reproducible modeling workflows and makes hydrological modeling more accessible to students.</p>
+<p>The package has been developed within the frame of a master level course on applied hydrological modelling in Central Asia and is extensively used in the open-source book <a href="https://hydrosolutions.github.io/caham_book/" class="external-link">Modeling of Hydrological Systems in Semi-Arid Central Asia</a>(Siegfried and Marti 2022). The workflows are further validated within the Horizon 2020 project <a href="https://hydro4u.eu/" class="external-link">HYDRO4U</a>.</p>
+<p>While the package has been developed for the Central Asia region, most of the functions are generic and can be used for modelling projects anywhere in the world.</p>
 </div>
 <div class="section level2">
-<h2 id="license-information">License Information<a class="anchor" aria-label="anchor" href="#license-information"></a>
+<h2 id="statement-of-need">Statement of need<a class="anchor" aria-label="anchor" href="#statement-of-need"></a>
 </h2>
-<p><a rel="license" href="http://creativecommons.org/licenses/by-sa/4.0/" class="external-link"><img alt="Creative Commons License" style="border-width:0" src="https://i.creativecommons.org/l/by-sa/4.0/88x31.png"></a><br>This work is licensed under a <a rel="license" href="http://creativecommons.org/licenses/by-sa/4.0/" class="external-link">Creative Commons Attribution-ShareAlike 4.0 International License</a>.</p>
+<p>Data preparation comes before hydrological modelling and is actually one of the biggest work chunks in the modelling process. This package includes a number of helper functions that can be connected to efficient workflows that automatize the data preparation process for hydrological modelling. The functionality includes:</p>
+<ul>
+<li><p>Efficient processing of present and future climate forcing, including hydro-meterological data from Central Asia and down-scaling of ERA5 re-analysis data</p></li>
+<li><p>The preparation of GIS layers for automated model generation</p></li>
+<li><p>Simplified modelling of glacier dynamics</p></li>
+<li><p>Post-processing of simulation results, e.g. computation of flow duration curves</p></li>
+<li><p>I/O interface with the hydrologic-hydraulic modelling software <a href="https://crealp.ch/rs-minerve/" class="external-link">RS Minerve</a> which can be accessed within R using the package <a href="https://github.com/hydrosolutions/RSMinerveR" class="external-link">RSMinerveR</a>.</p></li>
+</ul>
+<p>While here, we focus on the description of the individual functions, the strengths of the package comes to play mostly when the functions are connected to automatize the data preparation process. These workflows are extensively documented in the book <a href="https://hydrosolutions.github.io/caham_book/" class="external-link">Modeling of Hydrological Systems in Semi-Arid Central Asia</a>.</p>
+<p>Currently, a relatively complete dataset of the Chirchik River Basin with decadal and monthly data on discharge, precipitation and temperature is included.</p>
+</div>
+<div class="section level2">
+<h2 id="related-packages">Related packages<a class="anchor" aria-label="anchor" href="#related-packages"></a>
+</h2>
+<p>The R package <a href="https://github.com/hydrosolutions/RSMinerveR" class="external-link">RSMinverveR</a> allows the running of the hydrologic-hydraulic modelling software <a href="https://crealp.ch/rs-minerve/" class="external-link">RS Minerve</a> directly from R without using the RS Minerve user interface. This functionality is for advanced R and RS Minerve users that wish to further speed up their modelling workflow.</p>
 </div>
 <div class="section level2">
 <h2 id="installation">Installation<a class="anchor" aria-label="anchor" href="#installation"></a>
@@ -100,24 +112,64 @@
 <p>You can install the development version from <a href="https://github.com/" class="external-link">GitHub</a> with:</p>
 <div class="sourceCode" id="cb1"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="co"># install.packages("devtools")</span></span>
-<span><span class="fu">devtools</span><span class="fu">::</span><span class="fu"><a href="https://remotes.r-lib.org/reference/install_github.html" class="external-link">install_github</a></span><span class="op">(</span><span class="st">"hydrosolutions/riversCentralAsia"</span><span class="op">)</span></span></code></pre></div>
+<span><span class="fu">devtools</span><span class="fu">::</span><span class="fu"><a href="https://remotes.r-lib.org/reference/install_github.html" class="external-link">install_github</a></span><span class="op">(</span><span class="st">"hydrosolutions/riversCentralAsia"</span><span class="op">)</span></span>
+<span><span class="co">#&gt; Skipping install of 'riversCentralAsia' from a github remote, the SHA1 (26b5949c) has not changed since last install.</span></span>
+<span><span class="co">#&gt;   Use `force = TRUE` to force installation</span></span>
+<span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://hydrosolutions.github.io/riversCentralAsia/index.html" class="external-link">riversCentralAsia</a></span><span class="op">)</span></span></code></pre></div>
+<p>Note that Windows users require RTools to install R packages from github.</p>
+<p>Note that windows users require a working installation of <a href="https://cran.r-project.org/bin/windows/Rtools/" class="external-link">RTools</a>.</p>
 </div>
 <div class="section level2">
-<h2 id="example">Example<a class="anchor" aria-label="anchor" href="#example"></a>
+<h2 id="community-guidelines">Community guidelines<a class="anchor" aria-label="anchor" href="#community-guidelines"></a>
+</h2>
+<p>Please consult the documentation and the examples provided in the <a href="https://hydrosolutions.github.io/riversCentralAsia/index.html" class="external-link">package documentation</a> and in the open-source course book <a href="https://hydrosolutions.github.io/caham_book/" class="external-link">Modeling of Hydrological Systems in Semi-Arid Central Asia</a>.</p>
+<p>For problems using the functions of for suggestions, please use the <a href="https://github.com/hydrosolutions/riversCentralAsia/issues" class="external-link">issue tool</a>.</p>
+</div>
+<div class="section level2">
+<h2 id="how-to-cite">How to cite<a class="anchor" aria-label="anchor" href="#how-to-cite"></a>
+</h2>
+<p>Please cite the package as:</p>
+<p>Tobias Siegfried, &amp; Beatrice Marti (2021): riversCentralAsia <version number>. <a href="https://doi.org/10.5281/zenodo.4667422" class="external-link uri">https://doi.org/10.5281/zenodo.4667422</a></version></p>
+<p><a href="https://doi.org/10.5281/zenodo.4667422" class="external-link"><img src="https://zenodo.org/badge/DOI/10.5281/zenodo.4667422.svg" alt="DOI"></a></p>
+</div>
+<div class="section level2">
+<h2 id="examples">Examples<a class="anchor" aria-label="anchor" href="#examples"></a>
 </h2>
 <p>This is a basic example which shows you how to visualize some of the included data.</p>
 <div class="sourceCode" id="cb2"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://hydrosolutions.github.io/riversCentralAsia/index.html" class="external-link">riversCentralAsia</a></span><span class="op">)</span></span>
 <span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://tidyverse.tidyverse.org" class="external-link">tidyverse</a></span><span class="op">)</span></span>
 <span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://github.com/business-science/timetk" class="external-link">timetk</a></span><span class="op">)</span></span>
-<span><span class="co">## basic example code</span></span>
-<span><span class="co">#ChirchikRiverBasin  # load data</span></span>
-<span><span class="co">#ChirchikRiverBasin |&gt; group_by(code) |&gt; plot_time_series(date,data,</span></span>
-<span><span class="co">#                                                         .interactive = FALSE,</span></span>
-<span><span class="co">#                                                         .facet_ncol  = 2,</span></span>
-<span><span class="co">#                                                         .smooth      = FALSE)</span></span></code></pre></div>
+<span></span>
+<span><span class="co"># Loading and visualising discharge data</span></span>
+<span><span class="va">ChirchikRiverBasin</span>  <span class="co"># load data</span></span>
+<span><span class="va">ChirchikRiverBasin</span> <span class="op">|&gt;</span> </span>
+<span>  <span class="co"># Filter for the data type, here discharge "Q"</span></span>
+<span>  <span class="fu">dplyr</span><span class="fu">::</span><span class="fu"><a href="https://dplyr.tidyverse.org/reference/filter.html" class="external-link">filter</a></span><span class="op">(</span><span class="va">type</span> <span class="op">==</span> <span class="st">"Q"</span><span class="op">)</span> <span class="op">|&gt;</span> </span>
+<span>  <span class="fu"><a href="https://tidyr.tidyverse.org/reference/drop_na.html" class="external-link">drop_na</a></span><span class="op">(</span><span class="op">)</span> <span class="op">|&gt;</span> </span>
+<span>  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/group_by.html" class="external-link">group_by</a></span><span class="op">(</span><span class="va">river</span><span class="op">)</span> <span class="op">|&gt;</span> </span>
+<span>  <span class="fu"><a href="https://business-science.github.io/timetk/reference/plot_time_series.html" class="external-link">plot_time_series</a></span><span class="op">(</span></span>
+<span>    <span class="va">date</span>,</span>
+<span>    <span class="va">data</span>,</span>
+<span>    .interactive <span class="op">=</span> <span class="cn">FALSE</span>,</span>
+<span>    .facet_ncol <span class="op">=</span> <span class="fl">2</span>,</span>
+<span>    .smooth <span class="op">=</span> <span class="cn">FALSE</span>, </span>
+<span>    .y_lab <span class="op">=</span> <span class="st">"Discharge [m3/s]"</span>, </span>
+<span>    .x_lab <span class="op">=</span> <span class="st">"Year"</span>, </span>
+<span>    .title <span class="op">=</span> <span class="st">"Discharge time series in the ChirchikRiverBasin data set"</span></span>
+<span>    <span class="op">)</span></span></code></pre></div>
+</div>
+<div class="section level2">
+<h2 id="references">References<a class="anchor" aria-label="anchor" href="#references"></a>
+</h2>
+<div id="refs" class="references csl-bib-body hanging-indent">
+<div id="ref-CAHAM:2022" class="csl-entry">
+Siegfried, Tobias, and Beatrice Marti. 2022. <em>Modeling of Hydrological Systems in Semi-Arid Central Asia</em>. hydrosolutions. <a href="https://doi.org/" class="external-link uri">https://doi.org/</a><a href="https://doi.org/10.5281/zenodo.6350042" class="external-link uri">https://doi.org/10.5281/zenodo.6350042</a>.
 </div>
 </div>
+</div>
+</div>
+
   </main><aside class="col-md-3"><div class="links">
 <h2 data-toc-skip>Links</h2>
 <ul class="list-unstyled">

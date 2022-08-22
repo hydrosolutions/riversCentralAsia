@@ -40,6 +40,8 @@ hru_shp <- gen_basinElevationBands(
 hru_shp %>% plot()
 ```
 
+![Broad elevation bands generated for the Atbashy basin.](figure/unnamed-chunk-2-1.png)
+
 Some minor post-processing is further required and the HRU layer is ready for import to RS Minerve for use in the automated model creation. The open-source book [Modeling of Hydrological Systems in Semi-Arid Central Asia](https://hydrosolutions.github.io/caham_book/){target="_blank"} gives step-by-step instructions for this.   
 
 We recommend the use of daily precipitation and temperature data from the CHELSA data set (made available by WSL)[@karger_climatologies_2017; @karger_high-resolution_2020].  

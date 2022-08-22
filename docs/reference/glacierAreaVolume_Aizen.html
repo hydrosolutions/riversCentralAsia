@@ -32,7 +32,7 @@ mountains. They can be used to estimate regional glacier volumes."><!-- mathjax 
     <a class="dropdown-item" href="../articles/01-discharge-processing-examples.html">Discharge processing examples</a>
     <a class="dropdown-item" href="../articles/02-preparation-of-climate-forcing.html">Preparation of climate forcing</a>
     <a class="dropdown-item" href="../articles/03-RSMinerveIO.html">I/O for RS Minerve</a>
-    <a class="dropdown-item" href="../articles/04-glacier-functions.html">Glacier functions</a>
+    <a class="dropdown-item" href="../articles/04-glacier-functions.html">Glacier utilities</a>
     <a class="dropdown-item" href="../articles/05-snow-calibration.html">Manual calibration of snow water equivalent</a>
   </div>
 </li>
@@ -111,7 +111,20 @@ Oerlemans glacier length function).</p></dd>
 <span class="r-in"><span>                          <span class="st">"Length [km]"</span> <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">5.7</span>, <span class="fl">5.6</span>, <span class="fl">5.5</span>, <span class="fl">5.5</span>, <span class="fl">5.4</span>, <span class="fl">5.3</span>,</span></span>
 <span class="r-in"><span>                                            <span class="fl">5.3</span>, <span class="fl">5.2</span>, <span class="fl">5.1</span>, <span class="fl">5</span>, <span class="fl">4.8</span><span class="op">)</span><span class="op">)</span></span></span>
 <span class="r-in"><span><span class="fu">glacierAreaVolume_Aizen</span><span class="op">(</span><span class="va">glacier</span><span class="op">)</span></span></span>
-<span class="r-err co"><span class="r-pr">#&gt;</span> <span class="error">Error in glacierAreaVolume_Aizen(glacier):</span> could not find function "glacierAreaVolume_Aizen"</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #949494;"># A tibble: 11 × 4</span></span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>     Year `Length [km]` Area_Aizen_km2 Volume_Aizen_km3</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>    <span style="color: #949494; font-style: italic;">&lt;int&gt;</span>         <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>          <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>            <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span></span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 1</span>  <span style="text-decoration: underline;">2</span>000           5.7           8.90            0.606</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 2</span>  <span style="text-decoration: underline;">2</span>001           5.6           8.62            0.580</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 3</span>  <span style="text-decoration: underline;">2</span>002           5.5           8.35            0.554</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 4</span>  <span style="text-decoration: underline;">2</span>003           5.5           8.35            0.554</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 5</span>  <span style="text-decoration: underline;">2</span>004           5.4           8.08            0.529</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 6</span>  <span style="text-decoration: underline;">2</span>005           5.3           7.82            0.505</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 7</span>  <span style="text-decoration: underline;">2</span>006           5.3           7.82            0.505</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 8</span>  <span style="text-decoration: underline;">2</span>007           5.2           7.55            0.482</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 9</span>  <span style="text-decoration: underline;">2</span>008           5.1           7.30            0.460</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">10</span>  <span style="text-decoration: underline;">2</span>009           5             7.04            0.438</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">11</span>  <span style="text-decoration: underline;">2</span>010           4.8           6.55            0.396</span>
 </code></pre></div>
     </div>
   </main><aside class="col-md-3"><nav id="toc"><h2>On this page</h2>

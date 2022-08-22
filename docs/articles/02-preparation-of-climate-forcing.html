@@ -45,7 +45,7 @@
     <a class="dropdown-item" href="../articles/01-discharge-processing-examples.html">Discharge processing examples</a>
     <a class="dropdown-item" href="../articles/02-preparation-of-climate-forcing.html">Preparation of climate forcing</a>
     <a class="dropdown-item" href="../articles/03-RSMinerveIO.html">I/O for RS Minerve</a>
-    <a class="dropdown-item" href="../articles/04-glacier-functions.html">Glacier functions</a>
+    <a class="dropdown-item" href="../articles/04-glacier-functions.html">Glacier utilities</a>
     <a class="dropdown-item" href="../articles/05-snow-calibration.html">Manual calibration of snow water equivalent</a>
   </div>
 </li>
@@ -97,13 +97,11 @@ have to be derived from geological or land use maps.</p>
 generation of a shape layer with elevation bands derived from a DEM.
 Note that you can play with the parameters of the function to adjust the
 shapes of the elevation bands.</p>
+<p>To reproduce this vignette, please download the DEM <a href="https://www.dropbox.com/s/g4cudydy3stcxih/16076_DEM.tif?dl=0" class="external-link">here</a>.</p>
 <div class="sourceCode" id="cb1"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://tidyverse.tidyverse.org" class="external-link">tidyverse</a></span><span class="op">)</span></span>
 <span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://lubridate.tidyverse.org" class="external-link">lubridate</a></span><span class="op">)</span></span>
 <span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://github.com/business-science/timetk" class="external-link">timetk</a></span><span class="op">)</span></span>
-<span></span>
-<span><span class="co"># Get the latest distribution of riversCentralAsia</span></span>
-<span><span class="fu">devtools</span><span class="fu">::</span><span class="fu"><a href="https://remotes.r-lib.org/reference/install_github.html" class="external-link">install_github</a></span><span class="op">(</span><span class="st">"hydrosolutions/riversCentralAsia"</span><span class="op">)</span>  </span>
 <span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://hydrosolutions.github.io/riversCentralAsia/index.html" class="external-link">riversCentralAsia</a></span><span class="op">)</span></span>
 <span></span>
 <span><span class="va">gis_path</span> <span class="op">&lt;-</span> <span class="st">"../../atbashy_glacier_demo_data/GIS/16076_DEM.tif"</span></span>

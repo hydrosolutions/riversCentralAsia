@@ -45,6 +45,8 @@ ggplot(parameters_orig) +
   theme_bw()
 ```
 
+![Storage coefficient of the upper reservoirs in the HBV models by zone.](figure/unnamed-chunk-2-1.png)
+
 The following shows an example how the model parameters can be changed and written to a RS Minerve-readable format. 
 
 
@@ -65,6 +67,11 @@ ggplot(comparison) +
   scale_fill_viridis_d() + 
   ylab(parameters_orig$Parameters[1]) + 
   theme_bw()
+```
+
+![plot of chunk unnamed-chunk-3](figure/unnamed-chunk-3-1.png)
+
+```r
 
 # Uncomment to write
 # writeRSMParameters(parameters, "Parameters_modified_Ku.txt")
@@ -194,6 +201,8 @@ discharge_plot <- ggplot(mean_monthly_fluxes) +
 gridExtra::grid.arrange(forcing_plot, discharge_plot, ncol = 1)
 ```
 
+![Average seasonal solid and liquid precipitation and contribution of the HBV model compartments and glacier melt to river discharge.](figure/unnamed-chunk-5-1.png)
+
 ### Flow duration curves
 And last but not least a modeler might wish to produce flow duration curves based on simulation results. Flow duration curves are used, for example, for the design of hydraulic infrastructure.
 
@@ -230,6 +239,8 @@ ggplot(fdc) +
                      labels = c(1:12)) + 
   theme_bw()
 ```
+
+![Flow duration curve of simulated monthly discharge at the planning location for a small hydropower plant. Black: Average flow duration curve over the period 1990-2021, grey: flow duration curve for the years 1990 - 2011.](figure/unnamed-chunk-6-1.png)
 
 In gray we see the flow duration curves of the individual years and in black the mean flow duration curve.
 

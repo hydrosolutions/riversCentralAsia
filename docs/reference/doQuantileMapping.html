@@ -30,7 +30,7 @@ qmap by Lukas Gudmundsson."><!-- mathjax --><script src="https://cdnjs.cloudflar
     <a class="dropdown-item" href="../articles/01-discharge-processing-examples.html">Discharge processing examples</a>
     <a class="dropdown-item" href="../articles/02-preparation-of-climate-forcing.html">Preparation of climate forcing</a>
     <a class="dropdown-item" href="../articles/03-RSMinerveIO.html">I/O for RS Minerve</a>
-    <a class="dropdown-item" href="../articles/04-glacier-functions.html">Glacier functions</a>
+    <a class="dropdown-item" href="../articles/04-glacier-functions.html">Glacier utilities</a>
     <a class="dropdown-item" href="../articles/05-snow-calibration.html">Manual calibration of snow water equivalent</a>
   </div>
 </li>
@@ -145,11 +145,15 @@ chr) for the CC scenario and <code>Ta</code> OR <code>Pr</code> (class: num) whe
 <span class="r-in"><span>                   <span class="fu">dplyr</span><span class="fu">::</span><span class="fu"><a href="https://dplyr.tidyverse.org/reference/mutate.html" class="external-link">mutate</a></span><span class="op">(</span>Date <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/as.Date.html" class="external-link">as.Date</a></span><span class="op">(</span><span class="va">Date</span><span class="op">)</span> <span class="op">+</span> <span class="fl">2</span><span class="op">)</span><span class="op">)</span></span></span>
 <span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="va">results</span> <span class="op">&lt;-</span> <span class="fu">doQuantileMapping</span><span class="op">(</span><span class="va">hist_obs</span>, <span class="va">hist_sim</span>, <span class="va">fut_sim</span><span class="op">)</span></span></span>
-<span class="r-err co"><span class="r-pr">#&gt;</span> <span class="error">Error in doQuantileMapping(hist_obs, hist_sim, fut_sim):</span> could not find function "doQuantileMapping"</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> QM hist_sim - Processing model:  A </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> QM hist_sim - Processing model:  B </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> QM fut_sim - Processing Model: A and Scenario a </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> QM fut_sim - Processing Model: A and Scenario b </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> QM fut_sim - Processing Model: B and Scenario a </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> QM fut_sim - Processing Model: B and Scenario b </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> DONE!</span>
 <span class="r-in"><span><span class="va">mapped_hist_sim</span> <span class="op">&lt;-</span> <span class="va">results</span><span class="op">[[</span><span class="fl">1</span><span class="op">]</span><span class="op">]</span></span></span>
-<span class="r-err co"><span class="r-pr">#&gt;</span> <span class="error">Error in eval(expr, envir, enclos):</span> object 'results' not found</span>
 <span class="r-in"><span><span class="va">mapped_fut_sim</span> <span class="op">&lt;-</span> <span class="va">results</span><span class="op">[[</span><span class="fl">2</span><span class="op">]</span><span class="op">]</span></span></span>
-<span class="r-err co"><span class="r-pr">#&gt;</span> <span class="error">Error in eval(expr, envir, enclos):</span> object 'results' not found</span>
 </code></pre></div>
     </div>
   </main><aside class="col-md-3"><nav id="toc"><h2>On this page</h2>
