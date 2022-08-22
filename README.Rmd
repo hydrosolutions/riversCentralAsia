@@ -19,7 +19,6 @@ affiliations:
    index: 1
 date: 3 August 2022
 bibliography: paper.bib
-output: github_document
 ---
 
 <!-- README.md is generated from README.Rmd. Please edit that file -->
