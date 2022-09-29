@@ -98,6 +98,11 @@ For problems using the functions of for suggestions, please use the
 [issue
 tool](https://github.com/hydrosolutions/riversCentralAsia/issues).
 
+## License
+The riversCentralAsia package is shared under the GPL3 license. You may use 
+any part of the package as you wish, provided that you share your work under 
+the same GPL3 license.
+
 ## How to cite
 
 Please cite the package as:
