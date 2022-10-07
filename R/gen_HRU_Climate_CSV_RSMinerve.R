@@ -96,11 +96,11 @@ gen_HRU_Climate_CSV_RSMinerve <- function(climate_files,
     if (subbasin_data[1, 1] == test[1, 1]) {
       # Results with exactextractr & raster are consistent, use the faster
       use_exactextract = TRUE
-      cat("Message: Using exactextractr::exact_extract()\n")
+      sprintf("Message: Using exactextractr::exact_extract()\n")
     } else {
       # Results are not consistent, use the more reliable raster package
       use_exactextract = FALSE
-      cat("Message: Using raster::extract()\n")
+      sprintf("Message: Using raster::extract()\n")
       subbasin_data = test
     }
     } else {
