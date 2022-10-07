@@ -68,16 +68,58 @@ gen_HRU_Climate_CSV_RSMinerve <- function(climate_files,
   dataElBands_df <- namesElBands %>%
     purrr::map_dfc(setNames, object = base::list(base::logical())) # fancy trick to generate an empty dataframe with column names from a vector of characters.
 
+  use_exactextract = TRUE
+
   # .nc-file extraction
   for (yrIDX in 1:base::length(climate_files)){
     base::print(base::paste0('Processing File: ', climate_files[yrIDX]))
     histobs_data <- raster::brick(base::paste0(climate_files[yrIDX]))
     raster::crs(histobs_data) <- base::paste0("EPSG:", crs_in_use)
-    subbasin_data <- exactextractr::exact_extract(histobs_data,
-                                                  elBands_shp_latlon,
-                                                  'mean') %>% t() %>%
+
+    # Test if the fast exactextractr::exact_extract is working as expected by
+    # comparison to raster::extract. If yes, continue with exact_extract, if not,
+    # use extract.
+    if (yrIDX == 1) {
+    subbasin_data <- exactextractr::exact_extract(
+      histobs_data,
+      elBands_shp_latlon,
+      'mean') %>% t() %>%
       tibble::as_tibble(., .name_repair = "unique") %>%
       dplyr::slice(1:base::nrow(dateElBands))
+
+    test <- raster::extract(histobs_data,
+                            elBands_shp_latlon,
+                            'mean') %>% t() %>%
+      tibble::as_tibble(., .name_repair = "unique") %>%
+      dplyr::slice(1:base::nrow(dateElBands))
+
+    if (subbasin_data[1, 1] == test[1, 1]) {
+      # Results with exactextractr & raster are consistent, use the faster
+      use_exactextract = TRUE
+      cat("Message: Using exactextractr::exact_extract()\n")
+    } else {
+      # Results are not consistent, use the more reliable raster package
+      use_exactextract = FALSE
+      cat("Message: Using raster::extract()\n")
+      subbasin_data = test
+    }
+    } else {
+      if (use_exactextract == TRUE) {
+        subbasin_data <- exactextractr::exact_extract(
+          histobs_data,
+          elBands_shp_latlon,
+          'mean') %>% t() %>%
+          tibble::as_tibble(., .name_repair = "unique") %>%
+          dplyr::slice(1:base::nrow(dateElBands))
+      } else if (use_exactextract == FALSE) {
+        subbasin_data <- raster::extract(histobs_data,
+                        elBands_shp_latlon,
+                        'mean') %>% t() %>%
+          tibble::as_tibble(., .name_repair = "unique") %>%
+          dplyr::slice(1:base::nrow(dateElBands))
+      }
+    }
+
     # if endY is not corresponding to end date of .nc-file, we need to slice it!
     base::names(subbasin_data) <- base::names(dataElBands_df)
     dataElBands_df <- dataElBands_df %>% tibble::add_row(subbasin_data)
