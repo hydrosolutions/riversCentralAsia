@@ -93,7 +93,8 @@ gen_HRU_Climate_CSV_RSMinerve <- function(climate_files,
       tibble::as_tibble(., .name_repair = "unique") %>%
       dplyr::slice(1:base::nrow(dateElBands))
 
-    if (subbasin_data[1, 1] == test[1, 1]) {
+    # Test if the two extracted matrices are equal
+    if (sum(sum(test == subbasin_data)) == sum(sum(test == test))) {
       # Results with exactextractr & raster are consistent, use the faster
       use_exactextract = TRUE
       sprintf("Message: Using exactextractr::exact_extract()\n")
