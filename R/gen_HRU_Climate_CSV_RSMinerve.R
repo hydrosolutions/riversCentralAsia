@@ -34,6 +34,8 @@
 #' @return Dataframe tibble with temperature in deg. C. or precipitation in mm/h
 #' @family Pre-processing
 #' @importFrom rlang .data
+#' @note This function currently can only read input files with full years of
+#'   data, that is, with data from January to December of a given year.
 #' @export
 
 gen_HRU_Climate_CSV_RSMinerve <- function(climate_files,
@@ -80,30 +82,32 @@ gen_HRU_Climate_CSV_RSMinerve <- function(climate_files,
     # comparison to raster::extract. If yes, continue with exact_extract, if not,
     # use extract.
     if (yrIDX == 1) {
-    subbasin_data <- exactextractr::exact_extract(
-      histobs_data,
-      elBands_shp_latlon,
-      'mean') %>% t() %>%
-      tibble::as_tibble(., .name_repair = "unique") %>%
-      dplyr::slice(1:base::nrow(dateElBands))
+      subbasin_data <- exactextractr::exact_extract(
+        histobs_data,
+        elBands_shp_latlon,
+        'mean') %>% t() %>%
+        tibble::as_tibble(., .name_repair = "unique") %>%
+        dplyr::slice(1:base::nrow(dateElBands))
 
-    test <- raster::extract(histobs_data,
-                            elBands_shp_latlon,
-                            'mean') %>% t() %>%
-      tibble::as_tibble(., .name_repair = "unique") %>%
-      dplyr::slice(1:base::nrow(dateElBands))
+      test <- raster::extract(histobs_data,
+                              elBands_shp_latlon,
+                              'mean') %>% t() %>%
+        tibble::as_tibble(., .name_repair = "unique") %>%
+        dplyr::slice(1:base::nrow(dateElBands))
 
-    # Test if the two extracted matrices are equal
-    if (sum(sum(test == subbasin_data)) == sum(sum(test == test))) {
-      # Results with exactextractr & raster are consistent, use the faster
-      use_exactextract = TRUE
-      sprintf("Message: Using exactextractr::exact_extract()\n")
-    } else {
-      # Results are not consistent, use the more reliable raster package
-      use_exactextract = FALSE
-      sprintf("Message: Using raster::extract()\n")
-      subbasin_data = test
-    }
+      # Test if the difference between the two extracted data sets is smaller than
+      # 10 %, we use the fast exactextractr package.
+      if (abs((sum(sum(subbasin_data))-sum(sum(test))))/sum(sum(subbasin_data))
+          <= 0.1) {
+        # Results with exactextractr & raster are consistent, use the faster
+        use_exactextract = TRUE
+        sprintf("Message: Using exactextractr::exact_extract()\n")
+      } else {
+        # Results are not consistent, use the more reliable raster package
+        use_exactextract = FALSE
+        sprintf("Message: Using raster::extract()\n")
+        subbasin_data = test
+      }
     } else {
       if (use_exactextract == TRUE) {
         subbasin_data <- exactextractr::exact_extract(
@@ -114,8 +118,8 @@ gen_HRU_Climate_CSV_RSMinerve <- function(climate_files,
           dplyr::slice(1:base::nrow(dateElBands))
       } else if (use_exactextract == FALSE) {
         subbasin_data <- raster::extract(histobs_data,
-                        elBands_shp_latlon,
-                        'mean') %>% t() %>%
+                                         elBands_shp_latlon,
+                                         'mean') %>% t() %>%
           tibble::as_tibble(., .name_repair = "unique") %>%
           dplyr::slice(1:base::nrow(dateElBands))
       }

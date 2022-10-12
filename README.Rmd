@@ -48,6 +48,12 @@ The R package [RSMinverveR](https://github.com/hydrosolutions/RSMinerveR){target
 
 ## Installation
 
+The package riversCentralAsia uses the package ```excatextractr``` which is available from CRAN. If you have not yet installed this package, please do so by typing the following command in your R console: 
+
+```{r, eval=FALSE}
+install.packages("exactextractr")
+```
+
 You can install the development version from [GitHub](https://github.com/){target="_blank"} with:
 
 ```{r, eval=FALSE}
