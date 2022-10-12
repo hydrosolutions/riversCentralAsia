@@ -68,7 +68,7 @@ gen_HRU_Climate_CSV_RSMinerve <- function(climate_files,
   # Get names of elevation bands
   namesElBands <- elBands_shp$name
   dataElBands_df <- namesElBands %>%
-    purrr::map_dfc(setNames, object = base::list(base::logical())) # fancy trick to generate an empty dataframe with column names from a vector of characters.
+    purrr::map_dfc(stats::setNames, object = base::list(base::logical())) # fancy trick to generate an empty dataframe with column names from a vector of characters.
 
   use_exactextract = TRUE
 
@@ -136,7 +136,7 @@ gen_HRU_Climate_CSV_RSMinerve <- function(climate_files,
   dataElbands_df_header_Station <- tibble::tibble(
     Station = c('X','Y','Z','Sensor','Category','Unit','Interpolation'))
   dataElBands_df_body <- namesElBands %>%
-    purrr::map_dfc(setNames, object = base::list(base::logical()))
+    purrr::map_dfc(stats::setNames, object = base::list(base::logical()))
 
   # Get XY (via centroids) and Z (mean alt. band elevation)
   elBands_XY <- sf::st_transform(elBands_shp, crs = sf::st_crs(crs_elBands)) %>%

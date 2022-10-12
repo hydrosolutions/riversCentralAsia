@@ -67,6 +67,10 @@ RSMinerve (use readr::write_csv(.,col_names=FALSE)). tp and tas_ have to be
 exported, the function has to be called twice and the resulting tibble
 columns added.
 }
+\note{
+This function currently can only read input files with full years of
+  data, that is, with data from January to December of a given year.
+}
 \seealso{
 Other Pre-processing: 
 \code{\link{biasCorrect_ERA5_CHELSA}()},
