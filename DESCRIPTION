@@ -19,6 +19,7 @@ URL: https://hydrosolutions.github.io/riversCentralAsia/index.html
 BugReports: https://github.com/hydrosolutions/riversCentralAsia/issues
 Imports: 
     dplyr,
+    ncdf4,
     exactextractr,
     GGally,
     ggplot2,
