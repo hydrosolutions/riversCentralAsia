@@ -81,7 +81,7 @@ devtools::install_github("hydrosolutions/riversCentralAsia")
 #>   Use `force = TRUE` to force installation
 library(riversCentralAsia)
 ```
-Note that Windows users require RTools to install R packages from github. 
+Note that the package requires R version >= 4.1. 
 
 Note that windows users require a working installation of
 [RTools](https://cran.r-project.org/bin/windows/Rtools/).
