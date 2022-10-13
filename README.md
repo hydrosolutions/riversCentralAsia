@@ -40,7 +40,7 @@ modelling. The functionality includes:
 
 -   The preparation of GIS layers for automated model generation (for 
     example the [derivation of elevation bands from a digital elevation 
-    model](https://hydrosolutions.github.io/riversCentralAsia/articles/02-preparation-of-climate-forcing.html)
+    model](https://hydrosolutions.github.io/riversCentralAsia/articles/02-preparation-of-climate-forcing.html))
 
 -   [Glacier area-volume scaling](https://hydrosolutions.github.io/riversCentralAsia/articles/04-glacier-functions.html#glacier-area-volume-scaling)
 
