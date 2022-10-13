@@ -34,23 +34,23 @@ computeDiurnalTemperatureCycle <- function(era5_data,param){
   era5_data_T <- era5_data_T[-1:-8,] %>% readr::type_convert()
   era5_data_T <- era5_data_dates %>% tibble::add_column(era5_data_T)
   era5_data_T <- era5_data_T %>%
-    dplyr::mutate(year = lubridate::year(.data$date),.before=2)
+    dplyr::mutate(year = lubridate::year(date),.before=2)
 
   # Select baseline period
   era5_data_T_baseline <- era5_data_T %>%
-    dplyr::filter(.data$year>=param$year_min_Baseline & .data$year<=param$year_max_Baseline)
+    dplyr::filter(year>=param$year_min_Baseline & year<=param$year_max_Baseline)
 
   # add hour identifier
   era5_data_T_baseline <- era5_data_T_baseline %>%
-    dplyr::mutate(hour  = lubridate::hour(.data$date),.before = 2)
+    dplyr::mutate(hour  = lubridate::hour(date),.before = 2)
 
   # summarize by the hour
   diurnalStationCycles <- era5_data_T_baseline %>%
-    dplyr::select(-.data$date,-.data$year) %>%
-    tidyr::pivot_longer(-.data$hour) %>%
-    dplyr::group_by(.data$name, .data$hour) %>%
-    dplyr::summarize(hourlyMean = mean(.data$value)) %>%
-    tidyr::pivot_wider(names_from = .data$name, values_from = .data$hourlyMean)
+    dplyr::select(-date,-year) %>%
+    tidyr::pivot_longer(-hour) %>%
+    dplyr::group_by(name, hour) %>%
+    dplyr::summarize(hourlyMean = mean(value)) %>%
+    tidyr::pivot_wider(names_from = name, values_from = hourlyMean)
 
   diurnalStationCycles <- diurnalStationCycles[,c("hour",param$station)] # this is very important as the summarize function in compute DiurnalCycle() rearranges the columns alphabetically!
 

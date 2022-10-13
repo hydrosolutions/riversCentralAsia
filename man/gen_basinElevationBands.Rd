@@ -10,7 +10,8 @@ gen_basinElevationBands(
   demAggFact,
   band_interval,
   holeSize_km2,
-  smoothFact
+  smoothFact,
+  dem_crs = "+proj=utm +zone=42 +ellps=WGS84 +datum=WGS84 +units=m +no_defs"
 )
 }
 \arguments{
@@ -30,6 +31,9 @@ operation (in square kilometers)}
 
 \item{smoothFact}{smoothness of final elevation bands (smoothness parameter
 of smoothr::smooth() function)}
+
+\item{dem_crs}{crs of the dem as proj string. The default crs in this
+function is UTM 42N (EPGS: 32642).}
 }
 \value{
 Simple feature (sf) multi-polygon. Returns NULL if not successful.
@@ -40,6 +44,11 @@ interval spacing chosen. It also applies different clean up operations that
 require user specified values for the smoothr::drop_crumbs() and
 smoothr::fill_holes() functions. These sub-basins, once stored as a
 shape file can then be further edited in QGIS.
+}
+\note{
+Note that the DEM should be in UTM coordinates because the code works
+  on the units of the projection of the DEM (for example meters in UTM and
+  degrees in lat/long coordinates). We highly recommend to work in UTM.
 }
 \seealso{
 Other Pre-processing: 

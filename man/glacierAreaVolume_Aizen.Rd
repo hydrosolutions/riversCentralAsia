@@ -18,7 +18,6 @@ Returns the input object with Area_Aizen_km2 and Volume_Aizen_km3
   found.
 }
 \description{
-glacierAreaVolume_Aizen implements the empirical relationships between glacier
 length, surface area and volume found by Aizen et al. in the Tien Shan
 mountains. They can be used to estimate regional glacier volumes.
 }

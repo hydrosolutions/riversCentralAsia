@@ -61,9 +61,9 @@ writeRSMParameters <- function(parameters, outfilepath) {
     # Write object summaries
     base::writeLines("OBJECTS", conn)
     object_summary <- parameters |>
-      dplyr::filter(.data$`Parameter set` == i) |>
-      dplyr::group_by(.data$Object) |>
-      dplyr::summarise(no = base::length(base::unique(.data$Name)))
+      dplyr::filter(`Parameter set` == i) |>
+      dplyr::group_by(Object) |>
+      dplyr::summarise(no = base::length(base::unique(Name)))
     for (j in c(1:dim(object_summary)[1])) {
       base::writeLines(paste0(object_summary$Object[j], "\t",
                               object_summary$no[j]), conn)
@@ -73,23 +73,23 @@ writeRSMParameters <- function(parameters, outfilepath) {
     # Note the degree symbol has to be escaped with \u00B0
     base::writeLines("VALUES", conn)
     parameter_summary <- parameters |>
-      dplyr::filter(.data$`Parameter set` == i)
+      dplyr::filter(`Parameter set` == i)
     for (j in c(1:base::dim(object_summary)[1])) {
       if (object_summary$Object[j] == "Comparator") {
         temp <- parameter_summary |>
-          dplyr::filter(.data$Object == "Comparator")
+          dplyr::filter(Object == "Comparator")
         base::writeLines("Comparator	Zone	", conn)
         for (k in c(1:base::dim(temp)[1])) {
           base::writeLines(paste0(temp$Name[k], "\t", temp$Zone[k]), conn)
         }
       } else if (object_summary$Object[j] == "GSM") {
         temp <- parameter_summary |>
-          dplyr::filter(.data$Object == "GSM")
+          dplyr::filter(Object == "GSM")
         names <- base::unique(temp$Name)
         base::writeLines("GSM	Zone	A (m2)	An (mm/\u00B0C/day)	ThetaCri (-)	bp (d/mm)	Tcp1 (\u00B0C)	Tcp2 (\u00B0C)	Tcf (\u00B0C)	Agl (mm/\u00B0C/day)	Tcg (\u00B0C)	Kgl (1/d)	Ksn (1/d)", conn)
         for (l in c(1:base::length(names))) {
           temp2 <- parameter_summary |>
-            dplyr::filter(.data$Name == names[l])
+            dplyr::filter(Name == names[l])
           to_write <- base::paste0(names[l], "\t", temp2$Zone[1])
           for (k in c(1:base::dim(temp2)[1])) {
             to_write <- paste0(to_write, "\t", temp2$Values[k])
@@ -98,12 +98,12 @@ writeRSMParameters <- function(parameters, outfilepath) {
         }
       } else if (object_summary$Object[j] == "HBV92") {
         temp <- parameter_summary |>
-          dplyr::filter(.data$Object == "HBV92")
+          dplyr::filter(Object == "HBV92")
         names <- base::unique(temp$Name)
         base::writeLines("HBV92	Zone	A (m2)	CFMax (mm/\u00B0C/d)	CFR (-)	CWH (-)	TT (\u00B0C)	TTInt (\u00B0C)	TTSM (\u00B0C)	Beta (-)	FC (mm)	PWP (-)	SUMax (mm)	Kr (1/d)	Ku (1/d)	Kl (1/d)	Kperc (1/d)", conn)
         for (l in c(1:base::length(names))) {
           temp2 <- parameter_summary |>
-            dplyr::filter(.data$Name == names[l])
+            dplyr::filter(Name == names[l])
           to_write <- base::paste0(names[l], "\t", temp2$Zone[1])
           for (k in c(1:base::dim(temp2)[1])) {
             to_write <- paste0(to_write, "\t", temp2$Values[k])
@@ -112,19 +112,19 @@ writeRSMParameters <- function(parameters, outfilepath) {
         }
       } else if (object_summary$Object[j] == "Junction") {
         temp <- parameter_summary |>
-          dplyr::filter(.data$Object == "Junction")
+          dplyr::filter(Object == "Junction")
         base::writeLines("Junction	Zone	", conn)
         for (k in c(1:base::dim(temp)[1])) {
           base::writeLines(paste0(temp$Name[k], "\t", temp$Zone[k]), conn)
         }
       } else if (object_summary$Object[j] == "Kinematic") {
         temp <- parameter_summary |>
-          dplyr::filter(.data$Object == "Kinematic")
+          dplyr::filter(Object == "Kinematic")
         names <- base::unique(temp$Name)
         base::writeLines("Kinematic	Zone	L (m)	B0 (m)	m (-)	J0 (-)	K (m1/3/s)	N (-)", conn)
         for (l in c(1:base::length(names))) {
           temp2 <- parameter_summary |>
-            dplyr::filter(.data$Name == names[l])
+            dplyr::filter(Name == names[l])
           to_write <- base::paste0(names[l], "\t", temp2$Zone[1])
           for (k in c(1:base::dim(temp2)[1])) {
             to_write <- paste0(to_write, "\t", temp2$Values[k])
@@ -133,12 +133,12 @@ writeRSMParameters <- function(parameters, outfilepath) {
         }
       } else if (object_summary$Object[j] == "SOCONT") {
         temp <- parameter_summary |>
-          dplyr::filter(.data$Object == "SOCONT")
+          dplyr::filter(Object == "SOCONT")
         names <- base::unique(temp$Name)
         base::writeLines("SOCONT	Zone	A (m2)	An (mm/\u00B0C/day)	ThetaCri (-)	bp (d/mm)	Tcp1 (\u00B0C)	Tcp2 (\u00B0C)	Tcf (\u00B0C)	HGR3Max (m)	KGR3 (1/s)	L (m)	J0 (-)	Kr (m1/3/s)", conn)
         for (l in c(1:base::length(names))) {
           temp2 <- parameter_summary |>
-            dplyr::filter(.data$Name == names[l])
+            dplyr::filter(Name == names[l])
           to_write <- base::paste0(names[l], "\t", temp2$Zone[1])
           for (k in c(1:base::dim(temp2)[1])) {
             to_write <- paste0(to_write, "\t", temp2$Values[k])
@@ -147,19 +147,19 @@ writeRSMParameters <- function(parameters, outfilepath) {
         }
       } else if (object_summary$Object[j] == "Source") {
         temp <- parameter_summary |>
-          dplyr::filter(.data$Object == "Source")
+          dplyr::filter(Object == "Source")
         base::writeLines("Source	Zone	", conn)
         for (k in c(1:base::dim(temp)[1])) {
           base::writeLines(paste0(temp$Name[k], "\t", temp$Zone[k]), conn)
         }
       } else if (object_summary$Object[j] == "Station") {
         temp <- parameter_summary |>
-          dplyr::filter(.data$Object == "Station")
+          dplyr::filter(Object == "Station")
         names <- base::unique(temp$Name)
         base::writeLines("Station	Zone	X (m)	Y (m)	Z (masl)	Search Radius (m)	No. min. of stations (-)	Gradient P", conn)
         for (l in c(1:base::length(names))) {
           temp2 <- parameter_summary |>
-            dplyr::filter(.data$Name == names[l])
+            dplyr::filter(Name == names[l])
           to_write <- base::paste0(names[l], "\t", temp2$Zone[1])
           for (k in c(1:base::dim(temp2)[1])) {
             to_write <- paste0(to_write, "\t", temp2$Values[k])

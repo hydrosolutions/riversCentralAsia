@@ -52,7 +52,7 @@ readDBCSV <- function(filename, tz = "UTC") {
   data$Date <- date_vec
 
   # Reformat data table and drop superfluous rows
-  data_long <- tidyr::pivot_longer(data, -.data$Date,
+  data_long <- tidyr::pivot_longer(data, -Date,
                                    names_to = c("Station", "X", "Y", "Z", "Sensor",
                                                 "Category", "Unit"),
                                    names_sep = "\\#", values_to = "Value",
@@ -60,7 +60,7 @@ readDBCSV <- function(filename, tz = "UTC") {
 
   if (stringr::str_detect(data_long$Station[1], "\\|")) {
     data_long <- data_long |>
-      tidyr::separate(.data$Station, into = c("Name", "Type"), sep = "\\|",
+      tidyr::separate(Station, into = c("Name", "Type"), sep = "\\|",
                       remove = FALSE)
   }
 
