@@ -21,7 +21,8 @@
 test_that("gen HRU Climate CSV RSMinerve works as it should", {
 
   test_shp <- sf::st_read(
-    "test_gen_HRU_Climate_CSV_RSMinerve_input_basin.shp") |>
+    "test_gen_HRU_Climate_CSV_RSMinerve_input_basin.shp",
+    quiet = TRUE) |>
     dplyr::mutate(name = "test",
                   Z = 500)
 

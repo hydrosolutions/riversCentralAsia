@@ -47,13 +47,6 @@ Currently, a relatively complete dataset of the Chirchik River Basin with decada
 The R package [RSMinverveR](https://github.com/hydrosolutions/RSMinerveR){target="_blank"} allows the running of the hydrologic-hydraulic modelling software [RS Minerve](https://crealp.ch/rs-minerve/){target="_blank"} directly from R without using the RS Minerve user interface. This functionality is for advanced R and RS Minerve users that wish to further speed up their modelling workflow.     
 
 ## Installation
-
-The package riversCentralAsia uses the package ```excatextractr``` which is available from CRAN. If you have not yet installed this package, please do so by typing the following command in your R console: 
-
-```{r, eval=FALSE}
-install.packages("exactextractr")
-```
-
 You can install the development version from [GitHub](https://github.com/){target="_blank"} with:
 
 ```{r, eval=FALSE}
@@ -62,7 +55,11 @@ devtools::install_github("hydrosolutions/riversCentralAsia")
 library(riversCentralAsia)
 ```
 
+The package has many dependencies which will be installed alongside riversCentralAsia. See [DESCRIPTION](https://github.com/hydrosolutions/riversCentralAsia/blob/update_tidyselect/DESCRIPTION) for a full list of the dependencies. 
+
 Note that windows users require a working installation of [RTools](https://cran.r-project.org/bin/windows/Rtools/){target="_blank"} to install packages from github. 
+
+We recommend testing of the riversCentralAsia package
 
 
 ## Community guidelines
@@ -118,6 +115,7 @@ For R & RS Minerve users, the package [RSMinverveR](https://github.com/hydrosolu
 ## Acknowledgement
 The preparation of the course book and thus the preparation of the package was financially supported by the Swiss Agency for Development and Cooperation, the German Kazakh University in Almaty and hydrosolutions. 
 
+This R package was submitted to the Journal of Open Source Software. We thank @tonyewong and @mengqi-z for their valuable inputs during the review of the package and @crvernon for their editing work. 
 
 ## References
 
