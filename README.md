@@ -17,7 +17,7 @@ The package has been developed within the frame of a master level course
 on applied hydrological modelling in Central Asia and is extensively
 used in the open-source book [Modeling of Hydrological Systems in
 Semi-Arid Central
-Asia](https://hydrosolutions.github.io/caham_book/)(Siegfried and Marti
+Asia](https://hydrosolutions.github.io/caham_book/) (Siegfried and Marti
 2022). The workflows are further validated within the Horizon 2020
 project [HYDRO4U](https://hydro4u.eu/).
 
@@ -35,16 +35,19 @@ modelling. The functionality includes:
 
 -   Efficient processing of present and future climate forcing,
     including hydro-meterological data from Central Asia and
-    down-scaling of ERA5 re-analysis data
+    down-scaling of ERA5 re-analysis data (see the [chapter on climate 
+    data processing in the course book](https://hydrosolutions.github.io/caham_book/climate_data.html))
 
--   The preparation of GIS layers for automated model generation
+-   The preparation of GIS layers for automated model generation (for 
+    example the [derivation of elevation bands from a digital elevation 
+    model](https://hydrosolutions.github.io/riversCentralAsia/articles/02-preparation-of-climate-forcing.html))
 
--   Simplified modelling of glacier dynamics
+-   [Glacier area-volume scaling](https://hydrosolutions.github.io/riversCentralAsia/articles/04-glacier-functions.html#glacier-area-volume-scaling)
 
--   Post-processing of simulation results, e.g. computation of flow
-    duration curves
+-   Post-processing of simulation results, e.g. [computation of flow
+    duration curves](https://hydrosolutions.github.io/riversCentralAsia/reference/computeAnnualFlowDurationCurve.html)
 
--   I/O interface with the hydrologic-hydraulic modelling software [RS
+-   [I/O interface](https://hydrosolutions.github.io/riversCentralAsia/articles/03-RSMinerveIO.html) with the hydrologic-hydraulic modelling software [RS
     Minerve](https://crealp.ch/rs-minerve/) which can be accessed within
     R using the package
     [RSMinerveR](https://github.com/hydrosolutions/RSMinerveR).
@@ -85,6 +88,9 @@ Note that the package requires R version >= 4.1.
 
 Note that windows users require a working installation of
 [RTools](https://cran.r-project.org/bin/windows/Rtools/).
+
+Please conulst the [package
+documentation](https://hydrosolutions.github.io/riversCentralAsia/index.html) for more detailed examples. 
 
 ## Community guidelines
 
