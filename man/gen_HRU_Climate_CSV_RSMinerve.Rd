@@ -46,8 +46,8 @@ data 'is' available from the start of that year)}
 climate data), 'hist_sim' (GCM model output data over the historical
 period) and 'fut_sim' (fture GCM simulations)}
 
-\item{crs_in_use}{4 digit crs code to ensure projection consistency between
-raster and shapefile.}
+\item{crs_in_use}{Proj code for crs in use. For example
+'+proj=longlat +datum=WGS84' for epsg 4326}
 
 \item{output_file_dir}{Path to output file dir (if empty, file will not be
 written)}

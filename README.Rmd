@@ -55,11 +55,25 @@ devtools::install_github("hydrosolutions/riversCentralAsia")
 library(riversCentralAsia)
 ```
 
-The package has many dependencies which will be installed alongside riversCentralAsia. See [DESCRIPTION](https://github.com/hydrosolutions/riversCentralAsia/blob/update_tidyselect/DESCRIPTION) for a full list of the dependencies. 
+The package has many dependencies which will be installed alongside riversCentralAsia. To successfully install the package you need prior installations of the following packages: rlang, magrittr, stringr and purrr. 
+```{r, eval=FALSE}
+find.package(c("rlang", "magrittr", "stringr", "purrr"))
+```
+
+If they are not yet available on your system, please install them using the following commands. 
+```{r, eval=FALSE}
+install.packages(c("rlang", "magrittr", "stringr", "purrr"))
+```
+All other dependencies are installed automatically. 
 
 Note that windows users require a working installation of [RTools](https://cran.r-project.org/bin/windows/Rtools/){target="_blank"} to install packages from github. 
 
-We recommend testing of the riversCentralAsia package
+We recommend testing of the riversCentralAsia package by typing
+```{r}
+devtools::test()
+```
+in the R console. 
+
 
 
 ## Community guidelines

@@ -26,8 +26,8 @@
 #'   'hist_obs' (historical observations, i.e. CHELSA V21 high resolution
 #'   climate data), 'hist_sim' (GCM model output data over the historical
 #'   period) and 'fut_sim' (fture GCM simulations)
-#' @param crs_in_use 4 digit crs code to ensure projection consistency between
-#'   raster and shapefile.
+#' @param crs_in_use Proj code for crs in use. For example
+#'   '+proj=longlat +datum=WGS84' for epsg 4326
 #' @param output_file_dir Path to output file dir (if empty, file will not be
 #'   written)
 #' @param tz Time zone information. Default "UTC" which can be overridden.
@@ -75,7 +75,9 @@ gen_HRU_Climate_CSV_RSMinerve <- function(climate_files,
   for (yrIDX in 1:base::length(climate_files)){
     base::print(base::paste0('Processing File: ', climate_files[yrIDX]))
     histobs_data <- raster::brick(base::paste0(climate_files[yrIDX]))
-    raster::crs(histobs_data) <- base::paste0("EPSG:", crs_in_use)
+    if (is.na(raster::crs(histobs_data))) {
+      raster::crs(histobs_data) <- crs_in_use
+    }
 
     # Test if the fast exactextractr::exact_extract is working as expected by
     # comparison to raster::extract. If yes, continue with exact_extract, if not,
@@ -139,7 +141,7 @@ gen_HRU_Climate_CSV_RSMinerve <- function(climate_files,
     purrr::map_dfc(stats::setNames, object = base::list(base::logical()))
 
   # Get XY (via centroids) and Z (mean alt. band elevation)
-  elBands_XY <- sf::st_transform(elBands_shp, crs = sf::st_crs(crs_elBands))
+  elBands_XY <- sf::st_transform(elBands_shp, crs = crs_elBands)
   sf::st_agr(elBands_XY) = "constant"
   elBands_XY <- elBands_XY %>%
     sf::st_centroid() %>% sf::st_coordinates() %>%
