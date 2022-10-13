@@ -71,21 +71,6 @@ library(lubridate)
 # The package riversCentralAsia is not available from cran. It is installed 
 # directly from github via: 
 devtools::install_github("hydrosolutions/riversCentralAsia")
-#> xfun   (0.31   -> 0.32  ) [CRAN]
-#> terra  (1.6-3  -> 1.6-7 ) [CRAN]
-#> raster (3.5-21 -> 3.5-29) [CRAN]
-#> package 'xfun' successfully unpacked and MD5 sums checked
-#> package 'terra' successfully unpacked and MD5 sums checked
-#> 
-#> The downloaded binary packages are in
-#> 	C:\Users\marti\AppData\Local\Temp\RtmpSOjNGb\downloaded_packages
-#> * checking for file 'C:\Users\marti\AppData\Local\Temp\RtmpSOjNGb\remotes63284ea56980\hydrosolutions-riversCentralAsia-135d02f/DESCRIPTION' ... OK
-#> * preparing 'riversCentralAsia':
-#> * checking DESCRIPTION meta-information ... OK
-#> * checking for LF line-endings in source and make files and shell scripts
-#> * checking for empty or unneeded directories
-#> * building 'riversCentralAsia_1.1.0.tar.gz'
-#> 
 # Make sure to update the package from time to time as it is under constant 
 # development. 
 library(riversCentralAsia)
@@ -121,7 +106,7 @@ tm_shape(dem, name = "DEM") +
   tm_scale_bar(position = c("right", "bottom")) 
 ```
 
-<img src="figure/rgi-1.png" title="DEM &amp; Glacier outlines (light gray) of the demo basin." alt="DEM &amp; Glacier outlines (light gray) of the demo basin." width="90%" />
+<img src="figure/rgi-1.png" alt="DEM &amp; Glacier outlines (light gray) of the demo basin." width="90%" />
 
 Note: The python package [rgitools](https://github.com/GLIMS-RGI/rgitools) provides functions pre-processing RGI glacier outlines, such as automated data quality checks or glacier hypsometry data[^1].
 
@@ -251,7 +236,7 @@ tm_shape(dem, name = "DEM") +
   tm_scale_bar(position = c("right", "bottom"))
 ```
 
-<img src="figure/thinning-1.png" title="Average glacier mass change by Hugonnet et al., 2021." alt="Average glacier mass change by Hugonnet et al., 2021." width="90%" />
+<img src="figure/thinning-1.png" alt="Average glacier mass change by Hugonnet et al., 2021." width="90%" />
 
 Glacier thinning rates can be viewed as net glacier mass change or glacier imbalance ablation (if glacier ice deformation processes are neglected).
 
@@ -297,7 +282,7 @@ tm_shape(dem, name = "DEM") +
   tm_scale_bar(position = c("right", "bottom"))
 ```
 
-<img src="figure/glacierDischarge-1.png" title="Glacier discharge derived from Miles et al., 2021." alt="Glacier discharge derived from Miles et al., 2021." width="90%" />
+<img src="figure/glacierDischarge-1.png" alt="Glacier discharge derived from Miles et al., 2021." width="90%" />
 
 For most hydrological applications, the interest lies on the glacier discharge, i.e. total ablation from glaciers. Despite their large uncertainties, the simulation results by @miles_health_2021 give us an estimate for glacier melt that we can use to calibrate the simpler temperature index models for glacier melt.
 

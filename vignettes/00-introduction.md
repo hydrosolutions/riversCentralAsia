@@ -20,9 +20,10 @@ Several use-cases for the packages functionality are demonstrated in the CAHAM b
 # install.packages("devtools")
 devtools::install_github("hydrosolutions/riversCentralAsia", 
                          quiet = TRUE)
-#> package 'xfun' successfully unpacked and MD5 sums checked
-#> package 'terra' successfully unpacked and MD5 sums checked
-#> package 'raster' successfully unpacked and MD5 sums checked
+#> 
+#>   There is a binary version available but the source version is later:
+#>    binary source needs_compilation
+#> wk  0.6.0  0.7.0              TRUE
 library(riversCentralAsia, quietly = TRUE)
 ```
 
@@ -66,7 +67,7 @@ ChirchikRiverBasin |>
     .y_lab = "Q [m3/s]")
 ```
 
-<img src="figure/unnamed-chunk-3-1.png" title="plot of chunk unnamed-chunk-3" alt="plot of chunk unnamed-chunk-3" width="100%" />
+<img src="figure/unnamed-chunk-3-1.png" alt="plot of chunk unnamed-chunk-3" width="100%" />
 
 ## Tools
 The package `riversCentralAsia` includes a variety of functions to facilitate data pre- and post-processing for hydrological and hydraulic modelling with RS Minerve in Central Asia.    

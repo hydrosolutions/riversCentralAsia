@@ -24,7 +24,7 @@ library(timetk)
 library(riversCentralAsia)
 
 gis_path <- "../../atbashy_glacier_demo_data/GIS/16076_DEM.tif"
-crs_project <- 4326 #latlon WGS84
+crs_project <- "+proj=longlat +datum=WGS84"  # EPSG:4326, latlon WGS84
 
 # Parameter definition for the generation of the elevation bands
 band_interval <- 500 # in meters. Note that normally you want to work with band intervals of 100 m to 200 m. To make the model less computationally demanding, we work with a coarser resolution of 500 m for this demo. 

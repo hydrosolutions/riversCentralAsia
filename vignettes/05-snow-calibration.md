@@ -1,7 +1,7 @@
 ---
 title: "Manual calibration of snow water equivalent"
 author: "Beatrice Marti"
-date: '2022-08-22'
+date: '2022-10-13'
 bibliography: references.bib
 output: rmarkdown::html_vignette
 fig_caption: yes
@@ -20,21 +20,6 @@ library(lubridate)
 library(sf)
 
 devtools::install_github("hydrosolutions/riversCentralAsia")
-#> xfun   (0.31   -> 0.32  ) [CRAN]
-#> terra  (1.6-3  -> 1.6-7 ) [CRAN]
-#> raster (3.5-21 -> 3.5-29) [CRAN]
-#> package 'xfun' successfully unpacked and MD5 sums checked
-#> package 'terra' successfully unpacked and MD5 sums checked
-#> 
-#> The downloaded binary packages are in
-#> 	C:\Users\marti\AppData\Local\Temp\RtmpSOjNGb\downloaded_packages
-#> * checking for file 'C:\Users\marti\AppData\Local\Temp\RtmpSOjNGb\remotes632868dc47c6\hydrosolutions-riversCentralAsia-135d02f/DESCRIPTION' ... OK
-#> * preparing 'riversCentralAsia':
-#> * checking DESCRIPTION meta-information ... OK
-#> * checking for LF line-endings in source and make files and shell scripts
-#> * checking for empty or unneeded directories
-#> * building 'riversCentralAsia_1.1.0.tar.gz'
-#> 
 library(riversCentralAsia)
 
 # The Atbashy glacier demo data is available from 
