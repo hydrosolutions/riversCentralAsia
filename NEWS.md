@@ -1,17 +1,26 @@
-# riversCentralAsia
+## riversCentralAsia 1.1.0 
 
-## riversCentralAsia 1.1.0 cleaning up of the package functions and documentation
+cleaning up of the package functions and documentation
 - release
 
-## riversCentralAsia 0.4.1. Added import function of iEasyHydro .csv files
+## riversCentralAsia 0.4.1. 
+
+Added import function of iEasyHydro .csv files
+
 - import_iEasyHydro_data()
 
-## riversCentralAsia 0.4 with numerous additions and improvements. The following new functions are available:
+## riversCentralAsia 0.4 
+
+with numerous additions and improvements. The following new functions are available:
+
 - computeDiurnalTemperatureCycle()
 - generateHourlyFromDaily_PT()
 
 
-## riversCentralAsia 0.3 with several new functions that facilitate a) ERA5 data handling, bias correction, donwscaling, etc., b) prepare data for the stochastic weather generator RMAWGEN and c) handle importing and exporting files to the hydrological-hydraulic RS MINERVE model.
+## riversCentralAsia 0.3 
+
+with several new functions that facilitate a) ERA5 data handling, bias correction, donwscaling, etc., b) prepare data for the stochastic weather generator RMAWGEN and c) handle importing and exporting files to the hydrological-hydraulic RS MINERVE model.
+
 - function biasCorrect_ERA5_CHELSA()
 - function climateScenarioPreparation_RMAWGEN()
 - function downscale_ClimPred_monthly_BasinElBands()
@@ -22,11 +31,13 @@
 
 
 ## riversCentralAsia 0.2.2
+
 - Refined decadeMaker.R to accommodate non-full year data ranges
 
 ## riversCentralAsia 0.2
 
 Release 0.2 include various improvements.
+
 - No more pracma package dependencies in functions.
 - Removed factors from loadTabularData so as to allow for the loading of any station data.
 - Added monthly station data of precipitation of Oygaing station.
