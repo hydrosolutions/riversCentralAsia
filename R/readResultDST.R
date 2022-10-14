@@ -85,11 +85,11 @@ parse_block <- function(block_lines, tz = "UTC") {
     tibble::as_tibble(.name_repair = "unique")
   base::colnames(output) <- base::c("Datetime", "Value")
   output_plus <- output |>
-    tidyr::unnest(c(.data$Datetime, .data$Value)) |>
-    dplyr::mutate(Datetime = lubridate::as_datetime(.data$Datetime,
+    tidyr::unnest(c(Datetime, Value)) |>
+    dplyr::mutate(Datetime = lubridate::as_datetime(Datetime,
                                                     format = "%d.%m.%Y %H:%M:%S",
                                                     tz = tz),
-                  Value = base::as.numeric(.data$Value),
+                  Value = base::as.numeric(Value),
                   Object = name,
                   Variable = variable)
 

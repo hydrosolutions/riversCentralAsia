@@ -40,7 +40,7 @@ biasCorrect_ERA5_CHELSA <- function(dir_ERA5_hourly,dataType_ERA5,dir_CHELSA,sta
     file2Process_ERA <- base::paste0(dataType_ERA5,'/',dataType_ERA5,'_ERA5_hourly_CA_',yr,'.nc')
     era_data_orig <- raster::brick(paste0(dir_ERA5_hourly,file2Process_ERA))
     # create date-time tibble with all hours in the corresponding year
-    dateSeq_ERA_year <- dateSeq_ERA %>% dplyr::filter(.data$year == yr)
+    dateSeq_ERA_year <- dateSeq_ERA %>% dplyr::filter(year == yr)
 
     # start the month-by-month scaling
     for (mon in 1:12){

@@ -105,7 +105,7 @@ shapes of the elevation bands.</p>
 <span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://hydrosolutions.github.io/riversCentralAsia/index.html" class="external-link">riversCentralAsia</a></span><span class="op">)</span></span>
 <span></span>
 <span><span class="va">gis_path</span> <span class="op">&lt;-</span> <span class="st">"../../atbashy_glacier_demo_data/GIS/16076_DEM.tif"</span></span>
-<span><span class="va">crs_project</span> <span class="op">&lt;-</span> <span class="fl">4326</span> <span class="co">#latlon WGS84</span></span>
+<span><span class="va">crs_project</span> <span class="op">&lt;-</span> <span class="st">"+proj=longlat +datum=WGS84"</span>  <span class="co"># EPSG:4326, latlon WGS84</span></span>
 <span></span>
 <span><span class="co"># Parameter definition for the generation of the elevation bands</span></span>
 <span><span class="va">band_interval</span> <span class="op">&lt;-</span> <span class="fl">500</span> <span class="co"># in meters. Note that normally you want to work with band intervals of 100 m to 200 m. To make the model less computationally demanding, we work with a coarser resolution of 500 m for this demo. </span></span>

@@ -18,7 +18,6 @@
 #' @param endY Ending year from which data should be extracted (assuming data
 #'   'is' actually available until the end of that year)
 #' @return Dataframe tibble with temperature in deg. C. or precipitation in mm/h
-#' @importFrom rlang .data
 #' @family Pre-processing
 #' @export
 generate_ERA5_Subbasin_CSV <- function(
@@ -31,7 +30,7 @@ generate_ERA5_Subbasin_CSV <- function(
   fileList <- tibble::tibble(fName=NA)
   for (idx in 1:base::length(yrs)){
     newName <- base::paste0(dataType,'_ERA5_hourly_',catchmentName,'_bcorr_',yrs[idx],'.nc') %>%
-      tibble::as_tibble() %>% dplyr::rename(fName = .data$value)
+      tibble::as_tibble() %>% dplyr::rename(fName = value)
     fileList <- fileList %>% tibble::add_row(newName)
   }
   fileList <- fileList %>% stats::na.omit()
@@ -41,7 +40,7 @@ generate_ERA5_Subbasin_CSV <- function(
   dateElBands <- generateSeqDates(startY,endY,'hour') %>% dplyr::slice(-1)
   # Now, solve that obnoxious time formatting problem for compatibility with RSMinerve (see function posixct2rsminerveChar() for more details)
   datesChar <- riversCentralAsia::posixct2rsminerveChar(dateElBands$date)
-  datesChar <- datesChar %>% dplyr::rename(Station = .data$value)
+  datesChar <- datesChar %>% dplyr::rename(Station = value)
 
   namesElBands <- elBands_shp$name
   dataElBands_df <- namesElBands %>% purrr::map_dfc(stats::setNames, object = base::list(base::logical())) # fancy trick
@@ -71,7 +70,7 @@ generate_ERA5_Subbasin_CSV <- function(
   dataElBands_df_body <- namesElBands %>% purrr::map_dfc(stats::setNames, object = base::list(base::logical()))
   # get XY (via centroids) and Z (mean alt. band elevation)
   elBands_XY <- sf::st_transform(elBands_shp,crs = sf::st_crs(32642)) %>% sf::st_centroid() %>% sf::st_coordinates() %>% tibble::as_tibble()
-  elBands_Z <- elBands_shp$Z %>% tibble::as_tibble() %>% dplyr::rename(Z = .data$value)
+  elBands_Z <- elBands_shp$Z %>% tibble::as_tibble() %>% dplyr::rename(Z = value)
   elBands_XYZ <- base::cbind(elBands_XY, elBands_Z) %>% base::as.matrix() %>% base::t() %>% tibble::as_tibble() %>% dplyr::mutate_all(as.character)
   base::names(elBands_XYZ) <- base::names(dataElBands_df_body)
   # Sensor (P or T), Category, Unit and Interpolation

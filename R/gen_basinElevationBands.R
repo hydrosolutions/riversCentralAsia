@@ -17,12 +17,22 @@
 #'   operation (in square kilometers)
 #' @param smoothFact smoothness of final elevation bands (smoothness parameter
 #'   of smoothr::smooth() function)
+#' @param dem_crs crs of the dem as proj string. The default crs in this
+#'   function is UTM 42N (EPGS: 32642).
+#' @note Note that the DEM should be in UTM coordinates because the code works
+#'   on the units of the projection of the DEM (for example meters in UTM and
+#'   degrees in lat/long coordinates). We highly recommend to work in UTM.
 #' @return Simple feature (sf) multi-polygon. Returns NULL if not successful.
 #' @family Pre-processing
 #' @export
 gen_basinElevationBands <- function(
-    dem_PathN, dem_FileN = "DEM.tif", demAggFact, band_interval, holeSize_km2,
-    smoothFact){
+    dem_PathN,
+    dem_FileN = "DEM.tif",
+    demAggFact,
+    band_interval,
+    holeSize_km2,
+    smoothFact,
+    dem_crs = "+proj=utm +zone=42 +ellps=WGS84 +datum=WGS84 +units=m +no_defs"){
 
   # Load DEM & define bands
   if (inherits(dem_PathN, "RasterLayer")) {
@@ -40,6 +50,12 @@ gen_basinElevationBands <- function(
       dem <- raster::raster(filepath)
     }
   }
+
+  # Test if a CRS is defined for the DEM
+  if (is.na(raster::crs(dem))) {
+    raster::crs(dem) <- dem_crs
+  }
+
   # Set minmax values of raster
   dem <- dem %>% raster::setMinMax()
   dem <- raster::aggregate(dem, fact = demAggFact) # this is in UTM 42N

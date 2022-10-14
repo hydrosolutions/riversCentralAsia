@@ -43,20 +43,20 @@ computeAnnualFlowDurationCurve <- function(data, column, date = "Date"){
   }
   if(!("Month" %in% colnames(data))) {
     data <- data |>
-      dplyr::mutate(Month = lubridate::month(.data$Date))
+      dplyr::mutate(Month = lubridate::month(Date))
   }
   if(!("Year" %in% colnames(data))) {
     data <- data |>
-      dplyr::mutate(Year = lubridate::year(.data$Date))
+      dplyr::mutate(Year = lubridate::year(Date))
   }
 
   output <- data |>
-    dplyr::mutate(yearday = lubridate::yday(.data$Date)) |>
-    dplyr::group_by(.data$Year, .add = TRUE) |>
+    dplyr::mutate(yearday = lubridate::yday(Date)) |>
+    dplyr::group_by(Year, .add = TRUE) |>
     dplyr::arrange(dplyr::desc(.data[[column]]), .by_group = TRUE) |>
     dplyr::mutate(na = dplyr::n(),
                   Ma = dplyr::row_number(),
-                  Pa = 100 * (.data$Ma / (.data$na + 1))) |>
+                  Pa = 100 * (Ma / (na + 1))) |>
     dplyr::ungroup()
 
   return(output)

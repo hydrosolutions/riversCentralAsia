@@ -30,7 +30,6 @@ Other Helper functions:
 \code{\link{aggregate_to_monthly}()},
 \code{\link{cutRaster2Basin}()},
 \code{\link{decadeMaker}()},
-\code{\link{generateHourlyFromDaily_PT}()},
 \code{\link{hyear}()},
 \code{\link{monDateSeq}()},
 \code{\link{posixct2rsminerveChar}()}

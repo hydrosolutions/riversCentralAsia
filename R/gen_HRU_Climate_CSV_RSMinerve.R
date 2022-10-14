@@ -26,14 +26,13 @@
 #'   'hist_obs' (historical observations, i.e. CHELSA V21 high resolution
 #'   climate data), 'hist_sim' (GCM model output data over the historical
 #'   period) and 'fut_sim' (fture GCM simulations)
-#' @param crs_in_use 4 digit crs code to ensure projection consistency between
-#'   raster and shapefile.
+#' @param crs_in_use Proj code for crs in use. For example
+#'   '+proj=longlat +datum=WGS84' for epsg 4326
 #' @param output_file_dir Path to output file dir (if empty, file will not be
 #'   written)
 #' @param tz Time zone information. Default "UTC" which can be overridden.
 #' @return Dataframe tibble with temperature in deg. C. or precipitation in mm/h
 #' @family Pre-processing
-#' @importFrom rlang .data
 #' @note This function currently can only read input files with full years of
 #'   data, that is, with data from January to December of a given year.
 #' @export
@@ -76,7 +75,9 @@ gen_HRU_Climate_CSV_RSMinerve <- function(climate_files,
   for (yrIDX in 1:base::length(climate_files)){
     base::print(base::paste0('Processing File: ', climate_files[yrIDX]))
     histobs_data <- raster::brick(base::paste0(climate_files[yrIDX]))
-    raster::crs(histobs_data) <- base::paste0("EPSG:", crs_in_use)
+    if (is.na(raster::crs(histobs_data))) {
+      raster::crs(histobs_data) <- crs_in_use
+    }
 
     # Test if the fast exactextractr::exact_extract is working as expected by
     # comparison to raster::extract. If yes, continue with exact_extract, if not,
@@ -129,7 +130,8 @@ gen_HRU_Climate_CSV_RSMinerve <- function(climate_files,
     base::names(subbasin_data) <- base::names(dataElBands_df)
     dataElBands_df <- dataElBands_df %>% tibble::add_row(subbasin_data)
   }
-  dataElBands_df_data <- base::cbind(datesChar,dataElBands_df) %>% tibble::as_tibble()
+  dataElBands_df_data <- base::cbind(datesChar,dataElBands_df) %>%
+    tibble::as_tibble(., .name_repair = "unique")
 
   # Construct csv-file header.  See the definition of the RSMinerve .csv database file at:
   # https://www.youtube.com/watch?v=p4Zh7zBoQho
@@ -139,11 +141,16 @@ gen_HRU_Climate_CSV_RSMinerve <- function(climate_files,
     purrr::map_dfc(stats::setNames, object = base::list(base::logical()))
 
   # Get XY (via centroids) and Z (mean alt. band elevation)
-  elBands_XY <- sf::st_transform(elBands_shp, crs = sf::st_crs(crs_elBands)) %>%
-    sf::st_centroid() %>% sf::st_coordinates() %>% tibble::as_tibble()
-  elBands_Z <- elBands_shp$Z %>% tibble::as_tibble() %>% dplyr::rename(Z = value)
+  elBands_XY <- sf::st_transform(elBands_shp, crs = crs_elBands)
+  sf::st_agr(elBands_XY) = "constant"
+  elBands_XY <- elBands_XY %>%
+    sf::st_centroid() %>% sf::st_coordinates() %>%
+    tibble::as_tibble(., .name_repair = "unique")
+  elBands_Z <- elBands_shp$Z %>% tibble::as_tibble(., .name_repair = "unique") %>%
+    dplyr::rename(Z = value)
   elBands_XYZ <- base::cbind(elBands_XY, elBands_Z) %>% base::as.matrix() %>%
-    base::t() %>% tibble::as_tibble() %>% dplyr::mutate_all(as.character)
+    base::t() %>% tibble::as_tibble(., .name_repair = "unique") %>%
+    dplyr::mutate_all(as.character)
   base::names(elBands_XYZ) <- base::names(dataElBands_df_body)
 
   # Sensor (P or T), Category, Unit and Interpolation
@@ -157,7 +164,8 @@ gen_HRU_Climate_CSV_RSMinerve <- function(climate_files,
   }
   category <- temp_or_precip %>% base::rep(.,nBands)
   interpolation <- 'Linear' %>% base::rep(.,nBands)
-  sensor <- base::rbind(sensorType,category,unit,interpolation) %>% tibble::as_tibble()
+  sensor <- base::rbind(sensorType,category,unit,interpolation) %>%
+    tibble::as_tibble(., .name_repair = "unique")
   base::names(sensor) <- base::names(dataElBands_df_body)
 
   # Put everything together

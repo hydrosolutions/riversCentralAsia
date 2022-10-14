@@ -195,7 +195,6 @@ parseSource <- function(line) {
 #' @param line A line string to be parsed
 #' @return tibble with object name, parameter names and values
 #' @keywords internal
-#' @importFrom rlang .data
 parseGSM <- function(line) {
   temp <- base::strsplit(line, "\t", )
   object <- tibble::tibble(Object = "GSM",
@@ -212,7 +211,7 @@ parseGSM <- function(line) {
                    `Tcg [deg C]`= as.numeric(temp[[1]][11]),
                    `Kgl [1/d]`= as.numeric(temp[[1]][12]),
                    `Ksn [1/d]`= as.numeric(temp[[1]][13]))
-  object <- tidyr::pivot_longer(object, cols = -c(.data$Object, .data$Name, .data$Zone),
+  object <- tidyr::pivot_longer(object, cols = -c(Object, Name, Zone),
                                 names_to = "Parameters",
                                 values_to = "Values")
   return(object)
@@ -222,7 +221,6 @@ parseGSM <- function(line) {
 #' @param line A line string to be parsed
 #' @return tibble with object name, parameter names and values
 #' @keywords internal
-#' @importFrom rlang .data
 parseHBV <- function(line) {
   temp <- base::strsplit(line, "\t", )
   object <- tibble::tibble(Object = "HBV92",
@@ -243,7 +241,7 @@ parseHBV <- function(line) {
                            `Ku [1/d]`= as.numeric(temp[[1]][15]),
                            `Kl [1/d]`= as.numeric(temp[[1]][16]),
                            `Kperc [1/d]`= as.numeric(temp[[1]][17]))
-  object <- tidyr::pivot_longer(object, cols = -c(.data$Object, .data$Name, .data$Zone),
+  object <- tidyr::pivot_longer(object, cols = -c(Object, Name, Zone),
                                 names_to = "Parameters",
                                 values_to = "Values")
   return(object)
@@ -253,7 +251,6 @@ parseHBV <- function(line) {
 #' @param line A line string to be parsed
 #' @return tibble with object name, parameter names and values
 #' @keywords internal
-#' @importFrom rlang .data
 parseSOCONT <- function(line) {
   temp <- base::strsplit(line, "\t", )
   object <- tibble::tibble(Object = "SOCONT",
@@ -271,7 +268,7 @@ parseSOCONT <- function(line) {
                    `L [m]`= as.numeric(temp[[1]][12]),
                    `J0 [-]`= as.numeric(temp[[1]][13]),
                    `Kr [m1/3/s]` = as.numeric(temp[[1]][14]))
-  object <- tidyr::pivot_longer(object, cols = -c(.data$Object, .data$Name, .data$Zone),
+  object <- tidyr::pivot_longer(object, cols = -c(Object, Name, Zone),
                                 names_to = "Parameters",
                                 values_to = "Values")
   return(object)
@@ -282,7 +279,6 @@ parseSOCONT <- function(line) {
 #' @param line A line string to be parsed
 #' @return tibble with object name, parameter names and values
 #' @keywords internal
-#' @importFrom rlang .data
 parseKinematic <- function(line) {
   temp <- base::strsplit(line, "\t", )
   object <- tibble::tibble(Object = "Kinematic",
@@ -294,7 +290,7 @@ parseKinematic <- function(line) {
                    `J0 [-]` = as.numeric(temp[[1]][6]),
                    `K [m1/3/s]` = as.numeric(temp[[1]][7]),
                    `N [-]` = as.numeric(temp[[1]][8]))
-  object <- tidyr::pivot_longer(object, cols = -c(.data$Object, .data$Name, .data$Zone),
+  object <- tidyr::pivot_longer(object, cols = -c(Object, Name, Zone),
                                 names_to = "Parameters",
                                 values_to = "Values")
   return(object)
@@ -305,7 +301,6 @@ parseKinematic <- function(line) {
 #' @param line A line string to be parsed
 #' @return tibble with object name, parameter names and values
 #' @keywords internal
-#' @importFrom rlang .data
 parseStation <- function(line) {
   temp <- base::strsplit(line, "\t", )
   object <- tibble::tibble(Object = "Station",
@@ -322,7 +317,7 @@ parseStation <- function(line) {
                    `Coeff P [-]` = as.numeric(temp[[1]][11]),
                    `Coeff T [-]` = as.numeric(temp[[1]][12]),
                    `Coeff ETP [-]` = as.numeric(temp[[1]][13]))
-  object <- tidyr::pivot_longer(object, cols = -c(.data$Object, .data$Name, .data$Zone),
+  object <- tidyr::pivot_longer(object, cols = -c(Object, Name, Zone),
                                 names_to = "Parameters",
                                 values_to = "Values")
   return(object)
