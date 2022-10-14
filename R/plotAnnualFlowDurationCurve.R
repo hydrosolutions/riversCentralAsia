@@ -25,14 +25,14 @@ plotAnnualFlowDurationCurve <- function(data, column){
   colours <- c("Yearly" = "grey", "Average" = "black")
 
   mean_rating_curve <- data |>
-    dplyr::select(.data$Ma, .data$Q) |>
-    dplyr::group_by(.data$Ma) |>
-    dplyr::summarise("Q [m3/s]" = mean(.data$Q, na.rm = TRUE))
+    dplyr::select(Ma, Q) |>
+    dplyr::group_by(Ma) |>
+    dplyr::summarise("Q [m3/s]" = mean(Q, na.rm = TRUE))
 
-  pplot <- ggplot2::ggplot(data |> dplyr::group_by(.data$HYear)) +
-    ggplot2::geom_point(ggplot2::aes(.data$Ma, .data$Q, colour = "Yearly")) +
+  pplot <- ggplot2::ggplot(data |> dplyr::group_by(HYear)) +
+    ggplot2::geom_point(ggplot2::aes(Ma, Q, colour = "Yearly")) +
     ggplot2::geom_line(data = mean_rating_curve,
-                       ggplot2::aes(.data$Ma, .data$`Q [m3/s]`, colour = "Average")) +
+                       ggplot2::aes(Ma, `Q [m3/s]`, colour = "Average")) +
     ggplot2::ylim(c(0, max(data$Q))) +
     ggplot2::ggtitle("Yearly rating curve") +
     ggplot2::labs(x = xlabel,

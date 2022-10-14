@@ -80,7 +80,8 @@ shape file can then be further edited in QGIS.</p>
 <span>  <span class="va">demAggFact</span>,</span>
 <span>  <span class="va">band_interval</span>,</span>
 <span>  <span class="va">holeSize_km2</span>,</span>
-<span>  <span class="va">smoothFact</span></span>
+<span>  <span class="va">smoothFact</span>,</span>
+<span>  dem_crs <span class="op">=</span> <span class="st">"+proj=utm +zone=42 +ellps=WGS84 +datum=WGS84 +units=m +no_defs"</span></span>
 <span><span class="op">)</span></span></code></pre></div>
     </div>
 
@@ -114,12 +115,23 @@ operation (in square kilometers)</p></dd>
 <dd><p>smoothness of final elevation bands (smoothness parameter
 of smoothr::smooth() function)</p></dd>
 
+
+<dt>dem_crs</dt>
+<dd><p>crs of the dem as proj string. The default crs in this
+function is UTM 42N (EPGS: 32642).</p></dd>
+
 </dl></div>
     <div class="section level2">
     <h2 id="value">Value<a class="anchor" aria-label="anchor" href="#value"></a></h2>
     
 
 <p>Simple feature (sf) multi-polygon. Returns NULL if not successful.</p>
+    </div>
+    <div class="section level2">
+    <h2 id="note">Note<a class="anchor" aria-label="anchor" href="#note"></a></h2>
+    <p>Note that the DEM should be in UTM coordinates because the code works
+  on the units of the projection of the DEM (for example meters in UTM and
+  degrees in lat/long coordinates). We highly recommend to work in UTM.</p>
     </div>
     <div class="section level2">
     <h2 id="see-also">See also<a class="anchor" aria-label="anchor" href="#see-also"></a></h2>

@@ -21,7 +21,8 @@
 test_that("gen HRU Climate CSV RSMinerve works as it should", {
 
   test_shp <- sf::st_read(
-    "test_gen_HRU_Climate_CSV_RSMinerve_input_basin.shp") |>
+    "test_gen_HRU_Climate_CSV_RSMinerve_input_basin.shp",
+    quiet = TRUE) |>
     dplyr::mutate(name = "test",
                   Z = 500)
 
@@ -35,7 +36,7 @@ test_that("gen HRU Climate CSV RSMinerve works as it should", {
     endY = 1979,
     obs_frequency = "day",
     climate_data_type = "hist_obs",
-    crs_in_use = 4326,
+    crs_in_use = "+proj=longlat +datum=WGS84",
     output_file_dir=0,
     gcm_model=0,
     gcm_scenario=0,

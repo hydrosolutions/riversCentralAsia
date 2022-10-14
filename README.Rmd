@@ -72,11 +72,12 @@ Note that windows users require a working installation of [RTools](https://cran.
 
 We recommend testing of the riversCentralAsia package before using it to make sure all dependencies integrate with the riversCentralAsia package as they should. The following step-by-step instructions explain how to do this:   
 
-1. Go to the [packages github repository](https://github.com/hydrosolutions/riversCentralAsia){target="_blank"}, click the green code button and select download zip. This will download a zip folder with the package code to your Download folder.    
+1. Go to the [packages github repository](https://github.com/hydrosolutions/riversCentralAsia), click the green code button and select download zip. This will download a zip folder with the package code to your Download folder.    
 2. Extract the package files to a location of your preference. More detailed instructions for this step: right-click on the zip folder and select "extract all"in the pop-up window. Select a location to extract the files to and wait for the process to finish.   
 3. Navigate into the riversCentralAsia folder to in which the freshly downloaded package data is stored and open the riversCentralAsia R project file. This will open the project in your R GUI.   
-4. In the R console, type ```devtools::test()``` and hit enter. The tests will run for about a minute. If the test return ```[ FAIL 0 | WARN 0 | SKIP 0 | PASS 86 ]``` at the end, all test were successful and the package will run without problems on your system. Should one of the tests fail, please make sure all the package dependencies are up to date. If the problem persists, please file an [issue](https://github.com/hydrosolutions/riversCentralAsia/issues){target="_blank"} including the error message you get so we can look at the problem and hopefully solve it.    
+4. In the R console, type ```devtools::test()``` and hit enter. The tests will run for about a minute. If the test return ```[ FAIL 0 | WARN 0 | SKIP 0 | PASS 86 ]``` at the end, all test were successful and the package will run without problems on your system. Should one of the tests fail, please make sure all the package dependencies are up to date. If the problem persists, please file an [issue](https://github.com/hydrosolutions/riversCentralAsia/issues) including the error message you get so we can look at the problem and hopefully solve it.    
 5. If you don't need the source codes any more, you can safely delete the zip file and the folder with the extracted riversCentralAsia files. 
+
 
 ## Community guidelines
 Please consult the documentation and the examples provided in the [package documentation](https://hydrosolutions.github.io/riversCentralAsia/index.html){target="_blank"} and in the open-source course book [Modeling of Hydrological Systems in Semi-Arid Central Asia](https://hydrosolutions.github.io/caham_book/){target="_blank"}. 
@@ -131,6 +132,7 @@ For R & RS Minerve users, the package [RSMinverveR](https://github.com/hydrosolu
 ## Acknowledgement
 The preparation of the course book and thus the preparation of the package was financially supported by the Swiss Agency for Development and Cooperation, the German Kazakh University in Almaty and hydrosolutions. 
 
+This R package was submitted to the Journal of Open Source Software. We thank @tonyewong and @mengqi-z for their valuable inputs during the review of the package and @crvernon for their editing work. 
 
 ## References
 Tobias Siegfried & Beatrice Marti (2022): Modeling of Hydrological Systems in Semi-Arid Central Asia (\url{https://hydrosolutions.github.io/caham_book/})}}. DOI: 10.5281/zenodo.6350042
