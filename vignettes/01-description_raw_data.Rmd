@@ -150,7 +150,8 @@ plot(GFDESM4_SSP126_temperature_data$X2012.01.01.12.00.00,
      xlab = "Longitute", ylab = "Latitude", main = "Date: January 1, 2012",
      legend.args = list(text = "Temperature [deg C]", side=4, line=2.5))
 ```
-![Example temperature raster of January 1, 2012. Data: GCM GFD-ESM4, SSP126 (approximately 1-1.5 km grid resolution).](CHELSA_tas_example.png){width="90%"}
+
+![Example temperature raster of January 1, 2012. Data: GCM GFD-ESM4, SSP126 (approximately 1-1.5 km grid resolution).](GCM_tas_example.png){width="90%"}
 
 
 

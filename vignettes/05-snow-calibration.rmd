@@ -380,4 +380,5 @@ ggplot(compare_swe) +
 
 The use of the SWE from the HMASR product improves the hydrological model.
 
+## References
 

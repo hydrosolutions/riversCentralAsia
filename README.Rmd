@@ -35,7 +35,7 @@ Data preparation comes before hydrological modelling and is actually one of the 
 
 - [Volume area scaling of glaciers](https://hydrosolutions.github.io/riversCentralAsia/articles/04-glacier-functions.html){target="_blank"}
 
-- Post-processing of simulation results, e.g. [extraction and visualisation of snow water equivalent](https://hydrosolutions.github.io/riversCentralAsia/articles/05-snow-calibration.html){target="_blank"} or [computation of flow duration curves](https://hydrosolutions.github.io/riversCentralAsia/reference/computeAnnualFlowDurationCurve.html){target="_blank"} 
+- [Post-processing of simulation results](https://hydrosolutions.github.io/riversCentralAsia/articles/03-RSMinerveIO.html){target="_blank"} 
 
 - I/O interface with the hydrologic-hydraulic modelling software [RS Minerve](https://crealp.ch/rs-minerve/){target="_blank"} which can be accessed within R using the package [RSMinerveR](https://github.com/hydrosolutions/RSMinerveR){target="_blank"}.  
 
@@ -135,4 +135,4 @@ The preparation of the course book and thus the preparation of the package was f
 This R package was submitted to the Journal of Open Source Software. We thank @tonyewong and @mengqi-z for their valuable inputs during the review of the package and @crvernon for their editing work. 
 
 ## References
-Tobias Siegfried & Beatrice Marti (2022): Modeling of Hydrological Systems in Semi-Arid Central Asia (\url{https://hydrosolutions.github.io/caham_book/})}}. DOI: 10.5281/zenodo.6350042
+Tobias Siegfried & Beatrice Marti (2022): Modeling of Hydrological Systems in Semi-Arid Central Asia (\url{https://hydrosolutions.github.io/caham_book/}). DOI: 10.5281/zenodo.6350042

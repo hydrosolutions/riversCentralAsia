@@ -136,11 +136,11 @@ make sure all dependencies integrate with the riversCentralAsia package
 as they should. The following step-by-step instructions explain how to
 do this:
 
-1.  Go to the
-    <a href="https://github.com/hydrosolutions/riversCentralAsia"
-    target="_blank">packages github repository</a>, click the green code
-    button and select download zip. This will download a zip folder with
-    the package code to your Download folder.  
+1.  Go to the [packages github
+    repository](https://github.com/hydrosolutions/riversCentralAsia),
+    click the green code button and select download zip. This will
+    download a zip folder with the package code to your Download
+    folder.  
 2.  Extract the package files to a location of your preference. More
     detailed instructions for this step: right-click on the zip folder
     and select “extract all”in the pop-up window. Select a location to
@@ -154,9 +154,9 @@ do this:
     successful and the package will run without problems on your system.
     Should one of the tests fail, please make sure all the package
     dependencies are up to date. If the problem persists, please file an
-    <a href="https://github.com/hydrosolutions/riversCentralAsia/issues"
-    target="_blank">issue</a> including the error message you get so we
-    can look at the problem and hopefully solve it.  
+    [issue](https://github.com/hydrosolutions/riversCentralAsia/issues)
+    including the error message you get so we can look at the problem
+    and hopefully solve it.  
 5.  If you don’t need the source codes any more, you can safely delete
     the zip file and the folder with the extracted riversCentralAsia
     files.
@@ -217,7 +217,7 @@ ChirchikRiverBasin |>
 The package is used extensively in the course book
 <a href="https://hydrosolutions.github.io/caham_book/"
 target="_blank">Modeling of Hydrological Systems in Semi-Arid Central
-Asia</a>\[@CAHAM:2022\].
+Asia</a> (Siegfried & Marti, 2022).
 
 The workflows presented in the course book, using the riversCentralAsia
 package, are further validated within the Horizon 2020 project
@@ -237,4 +237,11 @@ package was financially supported by the Swiss Agency for Development
 and Cooperation, the German Kazakh University in Almaty and
 hydrosolutions.
 
+This R package was submitted to the Journal of Open Source Software. We
+thank @tonyewong and @mengqi-z for their valuable inputs during the
+review of the package and @crvernon for their editing work.
+
 ## References
+
+Tobias Siegfried & Beatrice Marti (2022): Modeling of Hydrological
+Systems in Semi-Arid Central Asia ()}}. DOI: 10.5281/zenodo.6350042
