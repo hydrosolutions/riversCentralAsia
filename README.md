@@ -15,7 +15,7 @@ on applied hydrological modelling in Central Asia and is extensively
 used in the open-source book
 <a href="https://hydrosolutions.github.io/caham_book/"
 target="_blank">Modeling of Hydrological Systems in Semi-Arid Central
-Asia</a> \[@CAHAM:2022\]. The workflows are further validated within the
+Asia</a> (Siegfried & Marti, 2022). The workflows are further validated within the
 Horizon 2020 project
 <a href="https://hydro4u.eu/" target="_blank">HYDRO4U</a>.
 
