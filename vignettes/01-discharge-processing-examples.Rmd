@@ -29,31 +29,13 @@ library(timetk)
 library(riversCentralAsia)
 ```
 
-Raw data (discharge, precipitation or temperature) in the tabular format. That is years in rows and months or decade per year in columns as below. 
 
-Year Jan Feb Mar ... Nov Dec 
-----------------------------
-2001 0.1 0.1 ...     ... 0.2
-2002 0.1 0.2 ...         ...
-2003 0.2 ...
-...  ...
-
-or 
-
-Year Jan Jan Jan Feb Feb Feb Mar ... Dec Dec 
-      I   II III  I   II III  I       II III
---------------------------------------------
-2001 0.1 0.1 ...                     ... 0.2
-2002 0.1 0.2 ...                         ...
-2003 0.2 ...
-...  ...
-
-Note that the function `loadTabularData` requires a csv file without the headers. 
+Note that the function `loadTabularData` requires a csv file without the headers (see [description of raw data](https://hydrosolutions.github.io/riversCentralAsia/articles/01-description_raw_data.html){target="_blank"}. 
 To reproduce the below example, you need to download the demo data in the csv format from [here](https://www.dropbox.com/s/tccoxsp1qnpuozj/16076_Q.csv?dl=0). 
 
 ```{r, eval=FALSE}
 discharge <- loadTabularData(
-  fPath = "../../atbashy_glacier_demo_data/DISCHARGE/", 
+  fPath = "../../atbashy_glacier_demo_data/DISCHARGE/",   # Adapt htis path
   fName = "16076_Q.csv", 
   code = 16076, 
   stationName = "Unknown", 
@@ -64,17 +46,21 @@ discharge <- loadTabularData(
   # The data is missing the last 3 months of 1995. We drop them here. 
   drop_na()
 ```
+The above code will read the raw data in the csv file you downloaded. 
 
-We use the `ChirchikRiverBasin` data included in the package. 
+To demonstrate further data processing, we use the `ChirchikRiverBasin` data included in the package. You can adapt the code snipets below to process the discharge data read in with the code sniped above. 
 ```{r}
 discharge <- ChirchikRiverBasin |> 
   dplyr::filter(type == "Q", station == "Khudaydod", 
                 year(date) < 2015 & year(date) > 1943)
+
+# Inspect the discharge data 
+discharge
 ```
 
 
 The package `timetk` is a useful tool for time series analysis. The following two figures show examples of quick diagnostics plots that can be drawn with that package. 
-```{r, fig.cap="Interactive time series plot of monthly discharge measurements."}
+```{r, fig.cap="Interactive time series plot of monthly discharge measurements.", warning=FALSE, message=FALSE}
 discharge %>% 
   plot_time_series(date,
     data,
@@ -86,7 +72,7 @@ discharge %>%
     .plotly_slider = TRUE)
 ```
 
-```{r, fig.cap="Monthly box plot of the time series data showing the mean (bold horizontal line), the boundaries of the 25% and the 75% quantiles (boundaries of the box). The lines extend to roughly 95% confidence interval and the points indicate outliers."}
+```{r, fig.cap="Monthly box plot of the time series data showing the mean (bold horizontal line), the boundaries of the 25% and the 75% quantiles (boundaries of the box). The lines extend to roughly 95% confidence interval and the points indicate outliers.", warning=FALSE, message=FALSE}
 discharge |> 
   plot_seasonal_diagnostics(.date_var      = date,
                             .value         = data,
@@ -102,7 +88,7 @@ discharge |>
                               "N", "D","1", "2", "3", "4"))
 ```
 
-```{r, fig.cap="Visualization of trends in the monthly data. The blue line indicates the monthly mean and the red line shows the result of a linar model of the monthly data, including a grey confidence interval of the fit."}
+```{r, fig.cap="Visualization of trends in the monthly data. The blue line indicates the monthly mean and the red line shows the result of a linar model of the monthly data, including a grey confidence interval of the fit.", warning=FALSE, message=FALSE}
 discharge %>% 
   summarise_by_time(.date_var = date, 
                     .by       = "month",
@@ -117,7 +103,7 @@ discharge %>%
 
 
 For many applications, discharge data is processed within the hydrolgoical year. In Central Asia, the hydrological year starts on October 1 of the previous year and ends on September 30 of the current year. Hydrologists also differentiate between cold and warm season discharge. The following function calculates mean annual discharges (ann) as well as mean cold and warm season discharge (cs and ws respectively). 
-```{r, fig.cap="Mean annual (ann), cold (cs) and warm season (ws) discharge."}
+```{r, fig.cap="Mean annual (ann), cold (cs) and warm season (ws) discharge.", warning=FALSE, message=FALSE}
 # Convert the decadal data to monthly data
 discharge_monthly <- aggregate_to_monthly(
   dataTable = discharge, 
@@ -137,9 +123,9 @@ discharge_processed |> pivot_longer(-hyYear) |>
                    .smooth = FALSE)
 ```
 
+Also of interest may be the deviation from norm discharge over the years and seasons. 
 
-
-```{r}
+```{r, warning=FALSE, message=FALSE}
 plotNormDevHYY(discharge_processed, "Q", "Discharge")
 ```
 
