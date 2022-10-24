@@ -1,7 +1,5 @@
 ---
 title: "Manual calibration of snow water equivalent"
-author: "Beatrice Marti"
-date: '`r Sys.Date()`'
 bibliography: references.bib
 output: rmarkdown::html_vignette
 fig_caption: yes
@@ -42,7 +40,7 @@ In places where SWE observations are not available, a binary variable of SWE lar
 
 ## Calibrating snow water equivalent (SWE)
 
-At the time of writing, RS Minerve does not yet support the automatic calibration of SWE. However, snow melt is a major contribution to discharge in Central Asia. Measurements of SWE are only very rarely available. Thus, re-analysis products like the High Mountain Asia Snow Reanalysis product are valuable resources to validate hydrolgoical modelling efforts.
+At the time of writing, RS Minerve does not support the automatic calibration of SWE. However, snow melt is a major contribution to discharge in Central Asia. Measurements of SWE are only very rarely available. Thus, re-analysis products like the High Mountain Asia Snow Reanalysis product are valuable resources to validate hydrolgoical modelling efforts.
 
 As automated calibration of SWE is not yet supported in RS Minerve, we propose a work around in R to iteratively adapt the parameters of the HBV snow modules.
 
@@ -52,6 +50,7 @@ Actually observed SWE is not typically available for hydrological modeling in ma
 
 The downloaded data is subsequently pre-processed to extract the daily average SWE per HRU on the valid pixels of the data set (note that HMASR is not available on areas with permanent snow or ice cover). The following code sniped shows how this can be done.
 
+If you wish to reproduce the code below, please make sure that the [demo data set](https://www.dropbox.com/sh/r0lqggc77ka0uxd/AAChuIyLHHFIfAdgxNKiU2dpa?dl=0){target="_blank"} is downloaded to your computer. 
 ```{r, eval=FALSE}
 library(tmap)
 library(sf)
@@ -62,9 +61,12 @@ library(lubridate)
 devtools::install_github("hydrosolutions/riversCentralAsia")
 library(riversCentralAsia)
 
+# Download the demo data set from dropbox
+# https://www.dropbox.com/sh/r0lqggc77ka0uxd/AAChuIyLHHFIfAdgxNKiU2dpa?dl=0
+
 # Path to the data directory downloaded from the download link provided above. 
 # Here the data is extracted to a folder called atbashy_glacier_demo_data
-data_path <- "../"
+data_path <- "../../atbashy_glacier_demo_data/"
 
 # Function to concatenate and mask the HMASR product and extract SWE for each 
 # HRU in the model. 
@@ -152,10 +154,13 @@ varname = "SWE_Post"
 year = 1999
 swe <- extract_HMASR_Atbashy(filespath, year, shape_latlon, varname)
 
-for (year in 2000:2012) {
-  temp <- extract_HMASR_Atbashy(filespath, year, shape_latlon, varname)
-  swe <- rbind(swe, temp)
-}
+# The subsequent years of data you can extract in a loop. 
+# Not run in this example as we provide you only with the first year of data
+# Later years you can download from NSIDC
+# for (year in 2000:2012) { 
+#   temp <- extract_HMASR_Atbashy(filespath, year, shape_latlon, varname)
+#   swe <- rbind(swe, temp)
+# }
 
 # Reformatting 
 swe$NoDaysPerYear <- as.numeric(
@@ -178,10 +183,12 @@ swel <- pivot_longer(swe, contains("_"), names_to = "Name",
            remove = FALSE) |> 
   mutate(layer = factor(layer, levels = c(10:1)))
 
-save(list = "swel", file = "SWE.RData")
+# As this data extraction can take several minutes, we store the snow water 
+# equivalents in an RData file for later use. 
+# save(list = "swel", file = "SWE.RData")
 ```
 
-You find 2 sample files from the HMASR product available in the Atbashy demo data folder to try out the code above. We have done the pre-processesing for Atbashy and make available the SWE.RData file which contains daily average SWE per HRU in the Atbashy model.
+You find 4 sample files from the HMASR product available in the Atbashy demo data folder to try out the code above. We have done the pre-processesing for Atbashy and make available the SWE.RData file which contains daily average SWE per HRU in the Atbashy model.
 
 ### Write check node file to read out all SWE in the Atbashy model.
 
@@ -233,7 +240,11 @@ This data can be used to manually validate the SWE with secondary data sources l
 The data has been downloaded and pre-processed (see above).
 
 ```{r, message=FALSE, warning=FALSE, error=FALSE, fig.cap="Overall observed vs. simulated snow water equivalent in the Atbashy model."}
-# Loads SWE extracted from HMASR per HRU in the Atbashy model.
+# Loads SWE extracted from HMASR per HRU in the Atbashy model. 
+# For the sake of simplicity, we have extracted the SWE data for the Atbashy 
+# example. 
+# See the code chunk above under "Extract observed SWE" for an example of how 
+# to extract SWE from the HMASR product yourselve. 
 load(paste0(data_path, "/SNOW/SWE.RData"))
 
 compare_swe <- swe_sim |> 
@@ -317,7 +328,7 @@ names(sensor) <- names(df_body)
 # Put everything together
 file2write <- rbind(HRU_XYZ, sensor)
 file2write <- header_Station |> add_column(file2write)
-file2write <- file2write |> add_row(cbind(datesChar, data) |> 
+file2write <- file2write |> add_row(cbind(datesChar, df_body) |> 
                                       mutate_all(as.character))
 file2write <- rbind(names(file2write), file2write)
 
