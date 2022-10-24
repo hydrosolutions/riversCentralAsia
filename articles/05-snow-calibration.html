@@ -78,9 +78,7 @@
 <div class="row">
   <main id="main" class="col-md-9"><div class="page-header">
       <img src="" class="logo" alt=""><h1>Manual calibration of snow water equivalent</h1>
-                        <h4 data-toc-skip class="author">Beatrice Marti</h4>
             
-            <h4 data-toc-skip class="date">2022-10-24</h4>
       
       <small class="dont-index">Source: <a href="https://github.com/hydrosolutions/riversCentralAsia/blob/HEAD/vignettes/05-snow-calibration.rmd" class="external-link"><code>vignettes/05-snow-calibration.rmd</code></a></small>
       <div class="d-none name"><code>05-snow-calibration.rmd</code></div>
@@ -105,13 +103,14 @@
 <div class="section level2">
 <h2 id="calibrating-snow-water-equivalent-swe">Calibrating snow water equivalent (SWE)<a class="anchor" aria-label="anchor" href="#calibrating-snow-water-equivalent-swe"></a>
 </h2>
-<p>At the time of writing, RS Minerve does not yet support the automatic calibration of SWE. However, snow melt is a major contribution to discharge in Central Asia. Measurements of SWE are only very rarely available. Thus, re-analysis products like the High Mountain Asia Snow Reanalysis product are valuable resources to validate hydrolgoical modelling efforts.</p>
+<p>At the time of writing, RS Minerve does not support the automatic calibration of SWE. However, snow melt is a major contribution to discharge in Central Asia. Measurements of SWE are only very rarely available. Thus, re-analysis products like the High Mountain Asia Snow Reanalysis product are valuable resources to validate hydrolgoical modelling efforts.</p>
 <p>As automated calibration of SWE is not yet supported in RS Minerve, we propose a work around in R to iteratively adapt the parameters of the HBV snow modules.</p>
 <div class="section level3">
 <h3 id="extract-observed-swe">Extract observed SWE<a class="anchor" aria-label="anchor" href="#extract-observed-swe"></a>
 </h3>
 <p>Actually observed SWE is not typically available for hydrological modeling in many catchments in Central Asia, we therefore propose to use existing model products like the High Mountain Snow Reanalysis Product <span class="citation">(Liu, Fang, and Margulis 2021)</span> which is available through <a href="https://nsidc.org/data/HMA_SR_D/" class="external-link">NSIDC</a>. Login to USGS Earth Data, select the files for download for your model area and download the data (for example using the python download script). We will refer to the SWE data set from HMASR as observed data.</p>
 <p>The downloaded data is subsequently pre-processed to extract the daily average SWE per HRU on the valid pixels of the data set (note that HMASR is not available on areas with permanent snow or ice cover). The following code sniped shows how this can be done.</p>
+<p>If you wish to reproduce the code below, please make sure that the <a href="https://www.dropbox.com/sh/r0lqggc77ka0uxd/AAChuIyLHHFIfAdgxNKiU2dpa?dl=0" target="_blank" class="external-link">demo data set</a> is downloaded to your computer.</p>
 <div class="sourceCode" id="cb2"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://github.com/r-tmap/tmap" class="external-link">tmap</a></span><span class="op">)</span></span>
 <span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://r-spatial.github.io/sf/" class="external-link">sf</a></span><span class="op">)</span></span>
@@ -122,9 +121,12 @@
 <span><span class="fu">devtools</span><span class="fu">::</span><span class="fu"><a href="https://remotes.r-lib.org/reference/install_github.html" class="external-link">install_github</a></span><span class="op">(</span><span class="st">"hydrosolutions/riversCentralAsia"</span><span class="op">)</span></span>
 <span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://hydrosolutions.github.io/riversCentralAsia/index.html" class="external-link">riversCentralAsia</a></span><span class="op">)</span></span>
 <span></span>
+<span><span class="co"># Download the demo data set from dropbox</span></span>
+<span><span class="co"># https://www.dropbox.com/sh/r0lqggc77ka0uxd/AAChuIyLHHFIfAdgxNKiU2dpa?dl=0</span></span>
+<span></span>
 <span><span class="co"># Path to the data directory downloaded from the download link provided above. </span></span>
 <span><span class="co"># Here the data is extracted to a folder called atbashy_glacier_demo_data</span></span>
-<span><span class="va">data_path</span> <span class="op">&lt;-</span> <span class="st">"../"</span></span>
+<span><span class="va">data_path</span> <span class="op">&lt;-</span> <span class="st">"../../atbashy_glacier_demo_data/"</span></span>
 <span></span>
 <span><span class="co"># Function to concatenate and mask the HMASR product and extract SWE for each </span></span>
 <span><span class="co"># HRU in the model. </span></span>
@@ -212,10 +214,13 @@
 <span><span class="va">year</span> <span class="op">=</span> <span class="fl">1999</span></span>
 <span><span class="va">swe</span> <span class="op">&lt;-</span> <span class="fu">extract_HMASR_Atbashy</span><span class="op">(</span><span class="va">filespath</span>, <span class="va">year</span>, <span class="va">shape_latlon</span>, <span class="va">varname</span><span class="op">)</span></span>
 <span></span>
-<span><span class="kw">for</span> <span class="op">(</span><span class="va">year</span> <span class="kw">in</span> <span class="fl">2000</span><span class="op">:</span><span class="fl">2012</span><span class="op">)</span> <span class="op">{</span></span>
-<span>  <span class="va">temp</span> <span class="op">&lt;-</span> <span class="fu">extract_HMASR_Atbashy</span><span class="op">(</span><span class="va">filespath</span>, <span class="va">year</span>, <span class="va">shape_latlon</span>, <span class="va">varname</span><span class="op">)</span></span>
-<span>  <span class="va">swe</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/cbind.html" class="external-link">rbind</a></span><span class="op">(</span><span class="va">swe</span>, <span class="va">temp</span><span class="op">)</span></span>
-<span><span class="op">}</span></span>
+<span><span class="co"># The subsequent years of data you can extract in a loop. </span></span>
+<span><span class="co"># Not run in this example as we provide you only with the first year of data</span></span>
+<span><span class="co"># Later years you can download from NSIDC</span></span>
+<span><span class="co"># for (year in 2000:2012) { </span></span>
+<span><span class="co">#   temp &lt;- extract_HMASR_Atbashy(filespath, year, shape_latlon, varname)</span></span>
+<span><span class="co">#   swe &lt;- rbind(swe, temp)</span></span>
+<span><span class="co"># }</span></span>
 <span></span>
 <span><span class="co"># Reformatting </span></span>
 <span><span class="va">swe</span><span class="op">$</span><span class="va">NoDaysPerYear</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/numeric.html" class="external-link">as.numeric</a></span><span class="op">(</span></span>
@@ -238,8 +243,10 @@
 <span>           remove <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span> <span class="op">|&gt;</span> </span>
 <span>  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/mutate.html" class="external-link">mutate</a></span><span class="op">(</span>layer <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/factor.html" class="external-link">factor</a></span><span class="op">(</span><span class="va">layer</span>, levels <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">10</span><span class="op">:</span><span class="fl">1</span><span class="op">)</span><span class="op">)</span><span class="op">)</span></span>
 <span></span>
-<span><span class="fu"><a href="https://rdrr.io/r/base/save.html" class="external-link">save</a></span><span class="op">(</span>list <span class="op">=</span> <span class="st">"swel"</span>, file <span class="op">=</span> <span class="st">"SWE.RData"</span><span class="op">)</span></span></code></pre></div>
-<p>You find 2 sample files from the HMASR product available in the Atbashy demo data folder to try out the code above. We have done the pre-processesing for Atbashy and make available the SWE.RData file which contains daily average SWE per HRU in the Atbashy model.</p>
+<span><span class="co"># As this data extraction can take several minutes, we store the snow water </span></span>
+<span><span class="co"># equivalents in an RData file for later use. </span></span>
+<span><span class="co"># save(list = "swel", file = "SWE.RData")</span></span></code></pre></div>
+<p>You find 4 sample files from the HMASR product available in the Atbashy demo data folder to try out the code above. We have done the pre-processesing for Atbashy and make available the SWE.RData file which contains daily average SWE per HRU in the Atbashy model.</p>
 </div>
 <div class="section level3">
 <h3 id="write-check-node-file-to-read-out-all-swe-in-the-atbashy-model-">Write check node file to read out all SWE in the Atbashy model.<a class="anchor" aria-label="anchor" href="#write-check-node-file-to-read-out-all-swe-in-the-atbashy-model-"></a>
@@ -287,7 +294,11 @@
 </h3>
 <p>The data has been downloaded and pre-processed (see above).</p>
 <div class="sourceCode" id="cb5"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="co"># Loads SWE extracted from HMASR per HRU in the Atbashy model.</span></span>
+<code class="sourceCode R"><span><span class="co"># Loads SWE extracted from HMASR per HRU in the Atbashy model. </span></span>
+<span><span class="co"># For the sake of simplicity, we have extracted the SWE data for the Atbashy </span></span>
+<span><span class="co"># example. </span></span>
+<span><span class="co"># See the code chunk above under "Extract observed SWE" for an example of how </span></span>
+<span><span class="co"># to extract SWE from the HMASR product yourselve. </span></span>
 <span><span class="fu"><a href="https://rdrr.io/r/base/load.html" class="external-link">load</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/paste.html" class="external-link">paste0</a></span><span class="op">(</span><span class="va">data_path</span>, <span class="st">"/SNOW/SWE.RData"</span><span class="op">)</span><span class="op">)</span></span>
 <span></span>
 <span><span class="va">compare_swe</span> <span class="op">&lt;-</span> <span class="va">swe_sim</span> <span class="op">|&gt;</span> </span>
@@ -365,7 +376,7 @@
 <span><span class="co"># Put everything together</span></span>
 <span><span class="va">file2write</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/cbind.html" class="external-link">rbind</a></span><span class="op">(</span><span class="va">HRU_XYZ</span>, <span class="va">sensor</span><span class="op">)</span></span>
 <span><span class="va">file2write</span> <span class="op">&lt;-</span> <span class="va">header_Station</span> <span class="op">|&gt;</span> <span class="fu"><a href="https://tibble.tidyverse.org/reference/add_column.html" class="external-link">add_column</a></span><span class="op">(</span><span class="va">file2write</span><span class="op">)</span></span>
-<span><span class="va">file2write</span> <span class="op">&lt;-</span> <span class="va">file2write</span> <span class="op">|&gt;</span> <span class="fu"><a href="https://tibble.tidyverse.org/reference/add_row.html" class="external-link">add_row</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/cbind.html" class="external-link">cbind</a></span><span class="op">(</span><span class="va">datesChar</span>, <span class="va">data</span><span class="op">)</span> <span class="op">|&gt;</span> </span>
+<span><span class="va">file2write</span> <span class="op">&lt;-</span> <span class="va">file2write</span> <span class="op">|&gt;</span> <span class="fu"><a href="https://tibble.tidyverse.org/reference/add_row.html" class="external-link">add_row</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/cbind.html" class="external-link">cbind</a></span><span class="op">(</span><span class="va">datesChar</span>, <span class="va">df_body</span><span class="op">)</span> <span class="op">|&gt;</span> </span>
 <span>                                      <span class="fu"><a href="https://dplyr.tidyverse.org/reference/mutate_all.html" class="external-link">mutate_all</a></span><span class="op">(</span><span class="va">as.character</span><span class="op">)</span><span class="op">)</span></span>
 <span><span class="va">file2write</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/cbind.html" class="external-link">rbind</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/names.html" class="external-link">names</a></span><span class="op">(</span><span class="va">file2write</span><span class="op">)</span>, <span class="va">file2write</span><span class="op">)</span></span>
 <span></span>
