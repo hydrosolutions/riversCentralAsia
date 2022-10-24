@@ -37,7 +37,7 @@ Data preparation comes before hydrological modelling and is actually one of the 
 
 - [Post-processing of simulation results](https://hydrosolutions.github.io/riversCentralAsia/articles/03-RSMinerveIO.html){target="_blank"} 
 
-- I/O interface with the hydrologic-hydraulic modelling software [RS Minerve](https://crealp.ch/rs-minerve/){target="_blank"} which can be accessed within R using the package [RSMinerveR](https://github.com/hydrosolutions/RSMinerveR){target="_blank"}.  
+- I/O interface with the hydrologic-hydraulic modelling software [RS MINERVE](https://crealp.ch/rs-minerve/){target="_blank"} which can be accessed within R using the package [RSMinerveR](https://github.com/hydrosolutions/RSMinerveR){target="_blank"}.  
 
 While here, we focus on the description of the individual functions, the strengths of the package comes to play mostly when the functions are connected to automatize the data preparation process. These workflows are extensively documented in the book [Modeling of Hydrological Systems in Semi-Arid Central Asia](https://hydrosolutions.github.io/caham_book/){target="_blank"}. 
 
@@ -46,7 +46,7 @@ Currently, a relatively complete dataset of the Chirchik River Basin with decada
 
 
 ## Related packages
-The R package [RSMinverveR](https://github.com/hydrosolutions/RSMinerveR){target="_blank"} allows the running of the hydrologic-hydraulic modelling software [RS Minerve](https://crealp.ch/rs-minerve/){target="_blank"} directly from R without using the RS Minerve user interface. This functionality is for advanced R and RS Minerve users that wish to further speed up their modelling workflow.     
+The R package [RSMinverveR](https://github.com/hydrosolutions/RSMinerveR){target="_blank"} allows the running of the hydrologic-hydraulic modelling software [RS MINERVE](https://crealp.ch/rs-minerve/){target="_blank"} directly from R without using the RS MINERVE user interface. This functionality is for advanced R and RS MINERVE users that wish to further speed up their modelling workflow.     
 
 ## Installation
 You can install the development version from [GitHub](https://github.com/hydrosolutions/riversCentralAsia/){target="_blank"} with:
@@ -127,7 +127,7 @@ The package is used extensively in the course book [Modeling of Hydrological Sys
 
 The workflows presented in the course book, using the riversCentralAsia package, are further validated within the Horizon 2020 project [HYDRO4U](https://hydro4u.eu/){target="_blank"} where future small hydro power potential is evaluated using hydrological modelling. 
 
-For R & RS Minerve users, the package [RSMinverveR](https://github.com/hydrosolutions/RSMinerveR){target="_blank"} is recommended which allows the interfacing between R and RS Minerve (with examples based on the Visual Basic Script examples by CREALP).  
+For R & RS MINERVE users, the package [RSMinverveR](https://github.com/hydrosolutions/RSMinerveR){target="_blank"} is recommended which allows the interfacing between R and RS MINERVE (with examples based on the Visual Basic Script examples by CREALP).  
 
 ## Acknowledgement
 The preparation of the course book and thus the preparation of the package was financially supported by the Swiss Agency for Development and Cooperation, the German Kazakh University in Almaty and hydrosolutions. 

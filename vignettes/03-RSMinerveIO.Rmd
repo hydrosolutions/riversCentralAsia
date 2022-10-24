@@ -19,12 +19,12 @@ knitr::opts_knit$set(
 )
 ```
 
-[RS Minerve](https://crealp.ch/rs-minerve/){target="_blank"} is a free to use hydrologic-hydraulic modelling software. It's accessibility makes is especially suitable for typical Hydromet tasks like flow forecasting. The package riversCentralAsia includes a number of functions to read and write files which interact with RS Minerve. 
+[RS Minerve](https://crealp.ch/rs-minerve/){target="_blank"} is a free to use hydrologic-hydraulic modelling software. It's accessibility makes is especially suitable for typical Hydromet tasks like flow forecasting. The package riversCentralAsia includes a number of functions to read and write files which interact with RS MINERVE. 
 These tools are interesting for automated writing of forcing files and for reading post-processing and visualization of simulation results or model parameters. 
 
 Using the package `RSMinerveR`, the software can be run from inside R. 
 
-For details on model components please refer to the [RS Minerve manuals](https://crealp.github.io/rsminerve-releases/){target="_blank"}. 
+For details on model components and on file formates used in RS MINERVE please refer to the [RS MINERVE manuals](https://crealp.github.io/rsminerve-releases/){target="_blank"}. 
 
 ## Reading and writing parameters
 The following RSMinerve objects are currently supported in the `riversCentralAsia` package:\
@@ -37,13 +37,20 @@ The following RSMinerve objects are currently supported in the `riversCentralAsi
 - HBV92\
 - Comparator
 
-The parameters for these objects are described in the [RS Minerve User Manual](https://crealp.github.io/rsminerve-releases/){target="_blank"}. 
+The parameters for these objects are described in the [RS MINERVE User Manual](https://crealp.github.io/rsminerve-releases/){target="_blank"}. 
+
+#### Example
+
+To reproduce the example below, please download the file [Atbashy_PAR_postCal.txt](https://www.dropbox.com/s/y4r44h06jwdnsde/Atbaschy_PAR_postCal.txt?dl=0){target="_blank"} from the demo data folder available from dropbox. Should you want to test a wider number of RS MINERVE I/O functions, we recommend downloading the entire example data folder [here](https://www.dropbox.com/sh/r0lqggc77ka0uxd/AAChuIyLHHFIfAdgxNKiU2dpa?dl=0){target="_blank"}. 
 
 ```{r fig.cap="Storage coefficient of the upper reservoirs in the HBV models by zone.", message=FALSE, warning=FALSE, error=FALSE}
 library(tidyverse)
 library(lubridate)
 library(riversCentralAsia)
 
+# Download the file Atbashy_PAR_postCal.txt from https://www.dropbox.com/s/y4r44h06jwdnsde/Atbaschy_PAR_postCal.txt?dl=0
+
+# Adapt the path below 
 parameters_orig <- readRSMParameters("../../atbashy_glacier_demo_data/RSMINERVE/Atbaschy_PAR_postCal.txt") |> 
   dplyr::filter(Parameters == "Ku [1/d]") 
 
@@ -53,7 +60,7 @@ ggplot(parameters_orig) +
   theme_bw()
 ```
 
-The following shows an example how the model parameters can be changed and written to a RS Minerve-readable format. 
+The following shows an example how the model parameters can be changed and written to a RS MINERVE-readable format. 
 
 ```{r}
 # Doubble all Ku-values in zone A: 
@@ -73,18 +80,36 @@ ggplot(comparison) +
   ylab(parameters_orig$Parameters[1]) + 
   theme_bw()
 
-# Uncomment to write
+# Uncomment to write and adapt the output file path (second argument).
 # writeRSMParameters(parameters, "Parameters_modified_Ku.txt")
 ```
 
 ## Reading simulation results
 
-Another useful application for the RS Minerve I/O functions is the reading of simulation results and the analysis of the partitioning of the total basin discharge into the individual fluxes. The code below illustrates how this may be done: 
+Another useful application for the RS MINERVE I/O functions is the reading of simulation results and the analysis of the partitioning of the total basin discharge into the individual fluxes. The code below illustrates how this may be done: 
 
 ### Writing a check node file
-Writing a selection node file that can be imported to RS Minerve where the selection can be used to export the selected simulation results. This is useful for large models with many model objects where it is cumbersome to manually toggle the desired results in RS Minerve.  
+Writing a selection node file that can be imported to RS MINERVE where the selection can be used to export the selected simulation results. This is useful for large models with many model objects where it is cumbersome to manually toggle the desired results in RS MINERVE.
+
+A check node file is written in the xml format (see [RS MINERVE documentation](https://crealp.github.io/rsminerve-releases/tech_file_formats.html#object-selection-files){target="_blank"}). You can have a look at an [example of a check node file in the demo data folder](https://www.dropbox.com/s/jz01m0ikrdl8h6h/FluxesAndStates.chk?dl=0){target="_blank"}. 
+
+When I need to write a specific check node file, I typically ask RS MINERVE to write an example file for me (by selecting a few examples of variables I want to export) and then write the check node file in R by adapting the example below. 
 
 ```{r, eval=FALSE}
+# In this example, we want to export all fluxes and some states from all 
+# hydrological response units (HRU) in our hydrological model from RS MINERVE. 
+#
+# Make sure you have the example shape file with the hydrological response units 
+# used for hydrological modelling in RS MINERVE (16076_HRU.shp) downloaded from 
+# the example data set 
+# https://www.dropbox.com/s/ob5xrbp2ynfxzn3/16076_HRU.shp?dl=0
+
+# Adapt the path below
+# This reads in the names of the HRUs 
+Object_IDs <- sf::st_read("../../atbashy_glacier_demo_data/GIS/16076_HRU.shp") |> 
+  sf::st_drop_geometry()
+  
+
 # Write check node file
 hbv_var_list <- c("Qr (m3/s)", "Qu (m3/s)", "Ql (m3/s)", "SWE (m)", "HUM (m)", 
                   "SU (m)", "SL (m)", "Peq (m/s)")
@@ -113,8 +138,13 @@ We then read the simulation results.
 
 ### Reading & plotting results
 
+To reproduce the example below, please download the example files from [the demo data folder available on dropbox](https://www.dropbox.com/sh/r0lqggc77ka0uxd/AAChuIyLHHFIfAdgxNKiU2dpa?dl=0){target="_blank"} and adapt the paths below.
+
 ```{r, message=FALSE, warning=FALSE, error=FALSE, fig.cap="Average seasonal solid and liquid precipitation and contribution of the HBV model compartments and glacier melt to river discharge."}
 
+# Download the demo data folder from https://www.dropbox.com/sh/r0lqggc77ka0uxd/AAChuIyLHHFIfAdgxNKiU2dpa?dl=0
+
+# Adapt the path to the demo data folder on your computer
 data_path <- "../../atbashy_glacier_demo_data/"
 
 # Fluxes and model states per elevation bands
@@ -203,6 +233,8 @@ gridExtra::grid.arrange(forcing_plot, discharge_plot, ncol = 1)
 And last but not least a modeler might wish to produce flow duration curves based on simulation results. Flow duration curves are used, for example, for the design of hydraulic infrastructure.
 
 ```{r, message=FALSE, warning=FALSE, error=FALSE, fig.cap="Flow duration curve of simulated monthly discharge at the planning location for a small hydropower plant. Black: Average flow duration curve over the period 1990-2021, grey: flow duration curve for the years 1990 - 2011."}
+# Note: This example requires downloading of the example data and running of the code chunk above (section Reading & plotting results).
+
 # Calculate the flow duration curve
 Qtot <- fs |> 
   dplyr::filter(unit == "m3/s", 
