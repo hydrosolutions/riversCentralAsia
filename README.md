@@ -127,11 +127,11 @@ install.packages(c("rlang", "magrittr", "stringr", "purrr"))
 
 All other dependencies are installed automatically. 
 
-*Note* that *Mac* users may have to install the binary version of 
+**Note** that **Mac** users may have to install the binary version of 
 the dependency package exactextractr manually (not the more recent
 source version). 
 
-*Note* that *Windows* users require a working installation of
+**Note** that **Windows** users require a working installation of
 <a href="https://cran.r-project.org/bin/windows/Rtools/"
 target="_blank">RTools</a> to install packages from github.
 
