@@ -43,11 +43,7 @@ includes a number of helper functions that can be connected to efficient
 workflows that automatize the data preparation process for hydrological
 modelling as shown in the figure below. 
 
-```{r out.width='80%', echo=FALSE}
-knitr::include_graphics("./man/figures/fig_01_model_chain_bw.png")
-```
-  
-Figure: Overview over the modelling workflow supported by the riversCentralAsia package (Image source: Marti et al., 2022). Abbreviations are explained below. The workflow relies entirely on free, publicly available data and software.    
+!["Overview over the modelling workflow supported by the riversCentralAsia package (Image source: Marti et al., 2022). Abbreviations are explained below. The workflow relies entirely on free, publicly available data and software."](./man/figures/fig_01_model_chain_bw.png){ width=80% }  
 
 The data preparation step includes the delineation of river catchment boundaries and the derivation of hydrological response units (HRU) using gauge locations, the [SRTM digital elevation model (DEM)](https://doi.org/10.5067/MEaSUREs/SRTM/SRTMGL1.003){target="_blank"} and glacier outlines from the [Randolph Glacier Inventory (RGI)](https://doi.org/10.7265/N5-RGI-60){target="_blank"}.
 
