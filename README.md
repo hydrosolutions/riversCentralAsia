@@ -8,7 +8,11 @@
 The R package riversCentralAsia includes a set of tools to facilitate
 and automate data preparation for hydrological modelling. It thus
 contributes to more reproducible modeling workflows and makes
-hydrological modeling more accessible to students.
+hydrological modeling more accessible to students but also to interested 
+professional modellers. The figure below gives an overview over the 
+data perparation and modelling workflows supported by the package. 
+
+![Overview over the hydrological modelling workflow facitlitated by the riversCentralAsia package (Image source: Marti et al., 2022).](fig_01_model_chain_bw.jpg)
 
 The package has been developed within the frame of a master level course
 on applied hydrological modelling in Central Asia and is extensively
@@ -247,5 +251,9 @@ review of the package and @crvernon for their editing work.
 
 ## References
 
-Tobias Siegfried & Beatrice Marti (2022): Modeling of Hydrological
-Systems in Semi-Arid Central Asia ()}}. DOI: 10.5281/zenodo.6350042
+Tobias Siegfried & Beatrice Marti (2022): Modeling of Hydrological Systems 
+in Semi-Arid Central Asia ()}}. DOI: 10.5281/zenodo.6350042
+
+Marti, B. S., Zhumabaev, A., and Siegfried, T.: A comprehensive open-source 
+course for teaching applied hydrological modelling in Central Asia, 
+EGUsphere [preprint], https://doi.org/10.5194/egusphere-2022-966, 2022.
