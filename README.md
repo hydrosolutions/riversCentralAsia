@@ -1,37 +1,29 @@
----
-output: github_document
----
 
 <!-- README.md is generated from README.Rmd. Please edit that file -->
-
-```{r, include = FALSE}
-knitr::opts_chunk$set(
-  collapse = TRUE,
-  comment = "#>",
-  fig.path = "man/figures/README-",
-  out.width = "100%"
-)
-```
 
 # riversCentralAsia
 
 ## Summary
 
-The R package riversCentralAsia includes a set of tools to facilitate and automate data preparation for hydrological modelling. It thus contributes to more reproducible modeling workflows and makes hydrological modeling more accessible to students and to interested professional modellers. The figure below gives an overview over the data preparation and modelling workflows supported by the package.  
+The R package riversCentralAsia includes a set of tools to facilitate
+and automate data preparation for hydrological modelling. It thus
+contributes to more reproducible modeling workflows and makes
+hydrological modeling more accessible to students and to interested
+professional modellers. The figure below gives an overview over the data
+preparation and modelling workflows supported by the package.
 
-```{r out.width='80%', echo=FALSE}
-knitr::include_graphics("./man/figures/fig_01_model_chain_bw.png")
-```
-  
-Figure: Overview over the modelling workflow supported by the riversCentralAsia package (Image source: Marti et al., 2022).  
+<img src="./man/figures/fig_01_model_chain_bw.png" width="80%" />
+
+Figure: Overview over the modelling workflow supported by the
+riversCentralAsia package (Image source: Marti et al., 2022).
 
 The package has been developed within the frame of a master level course
 on applied hydrological modelling in Central Asia and is extensively
 used in the open-source book
 <a href="https://hydrosolutions.github.io/caham_book/"
 target="_blank">Modeling of Hydrological Systems in Semi-Arid Central
-Asia</a> (Siegfried & Marti, 2022). The workflows are further validated within the
-Horizon 2020 project
+Asia</a> (Siegfried & Marti, 2022). The workflows are further validated
+within the Horizon 2020 project
 <a href="https://hydro4u.eu/" target="_blank">HYDRO4U</a>.
 
 While the package has been developed for the Central Asia region, most
@@ -84,8 +76,8 @@ modelling. The functionality includes:
     target="_blank">computation of flow duration curves</a>
 
 -   I/O interface with the hydrologic-hydraulic modelling software
-    <a href="https://crealp.ch/rs-minerve/" target="_blank">RS Minerve</a>
-    which can be accessed within R using the package
+    <a href="https://crealp.ch/rs-minerve/" target="_blank">RS
+    Minerve</a> which can be accessed within R using the package
     <a href="https://github.com/hydrosolutions/RSMinerveR"
     target="_blank">RSMinerveR</a>.
 
@@ -140,11 +132,11 @@ the following commands.
 install.packages(c("rlang", "magrittr", "stringr", "purrr"))
 ```
 
-All other dependencies are installed automatically. 
+All other dependencies are installed automatically.
 
-**Note** that **Mac** users may have to install the binary version of 
+**Note** that **Mac** users may have to install the binary version of
 the dependency package exactextractr manually (not the more recent
-source version). 
+source version).
 
 **Note** that **Windows** users require a working installation of
 <a href="https://cran.r-project.org/bin/windows/Rtools/"
@@ -262,8 +254,13 @@ review of the package and @crvernon for their editing work.
 
 ## References
 
-Tobias Siegfried & Beatrice Marti (2022): Modeling of Hydrological Systems in Semi-Arid Central Asia (<a href="https://hydrosolutions.github.io/caham_book/" target="_blank">https://hydrosolutions.github.io/caham_book/</a>). DOI: 10.5281/zenodo.6350042
+Tobias Siegfried & Beatrice Marti (2022): Modeling of Hydrological
+Systems in Semi-Arid Central Asia
+(<a href="https://hydrosolutions.github.io/caham_book/" target="_blank">https://hydrosolutions.github.io/caham_book/</a>).
+DOI: 10.5281/zenodo.6350042
 
-Marti, B. S., Zhumabaev, A., and Siegfried, T.: A comprehensive open-source 
-course for teaching applied hydrological modelling in Central Asia, 
-EGUsphere [preprint], <a href="https://doi.org/10.5194/egusphere-2022-966" target="_blank">https://doi.org/10.5194/egusphere-2022-966</a>, 2022.
+Marti, B. S., Zhumabaev, A., and Siegfried, T.: A comprehensive
+open-source course for teaching applied hydrological modelling in
+Central Asia, EGUsphere \[preprint\],
+<a href="https://doi.org/10.5194/egusphere-2022-966" target="_blank">https://doi.org/10.5194/egusphere-2022-966</a>,
+2022.
