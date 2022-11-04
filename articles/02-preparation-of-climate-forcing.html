@@ -86,8 +86,18 @@
 
     
     
-<p>Typically, a river basin is discretized into hydrological response units (HRU) that capture the hydrological properties of a zone within the river basin. Often, HRU are derived from digital elevation models (DEMs) to be able to represent the elevation-dependent timing of snow melt in a basin. This is especially suitable for mountainous basins where gravity flow determines the river runoff. However, in lower lying basins, geology or land use may dominate the hydrology and thus HRU may have to be derived from geological or land use maps.</p>
-<p>The function <code>gen_basinElevationBands</code> allows the generation of a shape layer with elevation bands derived from a DEM. Note that you can play with the parameters of the function to adjust the shapes of the elevation bands.</p>
+<p>Typically, a river basin is discretized into hydrological response
+units (HRU) that capture the hydrological properties of a zone within
+the river basin. Often, HRU are derived from digital elevation models
+(DEMs) to be able to represent the elevation-dependent timing of snow
+melt in a basin. This is especially suitable for mountainous basins
+where gravity flow determines the river runoff. However, in lower lying
+basins, geology or land use may dominate the hydrology and thus HRU may
+have to be derived from geological or land use maps.</p>
+<p>The function <code>gen_basinElevationBands</code> allows the
+generation of a shape layer with elevation bands derived from a DEM.
+Note that you can play with the parameters of the function to adjust the
+shapes of the elevation bands.</p>
 <p>To reproduce this vignette, please download the DEM <a href="https://www.dropbox.com/s/g4cudydy3stcxih/16076_DEM.tif?dl=0" class="external-link">here</a>.</p>
 <div class="sourceCode" id="cb1"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://tidyverse.tidyverse.org" class="external-link">tidyverse</a></span><span class="op">)</span></span>
@@ -110,17 +120,28 @@
 <span></span>
 <span><span class="co"># Control output</span></span>
 <span><span class="va">hru_shp</span> <span class="op"><a href="../reference/pipe.html">%&gt;%</a></span> <span class="fu"><a href="https://rdrr.io/r/base/plot.html" class="external-link">plot</a></span><span class="op">(</span><span class="op">)</span></span></code></pre></div>
-<p>Some minor post-processing is further required and the HRU layer is ready for import to RS Minerve for use in the automated model creation. The open-source book <a href="https://hydrosolutions.github.io/caham_book/" target="_blank" class="external-link">Modeling of Hydrological Systems in Semi-Arid Central Asia</a> gives step-by-step instructions for this.</p>
-<p>We recommend the use of daily precipitation and temperature data from the CHELSA data set (made available by WSL)<span class="citation">(Karger et al. 2017, 2020)</span>.</p>
+<p>Some minor post-processing is further required and the HRU layer is
+ready for import to RS Minerve for use in the automated model creation.
+The open-source book <a href="https://hydrosolutions.github.io/caham_book/" target="_blank" class="external-link">Modeling of Hydrological Systems in Semi-Arid Central
+Asia</a> gives step-by-step instructions for this.</p>
+<p>We recommend the use of daily precipitation and temperature data from
+the CHELSA data set (made available by WSL)<span class="citation">(Karger et al. 2017, 2020)</span>.</p>
 <div class="section level2 unnumbered">
 <h2 class="unnumbered" id="references">References<a class="anchor" aria-label="anchor" href="#references"></a>
 </h2>
 <div id="refs" class="references csl-bib-body hanging-indent">
 <div id="ref-karger_climatologies_2017" class="csl-entry">
-Karger, Dirk Nikolaus, Olaf Conrad, Jürgen Böhner, Tobias Kawohl, Holger Kreft, Rodrigo Wilber Soria-Auza, Niklaus E. Zimmermann, H. Peter Linder, and Michael Kessler. 2017. <span>“Climatologies at High Resolution for the Earth’s Land Surface Areas.”</span> <em>Scientific Data</em> 4 (1): 170122. <a href="https://doi.org/10.1038/sdata.2017.122" class="external-link">https://doi.org/10.1038/sdata.2017.122</a>.
+Karger, Dirk Nikolaus, Olaf Conrad, Jürgen Böhner, Tobias Kawohl, Holger
+Kreft, Rodrigo Wilber Soria-Auza, Niklaus E. Zimmermann, H. Peter
+Linder, and Michael Kessler. 2017. <span>“Climatologies at High
+Resolution for the Earth’s Land Surface Areas.”</span> <em>Scientific
+Data</em> 4 (1): 170122. <a href="https://doi.org/10.1038/sdata.2017.122" class="external-link">https://doi.org/10.1038/sdata.2017.122</a>.
 </div>
 <div id="ref-karger_high-resolution_2020" class="csl-entry">
-Karger, Dirk Nikolaus, Dirk R. Schmatz, Gabriel Dettling, and Niklaus E. Zimmermann. 2020. <span>“High-Resolution Monthly Precipitation and Temperature Time Series from 2006 to 2100.”</span> <em>Scientific Data</em> 7 (1): 248. <a href="https://doi.org/10.1038/s41597-020-00587-y" class="external-link">https://doi.org/10.1038/s41597-020-00587-y</a>.
+Karger, Dirk Nikolaus, Dirk R. Schmatz, Gabriel Dettling, and Niklaus E.
+Zimmermann. 2020. <span>“High-Resolution Monthly Precipitation and
+Temperature Time Series from 2006 to 2100.”</span> <em>Scientific
+Data</em> 7 (1): 248. <a href="https://doi.org/10.1038/s41597-020-00587-y" class="external-link">https://doi.org/10.1038/s41597-020-00587-y</a>.
 </div>
 </div>
 </div>

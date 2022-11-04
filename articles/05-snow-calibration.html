@@ -98,18 +98,42 @@
 <span><span class="co"># https://www.dropbox.com/sh/r0lqggc77ka0uxd/AAChuIyLHHFIfAdgxNKiU2dpa?dl=0</span></span>
 <span><span class="co"># Download the data and adapt the path below.  </span></span>
 <span><span class="va">data_path</span> <span class="op">&lt;-</span> <span class="st">"../../atbashy_glacier_demo_data/"</span></span></code></pre></div>
-<p>This chapter of the vignette shows how to compare simulated snow water equivalent (SWE) to third party data. These code snipets can be used to iteratively adapt the parameters of the snow modules in the HBV models to better represent the SWE of the data product.</p>
-<p>In places where SWE observations are not available, a binary variable of SWE larger than a threshold per hydrological response unit (HRU) can be compared to snow covered area (a MODIS product) in each HRU (see for example <span class="citation">Parajka and Blöschl (2008)</span>).</p>
+<p>This chapter of the vignette shows how to compare simulated snow
+water equivalent (SWE) to third party data. These code snipets can be
+used to iteratively adapt the parameters of the snow modules in the HBV
+models to better represent the SWE of the data product.</p>
+<p>In places where SWE observations are not available, a binary variable
+of SWE larger than a threshold per hydrological response unit (HRU) can
+be compared to snow covered area (a MODIS product) in each HRU (see for
+example <span class="citation">Parajka and Blöschl (2008)</span>).</p>
 <div class="section level2">
 <h2 id="calibrating-snow-water-equivalent-swe">Calibrating snow water equivalent (SWE)<a class="anchor" aria-label="anchor" href="#calibrating-snow-water-equivalent-swe"></a>
 </h2>
-<p>At the time of writing, RS Minerve does not support the automatic calibration of SWE. However, snow melt is a major contribution to discharge in Central Asia. Measurements of SWE are only very rarely available. Thus, re-analysis products like the High Mountain Asia Snow Reanalysis product are valuable resources to validate hydrolgoical modelling efforts.</p>
-<p>As automated calibration of SWE is not yet supported in RS Minerve, we propose a work around in R to iteratively adapt the parameters of the HBV snow modules.</p>
+<p>At the time of writing, RS Minerve does not support the automatic
+calibration of SWE. However, snow melt is a major contribution to
+discharge in Central Asia. Measurements of SWE are only very rarely
+available. Thus, re-analysis products like the High Mountain Asia Snow
+Reanalysis product are valuable resources to validate hydrolgoical
+modelling efforts.</p>
+<p>As automated calibration of SWE is not yet supported in RS Minerve,
+we propose a work around in R to iteratively adapt the parameters of the
+HBV snow modules.</p>
 <div class="section level3">
 <h3 id="extract-observed-swe">Extract observed SWE<a class="anchor" aria-label="anchor" href="#extract-observed-swe"></a>
 </h3>
-<p>Actually observed SWE is not typically available for hydrological modeling in many catchments in Central Asia, we therefore propose to use existing model products like the High Mountain Snow Reanalysis Product <span class="citation">(Liu, Fang, and Margulis 2021)</span> which is available through <a href="https://nsidc.org/data/HMA_SR_D/" class="external-link">NSIDC</a>. Login to USGS Earth Data, select the files for download for your model area and download the data (for example using the python download script). We will refer to the SWE data set from HMASR as observed data.</p>
-<p>The downloaded data is subsequently pre-processed to extract the daily average SWE per HRU on the valid pixels of the data set (note that HMASR is not available on areas with permanent snow or ice cover). The following code sniped shows how this can be done.</p>
+<p>Actually observed SWE is not typically available for hydrological
+modeling in many catchments in Central Asia, we therefore propose to use
+existing model products like the High Mountain Snow Reanalysis Product
+<span class="citation">(Liu, Fang, and Margulis 2021)</span> which is
+available through <a href="https://nsidc.org/data/HMA_SR_D/" class="external-link">NSIDC</a>.
+Login to USGS Earth Data, select the files for download for your model
+area and download the data (for example using the python download
+script). We will refer to the SWE data set from HMASR as observed
+data.</p>
+<p>The downloaded data is subsequently pre-processed to extract the
+daily average SWE per HRU on the valid pixels of the data set (note that
+HMASR is not available on areas with permanent snow or ice cover). The
+following code sniped shows how this can be done.</p>
 <p>If you wish to reproduce the code below, please make sure that the <a href="https://www.dropbox.com/sh/r0lqggc77ka0uxd/AAChuIyLHHFIfAdgxNKiU2dpa?dl=0" target="_blank" class="external-link">demo data set</a> is downloaded to your computer.</p>
 <div class="sourceCode" id="cb2"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://github.com/r-tmap/tmap" class="external-link">tmap</a></span><span class="op">)</span></span>
@@ -246,12 +270,20 @@
 <span><span class="co"># As this data extraction can take several minutes, we store the snow water </span></span>
 <span><span class="co"># equivalents in an RData file for later use. </span></span>
 <span><span class="co"># save(list = "swel", file = "SWE.RData")</span></span></code></pre></div>
-<p>You find 4 sample files from the HMASR product available in the Atbashy demo data folder to try out the code above. We have done the pre-processesing for Atbashy and make available the SWE.RData file which contains daily average SWE per HRU in the Atbashy model.</p>
+<p>You find 4 sample files from the HMASR product available in the
+Atbashy demo data folder to try out the code above. We have done the
+pre-processesing for Atbashy and make available the SWE.RData file which
+contains daily average SWE per HRU in the Atbashy model.</p>
 </div>
 <div class="section level3">
 <h3 id="write-check-node-file-to-read-out-all-swe-in-the-atbashy-model-">Write check node file to read out all SWE in the Atbashy model.<a class="anchor" aria-label="anchor" href="#write-check-node-file-to-read-out-all-swe-in-the-atbashy-model-"></a>
 </h3>
-<p>Data can be exported from RS Minerve with various methods. The manual export of all SWE model results in a larger model can become time consuming, therefore RS Minerve offers the possibility to import a so called check node file to specify a selection of model variables to export. The below code snipped shows how to write a check node file for the extracting of SWE simulation results from RS Minerve.</p>
+<p>Data can be exported from RS Minerve with various methods. The manual
+export of all SWE model results in a larger model can become time
+consuming, therefore RS Minerve offers the possibility to import a so
+called check node file to specify a selection of model variables to
+export. The below code snipped shows how to write a check node file for
+the extracting of SWE simulation results from RS Minerve.</p>
 <div class="sourceCode" id="cb3"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">Object_IDs</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://r-spatial.github.io/sf/reference/st_read.html" class="external-link">st_read</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/paste.html" class="external-link">paste0</a></span><span class="op">(</span><span class="va">data_path</span>, </span>
 <span>                             <span class="st">"GIS/16076_HRU.shp"</span><span class="op">)</span><span class="op">)</span> <span class="op">|&gt;</span> </span>
@@ -267,12 +299,15 @@
 <span><span class="fu"><a href="../reference/writeSelectionCHK.html">writeSelectionCHK</a></span><span class="op">(</span>filepath <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/paste.html" class="external-link">paste0</a></span><span class="op">(</span><span class="va">data_path</span>, <span class="st">"RSMINERVE/SWE.chk"</span><span class="op">)</span>, </span>
 <span>                  data <span class="op">=</span> <span class="va">data</span>, </span>
 <span>                  name <span class="op">=</span> <span class="st">"SWE"</span><span class="op">)</span></span></code></pre></div>
-<p>In RS Minerve selection and plots tab, import the check node file SWE.chk written above and plot the data. Then export the data to a file which is read into RStudio below.</p>
+<p>In RS Minerve selection and plots tab, import the check node file
+SWE.chk written above and plot the data. Then export the data to a file
+which is read into RStudio below.</p>
 </div>
 <div class="section level3">
 <h3 id="read-rs-minerve-swe-results">Read RS Minerve SWE results<a class="anchor" aria-label="anchor" href="#read-rs-minerve-swe-results"></a>
 </h3>
-<p>Below we read the simulated SWE produced with an initial parameter set that was created without taking into account SWE observations.</p>
+<p>Below we read the simulated SWE produced with an initial parameter
+set that was created without taking into account SWE observations.</p>
 <div class="sourceCode" id="cb4"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">swe_sim</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/readResultCSV.html">readResultCSV</a></span><span class="op">(</span></span>
 <span>  <span class="fu"><a href="https://rdrr.io/r/base/paste.html" class="external-link">paste0</a></span><span class="op">(</span><span class="va">data_path</span>, </span>
@@ -287,7 +322,9 @@
 <span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/facet_wrap.html" class="external-link">facet_wrap</a></span><span class="op">(</span><span class="st">"Subbasin"</span><span class="op">)</span> <span class="op">+</span> </span>
 <span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/ggtheme.html" class="external-link">theme_bw</a></span><span class="op">(</span><span class="op">)</span></span>
 <span>  </span></code></pre></div>
-<p>This data can be used to manually validate the SWE with secondary data sources like for example the High Mountain Asia Snow Reanalysis Product (Liu et al., 2021. <a href="https://doi.org/10.5067/HNAUGJQXSCVU" class="external-link uri">https://doi.org/10.5067/HNAUGJQXSCVU</a>).</p>
+<p>This data can be used to manually validate the SWE with secondary
+data sources like for example the High Mountain Asia Snow Reanalysis
+Product (Liu et al., 2021. <a href="https://doi.org/10.5067/HNAUGJQXSCVU" class="external-link uri">https://doi.org/10.5067/HNAUGJQXSCVU</a>).</p>
 </div>
 <div class="section level3">
 <h3 id="read-in-observations-of-snow-water-equivalent">Read in observations of snow water equivalent<a class="anchor" aria-label="anchor" href="#read-in-observations-of-snow-water-equivalent"></a>
@@ -336,8 +373,12 @@
 <span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/facet_wrap.html" class="external-link">facet_wrap</a></span><span class="op">(</span><span class="st">"Month_str"</span><span class="op">)</span> <span class="op">+</span> </span>
 <span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/coord_fixed.html" class="external-link">coord_fixed</a></span><span class="op">(</span><span class="op">)</span> <span class="op">+</span> <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/lims.html" class="external-link">xlim</a></span><span class="op">(</span><span class="fl">0</span>, <span class="fl">1.5</span><span class="op">)</span> <span class="op">+</span> <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/lims.html" class="external-link">ylim</a></span><span class="op">(</span><span class="fl">0</span>, <span class="fl">1.5</span><span class="op">)</span> <span class="op">+</span> </span>
 <span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/ggtheme.html" class="external-link">theme_bw</a></span><span class="op">(</span><span class="op">)</span></span></code></pre></div>
-<p>Now we can adjust the parameters of the snow modules in the HBV model objects in RS Minerve and iteratively improve the fit between the observed and simulated snow water equivalent.</p>
-<p>We can also write the HMASR data to a csv file (see chunk below) and import it to RS Minerve for time series comparison and to facilitate manual calibration.</p>
+<p>Now we can adjust the parameters of the snow modules in the HBV model
+objects in RS Minerve and iteratively improve the fit between the
+observed and simulated snow water equivalent.</p>
+<p>We can also write the HMASR data to a csv file (see chunk below) and
+import it to RS Minerve for time series comparison and to facilitate
+manual calibration.</p>
 <div class="sourceCode" id="cb7"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="co"># Generate date sequence in accordance with RSMinerve Requirements</span></span>
 <span><span class="va">dates</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://tibble.tidyverse.org/reference/tibble.html" class="external-link">tibble</a></span><span class="op">(</span>Date <span class="op">=</span> <span class="va">swel</span><span class="op">$</span><span class="va">Date</span> <span class="op">|&gt;</span> <span class="fu"><a href="https://rdrr.io/r/base/unique.html" class="external-link">unique</a></span><span class="op">(</span><span class="op">)</span><span class="op">)</span></span>
@@ -433,7 +474,8 @@
 <span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/coord_fixed.html" class="external-link">coord_fixed</a></span><span class="op">(</span><span class="op">)</span> <span class="op">+</span> <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/lims.html" class="external-link">xlim</a></span><span class="op">(</span><span class="fl">0</span>, <span class="fl">1.5</span><span class="op">)</span> <span class="op">+</span> <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/lims.html" class="external-link">ylim</a></span><span class="op">(</span><span class="fl">0</span>, <span class="fl">1.5</span><span class="op">)</span> <span class="op">+</span> </span>
 <span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/ggtheme.html" class="external-link">theme_bw</a></span><span class="op">(</span><span class="op">)</span></span>
 <span>  </span></code></pre></div>
-<p>The use of the SWE from the HMASR product improves the hydrological model.</p>
+<p>The use of the SWE from the HMASR product improves the hydrological
+model.</p>
 </div>
 </div>
 <div class="section level2 unnumbered">
@@ -441,10 +483,17 @@
 </h2>
 <div id="refs" class="references csl-bib-body hanging-indent">
 <div id="ref-liu_spatiotemporal_2021" class="csl-entry">
-Liu, Yufei, Yiwen Fang, and Steven A. Margulis. 2021. <span>“Spatiotemporal Distribution of Seasonal Snow Water Equivalent in <span>High</span> <span>Mountain</span> <span>Asia</span> from an 18-Year <span>Landsat</span>–<span>MODIS</span> Era Snow Reanalysis Dataset.”</span> <em>The Cryosphere</em> 15 (11): 5261–80. <a href="https://doi.org/10.5194/tc-15-5261-2021" class="external-link">https://doi.org/10.5194/tc-15-5261-2021</a>.
+Liu, Yufei, Yiwen Fang, and Steven A. Margulis. 2021.
+<span>“Spatiotemporal Distribution of Seasonal Snow Water Equivalent in
+<span>High</span> <span>Mountain</span> <span>Asia</span> from an
+18-Year <span>Landsat</span>–<span>MODIS</span> Era Snow Reanalysis
+Dataset.”</span> <em>The Cryosphere</em> 15 (11): 5261–80. <a href="https://doi.org/10.5194/tc-15-5261-2021" class="external-link">https://doi.org/10.5194/tc-15-5261-2021</a>.
 </div>
 <div id="ref-parajka_value_2008" class="csl-entry">
-Parajka, J., and G. Blöschl. 2008. <span>“The Value of <span>MODIS</span> Snow Cover Data in Validating and Calibrating Conceptual Hydrologic Models.”</span> <em>Journal of Hydrology</em> 358 (3-4): 240–58. <a href="https://doi.org/10.1016/j.jhydrol.2008.06.006" class="external-link">https://doi.org/10.1016/j.jhydrol.2008.06.006</a>.
+Parajka, J., and G. Blöschl. 2008. <span>“The Value of
+<span>MODIS</span> Snow Cover Data in Validating and Calibrating
+Conceptual Hydrologic Models.”</span> <em>Journal of Hydrology</em> 358
+(3-4): 240–58. <a href="https://doi.org/10.1016/j.jhydrol.2008.06.006" class="external-link">https://doi.org/10.1016/j.jhydrol.2008.06.006</a>.
 </div>
 </div>
 </div>

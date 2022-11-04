@@ -86,11 +86,18 @@
 
     
     
-<p>The package riversCentralAsia can read several types of raw data from time series in csv files to nc files, all of which are described in more detail below.</p>
+<p>The package riversCentralAsia can read several types of raw data from
+time series in csv files to nc files, all of which are described in more
+detail below.</p>
 <div class="section level2">
 <h2 id="time-series">Time series<a class="anchor" aria-label="anchor" href="#time-series"></a>
 </h2>
-<p>In the former Soviet republics, river discharge but also climate variables like temperature and precipitation are often available from hydrological yearbooks published by the national HydroMeteorological institutes. The common data format for these time series has years in rows and months or decade (10-day interval) per year in columns as indicated in the two examples below.</p>
+<p>In the former Soviet republics, river discharge but also climate
+variables like temperature and precipitation are often available from
+hydrological yearbooks published by the national HydroMeteorological
+institutes. The common data format for these time series has years in
+rows and months or decade (10-day interval) per year in columns as
+indicated in the two examples below.</p>
 <table class="table">
 <caption>Example for monthly data format.</caption>
 <thead><tr class="header">
@@ -144,6 +151,19 @@
 <p>or</p>
 <table class="table">
 <caption>Example for decadal data format.</caption>
+<colgroup>
+<col width="10%">
+<col width="8%">
+<col width="8%">
+<col width="8%">
+<col width="8%">
+<col width="8%">
+<col width="8%">
+<col width="8%">
+<col width="8%">
+<col width="8%">
+<col width="8%">
+</colgroup>
 <thead><tr class="header">
 <th align="center">Year</th>
 <th align="center">Jan</th>
@@ -225,31 +245,68 @@
 </tr>
 </tbody>
 </table>
-<p>To load the time series data using the function <code>loadTabularData</code>, save the cells without the headers in a csv file. We recommend commas as field separators and points as decimal separators.</p>
-<p>A valid csv file example for monthly time series data is given below.</p>
+<p>To load the time series data using the function
+<code>loadTabularData</code>, save the cells without the headers in a
+csv file. We recommend commas as field separators and points as decimal
+separators.</p>
+<p>A valid csv file example for monthly time series data is given
+below.</p>
 <p>1990,0.1,0.2,0.3,0.4,0.5,0.6,0.7,0.8,0.9,1,1.1,1.2<br>
 1991,0.1,0.2,0.3,0.4,0.5,0.6,0.7,0.8,0.9,1,1.1,1.2<br>
 1992,0.1,0.2,0.3,0.4,0.5,0.6,0.7,0.8,0.9,1,1.1,1.2</p>
 <div class="section level4">
 <h4 id="example">Example<a class="anchor" aria-label="anchor" href="#example"></a>
 </h4>
-<p>In the <a href="https://hydrosolutions.github.io/riversCentralAsia/articles/01-discharge-processing-examples.html" class="external-link">article with the discharge processing example</a> we show how you can load a csv file and how to produce various visualizations using the riversCentralAsia package (and it’s numerous dependencies).</p>
+<p>In the <a href="https://hydrosolutions.github.io/riversCentralAsia/articles/01-discharge-processing-examples.html" class="external-link">article
+with the discharge processing example</a> we show how you can load a csv
+file and how to produce various visualizations using the
+riversCentralAsia package (and it’s numerous dependencies).</p>
 </div>
 </div>
 <div class="section level2">
 <h2 id="climate-raster-data">Climate raster data<a class="anchor" aria-label="anchor" href="#climate-raster-data"></a>
 </h2>
-<p>Due to the limited amount of monitoring locations in Central Asia, the use of re-analysis climate data has it’s distinct advantages. Of course, station data is still highly relevant to validate the re-analysis data and, if necessary, for correcting potential biases in the re-analysis data. The chapter <a href="https://hydrosolutions.github.io/caham_book/climate_data.html" target="_blank" class="external-link">Climate data</a> in the hydrological modelling course book has a very detailed description of the use of re-analysis data for hydrological modelling in Central Asia. Here we will refrain to the technical description of the data formats that can be processed with the riversCentralAsia package.</p>
+<p>Due to the limited amount of monitoring locations in Central Asia,
+the use of re-analysis climate data has it’s distinct advantages. Of
+course, station data is still highly relevant to validate the
+re-analysis data and, if necessary, for correcting potential biases in
+the re-analysis data. The chapter <a href="https://hydrosolutions.github.io/caham_book/climate_data.html" target="_blank" class="external-link">Climate data</a> in the hydrological modelling course
+book has a very detailed description of the use of re-analysis data for
+hydrological modelling in Central Asia. Here we will refrain to the
+technical description of the data formats that can be processed with the
+riversCentralAsia package.</p>
 <div class="section level3">
 <h3 id="chelsa">CHELSA<a class="anchor" aria-label="anchor" href="#chelsa"></a>
 </h3>
-<p>CHELSA v2.1 data <span class="citation">Karger et al. (2021)</span> was provided to us by D. Karger as annual .nc (NetCDF) files with daily temperature or precipitation for the Central Asian region. You can access the CHELSA data via the website <a href="https://chelsa-climate.org/" target="_blank" class="external-link">https://chelsa-climate.org/</a>.</p>
-<p>NetCDF files can be quite large so it is often more convenient to use different software from R to inspect them and/or to crop them to your area of interest. For quick inspection of NetCDF files we recommend the free GUI <a href="https://www.giss.nasa.gov/tools/panoply/" target="_blank" class="external-link">Panoply</a> <span class="citation">(Panoply development team 2022)</span>. Cropping of NetCDF can be very conveniently done using the command line tool <a href="https://code.mpimet.mpg.de/projects/cdo" target="_blank" class="external-link">CDO</a> <span class="citation">(Manager: Luis Kornblueh, Ralf Mueller, Uwe Schu and Developer: Dian Putrasahan, Fabian Wachsmann, Irina Fast, Joerg Behrens, Karin Meier-Fleischer, Karl-Hermann Wieners, Mathis Rosenhauer, Oliver Heidmann, Ralf Quast, Reinhard Budich, Thomas Jahns 2022)</span>. CDO only works on Unix-type systems like Ubuntu and other Linux distributions or MacOS. Fortunately, you can also <a href="https://ubuntu.com/tutorials/install-ubuntu-on-wsl2-on-windows-11-with-gui-support#1-overview" target="_blank" class="external-link">activate Ubuntu on Windows OS</a> (10 or newer). The <a href="https://code.mpimet.mpg.de/projects/cdo/wiki/FAQ" target="_blank" class="external-link">CDO FAQ</a> lead you quickly to the commands to inspect a NetCDF file or to crop it to a region of interest.</p>
-<p>The CHELSA v2.1 NetCDF files are in the WGS84 projection with EPSG:4326. Please refer to the documentation of the data set you download. Ours includes daily precipitation sums in mm (varname = pr) or daily average near surface temperature in deg C (varname = tas) for each day of the year. There is one nc file for each year and for each climate variable. The date is included in the names of the daily images in the format X%Y.%m.%d (see example below).</p>
+<p>CHELSA v2.1 data <span class="citation">Karger et al. (2021)</span>
+was provided to us by D. Karger as annual .nc (NetCDF) files with daily
+temperature or precipitation for the Central Asian region. You can
+access the CHELSA data via the website <a href="https://chelsa-climate.org/" target="_blank" class="external-link">https://chelsa-climate.org/</a>.</p>
+<p>NetCDF files can be quite large so it is often more convenient to use
+different software from R to inspect them and/or to crop them to your
+area of interest. For quick inspection of NetCDF files we recommend the
+free GUI <a href="https://www.giss.nasa.gov/tools/panoply/" target="_blank" class="external-link">Panoply</a> <span class="citation">(Panoply development
+team 2022)</span>. Cropping of NetCDF can be very conveniently done
+using the command line tool <a href="https://code.mpimet.mpg.de/projects/cdo" target="_blank" class="external-link">CDO</a>
+<span class="citation">(Manager: Luis Kornblueh, Ralf Mueller, Uwe Schu
+and Developer: Dian Putrasahan, Fabian Wachsmann, Irina Fast, Joerg
+Behrens, Karin Meier-Fleischer, Karl-Hermann Wieners, Mathis Rosenhauer,
+Oliver Heidmann, Ralf Quast, Reinhard Budich, Thomas Jahns 2022)</span>.
+CDO only works on Unix-type systems like Ubuntu and other Linux
+distributions or MacOS. Fortunately, you can also <a href="https://ubuntu.com/tutorials/install-ubuntu-on-wsl2-on-windows-11-with-gui-support#1-overview" target="_blank" class="external-link">activate Ubuntu on Windows OS</a> (10 or newer). The <a href="https://code.mpimet.mpg.de/projects/cdo/wiki/FAQ" target="_blank" class="external-link">CDO FAQ</a> lead you quickly to the commands to inspect
+a NetCDF file or to crop it to a region of interest.</p>
+<p>The CHELSA v2.1 NetCDF files are in the WGS84 projection with
+EPSG:4326. Please refer to the documentation of the data set you
+download. Ours includes daily precipitation sums in mm (varname = pr) or
+daily average near surface temperature in deg C (varname = tas) for each
+day of the year. There is one nc file for each year and for each climate
+variable. The date is included in the names of the daily images in the
+format X%Y.%m.%d (see example below).</p>
 <div class="section level4">
 <h4 id="example-1">Example<a class="anchor" aria-label="anchor" href="#example-1"></a>
 </h4>
-<p>To reproduce the examples below, please download the file <a href="https://github.com/hydrosolutions/riversCentralAsia/blob/master/tests/testthat/test_gen_HRU_Climate_CSV_RSMinerve_input_file.nc" target="_blank" class="external-link">test_gen_HRU_Climate_CSV_RSMinerve_input_file.nc</a> from the test folder in the riversCentralAsia package on github.</p>
+<p>To reproduce the examples below, please download the file <a href="https://github.com/hydrosolutions/riversCentralAsia/blob/master/tests/testthat/test_gen_HRU_Climate_CSV_RSMinerve_input_file.nc" target="_blank" class="external-link">test_gen_HRU_Climate_CSV_RSMinerve_input_file.nc</a>
+from the test folder in the riversCentralAsia package on github.</p>
 <div class="sourceCode" id="cb1"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://rspatial.org/raster" class="external-link">raster</a></span><span class="op">)</span></span>
 <span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://hydrosolutions.github.io/riversCentralAsia/index.html" class="external-link">riversCentralAsia</a></span><span class="op">)</span></span>
@@ -273,25 +330,57 @@
 <span><span class="co">#&gt; names      : X1979.01.01, X1979.01.02, X1979.01.03, X1979.01.04, X1979.01.05, X1979.01.06, #&gt; X1979.01.07, X1979.01.08, X1979.01.09, X1979.01.10, X1979.01.11, X1979.01.12, X1979.01.13, #&gt; X1979.01.14, X1979.01.15, ... </span></span>
 <span><span class="co">#&gt; Date       : 1979-01-01, 1979-12-31 (min, max)</span></span>
 <span><span class="co">#&gt; varname    : tas </span></span></code></pre></div>
-<p>The file contains one raster image of daily mean temperatures (please read the <a href="https://chelsa-climate.org/" target="_blank" class="external-link">technical documentation of the CHELSA v2.1 data</a> before using it). You can plot the temperature raster of January 1, 1979:</p>
+<p>The file contains one raster image of daily mean temperatures (please
+read the <a href="https://chelsa-climate.org/" target="_blank" class="external-link">technical
+documentation of the CHELSA v2.1 data</a> before using it). You can plot
+the temperature raster of January 1, 1979:</p>
 <div class="sourceCode" id="cb2"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/base/plot.html" class="external-link">plot</a></span><span class="op">(</span><span class="va">chelsa_temperature_data</span><span class="op">$</span><span class="va">X1979.01.01</span>, </span>
 <span>     xlab <span class="op">=</span> <span class="st">"Longitute"</span>, ylab <span class="op">=</span> <span class="st">"Latitude"</span>, main <span class="op">=</span> <span class="st">"Date: January 1, 1979"</span>,</span>
 <span>     legend.args <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span>text <span class="op">=</span> <span class="st">"Temperature [deg C]"</span>, side<span class="op">=</span><span class="fl">4</span>, line<span class="op">=</span><span class="fl">2.5</span><span class="op">)</span><span class="op">)</span></span></code></pre></div>
 <div class="figure">
-<img src="CHELSA_tas_example.png" style="width:90.0%" alt=""><p class="caption">Example temperature raster of January 1, 1979. Data: CHELSA v2.1 (1 km grid resolution).</p>
+<img src="CHELSA_tas_example.png" style="width:90.0%" alt=""><p class="caption">Example temperature raster of January 1, 1979. Data:
+CHELSA v2.1 (1 km grid resolution).</p>
 </div>
 </div>
 </div>
 <div class="section level3">
 <h3 id="climate-projections">Climate projections<a class="anchor" aria-label="anchor" href="#climate-projections"></a>
 </h3>
-<p>The use of climate projection data for hydrological modelling is described in detail in the <a href="https://hydrosolutions.github.io/caham_book/climate_data.html#sec-climate-projections" target="_blank" class="external-link">respective chapter</a> of the online course book. As mentioned in the course book, pre-processing of the climate projection data is not a beginners level task and requires a working knowledge of cdo (or a similar NetCDF processing tool) because the outputs of the climate models are not consistent with each other (e.g. treatment of leap years, date handling and formats, units, projections, etc.). The data package of the course book includes future projections of climate variables compatible with the model selection used for impact assessments carried out in phase 3a of the Inter-Sectoral Impact Model Intercomparison Project (ISIMIP3b) <span class="citation">(ISIMIP3 consortium 2022)</span>. The package riversCentralAsia can process harmonized climate projection data, i.e. the raw climate projections are edited to have consistent dates, units and projections. The format of the nc files is the almost same as for the CHELSA v2.1 nc files described above. The only difference is in the layers names which include minutes and seconds for the climate projection files. This does, however, not make a difference in the riversCentralAsia package.</p>
-<p>Should you wish to download projections from further climate models, you can download the climate projection data for the CMIP 6 phase from the <a href="https://cds.climate.copernicus.eu/cdsapp#!/dataset/projections-cmip6?tab=form" target="_blank" class="external-link">Copernicus data repository app</a>. It is then recommended to inspect the downloaded data for any obvious problems using panoply and to reformat the data to a riversCentralAsia-package-readable format using cdo or R (or any other scripting language of your choosing).</p>
+<p>The use of climate projection data for hydrological modelling is
+described in detail in the <a href="https://hydrosolutions.github.io/caham_book/climate_data.html#sec-climate-projections" target="_blank" class="external-link">respective chapter</a> of the online course book. As
+mentioned in the course book, pre-processing of the climate projection
+data is not a beginners level task and requires a working knowledge of
+cdo (or a similar NetCDF processing tool) because the outputs of the
+climate models are not consistent with each other (e.g. treatment of
+leap years, date handling and formats, units, projections, etc.). The
+data package of the course book includes future projections of climate
+variables compatible with the model selection used for impact
+assessments carried out in phase 3a of the Inter-Sectoral Impact Model
+Intercomparison Project (ISIMIP3b) <span class="citation">(ISIMIP3
+consortium 2022)</span>. The package riversCentralAsia can process
+harmonized climate projection data, i.e. the raw climate projections are
+edited to have consistent dates, units and projections. The format of
+the nc files is the almost same as for the CHELSA v2.1 nc files
+described above. The only difference is in the layers names which
+include minutes and seconds for the climate projection files. This does,
+however, not make a difference in the riversCentralAsia package.</p>
+<p>Should you wish to download projections from further climate models,
+you can download the climate projection data for the CMIP 6 phase from
+the <a href="https://cds.climate.copernicus.eu/cdsapp#!/dataset/projections-cmip6?tab=form" target="_blank" class="external-link">Copernicus data repository app</a>. It is then
+recommended to inspect the downloaded data for any obvious problems
+using panoply and to reformat the data to a
+riversCentralAsia-package-readable format using cdo or R (or any other
+scripting language of your choosing).</p>
 <div class="section level4">
 <h4 id="example-2">Example<a class="anchor" aria-label="anchor" href="#example-2"></a>
 </h4>
-<p>To reproduce the example below, please download the <a href="https://www.dropbox.com/s/aw3mwh0ysydgu9j/tas_day_GFDL-ESM4_ssp126_r1i1p1f1_gr1.nc?dl=0" target="_blank" class="external-link">example nc file</a> from the data repository of the course book. It contains daily temperatures of the general circulation model (GCM) GFDL-ESM4 for the shared socio-economic scenario (SSP) 1 -2.6 from January 2012 until the end of the century. Please refer to the <a href="https://hydrosolutions.github.io/caham_book/climate_data.html#sec-climate-projections" target="_blank" class="external-link">course book</a> for a more detailed explanation of GCMs and SSPs.</p>
+<p>To reproduce the example below, please download the <a href="https://www.dropbox.com/s/aw3mwh0ysydgu9j/tas_day_GFDL-ESM4_ssp126_r1i1p1f1_gr1.nc?dl=0" target="_blank" class="external-link">example nc file</a> from the data repository of the
+course book. It contains daily temperatures of the general circulation
+model (GCM) GFDL-ESM4 for the shared socio-economic scenario (SSP) 1
+-2.6 from January 2012 until the end of the century. Please refer to the
+<a href="https://hydrosolutions.github.io/caham_book/climate_data.html#sec-climate-projections" target="_blank" class="external-link">course book</a> for a more detailed explanation of GCMs
+and SSPs.</p>
 <div class="sourceCode" id="cb3"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="co"># Download the example nc file from https://www.dropbox.com/s/aw3mwh0ysydgu9j/tas_day_GFDL-ESM4_ssp126_r1i1p1f1_gr1.nc?dl=0</span></span>
 <span></span>
@@ -312,13 +401,17 @@
 <span><span class="co">#&gt; names      : X2012.01.01.12.00.00, X2012.01.02.12.00.00, X2012.01.03.12.00.00, X2012.01.04.12.00.00, X2012.01.05.12.00.00, X2012.01.06.12.00.00, X2012.01.07.12.00.00, X2012.01.08.12.00.00, X2012.01.09.12.00.00, X2012.01.10.12.00.00, X2012.01.11.12.00.00, X2012.01.12.12.00.00, X2012.01.13.12.00.00, X2012.01.14.12.00.00, X2012.01.15.12.00.00, ... </span></span>
 <span><span class="co">#&gt; Date/time  : 2012-01-01 12:00:00, 2100-12-30 12:00:00 (min, max)</span></span>
 <span><span class="co">#&gt; varname    : tas </span></span></code></pre></div>
-<p>The file contains one raster image of daily mean temperatures (please refer to the course book chapter on <a href="https://hydrosolutions.github.io/caham_book/climate_data.html" target="_blank" class="external-link">climate data</a> for more details on how to use this data for hydrological modelling). You can plot the temperature raster of January 1, 2012:</p>
+<p>The file contains one raster image of daily mean temperatures (please
+refer to the course book chapter on <a href="https://hydrosolutions.github.io/caham_book/climate_data.html" target="_blank" class="external-link">climate data</a> for more details on how to use this
+data for hydrological modelling). You can plot the temperature raster of
+January 1, 2012:</p>
 <div class="sourceCode" id="cb4"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/base/plot.html" class="external-link">plot</a></span><span class="op">(</span><span class="va">GFDESM4_SSP126_temperature_data</span><span class="op">$</span><span class="va">X2012.01.01.12.00.00</span>, </span>
 <span>     xlab <span class="op">=</span> <span class="st">"Longitute"</span>, ylab <span class="op">=</span> <span class="st">"Latitude"</span>, main <span class="op">=</span> <span class="st">"Date: January 1, 2012"</span>,</span>
 <span>     legend.args <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span>text <span class="op">=</span> <span class="st">"Temperature [deg C]"</span>, side<span class="op">=</span><span class="fl">4</span>, line<span class="op">=</span><span class="fl">2.5</span><span class="op">)</span><span class="op">)</span></span></code></pre></div>
 <div class="figure">
-<img src="GCM_tas_example.png" style="width:90.0%" alt=""><p class="caption">Example temperature raster of January 1, 2012. Data: GCM GFD-ESM4, SSP126 (approximately 1-1.5 km grid resolution).</p>
+<img src="GCM_tas_example.png" style="width:90.0%" alt=""><p class="caption">Example temperature raster of January 1, 2012. Data:
+GCM GFD-ESM4, SSP126 (approximately 1-1.5 km grid resolution).</p>
 </div>
 </div>
 </div>
@@ -328,22 +421,39 @@
 </h2>
 <div id="refs" class="references csl-bib-body hanging-indent">
 <div id="ref-ISIMIP3" class="csl-entry">
-ISIMIP3 consortium. 2022. <span>“ISIMIP3b Simulation Protocol.”</span> <a href="https://protocol.isimip.org/" class="external-link">https://protocol.isimip.org/</a>.
+ISIMIP3 consortium. 2022. <span>“ISIMIP3b Simulation Protocol.”</span>
+<a href="https://protocol.isimip.org/" class="external-link uri">https://protocol.isimip.org/</a>.
 </div>
 <div id="ref-karger_climatologies_2017" class="csl-entry">
-Karger, Dirk Nikolaus, Olaf Conrad, Jürgen Böhner, Tobias Kawohl, Holger Kreft, Rodrigo Wilber Soria-Auza, Niklaus E. Zimmermann, H. Peter Linder, and Michael Kessler. 2017. <span>“Climatologies at High Resolution for the Earth’s Land Surface Areas.”</span> <em>Scientific Data</em> 4 (1): 170122. <a href="https://doi.org/10.1038/sdata.2017.122" class="external-link">https://doi.org/10.1038/sdata.2017.122</a>.
+Karger, Dirk Nikolaus, Olaf Conrad, Jürgen Böhner, Tobias Kawohl, Holger
+Kreft, Rodrigo Wilber Soria-Auza, Niklaus E. Zimmermann, H. Peter
+Linder, and Michael Kessler. 2017. <span>“Climatologies at High
+Resolution for the Earth’s Land Surface Areas.”</span> <em>Scientific
+Data</em> 4 (1): 170122. <a href="https://doi.org/10.1038/sdata.2017.122" class="external-link">https://doi.org/10.1038/sdata.2017.122</a>.
 </div>
 <div id="ref-karger_high-resolution_2020" class="csl-entry">
-Karger, Dirk Nikolaus, Dirk R. Schmatz, Gabriel Dettling, and Niklaus E. Zimmermann. 2020. <span>“High-Resolution Monthly Precipitation and Temperature Time Series from 2006 to 2100.”</span> <em>Scientific Data</em> 7 (1): 248. <a href="https://doi.org/10.1038/s41597-020-00587-y" class="external-link">https://doi.org/10.1038/s41597-020-00587-y</a>.
+Karger, Dirk Nikolaus, Dirk R. Schmatz, Gabriel Dettling, and Niklaus E.
+Zimmermann. 2020. <span>“High-Resolution Monthly Precipitation and
+Temperature Time Series from 2006 to 2100.”</span> <em>Scientific
+Data</em> 7 (1): 248. <a href="https://doi.org/10.1038/s41597-020-00587-y" class="external-link">https://doi.org/10.1038/s41597-020-00587-y</a>.
 </div>
 <div id="ref-karger_global_2021" class="csl-entry">
-Karger, Dirk Nikolaus, Adam M. Wilson, Colin Mahony, Niklaus E. Zimmermann, and Walter Jetz. 2021. <span>“Global Daily 1 Km Land Surface Precipitation Based on Cloud Cover-Informed Downscaling.”</span> <em>Scientific Data</em> 8 (1): 307. <a href="https://doi.org/10.1038/s41597-021-01084-6" class="external-link">https://doi.org/10.1038/s41597-021-01084-6</a>.
+Karger, Dirk Nikolaus, Adam M. Wilson, Colin Mahony, Niklaus E.
+Zimmermann, and Walter Jetz. 2021. <span>“Global Daily 1 Km Land Surface
+Precipitation Based on Cloud Cover-Informed Downscaling.”</span>
+<em>Scientific Data</em> 8 (1): 307. <a href="https://doi.org/10.1038/s41597-021-01084-6" class="external-link">https://doi.org/10.1038/s41597-021-01084-6</a>.
 </div>
 <div id="ref-manager_luis_kornblueh_ralf_mueller_uwe_schu_cdo_2022" class="csl-entry">
-Manager: Luis Kornblueh, Ralf Mueller, Uwe Schu, and Developer: Dian Putrasahan, Fabian Wachsmann, Irina Fast, Joerg Behrens, Karin Meier-Fleischer, Karl-Hermann Wieners, Mathis Rosenhauer, Oliver Heidmann, Ralf Quast, Reinhard Budich, Thomas Jahns. 2022. <span>“<span>CDO</span>.”</span> Max-Planck-Institute for Meteorology, <a href="https://code.mpimet.mpg.de/projects/cdo" class="external-link">https://code.mpimet.mpg.de/projects/cdo</a>.
+Manager: Luis Kornblueh, Ralf Mueller, Uwe Schu, and Developer: Dian
+Putrasahan, Fabian Wachsmann, Irina Fast, Joerg Behrens, Karin
+Meier-Fleischer, Karl-Hermann Wieners, Mathis Rosenhauer, Oliver
+Heidmann, Ralf Quast, Reinhard Budich, Thomas Jahns. 2022.
+<span>“<span>CDO</span>.”</span> Max-Planck-Institute for Meteorology,
+<a href="https://code.mpimet.mpg.de/projects/cdo" class="external-link uri">https://code.mpimet.mpg.de/projects/cdo</a>.
 </div>
 <div id="ref-panoply_development_team_panoply_2022" class="csl-entry">
-Panoply development team. 2022. <span>“Panoply <span class="nocase">netCDF</span>, <span>HDF</span> and <span>GRIB Data Viewer</span>.”</span> <span>Goddard, USA</span>: NASA, <a href="https://www.giss.nasa.gov/tools/panoply/" class="external-link">https://www.giss.nasa.gov/tools/panoply/</a>.
+Panoply development team. 2022. <span>“Panoply <span class="nocase">netCDF</span>, <span>HDF</span> and <span>GRIB Data
+Viewer</span>.”</span> <span>Goddard, USA</span>: NASA, <a href="https://www.giss.nasa.gov/tools/panoply/" class="external-link uri">https://www.giss.nasa.gov/tools/panoply/</a>.
 </div>
 </div>
 </div>

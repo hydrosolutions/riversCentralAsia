@@ -89,41 +89,141 @@
 <div class="section level2">
 <h2 id="background-motivation">Background &amp; Motivation<a class="anchor" aria-label="anchor" href="#background-motivation"></a>
 </h2>
-<p>In the Central Asia region, there are key figures to keep in mind in relation to runoff formation: Snow melt is the most important contribution to discharge (~ 80 %, on average), followed by runoff from liquid precipitation (~ 17 %, on average) and, finally, glacier melt (~ 3 %, on average) (personal communication with A. Yakovlev, 2019). <span class="citation">Armstrong et al. (2019)</span> obtain similar orders of magnitude with 65%-75% snow melt, 23% precipitation and 2-8% glacier melt for the basins of the rivers Syr Darya and Amu Darya. In smaller, highly glaciated catchments, the glacier contribution to discharge can be more important <span class="citation">(Pohl et al. 2017; Dhaubanjar et al. 2021)</span>. The cryosphere is therefore a major contributor to the water balance in Central Asia <span class="citation">(Barandun et al. 2020)</span>. While glacier runoff is a small contributor to the annual runoff, it is seasonally important as it covers the irrigation demand in summer, when snow melt is over <span class="citation">(Kaser, Grosshauser, and Marzeion 2010)</span>. Gaining a proper understanding of climate change impacts on the region’s hydrology is not just of interest to the scientific community but also of greatest relevance to the local communities and riparian states that depend crucially on the availability of runoff at the right time and location.</p>
-<p>Among other things, climate impacts translate into long-term changes of runoff formation fractions and the distribution of runoff formation <em>within</em> the hydrological year. Typical rainfall-runoff models such as the HBV Model simulate the fractionation of precipitation into snow and rain with a temperature threshold method. Snow and liquid water reservoirs and corresponding fluxes are then accounted for. However, these models have only a limited understanding of glacier processes which are normally inadequate at best to estimate glacier contributions to discharge. We present a short introduction to glaciers in water resources and a workflow to include state-of-the-art glacier data from the scientific community in day-to-day hydrological modelling.</p>
+<p>In the Central Asia region, there are key figures to keep in mind in
+relation to runoff formation: Snow melt is the most important
+contribution to discharge (~ 80 %, on average), followed by runoff from
+liquid precipitation (~ 17 %, on average) and, finally, glacier melt (~
+3 %, on average) (personal communication with A. Yakovlev, 2019). <span class="citation">Armstrong et al. (2019)</span> obtain similar orders of
+magnitude with 65%-75% snow melt, 23% precipitation and 2-8% glacier
+melt for the basins of the rivers Syr Darya and Amu Darya. In smaller,
+highly glaciated catchments, the glacier contribution to discharge can
+be more important <span class="citation">(Pohl et al. 2017; Dhaubanjar
+et al. 2021)</span>. The cryosphere is therefore a major contributor to
+the water balance in Central Asia <span class="citation">(Barandun et
+al. 2020)</span>. While glacier runoff is a small contributor to the
+annual runoff, it is seasonally important as it covers the irrigation
+demand in summer, when snow melt is over <span class="citation">(Kaser,
+Grosshauser, and Marzeion 2010)</span>. Gaining a proper understanding
+of climate change impacts on the region’s hydrology is not just of
+interest to the scientific community but also of greatest relevance to
+the local communities and riparian states that depend crucially on the
+availability of runoff at the right time and location.</p>
+<p>Among other things, climate impacts translate into long-term changes
+of runoff formation fractions and the distribution of runoff formation
+<em>within</em> the hydrological year. Typical rainfall-runoff models
+such as the HBV Model simulate the fractionation of precipitation into
+snow and rain with a temperature threshold method. Snow and liquid water
+reservoirs and corresponding fluxes are then accounted for. However,
+these models have only a limited understanding of glacier processes
+which are normally inadequate at best to estimate glacier contributions
+to discharge. We present a short introduction to glaciers in water
+resources and a workflow to include state-of-the-art glacier data from
+the scientific community in day-to-day hydrological modelling.</p>
 </div>
 <div class="section level2">
 <h2 id="glaciers-in-water-resources-modelling">Glaciers in Water Resources Modelling<a class="anchor" aria-label="anchor" href="#glaciers-in-water-resources-modelling"></a>
 </h2>
-<p>Glaciers consist of compacted snow and frozen water. Many processes contribute to the glacier mass balance (see for example <span class="citation">Benn and Evans (2010)</span> and <span class="citation">Cogley et al. (2011)</span>) but we focus on a simplified mass balance as we have data only for accumulated mass balance outcomes (i.e. glacier thinning rates and glacier discharge, see below).</p>
+<p>Glaciers consist of compacted snow and frozen water. Many processes
+contribute to the glacier mass balance (see for example <span class="citation">Benn and Evans (2010)</span> and <span class="citation">Cogley et al. (2011)</span>) but we focus on a
+simplified mass balance as we have data only for accumulated mass
+balance outcomes (i.e. glacier thinning rates and glacier discharge, see
+below).</p>
 <div class="figure">
-<img src="CogleyGlacierMassBalanceComponents.png" style="width:90.0%" alt=""><p class="caption">Glacier mass balance components (thickness of arrows not to scale) by <span class="citation">Cogley et al. (2011)</span>.</p>
+<img src="CogleyGlacierMassBalanceComponents.png" style="width:90.0%" alt=""><p class="caption">Glacier mass balance components (thickness of arrows
+not to scale) by <span class="citation">Cogley et al. (2011)</span>.</p>
 </div>
-<p>Glaciers accumulate mass in the cold period and at higher altitudes through snow fall. Glaciers lose mass to melt driven by the energy balance at the glacier-atmosphere interface <span class="citation">(Hock 2005)</span>. Typically, larger glaciers loose mass at lower altitudes (ablation zone) and accumulate mass at higher altitudes (accumulation zone). The mass loss in the lower altitudes is compensated by the downstream movement of ice from the accumulation zone. The boundary between the accumulation and the ablation zone is called the equilibrium line altitude (ELA).</p>
-<p>Naturally, glaciers accumulate mass in the cold season and loose mass to ablation in the warm season. Therefore, the overall mass balance of a glacier should be calculated over a year or, better, over an average of several years.</p>
-<p>A simplified multi-year average glacier mass balance, neglecting snow melt, can be expressed as <span class="citation">(Braithwaite and Zhang 2000)</span>:</p>
+<p>Glaciers accumulate mass in the cold period and at higher altitudes
+through snow fall. Glaciers lose mass to melt driven by the energy
+balance at the glacier-atmosphere interface <span class="citation">(Hock
+2005)</span>. Typically, larger glaciers loose mass at lower altitudes
+(ablation zone) and accumulate mass at higher altitudes (accumulation
+zone). The mass loss in the lower altitudes is compensated by the
+downstream movement of ice from the accumulation zone. The boundary
+between the accumulation and the ablation zone is called the equilibrium
+line altitude (ELA).</p>
+<p>Naturally, glaciers accumulate mass in the cold season and loose mass
+to ablation in the warm season. Therefore, the overall mass balance of a
+glacier should be calculated over a year or, better, over an average of
+several years.</p>
+<p>A simplified multi-year average glacier mass balance, neglecting snow
+melt, can be expressed as <span class="citation">(Braithwaite and Zhang
+2000)</span>:</p>
 <p><span class="math display">\[
 \Delta S = \text{accumulation} - \text{ablation} \approx P - M
 \]</span></p>
-<p>where <span class="math inline">\(\Delta S\)</span> is the change of water storage in the glacier, <span class="math inline">\(P\)</span> is the precipitation over the glacier (assumed to be solid precipitation) and <span class="math inline">\(M\)</span> is glacier melt. If <span class="math inline">\(\Delta S\)</span> is larger than 0 (i.e., <span class="math inline">\(P &gt; M\)</span>), the glacier accumulates snow and ice and is growing. If <span class="math inline">\(\Delta S\)</span> is smaller than 0 (i.e., <span class="math inline">\(P &lt; M\)</span>), we have <em>imbalance ablation</em> and the glacier shrinks.</p>
-<p>Glacier melt <span class="math inline">\(M\)</span> can be modeled using full energy balance models or simplifications thereof, e.g. temperature index models <span class="citation">(Hock 2003)</span>.</p>
-<p>In simplified words, if a glacier, on average, accumulates as much snow as it looses to melt, it is in balance. The average annual glacier discharge is equivalent to the average annual snow fall and called <em>balance ablation</em>. The ELA does not move. If the glacier produces more discharge than it accumulates from snow fall, it is not in balance. The ELA moves upwards. The excess melt is called <em>imbalance ablation</em>, as also explained in the previous paragraph. If more snow falls that melts, the ELA moves downstream and the glacier grows <span class="citation">(Cogley et al. 2011)</span>.</p>
+<p>where <span class="math inline">\(\Delta S\)</span> is the change of
+water storage in the glacier, <span class="math inline">\(P\)</span> is
+the precipitation over the glacier (assumed to be solid precipitation)
+and <span class="math inline">\(M\)</span> is glacier melt. If <span class="math inline">\(\Delta S\)</span> is larger than 0 (i.e., <span class="math inline">\(P &gt; M\)</span>), the glacier accumulates snow
+and ice and is growing. If <span class="math inline">\(\Delta S\)</span>
+is smaller than 0 (i.e., <span class="math inline">\(P &lt; M\)</span>),
+we have <em>imbalance ablation</em> and the glacier shrinks.</p>
+<p>Glacier melt <span class="math inline">\(M\)</span> can be modeled
+using full energy balance models or simplifications thereof,
+e.g. temperature index models <span class="citation">(Hock
+2003)</span>.</p>
+<p>In simplified words, if a glacier, on average, accumulates as much
+snow as it looses to melt, it is in balance. The average annual glacier
+discharge is equivalent to the average annual snow fall and called
+<em>balance ablation</em>. The ELA does not move. If the glacier
+produces more discharge than it accumulates from snow fall, it is not in
+balance. The ELA moves upwards. The excess melt is called <em>imbalance
+ablation</em>, as also explained in the previous paragraph. If more snow
+falls that melts, the ELA moves downstream and the glacier grows <span class="citation">(Cogley et al. 2011)</span>.</p>
 <div class="figure">
-<img src="OGGM_glacier.gif" style="width:90.0%" alt=""><p class="caption">Glacier graphics by Anne Maussion, Atelier les Gros yeux, for <a href="https://edu.oggm.org/en/latest/glacier_basics.html" target="_blank" class="external-link">Open Global Glacier Model (OGGM)</a>.</p>
+<img src="OGGM_glacier.gif" style="width:90.0%" alt=""><p class="caption">Glacier graphics by Anne Maussion, Atelier les Gros
+yeux, for <a href="https://edu.oggm.org/en/latest/glacier_basics.html" target="_blank" class="external-link">Open Global Glacier Model (OGGM)</a>.</p>
 </div>
-<p>Most glaciers worldwide are currently not in equilibrium with the warmer than long-term average climate and thus produce excess melt via imbalance ablation <span class="citation">(Hugonnet et al. 2021)</span>. In the short term, this is for example good in semi-arid places such as Central Asia where more river discharge is temporarily available in the downstream for irrigation. However, the glaciers produce excess melt only until they reach a new equilibrium at higher altitudes or until they disappear entirely. This means that the excess melt will also disappear and ultimately less water will be available for downstream users during the warm season where glaciers contribute most to runoff. This phenomenon is called peak water <span class="citation">(Huss and Hock 2018)</span>.</p>
+<p>Most glaciers worldwide are currently not in equilibrium with the
+warmer than long-term average climate and thus produce excess melt via
+imbalance ablation <span class="citation">(Hugonnet et al. 2021)</span>.
+In the short term, this is for example good in semi-arid places such as
+Central Asia where more river discharge is temporarily available in the
+downstream for irrigation. However, the glaciers produce excess melt
+only until they reach a new equilibrium at higher altitudes or until
+they disappear entirely. This means that the excess melt will also
+disappear and ultimately less water will be available for downstream
+users during the warm season where glaciers contribute most to runoff.
+This phenomenon is called peak water <span class="citation">(Huss and
+Hock 2018)</span>.</p>
 <div class="figure">
 <img src="HussHockPeakWater.png" style="width:90.0%" alt=""><p class="caption">An illustration of peak water by <span class="citation">Huss and Hock (2018)</span>.</p>
 </div>
-<p>Water resources managers in glaciated catchments are highly interested in knowing when peak water will be reached as measures to adapt for lower water availability need time to implement.</p>
-<p>Without in-situ measurements (and actually even with in-situ measurements) it is no easy feat to model the evolution of the water storage in a glacier. The best we can do in water resources modelling is: Use results from existing glacier models and feed them to the water resources model or, alternatively, use the best data available to estimate glacier melt with simple models. As state-of-the-art glacier models are available as open source software <span class="citation">(Maussion et al. 2019; Rounce, Hock, and Shean 2020a)</span>, and even simulation results are published for public use <span class="citation">(Rounce, Hock, and Shean 2020a)</span>, there is no need to implement an own glacier evolution model. New glacier thickness data sets can be used to update glacier-volume scaling relationships derived for glaciers in Central Asia.</p>
-<p>The present vignette gives an overview over the relevant glacier-related data, illustrated using the catchment area of the river Atbashy, a tributary of the Naryn river in Central Asia (status mid 2022).</p>
+<p>Water resources managers in glaciated catchments are highly
+interested in knowing when peak water will be reached as measures to
+adapt for lower water availability need time to implement.</p>
+<p>Without in-situ measurements (and actually even with in-situ
+measurements) it is no easy feat to model the evolution of the water
+storage in a glacier. The best we can do in water resources modelling
+is: Use results from existing glacier models and feed them to the water
+resources model or, alternatively, use the best data available to
+estimate glacier melt with simple models. As state-of-the-art glacier
+models are available as open source software <span class="citation">(Maussion et al. 2019; Rounce, Hock, and Shean
+2020a)</span>, and even simulation results are published for public use
+<span class="citation">(Rounce, Hock, and Shean 2020a)</span>, there is
+no need to implement an own glacier evolution model. New glacier
+thickness data sets can be used to update glacier-volume scaling
+relationships derived for glaciers in Central Asia.</p>
+<p>The present vignette gives an overview over the relevant
+glacier-related data, illustrated using the catchment area of the river
+Atbashy, a tributary of the Naryn river in Central Asia (status mid
+2022).</p>
 </div>
 <div class="section level2">
 <h2 id="availability-on-glacier-related-data">Availability on glacier-related data<a class="anchor" aria-label="anchor" href="#availability-on-glacier-related-data"></a>
 </h2>
-<p>Recent advances in glacier research yielded a stupendous amount of novel data sets that can be used to map glaciers and to force glacier melt models. The following section gives an overview over the data used in the models, status January 2022.</p>
-<p>We use the catchment of the gauging station on the Atabshy river, a tributary to the Naryn river in Central Asia as a demo site. If you’d like to reproduce the examples presented in this vignette you can download the zipped data by clicking this <a href="https://www.dropbox.com/sh/r0lqggc77ka0uxd/AAChuIyLHHFIfAdgxNKiU2dpa?dl=1" target="_blank" class="external-link">link</a>. You can extract the the downloaded data into a location of your choice and adapt the reference path in the code chunk below. The rest of the code will run as it is, provided you have the required r packages installed. The size of the data package is approximately 1 GB.</p>
+<p>Recent advances in glacier research yielded a stupendous amount of
+novel data sets that can be used to map glaciers and to force glacier
+melt models. The following section gives an overview over the data used
+in the models, status January 2022.</p>
+<p>We use the catchment of the gauging station on the Atabshy river, a
+tributary to the Naryn river in Central Asia as a demo site. If you’d
+like to reproduce the examples presented in this vignette you can
+download the zipped data by clicking this <a href="https://www.dropbox.com/sh/r0lqggc77ka0uxd/AAChuIyLHHFIfAdgxNKiU2dpa?dl=1" target="_blank" class="external-link">link</a>. You can extract the the downloaded data into a
+location of your choice and adapt the reference path in the code chunk
+below. The rest of the code will run as it is, provided you have the
+required r packages installed. The size of the data package is
+approximately 1 GB.</p>
 <div class="sourceCode" id="cb1"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="co"># Install the libraries required to reproduce this vignette</span></span>
 <span><span class="co"># The below packages are available from cran and can be installed using the </span></span>
@@ -147,7 +247,16 @@
 <div class="section level3">
 <h3 id="randolph-glacier-inventory">Randolph glacier inventory<a class="anchor" aria-label="anchor" href="#randolph-glacier-inventory"></a>
 </h3>
-<p>The Randolph Glacier Inventory (RGI) v6.0 <span class="citation">(RGI Consortium 2017)</span> makes a consistent global glacier data base publicly available. It includes geo-located glacier geometry and some additional parameters, for example elevation, length, slope and aspect. A new version (v7) is under review at the time of writing mid 2022. For Central Asian water resources modelling, RGI regions 13 (Central Asia) and 14 (South Asia West) are relevant. You can download the glacier geometries for all RGI regions from <a href="https://www.glims.org/RGI/rgi60_dl.html" target="_blank" class="external-link">the GLIMS RGI v6.0 web site</a>. For this demo, the data is available from the data download link given above.</p>
+<p>The Randolph Glacier Inventory (RGI) v6.0 <span class="citation">(RGI
+Consortium 2017)</span> makes a consistent global glacier data base
+publicly available. It includes geo-located glacier geometry and some
+additional parameters, for example elevation, length, slope and aspect.
+A new version (v7) is under review at the time of writing mid 2022. For
+Central Asian water resources modelling, RGI regions 13 (Central Asia)
+and 14 (South Asia West) are relevant. You can download the glacier
+geometries for all RGI regions from <a href="https://www.glims.org/RGI/rgi60_dl.html" target="_blank" class="external-link">the GLIMS
+RGI v6.0 web site</a>. For this demo, the data is available from the
+data download link given above.</p>
 <div class="sourceCode" id="cb2"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span></span>
 <span><span class="va">dem</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/pkg/raster/man/raster.html" class="external-link">raster</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/paste.html" class="external-link">paste0</a></span><span class="op">(</span><span class="va">data_path</span>, <span class="st">"GIS/16076_DEM.tif"</span><span class="op">)</span><span class="op">)</span></span>
@@ -167,13 +276,26 @@
 <span>  <span class="fu">tm_shape</span><span class="op">(</span><span class="va">rgi</span>, name <span class="op">=</span> <span class="st">"RGI v6.0"</span><span class="op">)</span> <span class="op">+</span> </span>
 <span>  <span class="fu">tm_polygons</span><span class="op">(</span>col <span class="op">=</span> <span class="st">"lightgray"</span>, lwd <span class="op">=</span> <span class="fl">0.2</span><span class="op">)</span> <span class="op">+</span> </span>
 <span>  <span class="fu">tm_scale_bar</span><span class="op">(</span>position <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"right"</span>, <span class="st">"bottom"</span><span class="op">)</span><span class="op">)</span> </span></code></pre></div>
-<p>Note: The python package <a href="https://github.com/GLIMS-RGI/rgitools" class="external-link">rgitools</a> provides functions pre-processing RGI glacier outlines, such as automated data quality checks or glacier hypsometry data<a class="footnote-ref" tabindex="0" data-bs-toggle="popover" data-bs-content='&lt;p&gt;If you are not familiar with python yet: We recommend the free version of Visual Studio Code, a graphical user interface where you can install support for both python and R code). There is a wealth of resources for beginners to get started, see for example &lt;a href="https://www.python.org/about/gettingstarted/" class="external-link"&gt;the python &lt;em&gt;getting started&lt;/em&gt; site&lt;/a&gt;. You can also run python code in RStudio using the &lt;a href="https://rstudio.github.io/reticulate/" class="external-link"&gt;reticulate&lt;/a&gt; package&lt;/p&gt;'><sup>1</sup></a>.</p>
+<p>Note: The python package <a href="https://github.com/GLIMS-RGI/rgitools" class="external-link">rgitools</a> provides
+functions pre-processing RGI glacier outlines, such as automated data
+quality checks or glacier hypsometry data<a class="footnote-ref" tabindex="0" data-bs-toggle="popover" data-bs-content='&lt;p&gt;If you are not familiar with python yet: We recommend
+the free version of Visual Studio Code, a graphical user interface where
+you can install support for both python and R code). There is a wealth
+of resources for beginners to get started, see for example &lt;a href="https://www.python.org/about/gettingstarted/" class="external-link"&gt;the python
+&lt;em&gt;getting started&lt;/em&gt; site&lt;/a&gt;. You can also run python code in
+RStudio using the &lt;a href="https://rstudio.github.io/reticulate/" class="external-link"&gt;reticulate&lt;/a&gt; package&lt;/p&gt;'><sup>1</sup></a>.</p>
 </div>
 <div class="section level3">
 <h3 id="glacier-thickness">Glacier thickness<a class="anchor" aria-label="anchor" href="#glacier-thickness"></a>
 </h3>
-<p>Two global glacier thickness datasets are currently publicly available: <span class="citation">Farinotti et al. (2019a)</span> and <span class="citation">Milan, Mouginot, and Rabatel (2021)</span>.</p>
-<p><span class="citation">Farinotti et al. (2019b)</span> make distributed glacier thickness maps available for each glacier in the RGI v6 data set as individual tifs. <span class="citation">Millan et al. (2022)</span> provide one tif for each RGI region which is more convenient to handle.</p>
+<p>Two global glacier thickness datasets are currently publicly
+available: <span class="citation">Farinotti et al. (2019a)</span> and
+<span class="citation">Milan, Mouginot, and Rabatel (2021)</span>.</p>
+<p><span class="citation">Farinotti et al. (2019b)</span> make
+distributed glacier thickness maps available for each glacier in the RGI
+v6 data set as individual tifs. <span class="citation">Millan et al.
+(2022)</span> provide one tif for each RGI region which is more
+convenient to handle.</p>
 <div class="sourceCode" id="cb3"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">thickness</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/pkg/raster/man/raster.html" class="external-link">raster</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/paste.html" class="external-link">paste0</a></span><span class="op">(</span><span class="va">data_path</span>, </span>
 <span>                           <span class="st">"GLACIERS/Milan_glacier_thickness.tif"</span><span class="op">)</span><span class="op">)</span></span>
@@ -196,27 +318,75 @@
 <div class="section level3">
 <h3 id="glacier-area-volume-scaling">Glacier area-volume scaling<a class="anchor" aria-label="anchor" href="#glacier-area-volume-scaling"></a>
 </h3>
-<p>Well-established methods exist to derive the outlines of glaciers from remote sensing data <span class="citation">(RGI Consortium 2017)</span>, i.e. the glacier areas are relatively well known (on a global scale). Until recently, glacier volumes have not been available to the wider public and scaling relationships have been used to derive glacier volumes based on glacier area or length, for example <span class="citation">(Bahr, Meier, and Peckham 1997; Van de Wal and Wild 2001; Radić and Hock 2006)</span>. And although these scaling relationships have been derived from glaciers presumably in steady-state conditions, <span class="citation">Radić, Hock, and Oerlemans (2007)</span> have found it to be suitable for long-term glacier development. In Central Asia, the scaling relationship by <span class="citation">Erasov (1968)</span> is the most widely applied method, an empirical function of the form:</p>
+<p>Well-established methods exist to derive the outlines of glaciers
+from remote sensing data <span class="citation">(RGI Consortium
+2017)</span>, i.e. the glacier areas are relatively well known (on a
+global scale). Until recently, glacier volumes have not been available
+to the wider public and scaling relationships have been used to derive
+glacier volumes based on glacier area or length, for example <span class="citation">(Bahr, Meier, and Peckham 1997; Van de Wal and Wild
+2001; Radić and Hock 2006)</span>. And although these scaling
+relationships have been derived from glaciers presumably in steady-state
+conditions, <span class="citation">Radić, Hock, and Oerlemans
+(2007)</span> have found it to be suitable for long-term glacier
+development. In Central Asia, the scaling relationship by <span class="citation">Erasov (1968)</span> is the most widely applied method,
+an empirical function of the form:</p>
 <p><span class="math display">\[
 V = a \cdot A^{b}
 \]</span></p>
-<p>With <span class="math inline">\(a=0.027\)</span> and <span class="math inline">\(b=1.5\)</span>. Using the RGI v6.0 glacier outlines of region 13 (Central Asia) and the glacier thickness data set by <span class="citation">Farinotti et al. (2019b)</span>, the volume of each glacier can be estimated and the area-volume scaling by <span class="citation">Erasov (1968)</span> can be validated (see <a href="https://hydrosolutions.github.io/caham_book/glacier_modeling.html#glacier-area-volume-scaling" target="_blank" class="external-link">CAHAM book</a>). While the relationship derived by Erasov is still valid for glaciers below 20 km2, it may overestimate the glacier volume of larger glaciers. Using the novel data, the parameters of the empirical scaling function derived by <span class="citation">Erasov (1968)</span> can be updated to <span class="math inline">\(a=0.0388\)</span> and <span class="math inline">\(b=1.262\)</span> to form what we call the RGIF scaling relationship.</p>
-<p>The scaling relationship can be inverted to derive glacier areas based on glacier volumes as:</p>
+<p>With <span class="math inline">\(a=0.027\)</span> and <span class="math inline">\(b=1.5\)</span>. Using the RGI v6.0 glacier
+outlines of region 13 (Central Asia) and the glacier thickness data set
+by <span class="citation">Farinotti et al. (2019b)</span>, the volume of
+each glacier can be estimated and the area-volume scaling by <span class="citation">Erasov (1968)</span> can be validated (see <a href="https://hydrosolutions.github.io/caham_book/glacier_modeling.html#glacier-area-volume-scaling" target="_blank" class="external-link">CAHAM book</a>). While the relationship derived by
+Erasov is still valid for glaciers below 20 km2, it may overestimate the
+glacier volume of larger glaciers. Using the novel data, the parameters
+of the empirical scaling function derived by <span class="citation">Erasov (1968)</span> can be updated to <span class="math inline">\(a=0.0388\)</span> and <span class="math inline">\(b=1.262\)</span> to form what we call the RGIF
+scaling relationship.</p>
+<p>The scaling relationship can be inverted to derive glacier areas
+based on glacier volumes as:</p>
 <p><span class="math display">\[
 A=\exp{\left(\frac{\left(\log{V} - \log{a}\right)}{b}\right)}
 \]</span></p>
-<p>The package <code>riversCentralAsia</code> implements the area-volume scaling and the volume-area scaling with parameter sets from Erasov and derived from <span class="citation">RGI Consortium (2017)</span> and <span class="citation">Farinotti et al. (2019b)</span> in the functions <code><a href="../reference/glacierArea_Erasov.html">glacierArea_Erasov()</a></code>, <code><a href="../reference/glacierArea_RGIF.html">glacierArea_RGIF()</a></code>, <code><a href="../reference/glacierVolume_Erasov.html">glacierVolume_Erasov()</a></code> and <code><a href="../reference/glacierVolume_RGIF.html">glacierVolume_RGIF()</a></code>.</p>
-<p>Further scaling functions to derive glacier area and volume based on glacier length have been published by <span class="citation">Aizen, Aizen, and Kuzmichonok (2007)</span>. These empirical equations have been derived for glaciers in the Tien Shan mountains and are implemented as <code><a href="../reference/glacierAreaVolume_Aizen.html">glacierAreaVolume_Aizen()</a></code> in the riversCentralAsia package. Aizen computes glacier Area <span class="math inline">\(A\)</span> from glacier length <span class="math inline">\(L\)</span> as follows:</p>
+<p>The package <code>riversCentralAsia</code> implements the area-volume
+scaling and the volume-area scaling with parameter sets from Erasov and
+derived from <span class="citation">RGI Consortium (2017)</span> and
+<span class="citation">Farinotti et al. (2019b)</span> in the functions
+<code><a href="../reference/glacierArea_Erasov.html">glacierArea_Erasov()</a></code>, <code><a href="../reference/glacierArea_RGIF.html">glacierArea_RGIF()</a></code>,
+<code><a href="../reference/glacierVolume_Erasov.html">glacierVolume_Erasov()</a></code> and
+<code><a href="../reference/glacierVolume_RGIF.html">glacierVolume_RGIF()</a></code>.</p>
+<p>Further scaling functions to derive glacier area and volume based on
+glacier length have been published by <span class="citation">Aizen,
+Aizen, and Kuzmichonok (2007)</span>. These empirical equations have
+been derived for glaciers in the Tien Shan mountains and are implemented
+as <code><a href="../reference/glacierAreaVolume_Aizen.html">glacierAreaVolume_Aizen()</a></code> in the riversCentralAsia
+package. Aizen computes glacier Area <span class="math inline">\(A\)</span> from glacier length <span class="math inline">\(L\)</span> as follows:</p>
 <p><span class="math display">\[A=\left(\frac{L}{1.6724}\right)^{\frac{1}{0.561}}\]</span></p>
-<p>And glacier volume <span class="math inline">\(V\)</span> depeding on glacier area:</p>
-<p><span class="math display">\[V=0.03782 \cdot A^{1.23}\text{ }\text{ }\text{ for }\text{ }\text{ } A&lt;0.1\text{ km}^2\]</span></p>
-<p><span class="math display">\[V=\frac{\left(0.03332 \cdot A^{1.08} \cdot e^{0.1219 \cdot L}\right)}{L^{0.08846}}\text{ }\text{ }\text{ for }\text{ }\text{ } 0.1 &lt; A &lt; 25\text{ km}^2\]</span></p>
-<p><span class="math display">\[V=0.018484 \cdot A + 0.021875 \cdot A^{1.3521}\text{ }\text{ }\text{ for }\text{ }\text{ } A &gt; 25\text{ km}^2\]</span></p>
+<p>And glacier volume <span class="math inline">\(V\)</span> depeding on
+glacier area:</p>
+<p><span class="math display">\[V=0.03782 \cdot A^{1.23}\text{ }\text{
+}\text{ for }\text{ }\text{ } A&lt;0.1\text{ km}^2\]</span></p>
+<p><span class="math display">\[V=\frac{\left(0.03332 \cdot A^{1.08}
+\cdot e^{0.1219 \cdot L}\right)}{L^{0.08846}}\text{ }\text{ }\text{ for
+}\text{ }\text{ } 0.1 &lt; A &lt; 25\text{ km}^2\]</span></p>
+<p><span class="math display">\[V=0.018484 \cdot A + 0.021875 \cdot
+A^{1.3521}\text{ }\text{ }\text{ for }\text{ }\text{ } A &gt; 25\text{
+km}^2\]</span></p>
 </div>
 <div class="section level3">
 <h3 id="glacier-runoff">Glacier runoff<a class="anchor" aria-label="anchor" href="#glacier-runoff"></a>
 </h3>
-<p><span class="citation">Rounce, Hock, and Shean (2020a)</span> published simulated projections of glacier runoff from till 2100 for the average over the CMIP5 GCM model ensemble<a class="footnote-ref" tabindex="0" data-bs-toggle="popover" data-bs-content="&lt;p&gt;CMIP is the Coupled Model Intercomparison Project which is currently in phase 6 (CMIP 6). The project was initiated in 1995 by the World Climate Research Program and coordinates data sharing and experiments for the comparison of Global Circulation Models (GCM). The models and experiments are basis for the IPCC Assessment Reports.&lt;/p&gt;"><sup>2</sup></a> and for all RCPs<a class="footnote-ref" tabindex="0" data-bs-toggle="popover" data-bs-content="&lt;p&gt;RCP stands for Representative Concentration Pathway and describes global emission scenarios in the CMIP 5 phase. RCPs have been replaced with Shared Socio-economic Pathways (SSP) in the CMIP 6 phase. The SSP are mostly consistent with the RCP.&lt;/p&gt;"><sup>3</sup></a>. They used the model PyGEM (Python Glacier Evolution Model) which is <a href="https://github.com/drounce/PyGEM" target="_blank" class="external-link">available via GitHub</a>. The data can be accessed from <span class="citation">Rounce, Hock, and Shean (2020b)</span>.</p>
+<p><span class="citation">Rounce, Hock, and Shean (2020a)</span>
+published simulated projections of glacier runoff from till 2100 for the
+average over the CMIP5 GCM model ensemble<a class="footnote-ref" tabindex="0" data-bs-toggle="popover" data-bs-content="&lt;p&gt;CMIP is the Coupled Model Intercomparison Project which
+is currently in phase 6 (CMIP 6). The project was initiated in 1995 by
+the World Climate Research Program and coordinates data sharing and
+experiments for the comparison of Global Circulation Models (GCM). The
+models and experiments are basis for the IPCC Assessment Reports.&lt;/p&gt;"><sup>2</sup></a> and for all RCPs<a class="footnote-ref" tabindex="0" data-bs-toggle="popover" data-bs-content="&lt;p&gt;RCP stands for Representative Concentration Pathway and
+describes global emission scenarios in the CMIP 5 phase. RCPs have been
+replaced with Shared Socio-economic Pathways (SSP) in the CMIP 6 phase.
+The SSP are mostly consistent with the RCP.&lt;/p&gt;"><sup>3</sup></a>. They used
+the model PyGEM (Python Glacier Evolution Model) which is <a href="https://github.com/drounce/PyGEM" target="_blank" class="external-link">available via
+GitHub</a>. The data can be accessed from <span class="citation">Rounce,
+Hock, and Shean (2020b)</span>.</p>
 </div>
 <div class="section level3">
 <h3 id="further-data-that-can-be-used-for-cross-validation">Further data that can be used for cross-validation<a class="anchor" aria-label="anchor" href="#further-data-that-can-be-used-for-cross-validation"></a>
@@ -224,8 +394,14 @@ A=\exp{\left(\frac{\left(\log{V} - \log{a}\right)}{b}\right)}
 <div class="section level4">
 <h4 id="glacier-thinning-rates">Glacier thinning rates<a class="anchor" aria-label="anchor" href="#glacier-thinning-rates"></a>
 </h4>
-<p><span class="citation">Hugonnet et al. (2021)</span> provide annual estimates of glacier thinning rates for each glacier in the RGI v6.0 data set. A copy of the Hugonnet thinning rates is included in the download link above.</p>
-<p>The per-glacier time series of thinning rates is available from the <a href="https://www.sedoo.fr/theia-publication-products/?uuid=c428c5b9-df8f-4f86-9b75-e04c778e29b9" target="_blank" class="external-link">data repository</a> as described in the <a href="https://github.com/rhugonnet/ww_tvol_study" target="_blank" class="external-link">github site</a> linked under the code availability section of the <a href="https://www.nature.com/articles/s41586-021-03436-z" target="_blank" class="external-link">online paper</a> of <span class="citation">Hugonnet et al. (2021)</span>.</p>
+<p><span class="citation">Hugonnet et al. (2021)</span> provide annual
+estimates of glacier thinning rates for each glacier in the RGI v6.0
+data set. A copy of the Hugonnet thinning rates is included in the
+download link above.</p>
+<p>The per-glacier time series of thinning rates is available from the
+<a href="https://www.sedoo.fr/theia-publication-products/?uuid=c428c5b9-df8f-4f86-9b75-e04c778e29b9" target="_blank" class="external-link">data repository</a> as described in the <a href="https://github.com/rhugonnet/ww_tvol_study" target="_blank" class="external-link">github
+site</a> linked under the code availability section of the <a href="https://www.nature.com/articles/s41586-021-03436-z" target="_blank" class="external-link">online paper</a> of <span class="citation">Hugonnet et
+al. (2021)</span>.</p>
 <div class="sourceCode" id="cb4"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span></span>
 <span><span class="va">hugonnet</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://readr.tidyverse.org/reference/read_delim.html" class="external-link">read_csv</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/paste.html" class="external-link">paste0</a></span><span class="op">(</span><span class="va">data_path</span>, <span class="st">"/GLACIERS/Hugonnet/dh_13_rgi60_pergla_rates.csv"</span><span class="op">)</span><span class="op">)</span></span>
@@ -272,12 +448,18 @@ A=\exp{\left(\frac{\left(\log{V} - \log{a}\right)}{b}\right)}
 <span>  <span class="fu">tm_shape</span><span class="op">(</span><span class="va">basin</span>, name <span class="op">=</span> <span class="st">"Basin outline"</span><span class="op">)</span> <span class="op">+</span> </span>
 <span>  <span class="fu">tm_borders</span><span class="op">(</span>col <span class="op">=</span> <span class="st">"black"</span>, lwd <span class="op">=</span> <span class="fl">0.6</span><span class="op">)</span> <span class="op">+</span> </span>
 <span>  <span class="fu">tm_scale_bar</span><span class="op">(</span>position <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"right"</span>, <span class="st">"bottom"</span><span class="op">)</span><span class="op">)</span></span></code></pre></div>
-<p>Glacier thinning rates can be viewed as net glacier mass change or glacier imbalance ablation (if glacier ice deformation processes are neglected).</p>
+<p>Glacier thinning rates can be viewed as net glacier mass change or
+glacier imbalance ablation (if glacier ice deformation processes are
+neglected).</p>
 </div>
 <div class="section level4">
 <h4 id="glacier-discharge">Glacier discharge<a class="anchor" aria-label="anchor" href="#glacier-discharge"></a>
 </h4>
-<p><span class="citation">Miles et al. (2021)</span> ran specific mass balance calculations over many glaciers larger than 2 km<sup>2</sup> of High Mountain Asia. They provide the average glacier discharge between 2000 and 2016. A copy of the glacier discharge data is available from the data download link provided above.</p>
+<p><span class="citation">Miles et al. (2021)</span> ran specific mass
+balance calculations over many glaciers larger than 2 km<sup>2</sup> of
+High Mountain Asia. They provide the average glacier discharge between
+2000 and 2016. A copy of the glacier discharge data is available from
+the data download link provided above.</p>
 <p>The original data is available from the <a href="https://zenodo.org/record/5119153#.Yfjv6-rMKF4" target="_blank" class="external-link">data repository</a> linked in the <a href="https://www.nature.com/articles/s41467-021-23073-4" target="_blank" class="external-link">online version of the paper</a>.</p>
 <div class="sourceCode" id="cb5"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span> </span>
@@ -312,16 +494,31 @@ A=\exp{\left(\frac{\left(\log{V} - \log{a}\right)}{b}\right)}
 <span>  <span class="fu">tm_shape</span><span class="op">(</span><span class="va">basin</span>, name <span class="op">=</span> <span class="st">"Basin outline"</span><span class="op">)</span> <span class="op">+</span> </span>
 <span>  <span class="fu">tm_borders</span><span class="op">(</span>col <span class="op">=</span> <span class="st">"black"</span>, lwd <span class="op">=</span> <span class="fl">0.6</span><span class="op">)</span> <span class="op">+</span> </span>
 <span>  <span class="fu">tm_scale_bar</span><span class="op">(</span>position <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"right"</span>, <span class="st">"bottom"</span><span class="op">)</span><span class="op">)</span></span></code></pre></div>
-<p>For most hydrological applications, the interest lies on the glacier discharge, i.e. total ablation from glaciers. Despite their large uncertainties, the simulation results by <span class="citation">Miles et al. (2021)</span> give us an estimate for glacier melt that we can use to calibrate the simpler temperature index models for glacier melt.</p>
+<p>For most hydrological applications, the interest lies on the glacier
+discharge, i.e. total ablation from glaciers. Despite their large
+uncertainties, the simulation results by <span class="citation">Miles et
+al. (2021)</span> give us an estimate for glacier melt that we can use
+to calibrate the simpler temperature index models for glacier melt.</p>
 </div>
 </div>
 <div class="section level3">
 <h3 id="a-note-on-the-uncertainties-of-glacier-data-sets">A note on the uncertainties of glacier data sets<a class="anchor" aria-label="anchor" href="#a-note-on-the-uncertainties-of-glacier-data-sets"></a>
 </h3>
-<p>The geometries of the RGI v6.0 data set are generally very good. If you simulate glacier discharge in a small catchment with few glaciers it is advisable to visually check the glacier geometries and make sure, all relevant glaciers in the basin are included in the RGI data set. You may have to manually add missing glaciers or correct the geometry.</p>
-<p>For some regions in Central Asia, <a href="https://www.openstreetmap.org/#map=6/40.684/66.076" target="_blank" class="external-link">OpenStreetMap</a> is an excellent reference for glacier locations and names in Central Asia. You can import the map layer in QGIS or also download individual.</p>
-<p>The glacier thickness data set is validated only at few locations as measurements of glacier thickness are typically not available. <span class="citation">Millan et al. (2022)</span> report an uncertainty in their ice volume estimations of 39% in RGI regions 13, 14 and 15 (High Mountain Asia).</p>
-<p><span class="citation">Hugonnet et al. (2021)</span> &amp; <span class="citation">Miles et al. (2021)</span> provide the uncertainties of their estimates for per-glacier glacier thinning &amp; discharge rates in the data set itself.</p>
+<p>The geometries of the RGI v6.0 data set are generally very good. If
+you simulate glacier discharge in a small catchment with few glaciers it
+is advisable to visually check the glacier geometries and make sure, all
+relevant glaciers in the basin are included in the RGI data set. You may
+have to manually add missing glaciers or correct the geometry.</p>
+<p>For some regions in Central Asia, <a href="https://www.openstreetmap.org/#map=6/40.684/66.076" target="_blank" class="external-link">OpenStreetMap</a> is an excellent reference for glacier
+locations and names in Central Asia. You can import the map layer in
+QGIS or also download individual.</p>
+<p>The glacier thickness data set is validated only at few locations as
+measurements of glacier thickness are typically not available. <span class="citation">Millan et al. (2022)</span> report an uncertainty in
+their ice volume estimations of 39% in RGI regions 13, 14 and 15 (High
+Mountain Asia).</p>
+<p><span class="citation">Hugonnet et al. (2021)</span> &amp; <span class="citation">Miles et al. (2021)</span> provide the uncertainties of
+their estimates for per-glacier glacier thinning &amp; discharge rates
+in the data set itself.</p>
 </div>
 </div>
 <div class="section level2">
@@ -332,85 +529,157 @@ A=\exp{\left(\frac{\left(\log{V} - \log{a}\right)}{b}\right)}
 </h2>
 <div id="refs" class="references csl-bib-body hanging-indent">
 <div id="ref-aizen_glaciers_2007" class="csl-entry">
-Aizen, V B, E M Aizen, and V A Kuzmichonok. 2007. <span>“Glaciers and Hydrological Changes in the Tien Shan: Simulation and Prediction.”</span> <em>Environmental Research Letters</em> 2 (4): 045019. <a href="https://doi.org/10.1088/1748-9326/2/4/045019" class="external-link">https://doi.org/10.1088/1748-9326/2/4/045019</a>.
+Aizen, V B, E M Aizen, and V A Kuzmichonok. 2007. <span>“Glaciers and
+Hydrological Changes in the Tien Shan: Simulation and
+Prediction.”</span> <em>Environmental Research Letters</em> 2 (4):
+045019. <a href="https://doi.org/10.1088/1748-9326/2/4/045019" class="external-link">https://doi.org/10.1088/1748-9326/2/4/045019</a>.
 </div>
 <div id="ref-armstrong_runoff_2019" class="csl-entry">
-Armstrong, Richard L., Karl Rittger, Mary J. Brodzik, Adina Racoviteanu, Andrew P. Barrett, Siri-Jodha Singh Khalsa, Bruce Raup, et al. 2019. <span>“Runoff from Glacier Ice and Seasonal Snow in High Asia: Separating Melt Water Sources in River Flow.”</span> <em>Regional Environmental Change</em> 19 (5): 1249–61. <a href="https://doi.org/10.1007/s10113-018-1429-0" class="external-link">https://doi.org/10.1007/s10113-018-1429-0</a>.
+Armstrong, Richard L., Karl Rittger, Mary J. Brodzik, Adina Racoviteanu,
+Andrew P. Barrett, Siri-Jodha Singh Khalsa, Bruce Raup, et al. 2019.
+<span>“Runoff from Glacier Ice and Seasonal Snow in High Asia:
+Separating Melt Water Sources in River Flow.”</span> <em>Regional
+Environmental Change</em> 19 (5): 1249–61. <a href="https://doi.org/10.1007/s10113-018-1429-0" class="external-link">https://doi.org/10.1007/s10113-018-1429-0</a>.
 </div>
 <div id="ref-bahr_physical_1997" class="csl-entry">
-Bahr, David B., Mark F. Meier, and Scott D. Peckham. 1997. <span>“The Physical Basis of Glacier Volume-Area Scaling.”</span> <em>Journal of Geophysical Research: Solid Earth</em> 102 (B9): 20355–62. <a href="https://doi.org/10.1029/97JB01696" class="external-link">https://doi.org/10.1029/97JB01696</a>.
+Bahr, David B., Mark F. Meier, and Scott D. Peckham. 1997. <span>“The
+Physical Basis of Glacier Volume-Area Scaling.”</span> <em>Journal of
+Geophysical Research: Solid Earth</em> 102 (B9): 20355–62. <a href="https://doi.org/10.1029/97JB01696" class="external-link">https://doi.org/10.1029/97JB01696</a>.
 </div>
 <div id="ref-barandun_state_2020" class="csl-entry">
-Barandun, Martina, Joel Fiddes, Martin Scherler, Tamara Mathys, Tomas Saks, Dimitry Petrakov, and Martin Hoelzle. 2020. <span>“The State and Future of the Cryosphere in Central Asia.”</span> <em>Water Security</em> 11. <a href="https://doi.org/10.1016/j.wasec.2020.100072" class="external-link">https://doi.org/10.1016/j.wasec.2020.100072</a>.
+Barandun, Martina, Joel Fiddes, Martin Scherler, Tamara Mathys, Tomas
+Saks, Dimitry Petrakov, and Martin Hoelzle. 2020. <span>“The State and
+Future of the Cryosphere in Central Asia.”</span> <em>Water
+Security</em> 11. <a href="https://doi.org/10.1016/j.wasec.2020.100072" class="external-link">https://doi.org/10.1016/j.wasec.2020.100072</a>.
 </div>
 <div id="ref-benn_glaciers_2010" class="csl-entry">
-Benn, Douglas I., and David J. A. Evans. 2010. <em>Glaciers &amp; Glaciation</em>. 2nd ed. London: Hodder education.
+Benn, Douglas I., and David J. A. Evans. 2010. <em>Glaciers &amp;
+Glaciation</em>. 2nd ed. London: Hodder education.
 </div>
 <div id="ref-braithwaite_sensitivity_2000" class="csl-entry">
-Braithwaite, Roger J., and Yu Zhang. 2000. <span>“Sensitivity of Mass Balance of Five Swiss Glaciers to Temperature Changes Assessed by Tuning a Degree-Day Model.”</span> <em>Journal of Glaciology</em> 46 (152): 7–14. <a href="https://doi.org/10.3189/172756500781833511" class="external-link">https://doi.org/10.3189/172756500781833511</a>.
+Braithwaite, Roger J., and Yu Zhang. 2000. <span>“Sensitivity of Mass
+Balance of Five Swiss Glaciers to Temperature Changes Assessed by Tuning
+a Degree-Day Model.”</span> <em>Journal of Glaciology</em> 46 (152):
+7–14. <a href="https://doi.org/10.3189/172756500781833511" class="external-link">https://doi.org/10.3189/172756500781833511</a>.
 </div>
 <div id="ref-cogley_glossary_2011" class="csl-entry">
-Cogley, J. Graham, Regine Hock, B. Rasmussen, A. Arendt, A. Bauder, Roger J. Braithwaite, P. Jansson, et al. 2011. <span>“Glossary of Glacier Mass Balance and Related Terms.”</span> 86. Paris: <span>UNESCO</span>-<span>IHP</span>. <a href="https://unesdoc.unesco.org/in/documentViewer.xhtml?v=2.1.196&amp;id=p::usmarcdef_0000192525&amp;file=/in/rest/annotationSVC/DownloadWatermarkedAttachment/attach_import_48a3790e-914c-4dcd-9896-aa397ccc17e6%3F_%3D192525eng.pdf&amp;locale=en&amp;multi=true&amp;ark=/ark:/48223/pf0000192525/PDF/192525eng.pdf#%5B%7B%22num%22%3A165%2C%22gen%22%3A0%7D%2C%7B%22name%22%3A%22XYZ%22%7D%2Cnull%2Cnull%2C0%5D" class="external-link">https://unesdoc.unesco.org/in/documentViewer.xhtml?v=2.1.196&amp;id=p::usmarcdef_0000192525&amp;file=/in/rest/annotationSVC/DownloadWatermarkedAttachment/attach_import_48a3790e-914c-4dcd-9896-aa397ccc17e6%3F_%3D192525eng.pdf&amp;locale=en&amp;multi=true&amp;ark=/ark:/48223/pf0000192525/PDF/192525eng.pdf#%5B%7B%22num%22%3A165%2C%22gen%22%3A0%7D%2C%7B%22name%22%3A%22XYZ%22%7D%2Cnull%2Cnull%2C0%5D</a>.
+Cogley, J. Graham, Regine Hock, B. Rasmussen, A. Arendt, A. Bauder,
+Roger J. Braithwaite, P. Jansson, et al. 2011. <span>“Glossary of
+Glacier Mass Balance and Related Terms.”</span> 86. Paris:
+<span>UNESCO</span>-<span>IHP</span>. <a href="https://unesdoc.unesco.org/in/documentViewer.xhtml?v=2.1.196&amp;id=p::usmarcdef_0000192525&amp;file=/in/rest/annotationSVC/DownloadWatermarkedAttachment/attach_import_48a3790e-914c-4dcd-9896-aa397ccc17e6%3F_%3D192525eng.pdf&amp;locale=en&amp;multi=true&amp;ark=/ark:/48223/pf0000192525/PDF/192525eng.pdf#%5B%7B%22num%22%3A165%2C%22gen%22%3A0%7D%2C%7B%22name%22%3A%22XYZ%22%7D%2Cnull%2Cnull%2C0%5D" class="external-link">https://unesdoc.unesco.org/in/documentViewer.xhtml?v=2.1.196&amp;id=p::usmarcdef_0000192525&amp;file=/in/rest/annotationSVC/DownloadWatermarkedAttachment/attach_import_48a3790e-914c-4dcd-9896-aa397ccc17e6%3F_%3D192525eng.pdf&amp;locale=en&amp;multi=true&amp;ark=/ark:/48223/pf0000192525/PDF/192525eng.pdf#%5B%7B%22num%22%3A165%2C%22gen%22%3A0%7D%2C%7B%22name%22%3A%22XYZ%22%7D%2Cnull%2Cnull%2C0%5D</a>.
 </div>
 <div id="ref-dhaubanjar_systematic_2021" class="csl-entry">
-Dhaubanjar, Sanita, Arthur F. Lutz, David E. H. J. Gernaat, Santosh Nepal, Wouter Smolenaars, Saurav Pradhananga, Hester Biemans, Fulco Ludwig, Arun B. Shrestha, and Walter W. Immerzeel. 2021. <span>“A Systematic Framework for the Assessment of Sustainable Hydropower Potential in a River Basin – the Case of the Upper Indus.”</span> <em>Science of The Total Environment</em> 786: 147142. https://doi.org/<a href="https://doi.org/10.1016/j.scitotenv.2021.147142" class="external-link">https://doi.org/10.1016/j.scitotenv.2021.147142</a>.
+Dhaubanjar, Sanita, Arthur F. Lutz, David E. H. J. Gernaat, Santosh
+Nepal, Wouter Smolenaars, Saurav Pradhananga, Hester Biemans, Fulco
+Ludwig, Arun B. Shrestha, and Walter W. Immerzeel. 2021. <span>“A
+Systematic Framework for the Assessment of Sustainable Hydropower
+Potential in a River Basin – the Case of the Upper Indus.”</span>
+<em>Science of The Total Environment</em> 786: 147142.
+https://doi.org/<a href="https://doi.org/10.1016/j.scitotenv.2021.147142" class="external-link">https://doi.org/10.1016/j.scitotenv.2021.147142</a>.
 </div>
 <div id="ref-erasov_1968" class="csl-entry">
-Erasov, N. V. 1968. <span>“Method for Determining of Volume of Mountain Glaciers.”</span> <em>MGI</em>, no. 14: 307–8.
+Erasov, N. V. 1968. <span>“Method for Determining of Volume of Mountain
+Glaciers.”</span> <em>MGI</em>, no. 14: 307–8.
 </div>
 <div id="ref-farinotti_consensus_2019_dataset" class="csl-entry">
-Farinotti, Daniel, Matthias Huss, Johannes J. Fürst, Johannes Landmann, Horst Machguth, Fabien Maussion, and Ankur Pandit. 2019a. <span>“A Consensus Estimate for the Ice Thickness Distribution of All Glaciers on <span>Earth</span> - Dataset.”</span> ETH Zurich. <a href="https://www.research-collection.ethz.ch/handle/20.500.11850/315707" class="external-link">https://www.research-collection.ethz.ch/handle/20.500.11850/315707</a>.
+Farinotti, Daniel, Matthias Huss, Johannes J. Fürst, Johannes Landmann,
+Horst Machguth, Fabien Maussion, and Ankur Pandit. 2019a. <span>“A
+Consensus Estimate for the Ice Thickness Distribution of All Glaciers on
+<span>Earth</span> - Dataset.”</span> ETH Zurich. <a href="https://www.research-collection.ethz.ch/handle/20.500.11850/315707" class="external-link">https://www.research-collection.ethz.ch/handle/20.500.11850/315707</a>.
 </div>
 <div id="ref-farinotti_consensus_2019" class="csl-entry">
-———. 2019b. <span>“A Consensus Estimate for the Ice Thickness Distribution of All Glaciers on Earth.”</span> <em>Nature Geoscience</em> 12 (3): 168–73. <a href="https://doi.org/10.1038/s41561-019-0300-3" class="external-link">https://doi.org/10.1038/s41561-019-0300-3</a>.
+———. 2019b. <span>“A Consensus Estimate for the Ice Thickness
+Distribution of All Glaciers on Earth.”</span> <em>Nature
+Geoscience</em> 12 (3): 168–73. <a href="https://doi.org/10.1038/s41561-019-0300-3" class="external-link">https://doi.org/10.1038/s41561-019-0300-3</a>.
 </div>
 <div id="ref-hock_temperature_2003" class="csl-entry">
-Hock, Regine. 2003. <span>“Temperature Index Melt Modelling in Mountain Areas.”</span> <em>Journal of Hydrology</em> 282 (1): 104–15. <a href="https://doi.org/10.1016/S0022-1694(03)00257-9" class="external-link">https://doi.org/10.1016/S0022-1694(03)00257-9</a>.
+Hock, Regine. 2003. <span>“Temperature Index Melt Modelling in Mountain
+Areas.”</span> <em>Journal of Hydrology</em> 282 (1): 104–15. <a href="https://doi.org/10.1016/S0022-1694(03)00257-9" class="external-link">https://doi.org/10.1016/S0022-1694(03)00257-9</a>.
 </div>
 <div id="ref-hock_glacier_2005" class="csl-entry">
-———. 2005. <span>“Glacier Melt: A Review of Processes and Their Modelling.”</span> <em>Progress in Physical Geography: Earth and Environment</em> 29 (3): 362–91. <a href="https://doi.org/10.1191/0309133305pp453ra" class="external-link">https://doi.org/10.1191/0309133305pp453ra</a>.
+———. 2005. <span>“Glacier Melt: A Review of Processes and Their
+Modelling.”</span> <em>Progress in Physical Geography: Earth and
+Environment</em> 29 (3): 362–91. <a href="https://doi.org/10.1191/0309133305pp453ra" class="external-link">https://doi.org/10.1191/0309133305pp453ra</a>.
 </div>
 <div id="ref-hugonnet_accelerated_2021" class="csl-entry">
-Hugonnet, Romain, Robert McNabb, Etienne Berthier, Brian Menounos, Christopher Nuth, Luc Girod, Daniel Farinotti, et al. 2021. <span>“Accelerated Global Glacier Mass Loss in the Early Twenty-First Century.”</span> <em>Nature</em> 592 (7856): 726–31. <a href="https://doi.org/10.1038/s41586-021-03436-z" class="external-link">https://doi.org/10.1038/s41586-021-03436-z</a>.
+Hugonnet, Romain, Robert McNabb, Etienne Berthier, Brian Menounos,
+Christopher Nuth, Luc Girod, Daniel Farinotti, et al. 2021.
+<span>“Accelerated Global Glacier Mass Loss in the Early Twenty-First
+Century.”</span> <em>Nature</em> 592 (7856): 726–31. <a href="https://doi.org/10.1038/s41586-021-03436-z" class="external-link">https://doi.org/10.1038/s41586-021-03436-z</a>.
 </div>
 <div id="ref-huss_global-scale_2018" class="csl-entry">
-Huss, Matthias, and Regine Hock. 2018. <span>“Global-Scale Hydrological Response to Future Glacier Mass Loss.”</span> <em>Nature Climate Change</em> 8 (2): 135–40. <a href="https://doi.org/10.1038/s41558-017-0049-x" class="external-link">https://doi.org/10.1038/s41558-017-0049-x</a>.
+Huss, Matthias, and Regine Hock. 2018. <span>“Global-Scale Hydrological
+Response to Future Glacier Mass Loss.”</span> <em>Nature Climate
+Change</em> 8 (2): 135–40. <a href="https://doi.org/10.1038/s41558-017-0049-x" class="external-link">https://doi.org/10.1038/s41558-017-0049-x</a>.
 </div>
 <div id="ref-kaser_contribution_2010" class="csl-entry">
-Kaser, G., M. Grosshauser, and B. Marzeion. 2010. <span>“Contribution Potential of Glaciers to Water Availability in Different Climate Regimes.”</span> <em>Proceedings of the National Academy of Sciences</em> 107 (47): 20223–27. <a href="https://doi.org/10.1073/pnas.1008162107" class="external-link">https://doi.org/10.1073/pnas.1008162107</a>.
+Kaser, G., M. Grosshauser, and B. Marzeion. 2010. <span>“Contribution
+Potential of Glaciers to Water Availability in Different Climate
+Regimes.”</span> <em>Proceedings of the National Academy of
+Sciences</em> 107 (47): 20223–27. <a href="https://doi.org/10.1073/pnas.1008162107" class="external-link">https://doi.org/10.1073/pnas.1008162107</a>.
 </div>
 <div id="ref-maussion_open_2019" class="csl-entry">
-Maussion, Fabien, Anton Butenko, Nicolas Champollion, Matthias Dusch, Julia Eis, Kévin Fourteau, Philipp Gregor, et al. 2019. <span>“The Open Global Glacier Model (<span>OGGM</span>) V1.1.”</span> <em>Geoscientific Model Development</em> 12 (3): 909–31. <a href="https://doi.org/10.5194/gmd-12-909-2019" class="external-link">https://doi.org/10.5194/gmd-12-909-2019</a>.
+Maussion, Fabien, Anton Butenko, Nicolas Champollion, Matthias Dusch,
+Julia Eis, Kévin Fourteau, Philipp Gregor, et al. 2019. <span>“The Open
+Global Glacier Model (<span>OGGM</span>) V1.1.”</span> <em>Geoscientific
+Model Development</em> 12 (3): 909–31. <a href="https://doi.org/10.5194/gmd-12-909-2019" class="external-link">https://doi.org/10.5194/gmd-12-909-2019</a>.
 </div>
 <div id="ref-milan_ice_2021_dataset" class="csl-entry">
-Milan, R, Jérémie Mouginot, and Antoine Rabatel. 2021. <span>“Ice Velocity and Thickness of the World’s Glaciers.”</span> https://doi.org/<a href="https://doi.org/10.6096/1007" class="external-link">https://doi.org/10.6096/1007</a>.
+Milan, R, Jérémie Mouginot, and Antoine Rabatel. 2021. <span>“Ice
+Velocity and Thickness of the World’s Glaciers.”</span>
+https://doi.org/<a href="https://doi.org/10.6096/1007" class="external-link">https://doi.org/10.6096/1007</a>.
 </div>
 <div id="ref-miles_health_2021" class="csl-entry">
-Miles, Evan, Michael McCarthy, Amaury Dehecq, Marin Kneib, Stefan Fugger, and Francesca Pellicciotti. 2021. <span>“Health and Sustainability of Glaciers in High Mountain Asia.”</span> <em>Nature Communications</em> 12 (2868): 10. https://doi.org/<a href="https://doi.org/10.1038/s41467-021-23073-4" class="external-link">https://doi.org/10.1038/s41467-021-23073-4</a>.
+Miles, Evan, Michael McCarthy, Amaury Dehecq, Marin Kneib, Stefan
+Fugger, and Francesca Pellicciotti. 2021. <span>“Health and
+Sustainability of Glaciers in High Mountain Asia.”</span> <em>Nature
+Communications</em> 12 (2868): 10. https://doi.org/<a href="https://doi.org/10.1038/s41467-021-23073-4" class="external-link">https://doi.org/10.1038/s41467-021-23073-4</a>.
 </div>
 <div id="ref-millan_ice_2022" class="csl-entry">
-Millan, Romain, Jérémie Mouginot, Antoine Rabatel, and Mathieu Morlighem. 2022. <span>“Ice Velocity and Thickness of the World’s Glaciers.”</span> <em>Nature Geoscience</em>, February. <a href="https://doi.org/10.1038/s41561-021-00885-z" class="external-link">https://doi.org/10.1038/s41561-021-00885-z</a>.
+Millan, Romain, Jérémie Mouginot, Antoine Rabatel, and Mathieu
+Morlighem. 2022. <span>“Ice Velocity and Thickness of the World’s
+Glaciers.”</span> <em>Nature Geoscience</em>, February. <a href="https://doi.org/10.1038/s41561-021-00885-z" class="external-link">https://doi.org/10.1038/s41561-021-00885-z</a>.
 </div>
 <div id="ref-pohl_glacier_2017" class="csl-entry">
-Pohl, Eric, Richard Gloaguen, Christoff Andermann, and Malte Knoche. 2017. <span>“Glacier Melt Buffers River Runoff in the Pamir Mountains.”</span> <em>Water Resources Research</em> 53 (3): 2467–89. <a href="https://doi.org/10.1002/2016WR019431" class="external-link">https://doi.org/10.1002/2016WR019431</a>.
+Pohl, Eric, Richard Gloaguen, Christoff Andermann, and Malte Knoche.
+2017. <span>“Glacier Melt Buffers River Runoff in the Pamir
+Mountains.”</span> <em>Water Resources Research</em> 53 (3): 2467–89. <a href="https://doi.org/10.1002/2016WR019431" class="external-link">https://doi.org/10.1002/2016WR019431</a>.
 </div>
 <div id="ref-radic_modeling_2006" class="csl-entry">
-Radić, Valentina, and Regine Hock. 2006. <span>“Modeling Future Glacier Mass Balance and Volume Changes Using <span>ERA</span>-40 Reanalysis and Climate Models: <span>A</span> Sensitivity Study at <span>Storglaciären</span>, <span>Sweden</span>.”</span> <em>Journal of Geophysical Research: Earth Surface</em> 111 (F3). <a href="https://doi.org/10.1029/2005JF000440" class="external-link">https://doi.org/10.1029/2005JF000440</a>.
+Radić, Valentina, and Regine Hock. 2006. <span>“Modeling Future Glacier
+Mass Balance and Volume Changes Using <span>ERA</span>-40 Reanalysis and
+Climate Models: <span>A</span> Sensitivity Study at
+<span>Storglaciären</span>, <span>Sweden</span>.”</span> <em>Journal of
+Geophysical Research: Earth Surface</em> 111 (F3). <a href="https://doi.org/10.1029/2005JF000440" class="external-link">https://doi.org/10.1029/2005JF000440</a>.
 </div>
 <div id="ref-radic_volumearea_2007" class="csl-entry">
-Radić, Valentina, Regine Hock, and Johannes Oerlemans. 2007. <span>“Volume–Area Scaling Vs Flowline Modelling in Glacier Volume Projections.”</span> <em>Annals of Glaciology</em> 46: 234–40. <a href="https://doi.org/10.3189/172756407782871288" class="external-link">https://doi.org/10.3189/172756407782871288</a>.
+Radić, Valentina, Regine Hock, and Johannes Oerlemans. 2007.
+<span>“Volume–Area Scaling Vs Flowline Modelling in Glacier Volume
+Projections.”</span> <em>Annals of Glaciology</em> 46: 234–40. <a href="https://doi.org/10.3189/172756407782871288" class="external-link">https://doi.org/10.3189/172756407782871288</a>.
 </div>
 <div id="ref-rgi60" class="csl-entry">
-RGI Consortium. 2017. <span>“<span>Randolph</span> <span>Glacier</span> <span>Inventory</span> – a Dataset of Global Glacier Outlines: Version 6.0: Technical Report.”</span> <span>Global Land Ice Measurements from Space, Colorado, USA. Digital Media</span>. https://doi.org/<a href="https://doi.org/10.7265/N5-RGI-60" class="external-link">https://doi.org/10.7265/N5-RGI-60</a>.
+RGI Consortium. 2017. <span>“<span>Randolph</span> <span>Glacier</span>
+<span>Inventory</span> – a Dataset of Global Glacier Outlines: Version
+6.0: Technical Report.”</span> <span>Global Land Ice Measurements from
+Space, Colorado, USA. Digital Media</span>. https://doi.org/<a href="https://doi.org/10.7265/N5-RGI-60" class="external-link">https://doi.org/10.7265/N5-RGI-60</a>.
 </div>
 <div id="ref-rounce_glacier_2020" class="csl-entry">
-Rounce, David R., Regine Hock, and David E. Shean. 2020a. <span>“Glacier Mass Change in High Mountain Asia Through 2100 Using the Open-Source Python Glacier Evolution Model (<span>PyGEM</span>).”</span> <em>Frontiers in Earth Science</em> 7. <a href="https://doi.org/10.3389/feart.2019.00331" class="external-link">https://doi.org/10.3389/feart.2019.00331</a>.
+Rounce, David R., Regine Hock, and David E. Shean. 2020a. <span>“Glacier
+Mass Change in High Mountain Asia Through 2100 Using the Open-Source
+Python Glacier Evolution Model (<span>PyGEM</span>).”</span>
+<em>Frontiers in Earth Science</em> 7. <a href="https://doi.org/10.3389/feart.2019.00331" class="external-link">https://doi.org/10.3389/feart.2019.00331</a>.
 </div>
 <div id="ref-rounce_high_2020" class="csl-entry">
-———. 2020b. <span>“High <span>Mountain</span> <span>Asia</span> <span>PyGEM</span> <span>Glacier</span> <span>Projections</span> with <span>RCP</span> <span>Scenarios</span>.”</span> NASA National Snow; Ice Data Center Distributed Active Archive Center. https://doi.org/<a href="https://doi.org/10.5067/190Y84IGLIQH" class="external-link">https://doi.org/10.5067/190Y84IGLIQH</a>.
+———. 2020b. <span>“High <span>Mountain</span> <span>Asia</span>
+<span>PyGEM</span> <span>Glacier</span> <span>Projections</span> with
+<span>RCP</span> <span>Scenarios</span>.”</span> NASA National Snow; Ice
+Data Center Distributed Active Archive Center. https://doi.org/<a href="https://doi.org/10.5067/190Y84IGLIQH" class="external-link">https://doi.org/10.5067/190Y84IGLIQH</a>.
 </div>
 <div id="ref-van_de_wal_modelling_2001" class="csl-entry">
-Van de Wal, R. S. W., and M. Wild. 2001. <span>“Modelling the Response of Glaciers to Climate Change by Applying Volume-Area Scaling in Combination with a High Resolution <span>GCM</span>.”</span> <em>Climate Dynamics</em> 18 (3-4): 359–66. <a href="https://doi.org/10.1007/s003820100184" class="external-link">https://doi.org/10.1007/s003820100184</a>.
+Van de Wal, R. S. W., and M. Wild. 2001. <span>“Modelling the Response
+of Glaciers to Climate Change by Applying Volume-Area Scaling in
+Combination with a High Resolution <span>GCM</span>.”</span> <em>Climate
+Dynamics</em> 18 (3-4): 359–66. <a href="https://doi.org/10.1007/s003820100184" class="external-link">https://doi.org/10.1007/s003820100184</a>.
 </div>
 </div>
 </div>
