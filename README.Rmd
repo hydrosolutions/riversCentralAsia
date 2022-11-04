@@ -18,7 +18,7 @@ knitr::opts_chunk$set(
 ## Summary
 
 The R package riversCentralAsia includes a set of tools to facilitate and automate data preparation for hydrological modelling. It thus contributes to more reproducible modeling workflows and makes hydrological modeling more accessible to students and to interested professional modelers. 
-
+  
 The package has been developed within the frame of a master level course
 on applied hydrological modelling in Central Asia and is extensively
 used in the open-source book
