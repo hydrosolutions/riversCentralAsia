@@ -12,7 +12,7 @@ hydrological modeling more accessible to students but also to interested
 professional modellers. The figure below gives an overview over the 
 data perparation and modelling workflows supported by the package. 
 
-![Overview over the hydrological modelling workflow facitlitated by the riversCentralAsia package (Image source: Marti et al., 2022).](fig_01_model_chain_bw.jpg)
+![Overview over the hydrological modelling workflow facitlitated by the riversCentralAsia package (Image source: Marti et al., 2022).](fig_01_model_chain_bw.png)
 
 The package has been developed within the frame of a master level course
 on applied hydrological modelling in Central Asia and is extensively
