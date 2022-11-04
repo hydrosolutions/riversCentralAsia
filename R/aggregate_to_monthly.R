@@ -25,7 +25,6 @@
 #' dataTable <- ChirchikRiverBasin
 #' funcTypeLib <- list(mean = c("Q", "T"), sum= "P")
 #' data_mon <- aggregate_to_monthly(dataTable, funcTypeLib)
-#' @importFrom rlang .data
 #' @family Helper functions
 #' @export
 
@@ -63,29 +62,29 @@ aggregate_to_monthly <- function(dataTable, funcTypeLib) {
 
   # Aggregation
   data_mon <- dataTable |>
-    dplyr::group_by(.data$type, .data$code) |>
-    dplyr::filter(.data$type %in% unlist(funcTypeLib[1])) |>
+    dplyr::group_by(type, code) |>
+    dplyr::filter(type %in% unlist(funcTypeLib[1])) |>
     timetk::summarise_by_time(.date_var = date,
                               .by = "month",
-                              data = mean(.data$data),
+                              data = mean(data),
                               norm = mean(norm)) |>
     dplyr::ungroup() |>
     tibble::add_row(dataTable |>
-                     dplyr::group_by(.data$type, .data$code) |>
-                     dplyr::filter(.data$type %in% unlist(funcTypeLib[2])) |>
+                     dplyr::group_by(type, code) |>
+                     dplyr::filter(type %in% unlist(funcTypeLib[2])) |>
                      timetk::summarise_by_time(.date_var = date,
                                                .by = "month",
-                                               data = sum(.data$data),
+                                               data = sum(data),
                                                norm = sum(norm)) |>
                      dplyr::ungroup()) |>
     dplyr::mutate(resolution = "mon") |>
-    tidyr::drop_na(.data$data)
+    tidyr::drop_na(data)
 
   # Add remaining columns from data.
   temp <- dataTable |>
     dplyr::select(-dplyr::any_of(c("data", "norm", "resolution"))) |>
-    dplyr::group_by(.data$type,
-                    .data$code) |>
+    dplyr::group_by(type,
+                    code) |>
     timetk::summarise_by_time(.date_var = date,
                               .by = "month",
                               dplyr::across(dplyr::everything(), dplyr::first))

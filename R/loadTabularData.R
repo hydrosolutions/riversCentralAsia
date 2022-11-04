@@ -54,7 +54,7 @@ loadTabularData <- function(fPath,fName,code,stationName,rName,rBasin,dataType,u
 
   yS <- dataMat$X1 %>% dplyr::first()
   yE <- dataMat$X1 %>% dplyr::last()
-  dataMat <- dataMat %>% dplyr::select(-.data$X1)
+  dataMat <- dataMat %>% dplyr::select(-X1)
   norm <- dataMat %>% dplyr::summarise_all(mean,na.rm=TRUE) %>% as.numeric() %>%
     kronecker(matrix(1,1,dim(dataMat)[1])) %>% as.numeric()
   data <- dataMat %>% t() %>% dplyr::as_tibble(.name_repair = "unique") %>% tidyr::gather()
@@ -62,7 +62,7 @@ loadTabularData <- function(fPath,fName,code,stationName,rName,rBasin,dataType,u
   e <- paste(as.character(yE),"-12-31",sep="")
   if (type=='dec'){
     dates <- riversCentralAsia::decadeMaker(s,e,'end') #%>% tk_tbl()
-    dates <- dates %>% dplyr::select(-.data$dec)
+    dates <- dates %>% dplyr::select(-dec)
   } else {
     dates <- riversCentralAsia::monDateSeq(s,e,12) %>% timetk::tk_tbl(preserve_index = FALSE)
     dates <- dplyr::rename(dates, date = data)

@@ -1,10 +1,10 @@
 ---
-title: "Glacier functions"
+title: "Glacier utilities"
 editor: visual
 bibliography: [references.bib, HMA_bibliography.bib]
 output: rmarkdown::html_vignette
 vignette: >
-  %\VignetteIndexEntry{Glacier functions}
+  %\VignetteIndexEntry{Glacier utilities}
   %\VignetteEngine{knitr::knitr}
   %\VignetteEncoding{UTF-8}
 ---
@@ -247,9 +247,7 @@ Glacier thinning rates can be viewed as net glacier mass change or glacier imbal
 The original data is available from the [data repository](https://zenodo.org/record/5119153#.Yfjv6-rMKF4){target="_blank"} linked in the [online version of the paper](https://www.nature.com/articles/s41467-021-23073-4){target="_blank"}.
 
 ```{r, glacierDischarge, message=FALSE, warning=FALSE, fig.cap = "Glacier discharge derived from Miles et al., 2021.", out.width="90%"}
-# Calculate glacier discharge using the glacierDischarge_HM function of the 
-# riversCentralAsia package. An empirical relationship between glacier thinning 
-# rates by Hugonnet et al., 2021 and glacier discharge by Miles et al., 2021.  
+ 
 miles <- read_delim(paste0(data_path,
                            "GLACIERS/Miles/Miles2021_Glaciers_summarytable_20210721.csv"),
                     show_col_types = FALSE, delim = ",") |> 
@@ -259,7 +257,7 @@ glaciers_hugonnet <- glaciers_hugonnet |>
   left_join(miles |> dplyr::select(RGIID, totAbl, totAblsig, imbalAbl, 
                                    imbalAblsig), 
             by = c("RGIId" = "RGIID")) |> 
-  mutate(Qgl_m3a = ifelse(is.na(totAbl), glacierDischarge_HM(dhdt), totAbl))
+  mutate(Qgl_m3a = ifelse(is.na(totAbl), NA, totAbl))
 
 tmap_mode("view")
 tm_shape(dem, name = "DEM") + 

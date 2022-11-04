@@ -41,7 +41,6 @@ Other Helper functions:
 \code{\link{\%>\%}()},
 \code{\link{cutRaster2Basin}()},
 \code{\link{decadeMaker}()},
-\code{\link{generateHourlyFromDaily_PT}()},
 \code{\link{generateSeqDates}()},
 \code{\link{hyear}()},
 \code{\link{monDateSeq}()},

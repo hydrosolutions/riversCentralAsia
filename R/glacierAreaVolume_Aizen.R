@@ -1,6 +1,5 @@
 #' Estimates glacier surface area and glacier volume.
 #'
-#' glacierAreaVolume_Aizen implements the empirical relationships between glacier
 #' length, surface area and volume found by Aizen et al. in the Tien Shan
 #' mountains. They can be used to estimate regional glacier volumes.
 #'
@@ -26,28 +25,28 @@ glacierAreaVolume_Aizen <- function(glaciers) {
   if ("Lmax" %in% names(glaciers)) {
     # Note that Lmax is assumed to be in meters and is converted to km
     glaciers <- glaciers %>%
-      dplyr::mutate(Area_Aizen_km2 = ((.data$Lmax/1000) / 1.6724)^(1/0.561),
-                    Volume_Aizen_km3 = base::ifelse(.data$Area_Aizen_km2 < 0.1,
-                                                    0.03782 * .data$Area_Aizen_km2^(1.23),
-                                                    base::ifelse(.data$Area_Aizen_km2 < 25,
-                                                                 (0.03332 * .data$Area_Aizen_km2^(1.08) * base::exp(0.1219 * (.data$Lmax/1000))) / ((.data$Lmax/1000)^(0.08846)),
-                                                                 0.018484 * .data$Area_Aizen_km2 + 0.021875 * .data$Area_Aizen_km2^(1.3521))))
+      dplyr::mutate(Area_Aizen_km2 = ((Lmax/1000) / 1.6724)^(1/0.561),
+                    Volume_Aizen_km3 = base::ifelse(Area_Aizen_km2 < 0.1,
+                                                    0.03782 * Area_Aizen_km2^(1.23),
+                                                    base::ifelse(Area_Aizen_km2 < 25,
+                                                                 (0.03332 * Area_Aizen_km2^(1.08) * base::exp(0.1219 * (Lmax/1000))) / ((Lmax/1000)^(0.08846)),
+                                                                 0.018484 * Area_Aizen_km2 + 0.021875 * Area_Aizen_km2^(1.3521))))
   } else if ("Length [km]" %in% names(glaciers)) {
     glaciers <- glaciers %>%
-      dplyr::mutate(Area_Aizen_km2 = (.data$`Length [km]` / 1.6724)^(1/0.561),
-                    Volume_Aizen_km3 = base::ifelse(.data$Area_Aizen_km2 < 0.1,
-                                                    0.03782 * .data$Area_Aizen_km2^(1.23),
-                                                    base::ifelse(.data$Area_Aizen_km2 < 25,
-                                                                 (0.03332 * .data$Area_Aizen_km2^(1.08) * base::exp(0.1219 * (.data$`Length [km]`))) / (.data$`Length [km]`^(0.08846)),
-                                                                 0.018484 * .data$Area_Aizen_km2 + 0.021875 * .data$Area_Aizen_km2^(1.3521))))
+      dplyr::mutate(Area_Aizen_km2 = (`Length [km]` / 1.6724)^(1/0.561),
+                    Volume_Aizen_km3 = base::ifelse(Area_Aizen_km2 < 0.1,
+                                                    0.03782 * Area_Aizen_km2^(1.23),
+                                                    base::ifelse(Area_Aizen_km2 < 25,
+                                                                 (0.03332 * Area_Aizen_km2^(1.08) * base::exp(0.1219 * (`Length [km]`))) / (`Length [km]`^(0.08846)),
+                                                                 0.018484 * Area_Aizen_km2 + 0.021875 * Area_Aizen_km2^(1.3521))))
   } else if ("L(t) [km]" %in% names(glaciers)) {
     glaciers <- glaciers %>%
-      dplyr::mutate(Area_Aizen_km2 = (.data$`L(t) [km]` / 1.6724)^(1/0.561),
-                    Volume_Aizen_km3 = base::ifelse(.data$Area_Aizen_km2 < 0.1,
-                                                    0.03782 * .data$Area_Aizen_km2^(1.23),
-                                                    base::ifelse(.data$Area_Aizen_km2 < 25,
-                                                                 (0.03332 * .data$Area_Aizen_km2^(1.08) * base::exp(0.1219 * (.data$`L(t) [km]`))) / (.data$`L(t) [km]`^(0.08846)),
-                                                                 0.018484 * .data$Area_Aizen_km2 + 0.021875 * .data$Area_Aizen_km2^(1.3521))))
+      dplyr::mutate(Area_Aizen_km2 = (`L(t) [km]` / 1.6724)^(1/0.561),
+                    Volume_Aizen_km3 = base::ifelse(Area_Aizen_km2 < 0.1,
+                                                    0.03782 * Area_Aizen_km2^(1.23),
+                                                    base::ifelse(Area_Aizen_km2 < 25,
+                                                                 (0.03332 * Area_Aizen_km2^(1.08) * base::exp(0.1219 * (`L(t) [km]`))) / (`L(t) [km]`^(0.08846)),
+                                                                 0.018484 * Area_Aizen_km2 + 0.021875 * Area_Aizen_km2^(1.3521))))
   } else {
     return(NULL)
   }

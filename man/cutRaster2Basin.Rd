@@ -27,7 +27,6 @@ Other Helper functions:
 \code{\link{\%>\%}()},
 \code{\link{aggregate_to_monthly}()},
 \code{\link{decadeMaker}()},
-\code{\link{generateHourlyFromDaily_PT}()},
 \code{\link{generateSeqDates}()},
 \code{\link{hyear}()},
 \code{\link{monDateSeq}()},

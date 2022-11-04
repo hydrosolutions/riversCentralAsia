@@ -40,7 +40,7 @@ getChunkSize <- function(start_date, end_date, recordingTimeStep) {
 
   } else {
 
-    cat("Warining: recordingTimeStep =", recordingTimeStep, "is currently not implemented. \n")
+    cat("Warning: recordingTimeStep =", recordingTimeStep, "is currently not implemented. \n")
     cat("Returning NULL\n")
     return(NULL)
 

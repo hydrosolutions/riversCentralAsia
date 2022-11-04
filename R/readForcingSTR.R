@@ -42,7 +42,7 @@ readForcingSTR <- function(string, tz = "UTC") {
     dplyr::mutate(dplyr::across(base::is.character,
                                 base::as.numeric))
   # Reformat data table and drop superfluous rows
-  data_long <- tidyr::pivot_longer(data, -.data$Date,
+  data_long <- tidyr::pivot_longer(data, -Date,
                                    names_to = c("Station", "X", "Y", "Z", "Sensor",
                                                 "Category", "Unit"),
                                    names_sep = "\\-", values_to = "Value",

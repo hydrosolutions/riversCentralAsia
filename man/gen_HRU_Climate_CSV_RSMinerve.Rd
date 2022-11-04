@@ -46,8 +46,8 @@ data 'is' available from the start of that year)}
 climate data), 'hist_sim' (GCM model output data over the historical
 period) and 'fut_sim' (fture GCM simulations)}
 
-\item{crs_in_use}{4 digit crs code to ensure projection consistency between
-raster and shapefile.}
+\item{crs_in_use}{Proj code for crs in use. For example
+'+proj=longlat +datum=WGS84' for epsg 4326}
 
 \item{output_file_dir}{Path to output file dir (if empty, file will not be
 written)}
@@ -66,6 +66,10 @@ GCM-simulated future (fut_sim) and prepares a dataframe for later import in
 RSMinerve (use readr::write_csv(.,col_names=FALSE)). tp and tas_ have to be
 exported, the function has to be called twice and the resulting tibble
 columns added.
+}
+\note{
+This function currently can only read input files with full years of
+  data, that is, with data from January to December of a given year.
 }
 \seealso{
 Other Pre-processing: 

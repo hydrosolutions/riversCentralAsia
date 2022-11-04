@@ -2,8 +2,8 @@ template:
   bootstrap: 5
   bootswatch: litera
 reference:
-- title: Package description
-  desc: Description of the package
+- title: internal
+  desc:
 - contents:
   - has_concept("Package description")
 - title: Pre-processing

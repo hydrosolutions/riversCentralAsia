@@ -35,12 +35,12 @@ readResultCSV <- function(filename, tz = "UTC") {
   colnames(data)[1] <- "date"
   data$date <- as.POSIXct(data$date, format = "%d.%m.%Y %H:%M:%S", tz = tz)
   data <- data |>
-    dplyr::mutate(dplyr::across(-.data$date, ~base::as.numeric(.))) |>
-    tidyr::pivot_longer(-.data$date, names_to = "model", values_to = "value") |>
-    tidyr::separate(.data$model, into = c("model", "variable"), sep = "( - )",
+    dplyr::mutate(dplyr::across(-date, ~base::as.numeric(.))) |>
+    tidyr::pivot_longer(-date, names_to = "model", values_to = "value") |>
+    tidyr::separate(model, into = c("model", "variable"), sep = "( - )",
                     extra = "merge") |>
-    tidyr::separate(.data$variable, into = c("variable", "unit"),
+    tidyr::separate(variable, into = c("variable", "unit"),
                     sep = "\\s\\(") |>
-    dplyr::mutate(unit = gsub("\\)", "", .data$unit))
+    dplyr::mutate(unit = gsub("\\)", "", unit))
   return(data)
 }
