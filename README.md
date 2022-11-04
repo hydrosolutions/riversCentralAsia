@@ -9,13 +9,7 @@ The R package riversCentralAsia includes a set of tools to facilitate
 and automate data preparation for hydrological modelling. It thus
 contributes to more reproducible modeling workflows and makes
 hydrological modeling more accessible to students and to interested
-professional modellers. The figure below gives an overview over the data
-preparation and modelling workflows supported by the package.
-
-<img src="./man/figures/fig_01_model_chain_bw.png" width="80%" />
-
-Figure: Overview over the modelling workflow supported by the
-riversCentralAsia package (Image source: Marti et al., 2022).
+professional modelers.
 
 The package has been developed within the frame of a master level course
 on applied hydrological modelling in Central Asia and is extensively
@@ -46,7 +40,50 @@ Data preparation comes before hydrological modelling and is actually one
 of the biggest work chunks in the modelling process. This package
 includes a number of helper functions that can be connected to efficient
 workflows that automatize the data preparation process for hydrological
-modelling. The functionality includes:
+modelling as shown in the figure below.
+
+<img src="./man/figures/fig_01_model_chain_bw.png" width="80%" />
+
+Figure: Overview over the modelling workflow supported by the
+riversCentralAsia package (Image source: Marti et al., 2022).
+Abbreviations are explained below. The workflow relies entirely on free,
+publicly available data and software.
+
+The data preparation step includes the delineation of river catchment
+boundaries and the derivation of hydrological response units (HRU) using
+gauge locations, the
+<a href="https://doi.org/10.5067/MEaSUREs/SRTM/SRTMGL1.003"
+target="_blank">SRTM digital elevation model (DEM)</a> and glacier
+outlines from the
+<a href="https://doi.org/10.7265/N5-RGI-60" target="_blank">Randolph
+Glacier Inventory (RGI)</a>.
+
+Although the High Mountain region of Central Asia is generally perceived
+as a data scarce region, a number of gridded data products are available
+that form a fair basis for regional hydrological modelling at seasonal
+time scales.
+<a href="https://chelsa-climate.org/" target="_blank">CHELSA v2.1</a> is
+a weather data product at 1 km2 by 1km2 resolution.
+<a href="https://www.nature.com/articles/s41586-021-03436-z"
+target="_blank">Glacier thinning</a> and
+<a href="https://doi.org/10.1038/s41467-021-23073-4"
+target="_blank">glacier ablation</a> are data sets from open-access
+literature. Data on snow water equivalents is sourced from the
+<a href="https://doi.org/10.5067/HNAUGJQXSCVU" target="_blank">High
+Mountain Asia Snow Reanalysis (HMASR) Product</a>, river discharge is
+taken from the hydrological year books of the HydroMeteorological
+Institutes in Central Asia, and <a
+href="https://cds.climate.copernicus.eu/cdsapp#!/dataset/projections-cmip6?tab=form"
+target="_blank">CMIP6 climate model results area available from
+Copernicus</a>.
+
+Hydrological modelling is done using the free hydrologic-hydraulic
+modelling software
+<a href="https://crealp.ch/rs-minerve/" target="_blank">RS Minerve</a>.
+Some alternative geoprocessing workflows are described in
+<a href="https://www.qgis.org/en/site/" target="_blank">QGIS</a>.
+
+The riversCentralAsia package functionality includes:
 
 -   Efficient processing of present and future climate forcing,
     including hydro-meterological data from Central Asia (<a
@@ -77,9 +114,7 @@ modelling. The functionality includes:
 
 -   I/O interface with the hydrologic-hydraulic modelling software
     <a href="https://crealp.ch/rs-minerve/" target="_blank">RS
-    Minerve</a> which can be accessed within R using the package
-    <a href="https://github.com/hydrosolutions/RSMinerveR"
-    target="_blank">RSMinerveR</a>.
+    Minerve</a>.
 
 While here, we focus on the description of the individual functions, the
 strengths of the package comes to play mostly when the functions are
@@ -104,16 +139,6 @@ functionality is for advanced R and RS Minerve users that wish to
 further speed up their modelling workflow.
 
 ## Installation
-
-You can install the development version from
-<a href="https://github.com/hydrosolutions/riversCentralAsia/"
-target="_blank">GitHub</a> with:
-
-``` r
-# install.packages("devtools")
-devtools::install_github("hydrosolutions/riversCentralAsia")
-library(riversCentralAsia)
-```
 
 The package has many dependencies which will be installed alongside
 riversCentralAsia. To successfully install the package you need prior
@@ -141,6 +166,16 @@ source version).
 **Note** that **Windows** users require a working installation of
 <a href="https://cran.r-project.org/bin/windows/Rtools/"
 target="_blank">RTools</a> to install packages from github.
+
+You can install the development version from
+<a href="https://github.com/hydrosolutions/riversCentralAsia/"
+target="_blank">GitHub</a> with:
+
+``` r
+# install.packages("devtools")
+devtools::install_github("hydrosolutions/riversCentralAsia")
+library(riversCentralAsia)
+```
 
 We recommend testing of the riversCentralAsia package before using it to
 make sure all dependencies integrate with the riversCentralAsia package
