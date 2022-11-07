@@ -37,11 +37,7 @@ The most important functionalities of the package as well as the raw data that c
 
 ## Statement of need
 
-Data preparation comes before hydrological modelling and is actually one
-of the biggest work chunks in the modelling process. This package
-includes a number of helper functions that can be connected to efficient
-workflows that automatize the data preparation process for hydrological
-modelling as shown in the figure below. 
+Data preparation comes before hydrological modelling and is actually one of the biggest work chunks in the modelling process. This package includes a number of helper functions that can be connected to efficient workflows that automatize the data preparation process for hydrological modelling as shown in the figure below. 
 
 !["Overview over the modelling workflow supported by the riversCentralAsia package (Image source: Marti et al., 2022). Abbreviations are explained below. The workflow relies entirely on free, publicly available data and software."](./man/figures/fig_01_model_chain_bw.png){ width=80% }  
 
@@ -81,8 +77,7 @@ The riversCentralAsia package functionality includes:
     href="https://hydrosolutions.github.io/riversCentralAsia/reference/computeAnnualFlowDurationCurve.html"
     target="_blank">computation of flow duration curves</a>
 
--   I/O interface with the hydrologic-hydraulic modelling software
-    <a href="https://crealp.ch/rs-minerve/" target="_blank">RS Minerve</a>.
+-   I/O interface with the hydrologic-hydraulic modelling software that allows reading and writing of input and output files of the hydraulic-hydrological modelling software <a href="https://crealp.ch/rs-minerve/" target="_blank">RS Minerve</a>.
 
 While here, we focus on the description of the individual functions, the
 strengths of the package comes to play mostly when the functions are
@@ -98,9 +93,9 @@ temperature is included.
 
 
 ## Related packages
-The R package RSMinverveR [@RSMinerveR:2022] allows the running of the hydrologic-hydraulic modelling software RS Minerve [@rsm:2021] directly from R without using the RS Minerve user interface. This functionality is for advanced R and RS Minerve users that wish to further speed up their modelling workflow.
+While the riversCentralAsia package allows reading and writing of text files that can be read and written with RS MINERVE, the [R package RSMinerveR](https://github.com/hydrosolutions/RSMinerveR){target="_blank"} allows the editing and running of RS MINERVE models from within R through Common Language Runtime (CLR). This can speed up the running of multiple, large model instances considerably. The package implements the examples provided by [CREALP in Visual Basics](https://crealp.github.io/rsminerve-releases/tech_scripts.html){target="_blank}. This functionality is for advanced R and RS Minerve users that wish to further speed up their modelling workflow.   
 
-There are a number of existing R packages available that support data preparation and  hydrological modelling [@slater_using_2019]. However, there is no R package to facilitate hydrological modelling specifically with RS Minerve which is a powerful, accessible tool for water resources management in mountainous regions.  
+There are a number of existing R packages available that support data preparation and  hydrological modelling [@slater_using_2019]. However, apart from riversCentralAsia and RSMinerveR, there is no R package to facilitate hydrological modelling specifically with RS Minerve which is a powerful, accessible tool for water resources management in mountainous regions.  
 
 ## Installation
 
