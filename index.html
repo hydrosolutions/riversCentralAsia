@@ -98,7 +98,7 @@
 <li><p>The <a href="https://hydrosolutions.github.io/riversCentralAsia/articles/02-preparation-of-climate-forcing.html" target="_blank" class="external-link">preparation of GIS layers for automated model generation</a> and chapter <a href="https://hydrosolutions.github.io/caham_book/geospatial_data.html" target="_blank" class="external-link">Geospatial data</a> in the course book</p></li>
 <li><p><a href="https://hydrosolutions.github.io/riversCentralAsia/articles/04-glacier-functions.html" target="_blank" class="external-link">Volume area scaling of glaciers</a></p></li>
 <li><p>Post-processing of simulation results, e.g. <a href="https://hydrosolutions.github.io/riversCentralAsia/articles/05-snow-calibration.html" target="_blank" class="external-link">extraction and visualisation of snow water equivalent</a> or <a href="https://hydrosolutions.github.io/riversCentralAsia/reference/computeAnnualFlowDurationCurve.html" target="_blank" class="external-link">computation of flow duration curves</a></p></li>
-<li><p>I/O interface with the hydrologic-hydraulic modelling software <a href="https://crealp.ch/rs-minerve/" target="_blank" class="external-link">RS Minerve</a>.</p></li>
+<li><p>I/O interface with the hydrologic-hydraulic modelling software that allows reading and writing of input and output files of the hydraulic-hydrological modelling software <a href="https://crealp.ch/rs-minerve/" target="_blank" class="external-link">RS Minerve</a>.</p></li>
 </ul>
 <p>While here, we focus on the description of the individual functions, the strengths of the package comes to play mostly when the functions are connected to automatize the data preparation process. These workflows are extensively documented in the book <a href="https://hydrosolutions.github.io/caham_book/" target="_blank" class="external-link">Modeling of Hydrological Systems in Semi-Arid Central Asia</a>.</p>
 <p>Currently, a relatively complete dataset of the Chirchik River Basin with decadal and monthly data on discharge, precipitation and temperature is included.</p>
@@ -106,7 +106,7 @@
 <div class="section level2">
 <h2 id="related-packages">Related packages<a class="anchor" aria-label="anchor" href="#related-packages"></a>
 </h2>
-<p>The R package <a href="https://github.com/hydrosolutions/RSMinerveR" target="_blank" class="external-link">RSMinverveR</a> allows the running of the hydrologic-hydraulic modelling software <a href="https://crealp.ch/rs-minerve/" target="_blank" class="external-link">RS Minerve</a> directly from R without using the RS Minerve user interface. This functionality is for advanced R and RS Minerve users that wish to further speed up their modelling workflow.</p>
+<p>The hydraulic-hydrological modelling software RS MINERVE can be accessed through Common Language Runtime (CLR) directly from within R, thus the use of the RS MINERVE GUI can be avoided and multiple runs of large models can be speed up. The <a href="https://github.com/hydrosolutions/RSMinerveR" target="_blank" class="external-link">github repository RSMinerveR</a> includes examples of how to use CLR commands to use the Visual Basic interface with RS MINERVE documented in the <a href="https://crealp.github.io/rsminerve-releases/tech_scripts.html" target='"_blank' class="external-link">technical manual</a>. This functionality is recommended for advanced users of RS MINERVE only.</p>
 </div>
 <div class="section level2">
 <h2 id="installation">Installation<a class="anchor" aria-label="anchor" href="#installation"></a>
