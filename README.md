@@ -112,7 +112,9 @@ The riversCentralAsia package functionality includes:
     href="https://hydrosolutions.github.io/riversCentralAsia/reference/computeAnnualFlowDurationCurve.html"
     target="_blank">computation of flow duration curves</a>
 
--   I/O interface with the hydrologic-hydraulic modelling software
+-   I/O interface with the hydrologic-hydraulic modelling software that
+    allows reading and writing of input and output files of the
+    hydraulic-hydrological modelling software
     <a href="https://crealp.ch/rs-minerve/" target="_blank">RS
     Minerve</a>.
 
@@ -130,13 +132,17 @@ temperature is included.
 
 ## Related packages
 
-The R package <a href="https://github.com/hydrosolutions/RSMinerveR"
-target="_blank">RSMinverveR</a> allows the running of the
-hydrologic-hydraulic modelling software
-<a href="https://crealp.ch/rs-minerve/" target="_blank">RS Minerve</a>
-directly from R without using the RS Minerve user interface. This
-functionality is for advanced R and RS Minerve users that wish to
-further speed up their modelling workflow.
+The hydraulic-hydrological modelling software RS MINERVE can be accessed
+through Common Language Runtime (CLR) directly from within R, thus the
+use of the RS MINERVE GUI can be avoided and multiple runs of large
+models can be speed up. The
+<a href="https://github.com/hydrosolutions/RSMinerveR"
+target="_blank">github repository RSMinerveR</a> includes examples of
+how to use CLR commands to use the Visual Basic interface with RS
+MINERVE documented in the
+<a href="https://crealp.github.io/rsminerve-releases/tech_scripts.html"
+target="&quot;_blank">technical manual</a>. This functionality is
+recommended for advanced users of RS MINERVE only.
 
 ## Installation
 
