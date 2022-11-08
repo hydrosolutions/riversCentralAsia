@@ -93,9 +93,9 @@ temperature is included.
 
 
 ## Related packages
-While the riversCentralAsia package allows reading and writing of text files that can be read and written with RS MINERVE, the [R package RSMinerveR](https://github.com/hydrosolutions/RSMinerveR){target="_blank"} allows the editing and running of RS MINERVE models from within R through Common Language Runtime (CLR). This can speed up the running of multiple, large model instances considerably. The package implements the examples provided by [CREALP in Visual Basics](https://crealp.github.io/rsminerve-releases/tech_scripts.html){target="_blank}. This functionality is for advanced R and RS Minerve users that wish to further speed up their modelling workflow.   
+The hydraulic-hydrological modelling software RS MINERVE can be accessed through Common Language Runtime (CLR) directly from within R, thus the use of the RS MINERVE GUI can be avoided and multiple runs of large models can be speed up. The [github repository RSMinerveR](https://github.com/hydrosolutions/RSMinerveR){target="_blank"} includes examples of how to use CLR commands to use the Visual Basic interface with RS MINERVE documented in the [technical manual](https://crealp.github.io/rsminerve-releases/tech_scripts.html){target="_blank}. This functionality is recommended for advanced users of RS MINERVE only. 
 
-There are a number of existing R packages available that support data preparation and  hydrological modelling [@slater_using_2019]. However, apart from riversCentralAsia and RSMinerveR, there is no R package to facilitate hydrological modelling specifically with RS Minerve which is a powerful, accessible tool for water resources management in mountainous regions.  
+There are a number of existing R packages available that support data preparation and  hydrological modelling [@slater_using_2019]. However, apart from riversCentralAsia, there is no R package to facilitate hydrological modelling specifically with RS MINERVE which is a powerful, accessible tool for water resources management in mountainous regions.  
 
 ## Installation
 
