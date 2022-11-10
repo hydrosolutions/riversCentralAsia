@@ -111,6 +111,8 @@ temperature is included.
 The hydraulic-hydrological modelling software RS MINERVE can be accessed through Common Language Runtime (CLR) directly from within R, thus the use of the RS MINERVE GUI can be avoided and multiple runs of large models can be speed up. The [github repository RSMinerveR](https://github.com/hydrosolutions/RSMinerveR){target="_blank"} includes examples of how to use CLR commands to use the Visual Basic interface with RS MINERVE documented in the [technical manual](https://crealp.github.io/rsminerve-releases/tech_scripts.html){target="_blank}. This functionality is recommended for advanced users of RS MINERVE only. 
 
 ## Installation
+The package has been developed under R 4.2.1. Is is not tested yet under R 4.2.2. 
+
 The package has many dependencies which will be installed alongside
 riversCentralAsia. To successfully install the package you need prior
 installations of the following packages: rlang, magrittr, stringr and
