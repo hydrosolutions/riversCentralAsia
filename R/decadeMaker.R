@@ -3,11 +3,12 @@
 #' This function creates a decadal 10-days dates vector that allows date tagging
 #' for decadal (10-days) time series. This type of timeseries is usually used for
 #' hydro-meteorological data in the former Soviet Republics. The intra-months decades
-#' can be configured as dates at the beginning or end of the decade.
+#' can be configured as dates at the beginning, middle or end of the decade.
 #'
 #' @param s starting date in YYYY-mm-dd format
 #' @param e end date in YYYY-mm-dd format
-#' @param type 'start' creates starting decade dates, 'end' creates ending decade dates.
+#' @param type 'start' creates starting decade dates, 'end' creates ending
+#'   decade dates, 'mid' or 'middle creates dates in the middle of a decade.
 #' @return A sequence of decadal dates
 #' @family Helper functions
 #' @export
@@ -24,6 +25,8 @@ decadeMaker <- function(s,e,type){
     daysV <- cbind(10,20,eom) %>% t %>% as.vector()
   } else if (all(type=='start')){
     daysV <- cbind(1,11,21) %>% t %>% as.vector()
+  } else if (all(type == 'mid') | all(type == 'middle')) {
+    daysV <- cbind(5,15,25) %>% t %>% as.vector()
   }
   temp.Date <- zoo::as.Date(stats::time(temp)) + daysV - 1
   decade <- zoo::zoo(decade, temp.Date) %>%

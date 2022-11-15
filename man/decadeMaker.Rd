@@ -11,7 +11,8 @@ decadeMaker(s, e, type)
 
 \item{e}{end date in YYYY-mm-dd format}
 
-\item{type}{'start' creates starting decade dates, 'end' creates ending decade dates.}
+\item{type}{'start' creates starting decade dates, 'end' creates ending
+decade dates, 'mid' or 'middle creates dates in the middle of a decade.}
 }
 \value{
 A sequence of decadal dates
@@ -20,7 +21,7 @@ A sequence of decadal dates
 This function creates a decadal 10-days dates vector that allows date tagging
 for decadal (10-days) time series. This type of timeseries is usually used for
 hydro-meteorological data in the former Soviet Republics. The intra-months decades
-can be configured as dates at the beginning or end of the decade.
+can be configured as dates at the beginning, middle or end of the decade.
 }
 \seealso{
 Other Helper functions: 
