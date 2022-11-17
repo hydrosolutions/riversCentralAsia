@@ -193,6 +193,12 @@ For problems using the functions of for suggestions, please use the
 <a href="https://github.com/hydrosolutions/riversCentralAsia/issues"
 target="_blank">issue tool</a>.
 
+We aim for an inclusive, harassment-free environment. Please read our [Code of conduct](https://github.com/hydrosolutions/riversCentralAsia/blob/master/CODE_OF_CONDUCT.md){target="_blank"}. 
+
+## Contribution guidelines
+
+We warmly welcome contributions to riversCentralAsia. Please refer to our [Contribution guidelines](https://hydrosolutions.github.io/riversCentralAsia/CONTRIBUTING.html){target="_blank"} before setting out to make changes. 
+
 ## How to cite
 
 Please cite the package as:
