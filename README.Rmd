@@ -18,7 +18,7 @@ knitr::opts_chunk$set(
 ## Summary
 
 The R package riversCentralAsia includes a set of tools to facilitate and automate data preparation for hydrological modelling. It thus contributes to more reproducible modeling workflows and makes hydrological modeling more accessible to students and to interested professional modelers. 
-
+  
 The package has been developed within the frame of a master level course
 on applied hydrological modelling in Central Asia and is extensively
 used in the open-source book
@@ -111,7 +111,6 @@ temperature is included.
 The hydraulic-hydrological modelling software RS MINERVE can be accessed through Common Language Runtime (CLR) directly from within R, thus the use of the RS MINERVE GUI can be avoided and multiple runs of large models can be speed up. The [github repository RSMinerveR](https://github.com/hydrosolutions/RSMinerveR){target="_blank"} includes examples of how to use CLR commands to use the Visual Basic interface with RS MINERVE documented in the [technical manual](https://crealp.github.io/rsminerve-releases/tech_scripts.html){target="_blank}. This functionality is recommended for advanced users of RS MINERVE only. 
 
 ## Installation
-
 The package has many dependencies which will be installed alongside
 riversCentralAsia. To successfully install the package you need prior
 installations of the following packages: rlang, magrittr, stringr and
@@ -191,6 +190,12 @@ Asia</a>.
 For problems using the functions of for suggestions, please use the
 <a href="https://github.com/hydrosolutions/riversCentralAsia/issues"
 target="_blank">issue tool</a>.
+
+We aim for an inclusive, harassment-free environment. Please read our [Code of conduct](https://github.com/hydrosolutions/riversCentralAsia/blob/master/CODE_OF_CONDUCT.md){target="_blank"}. 
+
+## Contribution guidelines
+
+We warmly welcome contributions to riversCentralAsia. Please refer to our [Contribution guidelines](https://hydrosolutions.github.io/riversCentralAsia/CONTRIBUTING.html){target="_blank"} before setting out to make changes. 
 
 ## How to cite
 

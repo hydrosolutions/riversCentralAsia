@@ -85,36 +85,38 @@ Some alternative geoprocessing workflows are described in
 
 The riversCentralAsia package functionality includes:
 
--   Efficient processing of present and future climate forcing,
-    including hydro-meterological data from Central Asia (<a
-    href="https://hydrosolutions.github.io/riversCentralAsia/articles/01-discharge-processing-examples.html"
-    target="_blank">time series</a> and re-analysis data) and
-    down-scaling of ERA5 re-analysis data (a more advanced topic which
-    is described in the
-    <a href="https://hydrosolutions.github.io/caham_book/climate_data.html"
-    target="_blank">course book</a>)
+- Efficient processing of present and future climate forcing, including
+  hydro-meterological data from Central Asia (<a
+  href="https://hydrosolutions.github.io/riversCentralAsia/articles/01-discharge-processing-examples.html"
+  target="_blank">time series</a> and re-analysis data) and down-scaling
+  of ERA5 re-analysis data (a more advanced topic which is described in
+  the
+  <a href="https://hydrosolutions.github.io/caham_book/climate_data.html"
+  target="_blank">course book</a>)
 
--   The <a
-    href="https://hydrosolutions.github.io/riversCentralAsia/articles/02-preparation-of-climate-forcing.html"
-    target="_blank">preparation of GIS layers for automated model
-    generation</a> and chapter <a
-    href="https://hydrosolutions.github.io/caham_book/geospatial_data.html"
-    target="_blank">Geospatial data</a> in the course book
+- The <a
+  href="https://hydrosolutions.github.io/riversCentralAsia/articles/02-preparation-of-climate-forcing.html"
+  target="_blank">preparation of GIS layers for automated model
+  generation</a> and chapter <a
+  href="https://hydrosolutions.github.io/caham_book/geospatial_data.html"
+  target="_blank">Geospatial data</a> in the course book
 
--   <a
-    href="https://hydrosolutions.github.io/riversCentralAsia/articles/04-glacier-functions.html"
-    target="_blank">Volume area scaling of glaciers</a>
+- <a
+  href="https://hydrosolutions.github.io/riversCentralAsia/articles/04-glacier-functions.html"
+  target="_blank">Volume area scaling of glaciers</a>
 
--   Post-processing of simulation results, e.g. <a
-    href="https://hydrosolutions.github.io/riversCentralAsia/articles/05-snow-calibration.html"
-    target="_blank">extraction and visualisation of snow water
-    equivalent</a> or <a
-    href="https://hydrosolutions.github.io/riversCentralAsia/reference/computeAnnualFlowDurationCurve.html"
-    target="_blank">computation of flow duration curves</a>
+- Post-processing of simulation results, e.g. <a
+  href="https://hydrosolutions.github.io/riversCentralAsia/articles/05-snow-calibration.html"
+  target="_blank">extraction and visualisation of snow water
+  equivalent</a> or <a
+  href="https://hydrosolutions.github.io/riversCentralAsia/reference/computeAnnualFlowDurationCurve.html"
+  target="_blank">computation of flow duration curves</a>
 
--   I/O interface with the hydrologic-hydraulic modelling software
-    <a href="https://crealp.ch/rs-minerve/" target="_blank">RS
-    Minerve</a>.
+- I/O interface with the hydrologic-hydraulic modelling software that
+  allows reading and writing of input and output files of the
+  hydraulic-hydrological modelling software
+  <a href="https://crealp.ch/rs-minerve/" target="_blank">RS
+  Minerve</a>.
 
 While here, we focus on the description of the individual functions, the
 strengths of the package comes to play mostly when the functions are
@@ -130,15 +132,22 @@ temperature is included.
 
 ## Related packages
 
-The R package <a href="https://github.com/hydrosolutions/RSMinerveR"
-target="_blank">RSMinverveR</a> allows the running of the
-hydrologic-hydraulic modelling software
-<a href="https://crealp.ch/rs-minerve/" target="_blank">RS Minerve</a>
-directly from R without using the RS Minerve user interface. This
-functionality is for advanced R and RS Minerve users that wish to
-further speed up their modelling workflow.
+The hydraulic-hydrological modelling software RS MINERVE can be accessed
+through Common Language Runtime (CLR) directly from within R, thus the
+use of the RS MINERVE GUI can be avoided and multiple runs of large
+models can be speed up. The
+<a href="https://github.com/hydrosolutions/RSMinerveR"
+target="_blank">github repository RSMinerveR</a> includes examples of
+how to use CLR commands to use the Visual Basic interface with RS
+MINERVE documented in the
+<a href="https://crealp.github.io/rsminerve-releases/tech_scripts.html"
+target="&quot;_blank">technical manual</a>. This functionality is
+recommended for advanced users of RS MINERVE only.
 
 ## Installation
+
+The package has been developed under R 4.2.1. Is is not tested yet under
+R 4.2.2.
 
 The package has many dependencies which will be installed alongside
 riversCentralAsia. To successfully install the package you need prior
@@ -219,6 +228,18 @@ Asia</a>.
 For problems using the functions of for suggestions, please use the
 <a href="https://github.com/hydrosolutions/riversCentralAsia/issues"
 target="_blank">issue tool</a>.
+
+We aim for an inclusive, harassment-free environment. Please read our <a
+href="https://github.com/hydrosolutions/riversCentralAsia/blob/master/CODE_OF_CONDUCT.md"
+target="_blank">Code of conduct</a>.
+
+## Contribution guidelines
+
+We warmly welcome contributions to riversCentralAsia. Please refer to
+our <a
+href="https://hydrosolutions.github.io/riversCentralAsia/CONTRIBUTING.html"
+target="_blank">Contribution guidelines</a> before setting out to make
+changes.
 
 ## How to cite
 
