@@ -40,46 +40,79 @@ Data preparation comes before hydrological modelling and is actually one
 of the biggest work chunks in the modelling process. This package
 includes a number of helper functions that can be connected to efficient
 workflows that automatize the data preparation process for hydrological
-modelling as shown in the figure below.
+modelling as shown in the figure below. This supports a more
+reproducible modelling workflow and improves the scalability of
+hydrological modelling.
 
 <img src="./man/figures/fig_01_model_chain_bw.png" width="80%" />
 
-Figure: Overview over the modelling workflow supported by the
-riversCentralAsia package (Image source: Marti et al., 2022).
-Abbreviations are explained below. The workflow relies entirely on free,
-publicly available data and software.
+Figure: Overview over the modelling workflow whos R-components are
+supported by the riversCentralAsia package (Image source: Marti et al.,
+2022). Abbreviations are explained in the text. The workflow relies
+entirely on free, publicly available data and software.
 
-The data preparation step includes the delineation of river catchment
-boundaries and the derivation of hydrological response units (HRU) using
-gauge locations, the
-<a href="https://doi.org/10.5067/MEaSUREs/SRTM/SRTMGL1.003"
-target="_blank">SRTM digital elevation model (DEM)</a> and glacier
-outlines from the
-<a href="https://doi.org/10.7265/N5-RGI-60" target="_blank">Randolph
-Glacier Inventory (RGI)</a>.
+The data preparation step covered by the *riversCentralAsia* package the
+derivation of hydrological response units (HRU) using a basin outline
+and the <a href="https://doi.org/10.5067/MEaSUREs/SRTM/SRTMGL1.003"
+target="_blank">SRTM digital elevation model (DEM)</a>. The <a
+href="https://hydrosolutions.github.io/caham_book/geospatial_data.html#sec-catchment-delineation"
+target="_blank">derivation of the basin outline</a> and <a
+href="https://hydrosolutions.github.io/caham_book/geospatial_data.html#sec-preparation-of-rsminerve-input-files"
+target="_blank">processing of geospatial layers for import to RS
+MINERVE</a> in QGIS is described in detail in @CAHAM:2022.
 
 Although the High Mountain region of Central Asia is generally perceived
 as a data scarce region, a number of gridded data products are available
 that form a fair basis for regional hydrological modelling at seasonal
 time scales.
 <a href="https://chelsa-climate.org/" target="_blank">CHELSA v2.1</a> is
-a weather data product at 1 km2 by 1km2 resolution.
+a weather data product at 1 km2 grid resolution. The *riversCentralAsia*
+package includes the function <a
+href="https://hydrosolutions.github.io/riversCentralAsia/reference/gen_HRU_Climate_CSV_RSMinerve.html"
+target="_blank"><em>gen_HRU_Climate_CSV_RSMinerve</em></a> which
+extracts CHELSA precipitation or temperature on the hydrological
+response units and returns the data in an RS MINERVE readable format.  
 <a href="https://www.nature.com/articles/s41586-021-03436-z"
 target="_blank">Glacier thinning</a> and
 <a href="https://doi.org/10.1038/s41467-021-23073-4"
 target="_blank">glacier ablation</a> are data sets from open-access
-literature. Data on snow water equivalents is sourced from the
+literature which can be used to calibrate the <a
+href="https://crealp.github.io/rsminerve-releases/tech_hydrological_models.html#sec-model_gsm"
+target="_blank">GSM model objects</a> (a glacier runoff model) in RS
+MINERVE. Data on snow water equivalents is sourced from the
 <a href="https://doi.org/10.5067/HNAUGJQXSCVU" target="_blank">High
-Mountain Asia Snow Reanalysis (HMASR) Product</a>, river discharge is
-taken from the hydrological year books of the HydroMeteorological
-Institutes in Central Asia, and <a
+Mountain Asia Snow Reanalysis (HMASR) Product</a> and can be used to
+calibrate the snow module of the [HBV model
+objects](https://crealp.github.io/rsminerve-releases/tech_hydrological_models.html#sec-model_hbv)
+(a rainfall-runoff model) in RS MINERVE. The *riversCentralAsia* package
+site includes a <a
+href="https://hydrosolutions.github.io/riversCentralAsia/articles/05-snow-calibration.html"
+target="_blank">demonstration of how HMASR data can be used for model
+calibration</a>. The process is very similar for the calibration of
+glacier thinning and discharge.  
+River discharge is taken from the hydrological year books of the
+HydroMeteorological Institutes in Central Asia. The package
+*riversCentralAsia* includes discharge time series from the Chirchiq
+river basin north-east of Tashkent (Uzbekistan) as well as several
+functions for loading discharge data, aggregating and visualization of
+discharge data and discharge statistics (discharge characterization)
+(see the <a
+href="https://hydrosolutions.github.io/riversCentralAsia/articles/01-discharge-processing-examples.html"
+target="_blank">documentation on the discharge functions</a>).  
+And last but not least, <a
 href="https://cds.climate.copernicus.eu/cdsapp#!/dataset/projections-cmip6?tab=form"
-target="_blank">CMIP6 climate model results area available from
-Copernicus</a>.
+target="_blank">CMIP6 climate model results area are available from
+Copernicus</a>. The *riversCentralAsia* package can be used for <a
+href="https://hydrosolutions.github.io/riversCentralAsia/reference/doQuantileMapping.html"
+target="_blank">downscaling climate projections</a> using CHELSA data
+and to produce RS MINERVE readable climate forcing. We use quantile
+mapping as statistical downscaling method
+(<a href="https://cran.r-project.org/web/packages/qmap/"
+target="_blank">qmap</a> package by L. Gudmundsson).
 
 Hydrological modelling is done using the free hydrologic-hydraulic
 modelling software
-<a href="https://crealp.ch/rs-minerve/" target="_blank">RS Minerve</a>.
+<a href="https://crealp.ch/rs-minerve/" target="_blank">RS MINERVE</a>.
 Some alternative geoprocessing workflows are described in
 <a href="https://www.qgis.org/en/site/" target="_blank">QGIS</a>.
 
@@ -116,7 +149,7 @@ The riversCentralAsia package functionality includes:
   allows reading and writing of input and output files of the
   hydraulic-hydrological modelling software
   <a href="https://crealp.ch/rs-minerve/" target="_blank">RS
-  Minerve</a>.
+  MINERVE</a>.
 
 While here, we focus on the description of the individual functions, the
 strengths of the package comes to play mostly when the functions are
@@ -146,8 +179,7 @@ recommended for advanced users of RS MINERVE only.
 
 ## Installation
 
-The package has been developed under R 4.2.1. Is is not tested yet under
-R 4.2.2.
+The package requires R version \>= 4.1
 
 The package has many dependencies which will be installed alongside
 riversCentralAsia. To successfully install the package you need prior
@@ -291,10 +323,10 @@ package, are further validated within the Horizon 2020 project
 <a href="https://hydro4u.eu/" target="_blank">HYDRO4U</a> where future
 small hydro power potential is evaluated using hydrological modelling.
 
-For R & RS Minerve users, the package
+For R & RS MINERVE users, the package
 <a href="https://github.com/hydrosolutions/RSMinerveR"
 target="_blank">RSMinverveR</a> is recommended which allows the
-interfacing between R and RS Minerve (with examples based on the Visual
+interfacing between R and RS MINERVE (with examples based on the Visual
 Basic Script examples by CREALP).
 
 ## Acknowledgement
