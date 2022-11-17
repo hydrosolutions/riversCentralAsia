@@ -1,60 +1,45 @@
 ---
-output: github_document
+title: 'riversCentralAsia: An R package for hydrological modelling'
+tags:
+- R
+- hydrology
+- modelling
+- Central Asia
+date: "3 August 2022"
+output: pdf_document
+authors:
+- name: Beatrice Marti
+  orcid: "0000-0003-2089-3478"
+  equal-contrib: yes
+  affiliation: 1
+- name: Tobias Siegfried
+  orcid: "0000-0002-2995-9253"
+  equal-contrib: yes
+  affiliation: 1
+bibliography: paper.bib
+affiliations:
+- name: hydrosolutions GmbH, Zurich, Switzerland
+  index: 1
 ---
 
 <!-- README.md is generated from README.Rmd. Please edit that file -->
 
-```{r, include = FALSE}
-knitr::opts_chunk$set(
-  collapse = TRUE,
-  comment = "#>",
-  fig.path = "man/figures/README-",
-  out.width = "100%"
-)
-```
-
-# riversCentralAsia
 
 ## Summary
 
 The R package riversCentralAsia includes a set of tools to facilitate and automate data preparation for hydrological modelling. It thus contributes to more reproducible modeling workflows and makes hydrological modeling more accessible to students and to interested professional modelers. 
-  
-The package has been developed within the frame of a master level course
-on applied hydrological modelling in Central Asia and is extensively
-used in the open-source book
-<a href="https://hydrosolutions.github.io/caham_book/"
-target="_blank">Modeling of Hydrological Systems in Semi-Arid Central
-Asia</a> (Siegfried & Marti, 2022). The workflows are further validated within the
-Horizon 2020 project
-<a href="https://hydro4u.eu/" target="_blank">HYDRO4U</a>.
 
-While the package has been developed for the Central Asia region, most
-of the functions are generic and can be used for modelling projects
-anywhere in the world.
+The package has been developed within the frame of a master level course on applied hydrological modelling in Central Asia and is extensively used in the open-source book Modeling of Hydrological Systems in Semi-Arid Central Asia [@CAHAM:2022]. The workflows are further validated within the Horizon 2020 project HYDRO4U [@Hydro4u:2022].
 
-The most important functionalities of the package as well as the raw
-data that can be processed with the package are described in the the
-articles of the
-<a href="https://hydrosolutions.github.io/riversCentralAsia/"
-target="_blank">project documentation site</a> but the examples in the
-book <a href="https://hydrosolutions.github.io/caham_book/"
-target="_blank">Modeling of Hydrological Systems in Semi-Arid Central
-Asia</a> demonstrate the full range of functions available and how to
-use them in a workflow.
+While the package has been developed for the Central Asia region, most of the functions are generic and can be used for modelling projects anywhere in the world.
+
+The most important functionalities of the package as well as the raw data that can be processed with the package are described in the the articles of the [project documentation site](https://hydrosolutions.github.io/riversCentralAsia/){target="_blank"} but the examples in the course book [Modeling of Hydrological Systems in Semi-Arid Central Asia](https://hydrosolutions.github.io/caham_book/){target="_blank"} demonstrate the full range of functions available and how touse them in a workflow.
 
 ## Statement of need
 
-Data preparation comes before hydrological modelling and is actually one
-of the biggest work chunks in the modelling process. This package
-includes a number of helper functions that can be connected to efficient
-workflows that automatize the data preparation process for hydrological
-modelling as shown in the figure below. 
+Data preparation comes before hydrological modelling and is actually one of the biggest work chunks in the modelling process. This package includes a number of helper functions that can be connected to efficient workflows that automatize the data preparation process for hydrological modelling as shown in the figure below. 
 
-```{r out.width='80%', echo=FALSE}
-knitr::include_graphics("./man/figures/fig_01_model_chain_bw.png")
-```
-  
-Figure: Overview over the modelling workflow supported by the riversCentralAsia package (Image source: Marti et al., 2022). Abbreviations are explained below. The workflow relies entirely on free, publicly available data and software.    
+!["Overview over the modelling workflow supported by the riversCentralAsia package (Image source: Marti et al., 2022). Abbreviations are explained below. The workflow relies entirely on free, publicly available data and software."](./man/figures/fig_01_model_chain_bw.png){ width=80% }  
 
 The data preparation step includes the delineation of river catchment boundaries and the derivation of hydrological response units (HRU) using gauge locations, the [SRTM digital elevation model (DEM)](https://doi.org/10.5067/MEaSUREs/SRTM/SRTMGL1.003){target="_blank"} and glacier outlines from the [Randolph Glacier Inventory (RGI)](https://doi.org/10.7265/N5-RGI-60){target="_blank"}.
 
@@ -106,11 +91,14 @@ Currently, a relatively complete dataset of the Chirchik River Basin
 with decadal and monthly data on discharge, precipitation and
 temperature is included.
 
-## Related packages
 
+## Related packages
 The hydraulic-hydrological modelling software RS MINERVE can be accessed through Common Language Runtime (CLR) directly from within R, thus the use of the RS MINERVE GUI can be avoided and multiple runs of large models can be speed up. The [github repository RSMinerveR](https://github.com/hydrosolutions/RSMinerveR){target="_blank"} includes examples of how to use CLR commands to use the Visual Basic interface with RS MINERVE documented in the [technical manual](https://crealp.github.io/rsminerve-releases/tech_scripts.html){target="_blank}. This functionality is recommended for advanced users of RS MINERVE only. 
 
+There are a number of existing R packages available that support data preparation and  hydrological modelling [@slater_using_2019]. However, apart from riversCentralAsia, there is no R package to facilitate hydrological modelling specifically with RS MINERVE which is a powerful, accessible tool for water resources management in mountainous regions.  
+
 ## Installation
+
 The package has many dependencies which will be installed alongside
 riversCentralAsia. To successfully install the package you need prior
 installations of the following packages: rlang, magrittr, stringr and
@@ -178,96 +166,15 @@ do this:
     the zip file and the folder with the extracted riversCentralAsia
     files.
 
-## Community guidelines
-
-Please consult the documentation and the examples provided in the
-<a href="https://hydrosolutions.github.io/riversCentralAsia/index.html"
-target="_blank">package documentation</a> and in the open-source course
-book <a href="https://hydrosolutions.github.io/caham_book/"
-target="_blank">Modeling of Hydrological Systems in Semi-Arid Central
-Asia</a>.
-
-For problems using the functions of for suggestions, please use the
-<a href="https://github.com/hydrosolutions/riversCentralAsia/issues"
-target="_blank">issue tool</a>.
-
-We aim for an inclusive, harassment-free environment. Please read our [Code of conduct](https://github.com/hydrosolutions/riversCentralAsia/blob/master/CODE_OF_CONDUCT.md){target="_blank"}. 
-
-## Contribution guidelines
-
-We warmly welcome contributions to riversCentralAsia. Please refer to our [Contribution guidelines](https://hydrosolutions.github.io/riversCentralAsia/CONTRIBUTING.html){target="_blank"} before setting out to make changes. 
-
-## How to cite
-
-Please cite the package as:
-
-Tobias Siegfried, & Beatrice Marti (2021): riversCentralAsia
-<version number>. <https://doi.org/10.5281/zenodo.4667422>
-
-[![DOI](https://zenodo.org/badge/DOI/10.5281/zenodo.4667422.svg)](https://doi.org/10.5281/zenodo.4667422)
-
-## Examples
-
-This is a basic example which shows you how to visualize some of the
-included data.
-
-``` r
-library(riversCentralAsia)
-library(tidyverse)
-library(timetk)
-
-# Loading and visualising discharge data
-ChirchikRiverBasin  # load data
-ChirchikRiverBasin |> 
-  # Filter for the data type, here discharge "Q"
-  dplyr::filter(type == "Q") |> 
-  drop_na() |> 
-  group_by(river) |> 
-  plot_time_series(
-    date,
-    data,
-    .interactive = FALSE,
-    .facet_ncol = 2,
-    .smooth = FALSE, 
-    .y_lab = "Discharge [m3/s]", 
-    .x_lab = "Year", 
-    .title = "Discharge time series in the ChirchikRiverBasin data set"
-    )
-```
-
 ## Mentions
+The package is used extensively in the course book Modeling of Hydrological Systems in Semi-Arid Central Asia [@CAHAM:2022].
 
-The package is used extensively in the course book
-<a href="https://hydrosolutions.github.io/caham_book/"
-target="_blank">Modeling of Hydrological Systems in Semi-Arid Central
-Asia</a> (Siegfried & Marti, 2022).
+The workflows presented in the course book, using the riversCentralAsia package, are further validated within the Horizon 2020 project HYDRO4U [@Hydro4u:2022] where future small hydro power potential is evaluated using hydrological modelling.
 
-The workflows presented in the course book, using the riversCentralAsia
-package, are further validated within the Horizon 2020 project
-<a href="https://hydro4u.eu/" target="_blank">HYDRO4U</a> where future
-small hydro power potential is evaluated using hydrological modelling.
-
-For R & RS MINERVE users, the package
-<a href="https://github.com/hydrosolutions/RSMinerveR"
-target="_blank">RSMinverveR</a> is recommended which allows the
-interfacing between R and RS Minerve (with examples based on the Visual
-Basic Script examples by CREALP).
+For advanced R & RS Minerve users, the package RSMinverveR [@RSMinerveR:2022] is recommended which allows the interfacing between R and RS Minerve (with examples based on the Visual Basic Script examples by CREALP).
 
 ## Acknowledgement
+The preparation of the course book and thus the preparation of the package was financially supported by the Swiss Agency for Development and Cooperation, the German Kazakh University in Almaty and hydrosolutions.
 
-The preparation of the course book and thus the preparation of the
-package was financially supported by the Swiss Agency for Development
-and Cooperation, the German Kazakh University in Almaty and
-hydrosolutions.
-
-This R package was submitted to the Journal of Open Source Software. We
-thank @tonyewong and @mengqi-z for their valuable inputs during the
-review of the package and @crvernon for their editing work.
 
 ## References
-
-Tobias Siegfried & Beatrice Marti (2022): Modeling of Hydrological Systems in Semi-Arid Central Asia (<a href="https://hydrosolutions.github.io/caham_book/" target="_blank">https://hydrosolutions.github.io/caham_book/</a>). DOI: 10.5281/zenodo.6350042
-
-Marti, B. S., Zhumabaev, A., and Siegfried, T.: A comprehensive open-source 
-course for teaching applied hydrological modelling in Central Asia, 
-EGUsphere [preprint], <a href="https://doi.org/10.5194/egusphere-2022-966" target="_blank">https://doi.org/10.5194/egusphere-2022-966</a>, 2022.
