@@ -203,16 +203,44 @@ We warmly welcome contributions to riversCentralAsia. Please refer to our [Contr
 Please cite the package as:
 
 Tobias Siegfried, & Beatrice Marti (2021): riversCentralAsia
-<version number>. <https://doi.org/10.5281/zenodo.4667422>
+<version number>. <https://doi.org/10.5281/zenodo.4667421>
 
-[![DOI](https://zenodo.org/badge/DOI/10.5281/zenodo.4667422.svg)](https://doi.org/10.5281/zenodo.4667422)
+[![DOI](https://zenodo.org/badge/DOI/10.5281/zenodo.4667421.svg)](https://doi.org/10.5281/zenodo.4667421)
 
 ## Examples
 
-This is a basic example which shows you how to visualize some of the
-included data.
+Examples are given in the Articles of the [project documentation site](https://hydrosolutions.github.io/riversCentralAsia/){target="_blank"}. To reproduce the examples in the articles, please download the [latest development version from github](https://github.com/hydrosolutions/riversCentralAsia){target="_blank"} or [the last stable version from zenodo](https://doi.org/10.5281/zenodo.4667421){target="_blank"} and the [riversCentralAsia_ExampleData from Zenodo](https://zenodo.org/record/7389786#.Y4nV53bMK38){target="_blank"} and extract it to your local system, preferably on the same folder level as the package code:
+    -
+    |- riversCentralAsia
+    |- riversCentralAsia_ExampleData 
 
-``` r
+Alternatively to a manual download from zenodo you can download the entire data set using the library [zen4R](https://github.com/eblondel/zen4R){target="_blank"}.
+```{r, eval=FALSE}
+# To download the example files from github
+# Example from https://github.com/eblondel/zen4R/wiki
+# devtools::install_github("eblondel/zen4R")
+library(zen4R)
+library(parallel)  # Only for Windows/Unix users, Max users mclapply (see zen4R wiki)
+
+zenodo <- ZenodoManager$new(
+   token = <your_token>,  # put your token in "" here (don't share publicly!)
+   logger = "INFO" # use "DEBUG" to see detailed API operation logs, use NULL if you don't want logs at all
+)
+
+# Download the files in the repository to a folder on the same level as the 
+# R package riversCentralAsia which you downloaded from github.
+# -
+# |- riversCentralAsia
+# |- riversCentralAsia_ExampleData 
+download_zenodo(path = "../../riversCentralAsia_ExampleData", 
+                doi = "10.5281/zenodo.7390116", parallel = TRUE, 
+                parallel_handler = parLapply, cl = makeCluster(2))
+
+```
+
+
+Here we have a small example of the hydrometeorological data set included in the package.  
+```{r}
 library(riversCentralAsia)
 library(tidyverse)
 library(timetk)
