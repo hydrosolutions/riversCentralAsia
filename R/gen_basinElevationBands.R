@@ -75,9 +75,9 @@ gen_basinElevationBands <- function(
   # Clean up
   dem_classes_poly_clean <-
     smoothr::drop_crumbs(dem_classes_poly,
-                         units::set_units((dem_classes |>
+                         units::set_units(((dem_classes |>
                                              raster::res() |>
-                                             dplyr::first())^2 |>
+                                             dplyr::first())^2) |>
                                             base::round(), "m^2"))
   dem_classes_poly_clean <- smoothr::fill_holes(dem_classes_poly_clean,
                                                 units::set_units(holeSize_km2,
