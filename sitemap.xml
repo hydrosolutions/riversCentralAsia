@@ -61,13 +61,7 @@
     <loc>/reference/assess_fc_qual.html</loc>
   </url>
   <url>
-    <loc>/reference/biasCorrect_ERA5_CHELSA.html</loc>
-  </url>
-  <url>
     <loc>/reference/computeAnnualFlowDurationCurve.html</loc>
-  </url>
-  <url>
-    <loc>/reference/computeDiurnalTemperatureCycle.html</loc>
   </url>
   <url>
     <loc>/reference/convert2HYY.html</loc>
@@ -89,9 +83,6 @@
   </url>
   <url>
     <loc>/reference/generateSeqDates.html</loc>
-  </url>
-  <url>
-    <loc>/reference/generate_ERA5_Subbasin_CSV.html</loc>
   </url>
   <url>
     <loc>/reference/getChunkSize.html</loc>
