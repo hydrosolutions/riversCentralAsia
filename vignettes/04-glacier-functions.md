@@ -55,7 +55,7 @@ The present vignette gives an overview over the relevant glacier-related data, i
 
 Recent advances in glacier research yielded a stupendous amount of novel data sets that can be used to map glaciers and to force glacier melt models. The following section gives an overview over the data used in the models, status January 2022.
 
-We use the catchment of the gauging station on the Atabshy river, a tributary to the Naryn river in Central Asia as a demo site. If you'd like to reproduce the examples presented in this vignette you can download the zipped data by clicking this [link](https://www.dropbox.com/sh/r0lqggc77ka0uxd/AAChuIyLHHFIfAdgxNKiU2dpa?dl=1){target="_blank"}. You can extract the the downloaded data into a location of your choice and adapt the reference path in the code chunk below. The rest of the code will run as it is, provided you have the required r packages installed. The size of the data package is approximately 1 GB.
+We use the catchment of the gauging station on the Atabshy river, a tributary to the Naryn river in Central Asia as a demo site. If you'd like to reproduce the examples presented in this vignette you can download the riversCentralAsia_ExampleData (see [README](https://hydrosolutions.github.io/riversCentralAsia/){target="_blank"}). The rest of the code will run as it is, provided you have the required r packages installed. The size of the data package is approximately 1 GB.
 
 
 ```r
@@ -71,22 +71,20 @@ library(lubridate)
 # The package riversCentralAsia is not available from cran. It is installed 
 # directly from github via: 
 devtools::install_github("hydrosolutions/riversCentralAsia")
-#> openssl  (2.0.4  -> 2.0.5 ) [CRAN]
 #> jsonlite (1.8.3  -> 1.8.4 ) [CRAN]
 #> terra    (1.6-41 -> 1.6-47) [CRAN]
 #> ncdf4    (1.19   -> 1.20  ) [CRAN]
 #> 
-#>   There are binary versions available but the source versions are later:
+#>   There is a binary version available but the source version is later:
 #>          binary source needs_compilation
-#> openssl   2.0.4  2.0.5              TRUE
 #> jsonlite  1.8.3  1.8.4              TRUE
 #> 
 #> package 'terra' successfully unpacked and MD5 sums checked
 #> package 'ncdf4' successfully unpacked and MD5 sums checked
 #> 
 #> The downloaded binary packages are in
-#> 	C:\Users\marti\AppData\Local\Temp\RtmpwzwJWu\downloaded_packages
-#> * checking for file 'C:\Users\marti\AppData\Local\Temp\RtmpwzwJWu\remotes5a646300402f\hydrosolutions-riversCentralAsia-b68ba36/DESCRIPTION' ... OK
+#> 	C:\Users\marti\AppData\Local\Temp\Rtmpo7h1Tk\downloaded_packages
+#> * checking for file 'C:\Users\marti\AppData\Local\Temp\Rtmpo7h1Tk\remotes2f9c49e4619b\hydrosolutions-riversCentralAsia-79ba9f0/DESCRIPTION' ... OK
 #> * preparing 'riversCentralAsia':
 #> * checking DESCRIPTION meta-information ... OK
 #> * checking for LF line-endings in source and make files and shell scripts
@@ -97,9 +95,7 @@ devtools::install_github("hydrosolutions/riversCentralAsia")
 # development. 
 library(riversCentralAsia)
 
-# Path to the data directory downloaded from the download link provided above. 
-# Here the data is extracted to a folder called atbashy_glacier_demo_data
-data_path <- "../../atbashy_glacier_demo_data/"
+data_path <- "../../riversCentralAsia_ExampleData/"
 ```
 
 ## Randolph glacier inventory
@@ -109,10 +105,10 @@ The Randolph Glacier Inventory (RGI) v6.0 [@rgi60] makes a consistent global gla
 
 ```r
 
-dem <- raster(paste0(data_path, "GIS/16076_DEM.tif"))
-basin <- st_read(paste0(data_path, "GIS/16076_Basin_outline.shp"), quiet=TRUE)
+dem <- raster(paste0(data_path, "16076_DEM.tif"))
+basin <- st_read(paste0(data_path, "16076_Basin_outline.shp"), quiet=TRUE)
 
-rgi <- st_read(paste0(data_path, "GIS/16076_Glaciers_per_subbasin.shp"), 
+rgi <- st_read(paste0(data_path, "16076_Glaciers_per_subbasin.shp"), 
                quiet = TRUE) |> 
   st_transform(crs = crs(dem))
 
@@ -143,7 +139,7 @@ Two global glacier thickness datasets are currently publicly available: @farinot
 
 ```r
 thickness <- raster(paste0(data_path, 
-                           "GLACIERS/Milan_glacier_thickness.tif"))
+                           "Milan_glacier_thickness.tif"))
 
 values(thickness)[values(thickness) <= 0] = NA
 
@@ -212,7 +208,8 @@ The per-glacier time series of thinning rates is available from the [data reposi
 
 ```r
 
-hugonnet <- read_csv(paste0(data_path, "/GLACIERS/Hugonnet/dh_13_rgi60_pergla_rates.csv"))
+hugonnet <- read_csv(paste0(<path to your copy of the Hugonnet data>, 
+                            "dh_13_rgi60_pergla_rates.csv"))
 
 # Explanation of variables:
 # - dhdt is the elevation change rate in meters per year,
@@ -258,8 +255,6 @@ tm_shape(dem, name = "DEM") +
   tm_scale_bar(position = c("right", "bottom"))
 ```
 
-<img src="figure/thinning-1.png" alt="Average glacier mass change by Hugonnet et al., 2021." width="90%" />
-
 Glacier thinning rates can be viewed as net glacier mass change or glacier imbalance ablation (if glacier ice deformation processes are neglected).
 
 ### Glacier discharge
@@ -271,8 +266,8 @@ The original data is available from the [data repository](https://zenodo.org/rec
 
 ```r
  
-miles <- read_delim(paste0(data_path,
-                           "GLACIERS/Miles/Miles2021_Glaciers_summarytable_20210721.csv"),
+miles <- read_delim(paste0(<path to your copy of Miles glacier ablation rates>, 
+                           "Miles2021_Glaciers_summarytable_20210721.csv"),
                     show_col_types = FALSE, delim = ",") |> 
   dplyr::filter(RGIID %in% rgi$RGIId & VALID == 1)
 
@@ -303,8 +298,6 @@ tm_shape(dem, name = "DEM") +
   tm_borders(col = "black", lwd = 0.6) + 
   tm_scale_bar(position = c("right", "bottom"))
 ```
-
-<img src="figure/glacierDischarge-1.png" alt="Glacier discharge derived from Miles et al., 2021." width="90%" />
 
 For most hydrological applications, the interest lies on the glacier discharge, i.e. total ablation from glaciers. Despite their large uncertainties, the simulation results by @miles_health_2021 give us an estimate for glacier melt that we can use to calibrate the simpler temperature index models for glacier melt.
 

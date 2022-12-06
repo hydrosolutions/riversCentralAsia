@@ -292,11 +292,14 @@ examples in the articles, please download the
 target="_blank">latest development version from github</a> or
 <a href="https://doi.org/10.5281/zenodo.4667421" target="_blank">the
 last stable version from zenodo</a> and the
-<a href="https://zenodo.org/record/7389786#.Y4nV53bMK38"
+<a href="https://doi.org/10.5281/zenodo.7389785"
 target="_blank">riversCentralAsia_ExampleData from Zenodo</a> and
 extract it to your local system, preferably on the same folder level as
-the package code: - \|- riversCentralAsia \|-
-riversCentralAsia_ExampleData
+the package code:
+
+\-  
+ \|- riversCentralAsia  
+ \|- riversCentralAsia_ExampleData
 
 Alternatively to a manual download from zenodo you can download the
 entire data set using the library
@@ -319,6 +322,7 @@ zenodo <- ZenodoManager$new(
 # -
 # |- riversCentralAsia
 # |- riversCentralAsia_ExampleData 
+dir.create("../../riversCentralAsia_ExampleData")
 download_zenodo(path = "../../riversCentralAsia_ExampleData", 
                 doi = "10.5281/zenodo.7390116", parallel = TRUE, 
                 parallel_handler = parLapply, cl = makeCluster(2))

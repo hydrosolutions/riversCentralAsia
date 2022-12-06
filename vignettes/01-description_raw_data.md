@@ -63,17 +63,15 @@ NetCDF files can be quite large so it is often more convenient to use different 
 The CHELSA v2.1 NetCDF files are in the WGS84 projection with EPSG:4326. Please refer to the documentation of the data set you download. Ours includes daily precipitation sums in mm (varname = pr) or daily average near surface temperature in deg C (varname = tas) for each day of the year. There is one nc file for each year and for each climate variable. The date is included in the names of the daily images in the format X%Y.%m.%d (see example below).  
 
 #### Example
-To reproduce the examples below, please download the file [test_gen_HRU_Climate_CSV_RSMinerve_input_file.nc](https://github.com/hydrosolutions/riversCentralAsia/blob/master/tests/testthat/test_gen_HRU_Climate_CSV_RSMinerve_input_file.nc){target="_blank"} from the test folder in the riversCentralAsia package on github. 
+To reproduce the examples below, you need the codes and test data for the R package downloaded (see [README](https://hydrosolutions.github.io/riversCentralAsia/){target="_blank"}). 
 
 
 ```r
 library(raster)
 library(riversCentralAsia)
 
-# Download the example nc file from https://github.com/hydrosolutions/riversCentralAsia/blob/master/tests/testthat/test_gen_HRU_Climate_CSV_RSMinerve_input_file.nc
-
 # Adapt the path to the nc file on your computer
-ncfilepath = "tests/testthat/test_gen_HRU_Climate_CSV_RSMinerve_input_file.nc"
+ncfilepath = "./tests/testthat/test_gen_HRU_Climate_CSV_RSMinerve_input_file.nc"
 
 # Read in the nc file as raster brick
 chelsa_temperature_data <- raster::brick(ncfilepath)
@@ -110,14 +108,12 @@ The use of climate projection data for hydrological modelling is described in de
 Should you wish to download projections from further climate models, you can download the climate projection data for the CMIP 6 phase from the [Copernicus data repository app](https://cds.climate.copernicus.eu/cdsapp#!/dataset/projections-cmip6?tab=form){target="_blank"}. It is then recommended to inspect the downloaded data for any obvious problems using panoply and to reformat the data to a riversCentralAsia-package-readable format using cdo or R (or any other scripting language of your choosing). 
 
 #### Example
-To reproduce the example below, please download the [example nc file](https://www.dropbox.com/s/aw3mwh0ysydgu9j/tas_day_GFDL-ESM4_ssp126_r1i1p1f1_gr1.nc?dl=0){target="_blank"} from the data repository of the course book. It contains daily temperatures of the general circulation model (GCM) GFDL-ESM4 for the shared socio-economic scenario (SSP) 1 -2.6 from January 2012 until the end of the century. Please refer to the [course book](https://hydrosolutions.github.io/caham_book/climate_data.html#sec-climate-projections){target="_blank"} for a more detailed explanation of GCMs and SSPs. 
+To reproduce the example below, you need to download the riversCentralAsia_ExampleData from zenodo (see [README](https://hydrosolutions.github.io/riversCentralAsia/){target="_blank"}). The file tas_day_GFDL-ESM4_ssp126_r1i1p1f1_gr1.nc contains daily temperatures of the general circulation model (GCM) GFDL-ESM4 for the shared socio-economic scenario (SSP) 1 -2.6 from January 2012 until the end of the century. Please refer to the [course book](https://hydrosolutions.github.io/caham_book/climate_data.html#sec-climate-projections){target="_blank"} for a more detailed explanation of GCMs and SSPs. 
 
 
 ```r
-# Download the example nc file from https://www.dropbox.com/s/aw3mwh0ysydgu9j/tas_day_GFDL-ESM4_ssp126_r1i1p1f1_gr1.nc?dl=0
-
 # Adapt the path to the nc file on your computer
-ncfilepath = "C:../../../caham_data/central_asia_domain/climate/fut_sim/tas_day_GFDL-ESM4_ssp126_r1i1p1f1_gr1.nc"
+ncfilepath = "../../riversCentralAsia_ExampleData/tas_day_GFDL-ESM4_ssp126_r1i1p1f1_gr1.nc"
 
 # Read in the nc file as raster brick
 GFDESM4_SSP126_temperature_data <- raster::brick(ncfilepath)

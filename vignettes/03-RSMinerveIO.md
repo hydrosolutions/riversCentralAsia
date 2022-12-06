@@ -32,7 +32,7 @@ The parameters for these objects are described in the [RS MINERVE User Manual](h
 
 #### Example
 
-To reproduce the example below, please download the file [Atbashy_PAR_postCal.txt](https://www.dropbox.com/s/y4r44h06jwdnsde/Atbaschy_PAR_postCal.txt?dl=0){target="_blank"} from the demo data folder available from dropbox. Should you want to test a wider number of RS MINERVE I/O functions, we recommend downloading the entire example data folder [here](https://www.dropbox.com/sh/r0lqggc77ka0uxd/AAChuIyLHHFIfAdgxNKiU2dpa?dl=0){target="_blank"}. 
+The example below requires you to download the package repository as well as the riversCentralAsia_ExampleData repository (see [README](https://hydrosolutions.github.io/riversCentralAsia/){target="_blank"}). 
 
 
 ```r
@@ -40,10 +40,9 @@ library(tidyverse)
 library(lubridate)
 library(riversCentralAsia)
 
-# Download the file Atbashy_PAR_postCal.txt from https://www.dropbox.com/s/y4r44h06jwdnsde/Atbaschy_PAR_postCal.txt?dl=0
-
-# Adapt the path below 
-parameters_orig <- readRSMParameters("../../atbashy_glacier_demo_data/RSMINERVE/Atbaschy_PAR_postCal.txt") |> 
+# Adapt the path below if necessary
+parameters_orig <- readRSMParameters(
+  "../../riversCentralAsia_ExampleData/Atbaschy_PAR_postCal.txt") |> 
   dplyr::filter(Parameters == "Ku [1/d]") 
 
 ggplot(parameters_orig) + 
@@ -60,7 +59,7 @@ The following shows an example how the model parameters can be changed and writt
 ```r
 # Doubble all Ku-values in zone A: 
 parameters <- readRSMParameters(
-  "../../atbashy_glacier_demo_data/RSMINERVE/Atbaschy_PAR_postCal.txt") |> 
+  "../../riversCentralAsia_ExampleData/Atbaschy_PAR_postCal.txt") |> 
   mutate(Values = ifelse(Parameters == "Ku [1/d]" & Zone == "A", Values * 2, 
                          Values))
 
@@ -102,12 +101,11 @@ When I need to write a specific check node file, I typically ask RS MINERVE to w
 #
 # Make sure you have the example shape file with the hydrological response units 
 # used for hydrological modelling in RS MINERVE (16076_HRU.shp) downloaded from 
-# the example data set 
-# https://www.dropbox.com/s/ob5xrbp2ynfxzn3/16076_HRU.shp?dl=0
+# the example data set. 
 
 # Adapt the path below
 # This reads in the names of the HRUs 
-Object_IDs <- sf::st_read("../../atbashy_glacier_demo_data/GIS/16076_HRU.shp") |> 
+Object_IDs <- sf::st_read("../../riversCentralAsia_ExampleData/16076_HRU.shp") |> 
   sf::st_drop_geometry()
   
 
@@ -130,7 +128,7 @@ data <- tibble(
 )
 
 writeSelectionCHK(filepath = paste0(data_path, 
-                                    "RSMINERVE/FluxesAndStates.chk"), 
+                                    "FluxesAndStates.chk"), 
                   data = data, 
                   name = "Fluxes and states")
 ```
@@ -139,24 +137,21 @@ We then read the simulation results.
 
 ### Reading & plotting results
 
-To reproduce the example below, please download the example files from [the demo data folder available on dropbox](https://www.dropbox.com/sh/r0lqggc77ka0uxd/AAChuIyLHHFIfAdgxNKiU2dpa?dl=0){target="_blank"} and adapt the paths below.
+To reproduce the example below, please download the example files as described in [README](https://hydrosolutions.github.io/riversCentralAsia/index.html){target="_blank"} and adapt the paths below.
 
 
 ```r
 
-# Download the demo data folder from https://www.dropbox.com/sh/r0lqggc77ka0uxd/AAChuIyLHHFIfAdgxNKiU2dpa?dl=0
-
-# Adapt the path to the demo data folder on your computer
-data_path <- "../../atbashy_glacier_demo_data/"
+# Adapt the path to the demo data folder on your computer if necessary
+data_path <- "../../riversCentralAsia_ExampleData/"
 
 # Fluxes and model states per elevation bands
-fs <- readResultCSV(paste0(data_path, 
-                          "RSMINERVE/Atbaschy_Results_Fluxes_and_States.csv")) |> 
+fs <- readResultCSV(paste0(data_path,
+                           "Atbaschy_Results_Fluxes_and_States.csv")) |> 
   mutate(model = gsub("Station ", "", model))
 
 Tth <- 1  # HBV model parameter for partitioning of solid and liquid precipitation
-forcing <- readForcingCSV(paste0(data_path, 
-                                 "RSMINERVE/hist_obs_rsm.csv")) |> 
+forcing <- readForcingCSV(paste0(data_path, "hist_obs_rsm.csv")) |> 
   dplyr::select(-c(X, Y, Z, Category)) |> 
   pivot_wider(names_from = c(Sensor, Unit), names_sep = "_", values_from = Value) |> 
   mutate(Month = month(Date), 
@@ -190,7 +185,7 @@ forcing_plot <- ggplot(forcing) +
 
 # Glacier discharge is already aggregated to sub-basin level 
 gl <- readResultCSV(paste0(data_path, 
-                           "RSMINERVE/Atbaschy_Results_Glacier_Sources.csv")) |>
+                           "Atbaschy_Results_Glacier_Sources.csv")) |>
   mutate(variable = "Qgl", 
          model = gsub("glaciers_", "", model), 
          model = paste(toupper(substr(model, 1, 1)), 
