@@ -23,7 +23,7 @@ Typically, a river basin is discretized into hydrological response units (HRU) t
 
 The function `gen_basinElevationBands` allows the generation of a shape layer with elevation bands derived from a DEM. Note that you can play with the parameters of the function to adjust the shapes of the elevation bands.   
 
-To reproduce this vignette, please download the DEM [here](https://www.dropbox.com/s/g4cudydy3stcxih/16076_DEM.tif?dl=0). 
+To reproduce this vignette, please make sure you have this package as well as the example data package downloaded (see [README](https://hydrosolutions.github.io/riversCentralAsia/){target="_blank"}). 
 
 ```{r fig.cap="Broad elevation bands generated for the Atbashy basin.", message=FALSE, warning=FALSE, error=FALSE}
 library(tidyverse)
@@ -31,7 +31,7 @@ library(lubridate)
 library(timetk)
 library(riversCentralAsia)
 
-gis_path <- "../../atbashy_glacier_demo_data/GIS/16076_DEM.tif"
+gis_path <- "../../riversCentralAsia_ExampleData/16076_DEM.tif"
 crs_project <- "+proj=longlat +datum=WGS84"  # EPSG:4326, latlon WGS84
 
 # Parameter definition for the generation of the elevation bands
