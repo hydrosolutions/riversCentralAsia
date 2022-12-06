@@ -68,13 +68,10 @@ demo_data <- loadTabularData(
 }
 \seealso{
 Other Pre-processing: 
-\code{\link{biasCorrect_ERA5_CHELSA}()},
-\code{\link{computeDiurnalTemperatureCycle}()},
 \code{\link{convert2HYY}()},
 \code{\link{doQuantileMapping}()},
 \code{\link{gen_HRU_Climate_CSV_RSMinerve}()},
 \code{\link{gen_basinElevationBands}()},
-\code{\link{generate_ERA5_Subbasin_CSV}()},
 \code{\link{plotNormDevHYY}()}
 }
 \concept{Pre-processing}

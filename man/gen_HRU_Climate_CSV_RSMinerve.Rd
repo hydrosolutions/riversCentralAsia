@@ -73,12 +73,9 @@ This function currently can only read input files with full years of
 }
 \seealso{
 Other Pre-processing: 
-\code{\link{biasCorrect_ERA5_CHELSA}()},
-\code{\link{computeDiurnalTemperatureCycle}()},
 \code{\link{convert2HYY}()},
 \code{\link{doQuantileMapping}()},
 \code{\link{gen_basinElevationBands}()},
-\code{\link{generate_ERA5_Subbasin_CSV}()},
 \code{\link{loadTabularData}()},
 \code{\link{plotNormDevHYY}()}
 }

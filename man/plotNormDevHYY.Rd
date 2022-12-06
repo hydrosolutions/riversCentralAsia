@@ -26,13 +26,10 @@ The data2Plot tibble can easily be produced with the function convert2HYY() that
 }
 \seealso{
 Other Pre-processing: 
-\code{\link{biasCorrect_ERA5_CHELSA}()},
-\code{\link{computeDiurnalTemperatureCycle}()},
 \code{\link{convert2HYY}()},
 \code{\link{doQuantileMapping}()},
 \code{\link{gen_HRU_Climate_CSV_RSMinerve}()},
 \code{\link{gen_basinElevationBands}()},
-\code{\link{generate_ERA5_Subbasin_CSV}()},
 \code{\link{loadTabularData}()}
 }
 \concept{Pre-processing}
