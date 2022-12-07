@@ -322,9 +322,9 @@ zenodo <- ZenodoManager$new(
 # -
 # |- riversCentralAsia
 # |- riversCentralAsia_ExampleData 
-dir.create("../../riversCentralAsia_ExampleData")
-download_zenodo(path = "../../riversCentralAsia_ExampleData", 
-                doi = "10.5281/zenodo.7390116", parallel = TRUE, 
+dir.create("../riversCentralAsia_ExampleData")
+download_zenodo(path = "../riversCentralAsia_ExampleData", 
+                doi = "10.5281/zenodo.7389785", parallel = TRUE, 
                 parallel_handler = parLapply, cl = makeCluster(2))
 ```
 
