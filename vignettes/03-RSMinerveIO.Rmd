@@ -106,8 +106,10 @@ When I need to write a specific check node file, I typically ask RS MINERVE to w
 # This reads in the names of the HRUs 
 Object_IDs <- sf::st_read("../../riversCentralAsia_ExampleData/16076_HRU.shp") |> 
   sf::st_drop_geometry()
-  
 
+# Adapt the path to the demo data folder on your computer if necessary
+data_path <- "../../riversCentralAsia_ExampleData/"
+  
 # Write check node file
 hbv_var_list <- c("Qr (m3/s)", "Qu (m3/s)", "Ql (m3/s)", "SWE (m)", "HUM (m)", 
                   "SU (m)", "SL (m)", "Peq (m/s)")
@@ -250,7 +252,7 @@ fdc_mean <- fdc |>
   ungroup()
   
 ggplot(fdc) + 
-  geom_line(aes(Ma, Qtot_m3s, colour = Year), size = 0.6, alpha = 0.6,
+  geom_line(aes(Ma, Qtot_m3s, colour = Year), linewidth = 0.6, alpha = 0.6,
             show.legend = FALSE) + 
   geom_line(data = fdc_mean, 
             aes(Ma, Qtot_m3s)) + 

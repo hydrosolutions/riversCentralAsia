@@ -127,7 +127,7 @@ To reproduce the example below, you need to download the riversCentralAsia_Examp
 
 ```{r, eval=FALSE}
 # Adapt the path to the nc file on your computer
-ncfilepath = "../../riversCentralAsia_ExampleData/tas_day_GFDL-ESM4_ssp126_r1i1p1f1_gr1.nc"
+ncfilepath = "../riversCentralAsia_ExampleData/tas_day_GFDL-ESM4_ssp126_r1i1p1f1_gr1.nc"
 
 # Read in the nc file as raster brick
 GFDESM4_SSP126_temperature_data <- raster::brick(ncfilepath)

@@ -47,7 +47,7 @@ As automated calibration of SWE is not yet supported in RS Minerve, we propose a
 
 Actually observed SWE is not typically available for hydrological modeling in many catchments in Central Asia, we therefore propose to use existing model products like the High Mountain Snow Reanalysis Product [@liu_spatiotemporal_2021] which is available through [NSIDC](https://nsidc.org/data/HMA_SR_D/). Login to USGS Earth Data, select the files for download for your model area and download the data (for example using the python download script). We will refer to the SWE data set from HMASR as observed data.
 
-The downloaded data is subsequently pre-processed to extract the daily average SWE per HRU on the valid pixels of the data set (note that HMASR is not available on areas with permanent snow or ice cover). The following code sniped shows how this can be done.
+The downloaded data is subsequently pre-processed to extract the daily average SWE per HRU on the valid pixels of the data set (note that HMASR is not available on areas with permanent snow or ice cover). The following code sniped shows how this can be done. 
 
 If you wish to reproduce the code below, please make sure that the riversCentralAsia_ExampleData (see [README](https://hydrosolutions.github.io/riversCentralAsia/index.html){target="_blank"} is downloaded to your computer. 
 ```{r, eval=FALSE}

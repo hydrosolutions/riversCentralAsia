@@ -387,7 +387,9 @@ Basic Script examples by CREALP).
 The preparation of the course book and thus the preparation of the
 package was financially supported by the Swiss Agency for Development
 and Cooperation, the German Kazakh University in Almaty and
-hydrosolutions.
+hydrosolutions. 
+
+Vinisha Varghese and Aidar Zhumabaev @LagmanEater supported package development by applying the functions in their modelling tasks.  
 
 This R package was submitted to the Journal of Open Source Software. We
 thank @tonyewong and @mengqi-z for their valuable inputs during the
