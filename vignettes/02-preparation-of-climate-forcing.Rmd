@@ -49,7 +49,7 @@ hru_shp <- gen_basinElevationBands(
 hru_shp %>% plot()
 ```
 
-Some minor post-processing is further required and the HRU layer is ready for import to RS Minerve for use in the automated model creation. The open-source book Modeling of Hydrological Systems in Semi-Arid Central Asia, [section on geospatial data preparation](https://hydrosolutions.github.io/caham_book/geospatial_data.html){target="_blank"} gives step-by-step instructions for this.   
+Now, only minor post-processing (like adding a name attribute) is further required and the HRU layer is ready for import to RS Minerve for use in the automated model creation. The open-source book Modeling of Hydrological Systems in Semi-Arid Central Asia, [section on geospatial data preparation](https://hydrosolutions.github.io/caham_book/geospatial_data.html){target="_blank"} gives step-by-step instructions for this.   
 
 ## Extraction of climate data on hydrological response units
 We recommend the use of daily precipitation and temperature data from the CHELSA data set (made available by WSL)[@karger_climatologies_2017; @karger_high-resolution_2020]. The data is downloaded from the CHELSA server, then extracted to each hydrological response unit and reformated to the RS MINERVE forcing input format using function ```gen_HRU_Climate_CSV_RSMinerve```. Please note that the global CHELSA data set at 1km grid resolution requires several GB of free storage space on your computer.
@@ -58,23 +58,110 @@ This process is demonstrated in detail in the book Modelling of Hydrological Sys
 
 ```{r, eval=FALSE}
 # Temperature data processing
-temp_or_precip <- "Temperature"
 hist_obs_tas <- riversCentralAsia::gen_HRU_Climate_CSV_RSMinerve(
   climate_files = <List of CHELSA temperature files>,
   catchmentName = <river_name>,
-  temp_or_precip = <'Temperature' or 'Precipitation'>,
+  temp_or_precip = "Temperature",  # To process precipitation data, type "Precipitation"
   elBands_shp = <hru_shp>,
   startY = <start year>,
   endY = <end year>,
-  obs_freqency = <'hour', 'day', or 'month'>,  # Note that CHELSA data is available at daily or monthly frequency, not hourly.
+  obs_frequency = <'hour', 'day', or 'month'>,  # Note that CHELSA data is available at daily or monthly frequency, not hourly.
   climate_data_type = <'hist_obs', 'hist_sim', or 'fut_sim'>,
-  crs_project = <a projection code, for example '+proj=longlat +datum=WGS84'>)
+  crs_in_use = <a projection code, for example '+proj=longlat +datum=WGS84'>)
 ```
 
-This produces a tibble with the daily average temperatures for each elevation band in the input elBands_shp layer. The same function can be used for other data types like bias-corrected GCM model results. 
+An example using a single input file is given below. 
+```{r, eval=FALSE}
+# Assign names and elevations to the HRU
+# Here we use demo elevations. Typically you would extract elevations from DEM. 
+#   Z <- exactextractr::exact_extract(dem, hru_shp, 'mean')
+hru_shp <- hru_shp |> 
+  mutate(name = paste0("Atb_", layer), 
+         Z = c(1000, 2000, 3000, 4000))  
 
-## Bias correction
-Also here, due to the size of the input files, we do not provide a reproducible example in this package but refer the interested reader to the book Modelling of Hydrological Systems in Semi-Arid Central Asia, [section Climate Data - Downscaling and Bias Correction](https://hydrosolutions.github.io/caham_book/climate_data.html#sec-bcds-quantile-mapping){target="_blank"} where reproducible examples of the downscaling of projected climate data are available. The bias correction is done using the [R package qmap](https://CRAN.R-project.org/package=qmap){target="_blank"} [@gudmundsson_qmap_2016] but alternative packages exist that may be used (e.g. [downscaleR](https://github.com/SantanderMetGroup/downscaleR){target="_blank"} or the R package on Multivariate Bias Correction [MBC](https://cran.r-project.org/web/packages/MBC/index.html){target="_blank"}). 
+# Temperature data processing
+fut_sim_tas <- riversCentralAsia::gen_HRU_Climate_CSV_RSMinerve(
+  climate_files = 
+    "../../riversCentralAsia_ExampleData/tas_day_GFDL-ESM4_ssp126_r1i1p1f1_gr1.nc",
+  catchmentName = "Atbashy",
+  temp_or_precip = "Temperature",
+  elBands_shp = hru_shp,  # from the code chunk above
+  startY = 2012,
+  endY = 2017,
+  obs_frequency = "day", 
+  climate_data_type = "fut_sim",
+  crs_in_use = '+proj=longlat +datum=WGS84')
+
+# This gives you the temperature forcing for each elevation band in a format that can be imported to RS MINERVE. 
+fut_sim_tas
+# A tibble: 2,200 x 5
+#   Station             Atb_1             Atb_2             Atb_3             Atb_4            
+#   <chr>               <chr>             <chr>             <chr>             <chr>            
+# 1 Station             Atb_1             Atb_2             Atb_3             Atb_4            
+# 2 X                   1121699.41259477  1137845.07398682  1152073.09136446  1162907.10435686 
+# 3 Y                   4593793.26535944  4597636.57285844  4600746.13179295  4602406.26249851 
+# 4 Z                   1000              2000              3000              4000             
+# 5 Sensor              T                 T                 T                 T                
+# 6 Category            Temperature       Temperature       Temperature       Temperature      
+# 7 Unit                C                 C                 C                 C                
+# 8 Interpolation       Linear            Linear            Linear            Linear           
+# 9 01.01.2012 00:00:00 -14.048846244812  -14.0820846557617 -14.0855207443237 -14.0795421600342
+#10 02.01.2012 00:00:00 -13.4489545822144 -13.4161062240601 -13.4127111434937 -13.4186210632324
+# ... with 2,190 more rows
+# i Use `print(n = ...)` to see more rows
+
+# You now just need to write the table to csv and import it to RS MINERVE. 
+# readr::write_csv(fut_sim_tas, <filename>, na = "NA", col_names = FALSE)
+```
+
+This produces a tibble with the daily average temperatures for each elevation band in the input elBands_shp layer. 
+
+## Bias correction using quantile mapping
+Also here, due to the size of the input files, we do not provide a reproducible example in this package but refer the interested reader to the book Modelling of Hydrological Systems in Semi-Arid Central Asia, [section Climate Data - Downscaling and Bias Correction](https://hydrosolutions.github.io/caham_book/climate_data.html#sec-bcds-quantile-mapping){target="_blank"} where reproducible examples of the downscaling of projected climate data are available. The bias correction is done using the [R package qmap](https://CRAN.R-project.org/package=qmap){target="_blank"} [@gudmundsson_qmap_2016]. 
+
+The synthetic example below demonstrates how the wrapper for qmap in riversCentral Asia is used to downscale climate projections to each HRU of the basin. 
+```{r}
+hist_obs <- tibble::tribble(~Date, ~Basin, ~Pr,
+                            "1979-01-01", "K_eb1", 0.1,
+                            "1979-01-01", "K_eb2", 0.2,
+                            "1979-01-01", "K_eb3", 0.3,
+                            "1979-01-02", "K_eb1", 0.4,
+                            "1979-01-02", "K_eb2", 0.5,
+                            "1979-01-02", "K_eb3", 0.6) |>
+  dplyr::mutate(Date = as.Date(Date))
+hist_sim <- hist_obs |>
+  dplyr::filter(Basin == "K_eb1") |>
+  dplyr::select(-Basin) |>
+  dplyr::mutate(Pr = Pr + 1, Model = "A")
+hist_sim <- hist_sim |>
+  dplyr::add_row(hist_sim |>
+                   dplyr::mutate(Pr = Pr + 2, Model = "B"))
+fut_sim <- hist_sim |>
+  dplyr::mutate(Scenario = "a") |>
+  dplyr::add_row(hist_sim |>
+                   dplyr::mutate(Pr = Pr + 1, Scenario = "b"))
+fut_sim <- fut_sim |>
+  dplyr::mutate(Date = as.Date(Date) + 2) |> 
+  dplyr::add_row(fut_sim |>
+                   dplyr::mutate(Date = as.Date(Date) + 4))
+
+results <- doQuantileMapping(hist_obs, hist_sim, fut_sim)
+mapped_hist_sim <- results[[1]]
+mapped_fut_sim <- results[[2]]
+
+mapped_hist_sim <- mapped_hist_sim |> 
+  mutate(Model = ifelse(Model == "ERA5-CHELSA", "baseline", Model))
+
+# Visually inspect results
+ggplot() + 
+  geom_line(data = hist_sim, aes(Date, Pr, colour = Model), linetype = 2) + 
+  geom_line(data = mapped_hist_sim, aes(Date, Pr, colour = Model)) + 
+  geom_line(data = hist_obs, aes(Date, Pr), colour = "black", linetype = 3) + 
+  geom_line(data = fut_sim, aes(Date, Pr, colour = Model), linetype = 2) + 
+  geom_line(data = mapped_fut_sim, aes(Date, Pr, colour = Model)) + 
+  facet_wrap(c("Basin", "Scenario")) + 
+  theme_bw()
+```
 
 ## References
 
