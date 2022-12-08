@@ -117,19 +117,16 @@ MINERVE User Manual</a>.</p>
 <div class="section level4">
 <h4 id="example">Example<a class="anchor" aria-label="anchor" href="#example"></a>
 </h4>
-<p>To reproduce the example below, please download the file <a href="https://www.dropbox.com/s/y4r44h06jwdnsde/Atbaschy_PAR_postCal.txt?dl=0" target="_blank" class="external-link">Atbashy_PAR_postCal.txt</a> from the demo data folder
-available from dropbox. Should you want to test a wider number of RS
-MINERVE I/O functions, we recommend downloading the entire example data
-folder <a href="https://www.dropbox.com/sh/r0lqggc77ka0uxd/AAChuIyLHHFIfAdgxNKiU2dpa?dl=0" target="_blank" class="external-link">here</a>.</p>
+<p>The example below requires you to download the package repository as
+well as the riversCentralAsia_ExampleData repository (see <a href="https://hydrosolutions.github.io/riversCentralAsia/" target="_blank" class="external-link">README</a>).</p>
 <div class="sourceCode" id="cb1"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://tidyverse.tidyverse.org" class="external-link">tidyverse</a></span><span class="op">)</span></span>
 <span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://lubridate.tidyverse.org" class="external-link">lubridate</a></span><span class="op">)</span></span>
 <span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://hydrosolutions.github.io/riversCentralAsia/index.html" class="external-link">riversCentralAsia</a></span><span class="op">)</span></span>
 <span></span>
-<span><span class="co"># Download the file Atbashy_PAR_postCal.txt from https://www.dropbox.com/s/y4r44h06jwdnsde/Atbaschy_PAR_postCal.txt?dl=0</span></span>
-<span></span>
-<span><span class="co"># Adapt the path below </span></span>
-<span><span class="va">parameters_orig</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/readRSMParameters.html">readRSMParameters</a></span><span class="op">(</span><span class="st">"../../atbashy_glacier_demo_data/RSMINERVE/Atbaschy_PAR_postCal.txt"</span><span class="op">)</span> <span class="op">|&gt;</span> </span>
+<span><span class="co"># Adapt the path below if necessary</span></span>
+<span><span class="va">parameters_orig</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/readRSMParameters.html">readRSMParameters</a></span><span class="op">(</span></span>
+<span>  <span class="st">"../../riversCentralAsia_ExampleData/Atbaschy_PAR_postCal.txt"</span><span class="op">)</span> <span class="op">|&gt;</span> </span>
 <span>  <span class="fu">dplyr</span><span class="fu">::</span><span class="fu"><a href="https://dplyr.tidyverse.org/reference/filter.html" class="external-link">filter</a></span><span class="op">(</span><span class="va">Parameters</span> <span class="op">==</span> <span class="st">"Ku [1/d]"</span><span class="op">)</span> </span>
 <span></span>
 <span><span class="fu"><a href="https://ggplot2.tidyverse.org/reference/ggplot.html" class="external-link">ggplot</a></span><span class="op">(</span><span class="va">parameters_orig</span><span class="op">)</span> <span class="op">+</span> </span>
@@ -141,7 +138,7 @@ changed and written to a RS MINERVE-readable format.</p>
 <div class="sourceCode" id="cb2"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="co"># Doubble all Ku-values in zone A: </span></span>
 <span><span class="va">parameters</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/readRSMParameters.html">readRSMParameters</a></span><span class="op">(</span></span>
-<span>  <span class="st">"../../atbashy_glacier_demo_data/RSMINERVE/Atbaschy_PAR_postCal.txt"</span><span class="op">)</span> <span class="op">|&gt;</span> </span>
+<span>  <span class="st">"../../riversCentralAsia_ExampleData/Atbaschy_PAR_postCal.txt"</span><span class="op">)</span> <span class="op">|&gt;</span> </span>
 <span>  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/mutate.html" class="external-link">mutate</a></span><span class="op">(</span>Values <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/ifelse.html" class="external-link">ifelse</a></span><span class="op">(</span><span class="va">Parameters</span> <span class="op">==</span> <span class="st">"Ku [1/d]"</span> <span class="op">&amp;</span> <span class="va">Zone</span> <span class="op">==</span> <span class="st">"A"</span>, <span class="va">Values</span> <span class="op">*</span> <span class="fl">2</span>, </span>
 <span>                         <span class="va">Values</span><span class="op">)</span><span class="op">)</span></span>
 <span></span>
@@ -188,15 +185,16 @@ adapting the example below.</p>
 <span><span class="co">#</span></span>
 <span><span class="co"># Make sure you have the example shape file with the hydrological response units </span></span>
 <span><span class="co"># used for hydrological modelling in RS MINERVE (16076_HRU.shp) downloaded from </span></span>
-<span><span class="co"># the example data set </span></span>
-<span><span class="co"># https://www.dropbox.com/s/ob5xrbp2ynfxzn3/16076_HRU.shp?dl=0</span></span>
+<span><span class="co"># the example data set. </span></span>
 <span></span>
 <span><span class="co"># Adapt the path below</span></span>
 <span><span class="co"># This reads in the names of the HRUs </span></span>
-<span><span class="va">Object_IDs</span> <span class="op">&lt;-</span> <span class="fu">sf</span><span class="fu">::</span><span class="fu"><a href="https://r-spatial.github.io/sf/reference/st_read.html" class="external-link">st_read</a></span><span class="op">(</span><span class="st">"../../atbashy_glacier_demo_data/GIS/16076_HRU.shp"</span><span class="op">)</span> <span class="op">|&gt;</span> </span>
+<span><span class="va">Object_IDs</span> <span class="op">&lt;-</span> <span class="fu">sf</span><span class="fu">::</span><span class="fu"><a href="https://r-spatial.github.io/sf/reference/st_read.html" class="external-link">st_read</a></span><span class="op">(</span><span class="st">"../../riversCentralAsia_ExampleData/16076_HRU.shp"</span><span class="op">)</span> <span class="op">|&gt;</span> </span>
 <span>  <span class="fu">sf</span><span class="fu">::</span><span class="fu"><a href="https://r-spatial.github.io/sf/reference/st_geometry.html" class="external-link">st_drop_geometry</a></span><span class="op">(</span><span class="op">)</span></span>
-<span>  </span>
 <span></span>
+<span><span class="co"># Adapt the path to the demo data folder on your computer if necessary</span></span>
+<span><span class="va">data_path</span> <span class="op">&lt;-</span> <span class="st">"../../riversCentralAsia_ExampleData/"</span></span>
+<span>  </span>
 <span><span class="co"># Write check node file</span></span>
 <span><span class="va">hbv_var_list</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"Qr (m3/s)"</span>, <span class="st">"Qu (m3/s)"</span>, <span class="st">"Ql (m3/s)"</span>, <span class="st">"SWE (m)"</span>, <span class="st">"HUM (m)"</span>, </span>
 <span>                  <span class="st">"SU (m)"</span>, <span class="st">"SL (m)"</span>, <span class="st">"Peq (m/s)"</span><span class="op">)</span></span>
@@ -216,7 +214,7 @@ adapting the example below.</p>
 <span><span class="op">)</span></span>
 <span></span>
 <span><span class="fu"><a href="../reference/writeSelectionCHK.html">writeSelectionCHK</a></span><span class="op">(</span>filepath <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/paste.html" class="external-link">paste0</a></span><span class="op">(</span><span class="va">data_path</span>, </span>
-<span>                                    <span class="st">"RSMINERVE/FluxesAndStates.chk"</span><span class="op">)</span>, </span>
+<span>                                    <span class="st">"FluxesAndStates.chk"</span><span class="op">)</span>, </span>
 <span>                  data <span class="op">=</span> <span class="va">data</span>, </span>
 <span>                  name <span class="op">=</span> <span class="st">"Fluxes and states"</span><span class="op">)</span></span></code></pre></div>
 <p>We then read the simulation results.</p>
@@ -224,24 +222,20 @@ adapting the example below.</p>
 <div class="section level3">
 <h3 id="reading-plotting-results">Reading &amp; plotting results<a class="anchor" aria-label="anchor" href="#reading-plotting-results"></a>
 </h3>
-<p>To reproduce the example below, please download the example files
-from <a href="https://www.dropbox.com/sh/r0lqggc77ka0uxd/AAChuIyLHHFIfAdgxNKiU2dpa?dl=0" target="_blank" class="external-link">the demo data folder available on dropbox</a> and adapt
-the paths below.</p>
+<p>To reproduce the example below, please download the example files as
+described in <a href="https://hydrosolutions.github.io/riversCentralAsia/index.html" target="_blank" class="external-link">README</a> and adapt the paths below.</p>
 <div class="sourceCode" id="cb4"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span></span>
-<span><span class="co"># Download the demo data folder from https://www.dropbox.com/sh/r0lqggc77ka0uxd/AAChuIyLHHFIfAdgxNKiU2dpa?dl=0</span></span>
-<span></span>
-<span><span class="co"># Adapt the path to the demo data folder on your computer</span></span>
-<span><span class="va">data_path</span> <span class="op">&lt;-</span> <span class="st">"../../atbashy_glacier_demo_data/"</span></span>
+<span><span class="co"># Adapt the path to the demo data folder on your computer if necessary</span></span>
+<span><span class="va">data_path</span> <span class="op">&lt;-</span> <span class="st">"../../riversCentralAsia_ExampleData/"</span></span>
 <span></span>
 <span><span class="co"># Fluxes and model states per elevation bands</span></span>
-<span><span class="va">fs</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/readResultCSV.html">readResultCSV</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/paste.html" class="external-link">paste0</a></span><span class="op">(</span><span class="va">data_path</span>, </span>
-<span>                          <span class="st">"RSMINERVE/Atbaschy_Results_Fluxes_and_States.csv"</span><span class="op">)</span><span class="op">)</span> <span class="op">|&gt;</span> </span>
+<span><span class="va">fs</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/readResultCSV.html">readResultCSV</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/paste.html" class="external-link">paste0</a></span><span class="op">(</span><span class="va">data_path</span>,</span>
+<span>                           <span class="st">"Atbaschy_Results_Fluxes_and_States.csv"</span><span class="op">)</span><span class="op">)</span> <span class="op">|&gt;</span> </span>
 <span>  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/mutate.html" class="external-link">mutate</a></span><span class="op">(</span>model <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/grep.html" class="external-link">gsub</a></span><span class="op">(</span><span class="st">"Station "</span>, <span class="st">""</span>, <span class="va">model</span><span class="op">)</span><span class="op">)</span></span>
 <span></span>
 <span><span class="va">Tth</span> <span class="op">&lt;-</span> <span class="fl">1</span>  <span class="co"># HBV model parameter for partitioning of solid and liquid precipitation</span></span>
-<span><span class="va">forcing</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/readForcingCSV.html">readForcingCSV</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/paste.html" class="external-link">paste0</a></span><span class="op">(</span><span class="va">data_path</span>, </span>
-<span>                                 <span class="st">"RSMINERVE/hist_obs_rsm.csv"</span><span class="op">)</span><span class="op">)</span> <span class="op">|&gt;</span> </span>
+<span><span class="va">forcing</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/readForcingCSV.html">readForcingCSV</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/paste.html" class="external-link">paste0</a></span><span class="op">(</span><span class="va">data_path</span>, <span class="st">"hist_obs_rsm.csv"</span><span class="op">)</span><span class="op">)</span> <span class="op">|&gt;</span> </span>
 <span>  <span class="fu">dplyr</span><span class="fu">::</span><span class="fu"><a href="https://dplyr.tidyverse.org/reference/select.html" class="external-link">select</a></span><span class="op">(</span><span class="op">-</span><span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="va">X</span>, <span class="va">Y</span>, <span class="va">Z</span>, <span class="va">Category</span><span class="op">)</span><span class="op">)</span> <span class="op">|&gt;</span> </span>
 <span>  <span class="fu"><a href="https://tidyr.tidyverse.org/reference/pivot_wider.html" class="external-link">pivot_wider</a></span><span class="op">(</span>names_from <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="va">Sensor</span>, <span class="va">Unit</span><span class="op">)</span>, names_sep <span class="op">=</span> <span class="st">"_"</span>, values_from <span class="op">=</span> <span class="va">Value</span><span class="op">)</span> <span class="op">|&gt;</span> </span>
 <span>  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/mutate.html" class="external-link">mutate</a></span><span class="op">(</span>Month <span class="op">=</span> <span class="fu"><a href="https://lubridate.tidyverse.org/reference/month.html" class="external-link">month</a></span><span class="op">(</span><span class="va">Date</span><span class="op">)</span>, </span>
@@ -275,7 +269,7 @@ the paths below.</p>
 <span></span>
 <span><span class="co"># Glacier discharge is already aggregated to sub-basin level </span></span>
 <span><span class="va">gl</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/readResultCSV.html">readResultCSV</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/paste.html" class="external-link">paste0</a></span><span class="op">(</span><span class="va">data_path</span>, </span>
-<span>                           <span class="st">"RSMINERVE/Atbaschy_Results_Glacier_Sources.csv"</span><span class="op">)</span><span class="op">)</span> <span class="op">|&gt;</span></span>
+<span>                           <span class="st">"Atbaschy_Results_Glacier_Sources.csv"</span><span class="op">)</span><span class="op">)</span> <span class="op">|&gt;</span></span>
 <span>  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/mutate.html" class="external-link">mutate</a></span><span class="op">(</span>variable <span class="op">=</span> <span class="st">"Qgl"</span>, </span>
 <span>         model <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/grep.html" class="external-link">gsub</a></span><span class="op">(</span><span class="st">"glaciers_"</span>, <span class="st">""</span>, <span class="va">model</span><span class="op">)</span>, </span>
 <span>         model <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/paste.html" class="external-link">paste</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/chartr.html" class="external-link">toupper</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/substr.html" class="external-link">substr</a></span><span class="op">(</span><span class="va">model</span>, <span class="fl">1</span>, <span class="fl">1</span><span class="op">)</span><span class="op">)</span>, </span>
@@ -344,7 +338,7 @@ example, for the design of hydraulic infrastructure.</p>
 <span>  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/group_by.html" class="external-link">ungroup</a></span><span class="op">(</span><span class="op">)</span></span>
 <span>  </span>
 <span><span class="fu"><a href="https://ggplot2.tidyverse.org/reference/ggplot.html" class="external-link">ggplot</a></span><span class="op">(</span><span class="va">fdc</span><span class="op">)</span> <span class="op">+</span> </span>
-<span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/geom_path.html" class="external-link">geom_line</a></span><span class="op">(</span><span class="fu"><a href="https://ggplot2.tidyverse.org/reference/aes.html" class="external-link">aes</a></span><span class="op">(</span><span class="va">Ma</span>, <span class="va">Qtot_m3s</span>, colour <span class="op">=</span> <span class="va">Year</span><span class="op">)</span>, size <span class="op">=</span> <span class="fl">0.6</span>, alpha <span class="op">=</span> <span class="fl">0.6</span>,</span>
+<span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/geom_path.html" class="external-link">geom_line</a></span><span class="op">(</span><span class="fu"><a href="https://ggplot2.tidyverse.org/reference/aes.html" class="external-link">aes</a></span><span class="op">(</span><span class="va">Ma</span>, <span class="va">Qtot_m3s</span>, colour <span class="op">=</span> <span class="va">Year</span><span class="op">)</span>, linewidth <span class="op">=</span> <span class="fl">0.6</span>, alpha <span class="op">=</span> <span class="fl">0.6</span>,</span>
 <span>            show.legend <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span> <span class="op">+</span> </span>
 <span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/geom_path.html" class="external-link">geom_line</a></span><span class="op">(</span>data <span class="op">=</span> <span class="va">fdc_mean</span>, </span>
 <span>            <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/aes.html" class="external-link">aes</a></span><span class="op">(</span><span class="va">Ma</span>, <span class="va">Qtot_m3s</span><span class="op">)</span><span class="op">)</span> <span class="op">+</span> </span>

@@ -219,11 +219,9 @@ in the models, status January 2022.</p>
 <p>We use the catchment of the gauging station on the Atabshy river, a
 tributary to the Naryn river in Central Asia as a demo site. If you’d
 like to reproduce the examples presented in this vignette you can
-download the zipped data by clicking this <a href="https://www.dropbox.com/sh/r0lqggc77ka0uxd/AAChuIyLHHFIfAdgxNKiU2dpa?dl=1" target="_blank" class="external-link">link</a>. You can extract the the downloaded data into a
-location of your choice and adapt the reference path in the code chunk
-below. The rest of the code will run as it is, provided you have the
-required r packages installed. The size of the data package is
-approximately 1 GB.</p>
+download the riversCentralAsia_ExampleData (see <a href="https://hydrosolutions.github.io/riversCentralAsia/" target="_blank" class="external-link">README</a>). The rest of the code will run as it is,
+provided you have the required r packages installed. The size of the
+data package is approximately 1 GB.</p>
 <div class="sourceCode" id="cb1"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="co"># Install the libraries required to reproduce this vignette</span></span>
 <span><span class="co"># The below packages are available from cran and can be installed using the </span></span>
@@ -241,9 +239,7 @@ approximately 1 GB.</p>
 <span><span class="co"># development. </span></span>
 <span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://hydrosolutions.github.io/riversCentralAsia/index.html" class="external-link">riversCentralAsia</a></span><span class="op">)</span></span>
 <span></span>
-<span><span class="co"># Path to the data directory downloaded from the download link provided above. </span></span>
-<span><span class="co"># Here the data is extracted to a folder called atbashy_glacier_demo_data</span></span>
-<span><span class="va">data_path</span> <span class="op">&lt;-</span> <span class="st">"../../atbashy_glacier_demo_data/"</span></span></code></pre></div>
+<span><span class="va">data_path</span> <span class="op">&lt;-</span> <span class="st">"../../riversCentralAsia_ExampleData/"</span></span></code></pre></div>
 <div class="section level3">
 <h3 id="randolph-glacier-inventory">Randolph glacier inventory<a class="anchor" aria-label="anchor" href="#randolph-glacier-inventory"></a>
 </h3>
@@ -259,10 +255,10 @@ RGI v6.0 web site</a>. For this demo, the data is available from the
 data download link given above.</p>
 <div class="sourceCode" id="cb2"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span></span>
-<span><span class="va">dem</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/pkg/raster/man/raster.html" class="external-link">raster</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/paste.html" class="external-link">paste0</a></span><span class="op">(</span><span class="va">data_path</span>, <span class="st">"GIS/16076_DEM.tif"</span><span class="op">)</span><span class="op">)</span></span>
-<span><span class="va">basin</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://r-spatial.github.io/sf/reference/st_read.html" class="external-link">st_read</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/paste.html" class="external-link">paste0</a></span><span class="op">(</span><span class="va">data_path</span>, <span class="st">"GIS/16076_Basin_outline.shp"</span><span class="op">)</span>, quiet<span class="op">=</span><span class="cn">TRUE</span><span class="op">)</span></span>
+<span><span class="va">dem</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/pkg/raster/man/raster.html" class="external-link">raster</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/paste.html" class="external-link">paste0</a></span><span class="op">(</span><span class="va">data_path</span>, <span class="st">"16076_DEM.tif"</span><span class="op">)</span><span class="op">)</span></span>
+<span><span class="va">basin</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://r-spatial.github.io/sf/reference/st_read.html" class="external-link">st_read</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/paste.html" class="external-link">paste0</a></span><span class="op">(</span><span class="va">data_path</span>, <span class="st">"16076_Basin_outline.shp"</span><span class="op">)</span>, quiet<span class="op">=</span><span class="cn">TRUE</span><span class="op">)</span></span>
 <span></span>
-<span><span class="va">rgi</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://r-spatial.github.io/sf/reference/st_read.html" class="external-link">st_read</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/paste.html" class="external-link">paste0</a></span><span class="op">(</span><span class="va">data_path</span>, <span class="st">"GIS/16076_Glaciers_per_subbasin.shp"</span><span class="op">)</span>, </span>
+<span><span class="va">rgi</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://r-spatial.github.io/sf/reference/st_read.html" class="external-link">st_read</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/paste.html" class="external-link">paste0</a></span><span class="op">(</span><span class="va">data_path</span>, <span class="st">"16076_Glaciers_per_subbasin.shp"</span><span class="op">)</span>, </span>
 <span>               quiet <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span> <span class="op">|&gt;</span> </span>
 <span>  <span class="fu"><a href="https://r-spatial.github.io/sf/reference/st_transform.html" class="external-link">st_transform</a></span><span class="op">(</span>crs <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/pkg/terra/man/crs.html" class="external-link">crs</a></span><span class="op">(</span><span class="va">dem</span><span class="op">)</span><span class="op">)</span></span>
 <span></span>
@@ -298,7 +294,7 @@ v6 data set as individual tifs. <span class="citation">Millan et al.
 convenient to handle.</p>
 <div class="sourceCode" id="cb3"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">thickness</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/pkg/raster/man/raster.html" class="external-link">raster</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/paste.html" class="external-link">paste0</a></span><span class="op">(</span><span class="va">data_path</span>, </span>
-<span>                           <span class="st">"GLACIERS/Milan_glacier_thickness.tif"</span><span class="op">)</span><span class="op">)</span></span>
+<span>                           <span class="st">"Milan_glacier_thickness.tif"</span><span class="op">)</span><span class="op">)</span></span>
 <span></span>
 <span><span class="fu"><a href="https://rdrr.io/pkg/terra/man/values.html" class="external-link">values</a></span><span class="op">(</span><span class="va">thickness</span><span class="op">)</span><span class="op">[</span><span class="fu"><a href="https://rdrr.io/pkg/terra/man/values.html" class="external-link">values</a></span><span class="op">(</span><span class="va">thickness</span><span class="op">)</span> <span class="op">&lt;=</span> <span class="fl">0</span><span class="op">]</span> <span class="op">=</span> <span class="cn">NA</span></span>
 <span></span>
@@ -401,53 +397,54 @@ download link above.</p>
 <p>The per-glacier time series of thinning rates is available from the
 <a href="https://www.sedoo.fr/theia-publication-products/?uuid=c428c5b9-df8f-4f86-9b75-e04c778e29b9" target="_blank" class="external-link">data repository</a> as described in the <a href="https://github.com/rhugonnet/ww_tvol_study" target="_blank" class="external-link">github
 site</a> linked under the code availability section of the <a href="https://www.nature.com/articles/s41586-021-03436-z" target="_blank" class="external-link">online paper</a> of <span class="citation">Hugonnet et
-al. (2021)</span>.</p>
-<div class="sourceCode" id="cb4"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span></span>
-<span><span class="va">hugonnet</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://readr.tidyverse.org/reference/read_delim.html" class="external-link">read_csv</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/paste.html" class="external-link">paste0</a></span><span class="op">(</span><span class="va">data_path</span>, <span class="st">"/GLACIERS/Hugonnet/dh_13_rgi60_pergla_rates.csv"</span><span class="op">)</span><span class="op">)</span></span>
-<span></span>
-<span><span class="co"># Explanation of variables:</span></span>
-<span><span class="co"># - dhdt is the elevation change rate in meters per year,</span></span>
-<span><span class="co"># - dvoldt is the volume change rate in meters cube per year,</span></span>
-<span><span class="co"># - dmdt is the mass change rate in gigatons per year,</span></span>
-<span><span class="co"># - dmdtda is the specific-mass change rate in meters water-equivalent per year.</span></span>
-<span></span>
-<span><span class="co"># Filter the basin glaciers from the Hugonnet data set. </span></span>
-<span><span class="va">hugonnet</span> <span class="op">&lt;-</span> <span class="va">hugonnet</span> <span class="op">|&gt;</span> </span>
-<span>  <span class="fu">dplyr</span><span class="fu">::</span><span class="fu"><a href="https://dplyr.tidyverse.org/reference/filter.html" class="external-link">filter</a></span><span class="op">(</span><span class="va">rgiid</span> <span class="op"><a href="https://rdrr.io/r/base/match.html" class="external-link">%in%</a></span> <span class="va">rgi</span><span class="op">$</span><span class="va">RGIId</span><span class="op">)</span> <span class="op">|&gt;</span> </span>
-<span>  <span class="fu">tidyr</span><span class="fu">::</span><span class="fu"><a href="https://tidyr.tidyverse.org/reference/separate.html" class="external-link">separate</a></span><span class="op">(</span><span class="va">period</span>, <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"start"</span>, <span class="st">"end"</span><span class="op">)</span>, sep <span class="op">=</span> <span class="st">"_"</span><span class="op">)</span> <span class="op">|&gt;</span> </span>
-<span>  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/mutate.html" class="external-link">mutate</a></span><span class="op">(</span>start <span class="op">=</span> <span class="fu"><a href="https://lubridate.tidyverse.org/reference/as_date.html" class="external-link">as_date</a></span><span class="op">(</span><span class="va">start</span>, format <span class="op">=</span> <span class="st">"%Y-%m-%d"</span><span class="op">)</span>, </span>
-<span>         end <span class="op">=</span> <span class="fu"><a href="https://lubridate.tidyverse.org/reference/as_date.html" class="external-link">as_date</a></span><span class="op">(</span><span class="va">end</span>, format <span class="op">=</span> <span class="st">"%Y-%m-%d"</span><span class="op">)</span>, </span>
-<span>         period <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/Round.html" class="external-link">round</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/numeric.html" class="external-link">as.numeric</a></span><span class="op">(</span><span class="va">end</span> <span class="op">-</span> <span class="va">start</span>, units <span class="op">=</span> <span class="st">"days"</span><span class="op">)</span><span class="op">/</span><span class="fl">366</span><span class="op">)</span><span class="op">)</span></span>
-<span></span>
-<span><span class="co"># Join the Hugonnet data set to the RGI data set to be able to plot the thinning </span></span>
-<span><span class="co"># rates on the glacier geometry. </span></span>
-<span><span class="va">glaciers_hugonnet</span> <span class="op">&lt;-</span> <span class="va">rgi</span> <span class="op">|&gt;</span> </span>
-<span>  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/mutate-joins.html" class="external-link">left_join</a></span><span class="op">(</span><span class="va">hugonnet</span> <span class="op">|&gt;</span> <span class="fu">dplyr</span><span class="fu">::</span><span class="fu"><a href="https://dplyr.tidyverse.org/reference/select.html" class="external-link">select</a></span><span class="op">(</span><span class="va">rgiid</span>, <span class="va">area</span>, <span class="va">start</span>, <span class="va">end</span>, <span class="va">dhdt</span>, <span class="va">err_dhdt</span>, </span>
-<span>                                      <span class="va">dvoldt</span>, <span class="va">err_dvoldt</span>, <span class="va">dmdt</span>, <span class="va">err_dmdt</span>, </span>
-<span>                                      <span class="va">dmdtda</span>, <span class="va">err_dmdtda</span>, <span class="va">period</span><span class="op">)</span>,  </span>
-<span>            by <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"RGIId"</span> <span class="op">=</span> <span class="st">"rgiid"</span><span class="op">)</span><span class="op">)</span> </span>
-<span></span>
-<span><span class="fu">tmap_mode</span><span class="op">(</span><span class="st">"view"</span><span class="op">)</span></span>
-<span><span class="fu">tm_shape</span><span class="op">(</span><span class="va">dem</span>, name <span class="op">=</span> <span class="st">"DEM"</span><span class="op">)</span> <span class="op">+</span> </span>
-<span>  <span class="fu">tm_raster</span><span class="op">(</span>n <span class="op">=</span> <span class="fl">6</span>, </span>
-<span>            palette <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/grDevices/palettes.html" class="external-link">terrain.colors</a></span><span class="op">(</span><span class="fl">6</span><span class="op">)</span>,</span>
-<span>            alpha <span class="op">=</span> <span class="fl">0.8</span>, </span>
-<span>            legend.show <span class="op">=</span> <span class="cn">TRUE</span>, </span>
-<span>            title <span class="op">=</span> <span class="st">"Elevation (masl)"</span><span class="op">)</span> <span class="op">+</span> </span>
-<span>  <span class="fu">tm_shape</span><span class="op">(</span><span class="va">glaciers_hugonnet</span> <span class="op">|&gt;</span> <span class="fu">dplyr</span><span class="fu">::</span><span class="fu"><a href="https://dplyr.tidyverse.org/reference/filter.html" class="external-link">filter</a></span><span class="op">(</span><span class="va">period</span> <span class="op">==</span> <span class="fl">20</span><span class="op">)</span>, </span>
-<span>           name <span class="op">=</span> <span class="st">"Thinning [m weq/a]"</span><span class="op">)</span> <span class="op">+</span></span>
-<span>  <span class="fu">tm_fill</span><span class="op">(</span>col <span class="op">=</span> <span class="st">"dmdtda"</span>, </span>
-<span>          n <span class="op">=</span> <span class="fl">6</span>, </span>
-<span>          palette <span class="op">=</span> <span class="st">"RdBu"</span>,</span>
-<span>          midpoint <span class="op">=</span> <span class="fl">0</span>, </span>
-<span>          legend.show <span class="op">=</span> <span class="cn">TRUE</span>, </span>
-<span>          title <span class="op">=</span> <span class="st">"Glacier thinning\n(m weq/a)"</span><span class="op">)</span> <span class="op">+</span> </span>
-<span>  <span class="fu">tm_shape</span><span class="op">(</span><span class="va">rgi</span>, name <span class="op">=</span> <span class="st">"RGI v6.0"</span><span class="op">)</span> <span class="op">+</span> </span>
-<span>  <span class="fu">tm_borders</span><span class="op">(</span>col <span class="op">=</span> <span class="st">"gray"</span>, lwd <span class="op">=</span> <span class="fl">0.4</span><span class="op">)</span> <span class="op">+</span> </span>
-<span>  <span class="fu">tm_shape</span><span class="op">(</span><span class="va">basin</span>, name <span class="op">=</span> <span class="st">"Basin outline"</span><span class="op">)</span> <span class="op">+</span> </span>
-<span>  <span class="fu">tm_borders</span><span class="op">(</span>col <span class="op">=</span> <span class="st">"black"</span>, lwd <span class="op">=</span> <span class="fl">0.6</span><span class="op">)</span> <span class="op">+</span> </span>
-<span>  <span class="fu">tm_scale_bar</span><span class="op">(</span>position <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"right"</span>, <span class="st">"bottom"</span><span class="op">)</span><span class="op">)</span></span></code></pre></div>
+al. (2021)</span>. The data is available in a compressed format and you
+will have to extract it before you can use it.</p>
+<div class="sourceCode" id="cb4"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a>hugonnet <span class="ot">&lt;-</span> <span class="fu">read_csv</span>(<span class="fu">paste0</span>(<span class="sc">&lt;</span>path to your copy of the Hugonnet data<span class="sc">&gt;</span>, </span>
+<span id="cb4-3"><a href="#cb4-3" aria-hidden="true" tabindex="-1"></a>                            <span class="st">"dh_13_rgi60_pergla_rates.csv"</span>))</span>
+<span id="cb4-4"><a href="#cb4-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-5"><a href="#cb4-5" aria-hidden="true" tabindex="-1"></a><span class="co"># Explanation of variables:</span></span>
+<span id="cb4-6"><a href="#cb4-6" aria-hidden="true" tabindex="-1"></a><span class="co"># - dhdt is the elevation change rate in meters per year,</span></span>
+<span id="cb4-7"><a href="#cb4-7" aria-hidden="true" tabindex="-1"></a><span class="co"># - dvoldt is the volume change rate in meters cube per year,</span></span>
+<span id="cb4-8"><a href="#cb4-8" aria-hidden="true" tabindex="-1"></a><span class="co"># - dmdt is the mass change rate in gigatons per year,</span></span>
+<span id="cb4-9"><a href="#cb4-9" aria-hidden="true" tabindex="-1"></a><span class="co"># - dmdtda is the specific-mass change rate in meters water-equivalent per year.</span></span>
+<span id="cb4-10"><a href="#cb4-10" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-11"><a href="#cb4-11" aria-hidden="true" tabindex="-1"></a><span class="co"># Filter the basin glaciers from the Hugonnet data set. </span></span>
+<span id="cb4-12"><a href="#cb4-12" aria-hidden="true" tabindex="-1"></a>hugonnet <span class="ot">&lt;-</span> hugonnet <span class="sc">|&gt;</span> </span>
+<span id="cb4-13"><a href="#cb4-13" aria-hidden="true" tabindex="-1"></a>  dplyr<span class="sc">::</span><span class="fu">filter</span>(rgiid <span class="sc">%in%</span> rgi<span class="sc">$</span>RGIId) <span class="sc">|&gt;</span> </span>
+<span id="cb4-14"><a href="#cb4-14" aria-hidden="true" tabindex="-1"></a>  tidyr<span class="sc">::</span><span class="fu">separate</span>(period, <span class="fu">c</span>(<span class="st">"start"</span>, <span class="st">"end"</span>), <span class="at">sep =</span> <span class="st">"_"</span>) <span class="sc">|&gt;</span> </span>
+<span id="cb4-15"><a href="#cb4-15" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">start =</span> <span class="fu">as_date</span>(start, <span class="at">format =</span> <span class="st">"%Y-%m-%d"</span>), </span>
+<span id="cb4-16"><a href="#cb4-16" aria-hidden="true" tabindex="-1"></a>         <span class="at">end =</span> <span class="fu">as_date</span>(end, <span class="at">format =</span> <span class="st">"%Y-%m-%d"</span>), </span>
+<span id="cb4-17"><a href="#cb4-17" aria-hidden="true" tabindex="-1"></a>         <span class="at">period =</span> <span class="fu">round</span>(<span class="fu">as.numeric</span>(end <span class="sc">-</span> start, <span class="at">units =</span> <span class="st">"days"</span>)<span class="sc">/</span><span class="dv">366</span>))</span>
+<span id="cb4-18"><a href="#cb4-18" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-19"><a href="#cb4-19" aria-hidden="true" tabindex="-1"></a><span class="co"># Join the Hugonnet data set to the RGI data set to be able to plot the thinning </span></span>
+<span id="cb4-20"><a href="#cb4-20" aria-hidden="true" tabindex="-1"></a><span class="co"># rates on the glacier geometry. </span></span>
+<span id="cb4-21"><a href="#cb4-21" aria-hidden="true" tabindex="-1"></a>glaciers_hugonnet <span class="ot">&lt;-</span> rgi <span class="sc">|&gt;</span> </span>
+<span id="cb4-22"><a href="#cb4-22" aria-hidden="true" tabindex="-1"></a>  <span class="fu">left_join</span>(hugonnet <span class="sc">|&gt;</span> dplyr<span class="sc">::</span><span class="fu">select</span>(rgiid, area, start, end, dhdt, err_dhdt, </span>
+<span id="cb4-23"><a href="#cb4-23" aria-hidden="true" tabindex="-1"></a>                                      dvoldt, err_dvoldt, dmdt, err_dmdt, </span>
+<span id="cb4-24"><a href="#cb4-24" aria-hidden="true" tabindex="-1"></a>                                      dmdtda, err_dmdtda, period),  </span>
+<span id="cb4-25"><a href="#cb4-25" aria-hidden="true" tabindex="-1"></a>            <span class="at">by =</span> <span class="fu">c</span>(<span class="st">"RGIId"</span> <span class="ot">=</span> <span class="st">"rgiid"</span>)) </span>
+<span id="cb4-26"><a href="#cb4-26" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-27"><a href="#cb4-27" aria-hidden="true" tabindex="-1"></a><span class="fu">tmap_mode</span>(<span class="st">"view"</span>)</span>
+<span id="cb4-28"><a href="#cb4-28" aria-hidden="true" tabindex="-1"></a><span class="fu">tm_shape</span>(dem, <span class="at">name =</span> <span class="st">"DEM"</span>) <span class="sc">+</span> </span>
+<span id="cb4-29"><a href="#cb4-29" aria-hidden="true" tabindex="-1"></a>  <span class="fu">tm_raster</span>(<span class="at">n =</span> <span class="dv">6</span>, </span>
+<span id="cb4-30"><a href="#cb4-30" aria-hidden="true" tabindex="-1"></a>            <span class="at">palette =</span> <span class="fu">terrain.colors</span>(<span class="dv">6</span>),</span>
+<span id="cb4-31"><a href="#cb4-31" aria-hidden="true" tabindex="-1"></a>            <span class="at">alpha =</span> <span class="fl">0.8</span>, </span>
+<span id="cb4-32"><a href="#cb4-32" aria-hidden="true" tabindex="-1"></a>            <span class="at">legend.show =</span> <span class="cn">TRUE</span>, </span>
+<span id="cb4-33"><a href="#cb4-33" aria-hidden="true" tabindex="-1"></a>            <span class="at">title =</span> <span class="st">"Elevation (masl)"</span>) <span class="sc">+</span> </span>
+<span id="cb4-34"><a href="#cb4-34" aria-hidden="true" tabindex="-1"></a>  <span class="fu">tm_shape</span>(glaciers_hugonnet <span class="sc">|&gt;</span> dplyr<span class="sc">::</span><span class="fu">filter</span>(period <span class="sc">==</span> <span class="dv">20</span>), </span>
+<span id="cb4-35"><a href="#cb4-35" aria-hidden="true" tabindex="-1"></a>           <span class="at">name =</span> <span class="st">"Thinning [m weq/a]"</span>) <span class="sc">+</span></span>
+<span id="cb4-36"><a href="#cb4-36" aria-hidden="true" tabindex="-1"></a>  <span class="fu">tm_fill</span>(<span class="at">col =</span> <span class="st">"dmdtda"</span>, </span>
+<span id="cb4-37"><a href="#cb4-37" aria-hidden="true" tabindex="-1"></a>          <span class="at">n =</span> <span class="dv">6</span>, </span>
+<span id="cb4-38"><a href="#cb4-38" aria-hidden="true" tabindex="-1"></a>          <span class="at">palette =</span> <span class="st">"RdBu"</span>,</span>
+<span id="cb4-39"><a href="#cb4-39" aria-hidden="true" tabindex="-1"></a>          <span class="at">midpoint =</span> <span class="dv">0</span>, </span>
+<span id="cb4-40"><a href="#cb4-40" aria-hidden="true" tabindex="-1"></a>          <span class="at">legend.show =</span> <span class="cn">TRUE</span>, </span>
+<span id="cb4-41"><a href="#cb4-41" aria-hidden="true" tabindex="-1"></a>          <span class="at">title =</span> <span class="st">"Glacier thinning</span><span class="sc">\n</span><span class="st">(m weq/a)"</span>) <span class="sc">+</span> </span>
+<span id="cb4-42"><a href="#cb4-42" aria-hidden="true" tabindex="-1"></a>  <span class="fu">tm_shape</span>(rgi, <span class="at">name =</span> <span class="st">"RGI v6.0"</span>) <span class="sc">+</span> </span>
+<span id="cb4-43"><a href="#cb4-43" aria-hidden="true" tabindex="-1"></a>  <span class="fu">tm_borders</span>(<span class="at">col =</span> <span class="st">"gray"</span>, <span class="at">lwd =</span> <span class="fl">0.4</span>) <span class="sc">+</span> </span>
+<span id="cb4-44"><a href="#cb4-44" aria-hidden="true" tabindex="-1"></a>  <span class="fu">tm_shape</span>(basin, <span class="at">name =</span> <span class="st">"Basin outline"</span>) <span class="sc">+</span> </span>
+<span id="cb4-45"><a href="#cb4-45" aria-hidden="true" tabindex="-1"></a>  <span class="fu">tm_borders</span>(<span class="at">col =</span> <span class="st">"black"</span>, <span class="at">lwd =</span> <span class="fl">0.6</span>) <span class="sc">+</span> </span>
+<span id="cb4-46"><a href="#cb4-46" aria-hidden="true" tabindex="-1"></a>  <span class="fu">tm_scale_bar</span>(<span class="at">position =</span> <span class="fu">c</span>(<span class="st">"right"</span>, <span class="st">"bottom"</span>))</span></code></pre></div>
 <p>Glacier thinning rates can be viewed as net glacier mass change or
 glacier imbalance ablation (if glacier ice deformation processes are
 neglected).</p>
@@ -461,39 +458,38 @@ High Mountain Asia. They provide the average glacier discharge between
 2000 and 2016. A copy of the glacier discharge data is available from
 the data download link provided above.</p>
 <p>The original data is available from the <a href="https://zenodo.org/record/5119153#.Yfjv6-rMKF4" target="_blank" class="external-link">data repository</a> linked in the <a href="https://www.nature.com/articles/s41467-021-23073-4" target="_blank" class="external-link">online version of the paper</a>.</p>
-<div class="sourceCode" id="cb5"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span> </span>
-<span><span class="va">miles</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://readr.tidyverse.org/reference/read_delim.html" class="external-link">read_delim</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/paste.html" class="external-link">paste0</a></span><span class="op">(</span><span class="va">data_path</span>,</span>
-<span>                           <span class="st">"GLACIERS/Miles/Miles2021_Glaciers_summarytable_20210721.csv"</span><span class="op">)</span>,</span>
-<span>                    show_col_types <span class="op">=</span> <span class="cn">FALSE</span>, delim <span class="op">=</span> <span class="st">","</span><span class="op">)</span> <span class="op">|&gt;</span> </span>
-<span>  <span class="fu">dplyr</span><span class="fu">::</span><span class="fu"><a href="https://dplyr.tidyverse.org/reference/filter.html" class="external-link">filter</a></span><span class="op">(</span><span class="va">RGIID</span> <span class="op"><a href="https://rdrr.io/r/base/match.html" class="external-link">%in%</a></span> <span class="va">rgi</span><span class="op">$</span><span class="va">RGIId</span> <span class="op">&amp;</span> <span class="va">VALID</span> <span class="op">==</span> <span class="fl">1</span><span class="op">)</span></span>
-<span></span>
-<span><span class="va">glaciers_hugonnet</span> <span class="op">&lt;-</span> <span class="va">glaciers_hugonnet</span> <span class="op">|&gt;</span> </span>
-<span>  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/mutate-joins.html" class="external-link">left_join</a></span><span class="op">(</span><span class="va">miles</span> <span class="op">|&gt;</span> <span class="fu">dplyr</span><span class="fu">::</span><span class="fu"><a href="https://dplyr.tidyverse.org/reference/select.html" class="external-link">select</a></span><span class="op">(</span><span class="va">RGIID</span>, <span class="va">totAbl</span>, <span class="va">totAblsig</span>, <span class="va">imbalAbl</span>, </span>
-<span>                                   <span class="va">imbalAblsig</span><span class="op">)</span>, </span>
-<span>            by <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"RGIId"</span> <span class="op">=</span> <span class="st">"RGIID"</span><span class="op">)</span><span class="op">)</span> <span class="op">|&gt;</span> </span>
-<span>  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/mutate.html" class="external-link">mutate</a></span><span class="op">(</span>Qgl_m3a <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/ifelse.html" class="external-link">ifelse</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/NA.html" class="external-link">is.na</a></span><span class="op">(</span><span class="va">totAbl</span><span class="op">)</span>, <span class="cn">NA</span>, <span class="va">totAbl</span><span class="op">)</span><span class="op">)</span></span>
-<span></span>
-<span><span class="fu">tmap_mode</span><span class="op">(</span><span class="st">"view"</span><span class="op">)</span></span>
-<span><span class="fu">tm_shape</span><span class="op">(</span><span class="va">dem</span>, name <span class="op">=</span> <span class="st">"DEM"</span><span class="op">)</span> <span class="op">+</span> </span>
-<span>  <span class="fu">tm_raster</span><span class="op">(</span>n <span class="op">=</span> <span class="fl">6</span>, </span>
-<span>            palette <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/grDevices/palettes.html" class="external-link">terrain.colors</a></span><span class="op">(</span><span class="fl">6</span><span class="op">)</span>,</span>
-<span>            alpha <span class="op">=</span> <span class="fl">0.8</span>, </span>
-<span>            legend.show <span class="op">=</span> <span class="cn">TRUE</span>, </span>
-<span>            title <span class="op">=</span> <span class="st">"Elevation (masl)"</span><span class="op">)</span> <span class="op">+</span> </span>
-<span>  <span class="fu">tm_shape</span><span class="op">(</span><span class="va">glaciers_hugonnet</span> <span class="op">|&gt;</span> <span class="fu">dplyr</span><span class="fu">::</span><span class="fu"><a href="https://dplyr.tidyverse.org/reference/filter.html" class="external-link">filter</a></span><span class="op">(</span><span class="va">period</span> <span class="op">==</span> <span class="fl">20</span><span class="op">)</span>, </span>
-<span>           name <span class="op">=</span> <span class="st">"Total ablation [m3/a]"</span><span class="op">)</span> <span class="op">+</span></span>
-<span>  <span class="fu">tm_fill</span><span class="op">(</span>col <span class="op">=</span> <span class="st">"Qgl_m3a"</span>, </span>
-<span>          n <span class="op">=</span> <span class="fl">6</span>, </span>
-<span>          palette <span class="op">=</span> <span class="st">"RdBu"</span>,</span>
-<span>          midpoint <span class="op">=</span> <span class="fl">0</span>, </span>
-<span>          legend.show <span class="op">=</span> <span class="cn">TRUE</span>, </span>
-<span>          title <span class="op">=</span> <span class="st">"Glacier discharge\n(m3/a)"</span><span class="op">)</span> <span class="op">+</span> </span>
-<span>  <span class="fu">tm_shape</span><span class="op">(</span><span class="va">rgi</span>, name <span class="op">=</span> <span class="st">"RGI v6.0"</span><span class="op">)</span> <span class="op">+</span> </span>
-<span>  <span class="fu">tm_borders</span><span class="op">(</span>col <span class="op">=</span> <span class="st">"gray"</span>, lwd <span class="op">=</span> <span class="fl">0.4</span><span class="op">)</span> <span class="op">+</span> </span>
-<span>  <span class="fu">tm_shape</span><span class="op">(</span><span class="va">basin</span>, name <span class="op">=</span> <span class="st">"Basin outline"</span><span class="op">)</span> <span class="op">+</span> </span>
-<span>  <span class="fu">tm_borders</span><span class="op">(</span>col <span class="op">=</span> <span class="st">"black"</span>, lwd <span class="op">=</span> <span class="fl">0.6</span><span class="op">)</span> <span class="op">+</span> </span>
-<span>  <span class="fu">tm_scale_bar</span><span class="op">(</span>position <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"right"</span>, <span class="st">"bottom"</span><span class="op">)</span><span class="op">)</span></span></code></pre></div>
+<div class="sourceCode" id="cb5"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a> </span>
+<span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a>miles <span class="ot">&lt;-</span> <span class="fu">read_delim</span>(<span class="fu">paste0</span>(<span class="sc">&lt;</span>path to your copy of Miles glacier ablation rates<span class="sc">&gt;</span>, </span>
+<span id="cb5-3"><a href="#cb5-3" aria-hidden="true" tabindex="-1"></a>                           <span class="st">"Miles2021_Glaciers_summarytable_20210721.csv"</span>),</span>
+<span id="cb5-4"><a href="#cb5-4" aria-hidden="true" tabindex="-1"></a>                    <span class="at">show_col_types =</span> <span class="cn">FALSE</span>, <span class="at">delim =</span> <span class="st">","</span>) <span class="sc">|&gt;</span> </span>
+<span id="cb5-5"><a href="#cb5-5" aria-hidden="true" tabindex="-1"></a>  dplyr<span class="sc">::</span><span class="fu">filter</span>(RGIID <span class="sc">%in%</span> rgi<span class="sc">$</span>RGIId <span class="sc">&amp;</span> VALID <span class="sc">==</span> <span class="dv">1</span>)</span>
+<span id="cb5-6"><a href="#cb5-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-7"><a href="#cb5-7" aria-hidden="true" tabindex="-1"></a>glaciers_hugonnet <span class="ot">&lt;-</span> glaciers_hugonnet <span class="sc">|&gt;</span> </span>
+<span id="cb5-8"><a href="#cb5-8" aria-hidden="true" tabindex="-1"></a>  <span class="fu">left_join</span>(miles <span class="sc">|&gt;</span> dplyr<span class="sc">::</span><span class="fu">select</span>(RGIID, totAbl, totAblsig, imbalAbl, </span>
+<span id="cb5-9"><a href="#cb5-9" aria-hidden="true" tabindex="-1"></a>                                   imbalAblsig), </span>
+<span id="cb5-10"><a href="#cb5-10" aria-hidden="true" tabindex="-1"></a>            <span class="at">by =</span> <span class="fu">c</span>(<span class="st">"RGIId"</span> <span class="ot">=</span> <span class="st">"RGIID"</span>)) <span class="sc">|&gt;</span> </span>
+<span id="cb5-11"><a href="#cb5-11" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">Qgl_m3a =</span> <span class="fu">ifelse</span>(<span class="fu">is.na</span>(totAbl), <span class="cn">NA</span>, totAbl))</span>
+<span id="cb5-12"><a href="#cb5-12" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-13"><a href="#cb5-13" aria-hidden="true" tabindex="-1"></a><span class="fu">tmap_mode</span>(<span class="st">"view"</span>)</span>
+<span id="cb5-14"><a href="#cb5-14" aria-hidden="true" tabindex="-1"></a><span class="fu">tm_shape</span>(dem, <span class="at">name =</span> <span class="st">"DEM"</span>) <span class="sc">+</span> </span>
+<span id="cb5-15"><a href="#cb5-15" aria-hidden="true" tabindex="-1"></a>  <span class="fu">tm_raster</span>(<span class="at">n =</span> <span class="dv">6</span>, </span>
+<span id="cb5-16"><a href="#cb5-16" aria-hidden="true" tabindex="-1"></a>            <span class="at">palette =</span> <span class="fu">terrain.colors</span>(<span class="dv">6</span>),</span>
+<span id="cb5-17"><a href="#cb5-17" aria-hidden="true" tabindex="-1"></a>            <span class="at">alpha =</span> <span class="fl">0.8</span>, </span>
+<span id="cb5-18"><a href="#cb5-18" aria-hidden="true" tabindex="-1"></a>            <span class="at">legend.show =</span> <span class="cn">TRUE</span>, </span>
+<span id="cb5-19"><a href="#cb5-19" aria-hidden="true" tabindex="-1"></a>            <span class="at">title =</span> <span class="st">"Elevation (masl)"</span>) <span class="sc">+</span> </span>
+<span id="cb5-20"><a href="#cb5-20" aria-hidden="true" tabindex="-1"></a>  <span class="fu">tm_shape</span>(glaciers_hugonnet <span class="sc">|&gt;</span> dplyr<span class="sc">::</span><span class="fu">filter</span>(period <span class="sc">==</span> <span class="dv">20</span>), </span>
+<span id="cb5-21"><a href="#cb5-21" aria-hidden="true" tabindex="-1"></a>           <span class="at">name =</span> <span class="st">"Total ablation [m3/a]"</span>) <span class="sc">+</span></span>
+<span id="cb5-22"><a href="#cb5-22" aria-hidden="true" tabindex="-1"></a>  <span class="fu">tm_fill</span>(<span class="at">col =</span> <span class="st">"Qgl_m3a"</span>, </span>
+<span id="cb5-23"><a href="#cb5-23" aria-hidden="true" tabindex="-1"></a>          <span class="at">n =</span> <span class="dv">6</span>, </span>
+<span id="cb5-24"><a href="#cb5-24" aria-hidden="true" tabindex="-1"></a>          <span class="at">palette =</span> <span class="st">"RdBu"</span>,</span>
+<span id="cb5-25"><a href="#cb5-25" aria-hidden="true" tabindex="-1"></a>          <span class="at">midpoint =</span> <span class="dv">0</span>, </span>
+<span id="cb5-26"><a href="#cb5-26" aria-hidden="true" tabindex="-1"></a>          <span class="at">legend.show =</span> <span class="cn">TRUE</span>, </span>
+<span id="cb5-27"><a href="#cb5-27" aria-hidden="true" tabindex="-1"></a>          <span class="at">title =</span> <span class="st">"Glacier discharge</span><span class="sc">\n</span><span class="st">(m3/a)"</span>) <span class="sc">+</span> </span>
+<span id="cb5-28"><a href="#cb5-28" aria-hidden="true" tabindex="-1"></a>  <span class="fu">tm_shape</span>(rgi, <span class="at">name =</span> <span class="st">"RGI v6.0"</span>) <span class="sc">+</span> </span>
+<span id="cb5-29"><a href="#cb5-29" aria-hidden="true" tabindex="-1"></a>  <span class="fu">tm_borders</span>(<span class="at">col =</span> <span class="st">"gray"</span>, <span class="at">lwd =</span> <span class="fl">0.4</span>) <span class="sc">+</span> </span>
+<span id="cb5-30"><a href="#cb5-30" aria-hidden="true" tabindex="-1"></a>  <span class="fu">tm_shape</span>(basin, <span class="at">name =</span> <span class="st">"Basin outline"</span>) <span class="sc">+</span> </span>
+<span id="cb5-31"><a href="#cb5-31" aria-hidden="true" tabindex="-1"></a>  <span class="fu">tm_borders</span>(<span class="at">col =</span> <span class="st">"black"</span>, <span class="at">lwd =</span> <span class="fl">0.6</span>) <span class="sc">+</span> </span>
+<span id="cb5-32"><a href="#cb5-32" aria-hidden="true" tabindex="-1"></a>  <span class="fu">tm_scale_bar</span>(<span class="at">position =</span> <span class="fu">c</span>(<span class="st">"right"</span>, <span class="st">"bottom"</span>))</span></code></pre></div>
 <p>For most hydrological applications, the interest lies on the glacier
 discharge, i.e. total ablation from glaciers. Despite their large
 uncertainties, the simulation results by <span class="citation">Miles et

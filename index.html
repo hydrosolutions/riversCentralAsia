@@ -157,20 +157,69 @@ And last but not least, <a href="https://cds.climate.copernicus.eu/cdsapp#!/data
 <h2 id="how-to-cite">How to cite<a class="anchor" aria-label="anchor" href="#how-to-cite"></a>
 </h2>
 <p>Please cite the package as:</p>
-<p>Tobias Siegfried, &amp; Beatrice Marti (2021): riversCentralAsia <version number>. <a href="https://doi.org/10.5281/zenodo.4667422" class="external-link uri">https://doi.org/10.5281/zenodo.4667422</a></version></p>
-<p><a href="https://doi.org/10.5281/zenodo.4667422" class="external-link"><img src="https://zenodo.org/badge/DOI/10.5281/zenodo.4667422.svg" alt="DOI"></a></p>
+<p>Tobias Siegfried, &amp; Beatrice Marti (2021): riversCentralAsia <version number>. <a href="https://doi.org/10.5281/zenodo.4667421" class="external-link uri">https://doi.org/10.5281/zenodo.4667421</a></version></p>
+<p><a href="https://doi.org/10.5281/zenodo.4667421" class="external-link"><img src="https://zenodo.org/badge/DOI/10.5281/zenodo.4667421.svg" alt="DOI"></a></p>
 </div>
 <div class="section level2">
 <h2 id="examples">Examples<a class="anchor" aria-label="anchor" href="#examples"></a>
 </h2>
-<p>This is a basic example which shows you how to visualize some of the included data.</p>
-<div class="sourceCode" id="cb4"><pre class="downlit sourceCode r">
+<p>Examples are given in the Articles of the <a href="https://hydrosolutions.github.io/riversCentralAsia/" target="_blank" class="external-link">project documentation site</a>. To reproduce the examples in the articles, please download the <a href="https://github.com/hydrosolutions/riversCentralAsia" target="_blank" class="external-link">latest development version from github</a> or <a href="https://doi.org/10.5281/zenodo.4667421" target="_blank" class="external-link">the last stable version from zenodo</a> and the <a href="https://doi.org/10.5281/zenodo.7389785" target="_blank" class="external-link">riversCentralAsia_ExampleData from Zenodo</a> and extract it to your local system, preferably on the same folder level as the package code:</p>
+<p>-<br>
+ |- riversCentralAsia<br>
+ |- riversCentralAsia_ExampleData</p>
+<p>Alternatively to a manual download from zenodo you can download the entire data set using the library <a href="https://github.com/eblondel/zen4R" target="_blank" class="external-link">zen4R</a>.</p>
+<div class="sourceCode" id="cb4"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a><span class="co"># To download the example files from github</span></span>
+<span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a><span class="co"># Example from https://github.com/eblondel/zen4R/wiki</span></span>
+<span id="cb4-3"><a href="#cb4-3" aria-hidden="true" tabindex="-1"></a><span class="co"># devtools::install_github("eblondel/zen4R")</span></span>
+<span id="cb4-4"><a href="#cb4-4" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(zen4R)</span>
+<span id="cb4-5"><a href="#cb4-5" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(parallel)  <span class="co"># Only for Windows/Unix users, Max users mclapply (see zen4R wiki)</span></span>
+<span id="cb4-6"><a href="#cb4-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-7"><a href="#cb4-7" aria-hidden="true" tabindex="-1"></a>zenodo <span class="ot">&lt;-</span> ZenodoManager<span class="sc">$</span><span class="fu">new</span>(</span>
+<span id="cb4-8"><a href="#cb4-8" aria-hidden="true" tabindex="-1"></a>   <span class="at">token =</span> <span class="sc">&lt;</span>your_token<span class="sc">&gt;</span>,  <span class="co"># put your token in "" here (don't share publicly!)</span></span>
+<span id="cb4-9"><a href="#cb4-9" aria-hidden="true" tabindex="-1"></a>   <span class="at">logger =</span> <span class="st">"INFO"</span> <span class="co"># use "DEBUG" to see detailed API operation logs, use NULL if you don't want logs at all</span></span>
+<span id="cb4-10"><a href="#cb4-10" aria-hidden="true" tabindex="-1"></a>)</span>
+<span id="cb4-11"><a href="#cb4-11" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-12"><a href="#cb4-12" aria-hidden="true" tabindex="-1"></a><span class="co"># Download the files in the repository to a folder on the same level as the </span></span>
+<span id="cb4-13"><a href="#cb4-13" aria-hidden="true" tabindex="-1"></a><span class="co"># R package riversCentralAsia which you downloaded from github.</span></span>
+<span id="cb4-14"><a href="#cb4-14" aria-hidden="true" tabindex="-1"></a><span class="co"># -</span></span>
+<span id="cb4-15"><a href="#cb4-15" aria-hidden="true" tabindex="-1"></a><span class="co"># |- riversCentralAsia</span></span>
+<span id="cb4-16"><a href="#cb4-16" aria-hidden="true" tabindex="-1"></a><span class="co"># |- riversCentralAsia_ExampleData </span></span>
+<span id="cb4-17"><a href="#cb4-17" aria-hidden="true" tabindex="-1"></a><span class="fu">dir.create</span>(<span class="st">"../riversCentralAsia_ExampleData"</span>)</span>
+<span id="cb4-18"><a href="#cb4-18" aria-hidden="true" tabindex="-1"></a><span class="fu">download_zenodo</span>(<span class="at">path =</span> <span class="st">"../riversCentralAsia_ExampleData"</span>, </span>
+<span id="cb4-19"><a href="#cb4-19" aria-hidden="true" tabindex="-1"></a>                <span class="at">doi =</span> <span class="st">"10.5281/zenodo.7389785"</span>, <span class="at">parallel =</span> <span class="cn">TRUE</span>, </span>
+<span id="cb4-20"><a href="#cb4-20" aria-hidden="true" tabindex="-1"></a>                <span class="at">parallel_handler =</span> parLapply, <span class="at">cl =</span> <span class="fu">makeCluster</span>(<span class="dv">2</span>))</span></code></pre></div>
+<p>Here we have a small example of the hydrometeorological data set included in the package.</p>
+<div class="sourceCode" id="cb5"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://hydrosolutions.github.io/riversCentralAsia/index.html" class="external-link">riversCentralAsia</a></span><span class="op">)</span></span>
 <span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://tidyverse.tidyverse.org" class="external-link">tidyverse</a></span><span class="op">)</span></span>
+<span><span class="co">#&gt; ── Attaching packages ─────────────────────────────────────── tidyverse 1.3.2 ──</span></span>
+<span><span class="co">#&gt; ✔ ggplot2 3.4.0      ✔ purrr   0.3.5 </span></span>
+<span><span class="co">#&gt; ✔ tibble  3.1.8      ✔ dplyr   1.0.10</span></span>
+<span><span class="co">#&gt; ✔ tidyr   1.2.1      ✔ stringr 1.5.0 </span></span>
+<span><span class="co">#&gt; ✔ readr   2.1.3      ✔ forcats 0.5.2 </span></span>
+<span><span class="co">#&gt; ── Conflicts ────────────────────────────────────────── tidyverse_conflicts() ──</span></span>
+<span><span class="co">#&gt; ✖ dplyr::filter() masks stats::filter()</span></span>
+<span><span class="co">#&gt; ✖ dplyr::lag()    masks stats::lag()</span></span>
 <span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://github.com/business-science/timetk" class="external-link">timetk</a></span><span class="op">)</span></span>
 <span></span>
 <span><span class="co"># Loading and visualising discharge data</span></span>
 <span><span class="va">ChirchikRiverBasin</span>  <span class="co"># load data</span></span>
+<span><span class="co">#&gt; # A tibble: 29,892 × 14</span></span>
+<span><span class="co">#&gt;    date        data  norm units type  code  station  river basin resol…¹ lon_U…²</span></span>
+<span><span class="co">#&gt;    &lt;date&gt;     &lt;dbl&gt; &lt;dbl&gt; &lt;chr&gt; &lt;fct&gt; &lt;chr&gt; &lt;chr&gt;    &lt;chr&gt; &lt;chr&gt; &lt;fct&gt;     &lt;dbl&gt;</span></span>
+<span><span class="co">#&gt;  1 1932-01-10  48.8  38.8 m3s   Q     16279 Khudayd… Chat… Chir… dec      598278</span></span>
+<span><span class="co">#&gt;  2 1932-01-20  48.4  37.5 m3s   Q     16279 Khudayd… Chat… Chir… dec      598278</span></span>
+<span><span class="co">#&gt;  3 1932-01-31  42.4  36.6 m3s   Q     16279 Khudayd… Chat… Chir… dec      598278</span></span>
+<span><span class="co">#&gt;  4 1932-02-10  43.7  36.4 m3s   Q     16279 Khudayd… Chat… Chir… dec      598278</span></span>
+<span><span class="co">#&gt;  5 1932-02-20  44.2  36.3 m3s   Q     16279 Khudayd… Chat… Chir… dec      598278</span></span>
+<span><span class="co">#&gt;  6 1932-02-29  47.7  36.9 m3s   Q     16279 Khudayd… Chat… Chir… dec      598278</span></span>
+<span><span class="co">#&gt;  7 1932-03-10  54.1  39.4 m3s   Q     16279 Khudayd… Chat… Chir… dec      598278</span></span>
+<span><span class="co">#&gt;  8 1932-03-20  63.2  47.6 m3s   Q     16279 Khudayd… Chat… Chir… dec      598278</span></span>
+<span><span class="co">#&gt;  9 1932-03-31 103    60.5 m3s   Q     16279 Khudayd… Chat… Chir… dec      598278</span></span>
+<span><span class="co">#&gt; 10 1932-04-10 103    86.4 m3s   Q     16279 Khudayd… Chat… Chir… dec      598278</span></span>
+<span><span class="co">#&gt; # … with 29,882 more rows, 3 more variables: lat_UTM42 &lt;dbl&gt;,</span></span>
+<span><span class="co">#&gt; #   altitude_masl &lt;dbl&gt;, basinSize_sqkm &lt;dbl&gt;, and abbreviated variable names</span></span>
+<span><span class="co">#&gt; #   ¹​resolution, ²​lon_UTM42</span></span>
 <span><span class="va">ChirchikRiverBasin</span> <span class="op">|&gt;</span> </span>
 <span>  <span class="co"># Filter for the data type, here discharge "Q"</span></span>
 <span>  <span class="fu">dplyr</span><span class="fu">::</span><span class="fu"><a href="https://dplyr.tidyverse.org/reference/filter.html" class="external-link">filter</a></span><span class="op">(</span><span class="va">type</span> <span class="op">==</span> <span class="st">"Q"</span><span class="op">)</span> <span class="op">|&gt;</span> </span>
@@ -186,6 +235,7 @@ And last but not least, <a href="https://cds.climate.copernicus.eu/cdsapp#!/data
 <span>    .x_lab <span class="op">=</span> <span class="st">"Year"</span>, </span>
 <span>    .title <span class="op">=</span> <span class="st">"Discharge time series in the ChirchikRiverBasin data set"</span></span>
 <span>    <span class="op">)</span></span></code></pre></div>
+<p><img src="reference/figures/README-unnamed-chunk-4-1.png" width="100%"></p>
 </div>
 <div class="section level2">
 <h2 id="mentions">Mentions<a class="anchor" aria-label="anchor" href="#mentions"></a>

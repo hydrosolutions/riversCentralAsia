@@ -305,16 +305,14 @@ format X%Y.%m.%d (see example below).</p>
 <div class="section level4">
 <h4 id="example-1">Example<a class="anchor" aria-label="anchor" href="#example-1"></a>
 </h4>
-<p>To reproduce the examples below, please download the file <a href="https://github.com/hydrosolutions/riversCentralAsia/blob/master/tests/testthat/test_gen_HRU_Climate_CSV_RSMinerve_input_file.nc" target="_blank" class="external-link">test_gen_HRU_Climate_CSV_RSMinerve_input_file.nc</a>
-from the test folder in the riversCentralAsia package on github.</p>
+<p>To reproduce the examples below, you need the codes and test data for
+the R package downloaded (see <a href="https://hydrosolutions.github.io/riversCentralAsia/" target="_blank" class="external-link">README</a>).</p>
 <div class="sourceCode" id="cb1"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://rspatial.org/raster" class="external-link">raster</a></span><span class="op">)</span></span>
 <span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://hydrosolutions.github.io/riversCentralAsia/index.html" class="external-link">riversCentralAsia</a></span><span class="op">)</span></span>
 <span></span>
-<span><span class="co"># Download the example nc file from https://github.com/hydrosolutions/riversCentralAsia/blob/master/tests/testthat/test_gen_HRU_Climate_CSV_RSMinerve_input_file.nc</span></span>
-<span></span>
 <span><span class="co"># Adapt the path to the nc file on your computer</span></span>
-<span><span class="va">ncfilepath</span> <span class="op">=</span> <span class="st">"tests/testthat/test_gen_HRU_Climate_CSV_RSMinerve_input_file.nc"</span></span>
+<span><span class="va">ncfilepath</span> <span class="op">=</span> <span class="st">"./tests/testthat/test_gen_HRU_Climate_CSV_RSMinerve_input_file.nc"</span></span>
 <span></span>
 <span><span class="co"># Read in the nc file as raster brick</span></span>
 <span><span class="va">chelsa_temperature_data</span> <span class="op">&lt;-</span> <span class="fu">raster</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/raster/man/brick.html" class="external-link">brick</a></span><span class="op">(</span><span class="va">ncfilepath</span><span class="op">)</span></span>
@@ -375,17 +373,16 @@ scripting language of your choosing).</p>
 <div class="section level4">
 <h4 id="example-2">Example<a class="anchor" aria-label="anchor" href="#example-2"></a>
 </h4>
-<p>To reproduce the example below, please download the <a href="https://www.dropbox.com/s/aw3mwh0ysydgu9j/tas_day_GFDL-ESM4_ssp126_r1i1p1f1_gr1.nc?dl=0" target="_blank" class="external-link">example nc file</a> from the data repository of the
-course book. It contains daily temperatures of the general circulation
-model (GCM) GFDL-ESM4 for the shared socio-economic scenario (SSP) 1
--2.6 from January 2012 until the end of the century. Please refer to the
-<a href="https://hydrosolutions.github.io/caham_book/climate_data.html#sec-climate-projections" target="_blank" class="external-link">course book</a> for a more detailed explanation of GCMs
+<p>To reproduce the example below, you need to download the
+riversCentralAsia_ExampleData from zenodo (see <a href="https://hydrosolutions.github.io/riversCentralAsia/" target="_blank" class="external-link">README</a>). The file
+tas_day_GFDL-ESM4_ssp126_r1i1p1f1_gr1.nc contains daily temperatures of
+the general circulation model (GCM) GFDL-ESM4 for the shared
+socio-economic scenario (SSP) 1 -2.6 from January 2012 until the end of
+the century. Please refer to the <a href="https://hydrosolutions.github.io/caham_book/climate_data.html#sec-climate-projections" target="_blank" class="external-link">course book</a> for a more detailed explanation of GCMs
 and SSPs.</p>
 <div class="sourceCode" id="cb3"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="co"># Download the example nc file from https://www.dropbox.com/s/aw3mwh0ysydgu9j/tas_day_GFDL-ESM4_ssp126_r1i1p1f1_gr1.nc?dl=0</span></span>
-<span></span>
-<span><span class="co"># Adapt the path to the nc file on your computer</span></span>
-<span><span class="va">ncfilepath</span> <span class="op">=</span> <span class="st">"C:../../../caham_data/central_asia_domain/climate/fut_sim/tas_day_GFDL-ESM4_ssp126_r1i1p1f1_gr1.nc"</span></span>
+<code class="sourceCode R"><span><span class="co"># Adapt the path to the nc file on your computer</span></span>
+<span><span class="va">ncfilepath</span> <span class="op">=</span> <span class="st">"../riversCentralAsia_ExampleData/tas_day_GFDL-ESM4_ssp126_r1i1p1f1_gr1.nc"</span></span>
 <span></span>
 <span><span class="co"># Read in the nc file as raster brick</span></span>
 <span><span class="va">GFDESM4_SSP126_temperature_data</span> <span class="op">&lt;-</span> <span class="fu">raster</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/raster/man/brick.html" class="external-link">brick</a></span><span class="op">(</span><span class="va">ncfilepath</span><span class="op">)</span></span>
