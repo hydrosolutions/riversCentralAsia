@@ -20,18 +20,17 @@ knitr::opts_knit$set(
 )
 ```
 
-```{r, message=FALSE, error=FALSE, warning=FALSE}
+```{r, echo=FALSE}
+library(tmap)
+library(sf)
+library(raster)
 library(tidyverse)
 library(lubridate)
-library(sf)
 
 devtools::install_github("hydrosolutions/riversCentralAsia")
 library(riversCentralAsia)
 
-# The Atbashy glacier demo data is available from 
-# https://www.dropbox.com/sh/r0lqggc77ka0uxd/AAChuIyLHHFIfAdgxNKiU2dpa?dl=0
-# Download the data and adapt the path below.  
-data_path <- "../../atbashy_glacier_demo_data/"
+data_path <- "../../riversCentralAsia_ExampleData/"
 ```
 
 This chapter of the vignette shows how to compare simulated snow water equivalent (SWE) to third party data. These code snipets can be used to iteratively adapt the parameters of the snow modules in the HBV models to better represent the SWE of the data product.
@@ -48,9 +47,9 @@ As automated calibration of SWE is not yet supported in RS Minerve, we propose a
 
 Actually observed SWE is not typically available for hydrological modeling in many catchments in Central Asia, we therefore propose to use existing model products like the High Mountain Snow Reanalysis Product [@liu_spatiotemporal_2021] which is available through [NSIDC](https://nsidc.org/data/HMA_SR_D/). Login to USGS Earth Data, select the files for download for your model area and download the data (for example using the python download script). We will refer to the SWE data set from HMASR as observed data.
 
-The downloaded data is subsequently pre-processed to extract the daily average SWE per HRU on the valid pixels of the data set (note that HMASR is not available on areas with permanent snow or ice cover). The following code sniped shows how this can be done.
+The downloaded data is subsequently pre-processed to extract the daily average SWE per HRU on the valid pixels of the data set (note that HMASR is not available on areas with permanent snow or ice cover). The following code sniped shows how this can be done. 
 
-If you wish to reproduce the code below, please make sure that the [demo data set](https://www.dropbox.com/sh/r0lqggc77ka0uxd/AAChuIyLHHFIfAdgxNKiU2dpa?dl=0){target="_blank"} is downloaded to your computer. 
+If you wish to reproduce the code below, please make sure that the riversCentralAsia_ExampleData (see [README](https://hydrosolutions.github.io/riversCentralAsia/index.html){target="_blank"} is downloaded to your computer. 
 ```{r, eval=FALSE}
 library(tmap)
 library(sf)
@@ -61,12 +60,7 @@ library(lubridate)
 devtools::install_github("hydrosolutions/riversCentralAsia")
 library(riversCentralAsia)
 
-# Download the demo data set from dropbox
-# https://www.dropbox.com/sh/r0lqggc77ka0uxd/AAChuIyLHHFIfAdgxNKiU2dpa?dl=0
-
-# Path to the data directory downloaded from the download link provided above. 
-# Here the data is extracted to a folder called atbashy_glacier_demo_data
-data_path <- "../../atbashy_glacier_demo_data/"
+data_path <- "../../riversCentralAsia_ExampleData/"
 
 # Function to concatenate and mask the HMASR product and extract SWE for each 
 # HRU in the model. 
@@ -140,14 +134,14 @@ extract_HMASR_Atbashy <- function(filespath, year, shape_latlon, varname) {
 }
 
 # Load additional necessary data
-dem <- raster(paste0(data_path, "GIS/16076_DEM.tif"))
-basin <- st_read(paste0(data_path, "GIS/16076_Basin_outline.shp"), 
+dem <- raster(paste0(data_path, "16076_DEM.tif"))
+basin <- st_read(paste0(data_path, "16076_Basin_outline.shp"), 
                  quiet = TRUE)
-shape_latlon <- st_read(paste0(data_path, "GIS/16076_HRU.shp")) |> 
+shape_latlon <- st_read(paste0(data_path, "16076_HRU.shp")) |> 
   st_transform(crs = crs("+proj=longlat +datum=WGS84 +no_defs"))
 
 # Load one example file and display SWE for a random date in the cold season. 
-filespath <- paste0(data_path, "SNOW/")
+filespath <- paste0(data_path, "/")
 
 # Actual data extraction
 varname = "SWE_Post"
@@ -196,7 +190,7 @@ Data can be exported from RS Minerve with various methods. The manual export of 
 
 ```{r, eval=FALSE}
 Object_IDs <- st_read(paste0(data_path, 
-                             "GIS/16076_HRU.shp")) |> 
+                             "16076_HRU.shp")) |> 
   st_drop_geometry() 
 
 data <- tibble(
@@ -206,7 +200,7 @@ data <- tibble(
   Variable = rep("SWE (m)")
 )
 
-writeSelectionCHK(filepath = paste0(data_path, "RSMINERVE/SWE.chk"), 
+writeSelectionCHK(filepath = paste0(data_path, "SWE.chk"), 
                   data = data, 
                   name = "SWE")
 ```
@@ -220,7 +214,7 @@ Below we read the simulated SWE produced with an initial parameter set that was 
 ```{r, message=FALSE, warning=FALSE, error=FALSE, fig.cap="Simulated SWE per HRU in the Atbashy model."}
 swe_sim <- readResultCSV(
   paste0(data_path, 
-         "RSMINERVE/Atbaschy_Results_SWE_initial_params.csv")) |>  
+         "Atbaschy_Results_SWE_initial_params.csv")) |>  
   mutate(Subbasin = gsub("\\_Subbasin\\_\\d+$", "", model), 
          "Elevation band" = str_extract(model, "\\d+$") |> as.numeric(), 
          "Elevation band" = factor(`Elevation band`, levels = c(1:20)))
@@ -245,7 +239,7 @@ The data has been downloaded and pre-processed (see above).
 # example. 
 # See the code chunk above under "Extract observed SWE" for an example of how 
 # to extract SWE from the HMASR product yourselve. 
-load(paste0(data_path, "/SNOW/SWE.RData"))
+load(paste0(data_path, "/SWE.RData"))
 
 compare_swe <- swe_sim |> 
   rename(Sim = value) |> 
@@ -333,7 +327,7 @@ file2write <- file2write |> add_row(cbind(datesChar, df_body) |>
 file2write <- rbind(names(file2write), file2write)
 
 # Write file to disk
-write_csv(file2write, paste0(data_path, "RSMINERVE/SWEobs.csv"), 
+write_csv(file2write, paste0(data_path, "SWEobs.csv"), 
           col_names = FALSE)
 ```
 
@@ -342,12 +336,12 @@ write_csv(file2write, paste0(data_path, "RSMINERVE/SWEobs.csv"),
 ```{r, message=FALSE, warning=FALSE, error=FALSE, fig.cap="Overall observed vs. simulated snow water equivalent in the Atbashy model after manual calibration using SWE extracted from HMASR."}
 swe_sim <- readResultCSV(
   paste0(data_path, 
-         "RSMINERVE/Atbaschy_Results_SWE_manual_cal.csv")) |> 
+         "Atbaschy_Results_SWE_manual_cal.csv")) |> 
   mutate(Subbasin = gsub("\\_Subbasin\\_\\d+$", "", model), 
          "Elevation band" = str_extract(model, "\\d+$") |> as.numeric(), 
          "Elevation band" = factor(`Elevation band`, levels = c(1:20)))
 
-load(paste0(data_path, "/SNOW/SWE.RData"))
+load(paste0(data_path, "/SWE.RData"))
 
 compare_swe <- swe_sim |> 
   rename(Sim = value) |> 

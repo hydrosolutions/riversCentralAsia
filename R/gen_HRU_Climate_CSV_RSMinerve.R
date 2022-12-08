@@ -12,7 +12,7 @@
 #'   files to process (do not mix!). Make sure the file list time interval is
 #'   consistent with startY and endY.
 #' @param catchmentName Name of catchment for which data should be extracted
-#' @param dataType Either 'Temperature' or 'Precipitation'
+#' @param temp_or_precip Either 'Temperature' or 'Precipitation'
 #' @param elBands_shp Shapefile with hydrological response units. The column
 #'   containing the names of the hydrological response units must be \code{name}
 #'   and the column containing the average elevation of the elevation band must

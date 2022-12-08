@@ -28,6 +28,8 @@ consistent with startY and endY.}
 
 \item{catchmentName}{Name of catchment for which data should be extracted}
 
+\item{temp_or_precip}{Either 'Temperature' or 'Precipitation'}
+
 \item{elBands_shp}{Shapefile with hydrological response units. The column
 containing the names of the hydrological response units must be \code{name}
 and the column containing the average elevation of the elevation band must
@@ -53,8 +55,6 @@ period) and 'fut_sim' (fture GCM simulations)}
 written)}
 
 \item{tz}{Time zone information. Default "UTC" which can be overridden.}
-
-\item{dataType}{Either 'Temperature' or 'Precipitation'}
 }
 \value{
 Dataframe tibble with temperature in deg. C. or precipitation in mm/h

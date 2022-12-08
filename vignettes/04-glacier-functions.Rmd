@@ -64,7 +64,7 @@ The present vignette gives an overview over the relevant glacier-related data, i
 
 Recent advances in glacier research yielded a stupendous amount of novel data sets that can be used to map glaciers and to force glacier melt models. The following section gives an overview over the data used in the models, status January 2022.
 
-We use the catchment of the gauging station on the Atabshy river, a tributary to the Naryn river in Central Asia as a demo site. If you'd like to reproduce the examples presented in this vignette you can download the zipped data by clicking this [link](https://www.dropbox.com/sh/r0lqggc77ka0uxd/AAChuIyLHHFIfAdgxNKiU2dpa?dl=1){target="_blank"}. You can extract the the downloaded data into a location of your choice and adapt the reference path in the code chunk below. The rest of the code will run as it is, provided you have the required r packages installed. The size of the data package is approximately 1 GB.
+We use the catchment of the gauging station on the Atabshy river, a tributary to the Naryn river in Central Asia as a demo site. If you'd like to reproduce the examples presented in this vignette you can download the riversCentralAsia_ExampleData (see [README](https://hydrosolutions.github.io/riversCentralAsia/){target="_blank"}). The rest of the code will run as it is, provided you have the required r packages installed. The size of the data package is approximately 1 GB.
 
 ```{r datarefpath, datarefpath, message=FALSE, warning=FALSE}
 # Install the libraries required to reproduce this vignette
@@ -83,9 +83,7 @@ devtools::install_github("hydrosolutions/riversCentralAsia")
 # development. 
 library(riversCentralAsia)
 
-# Path to the data directory downloaded from the download link provided above. 
-# Here the data is extracted to a folder called atbashy_glacier_demo_data
-data_path <- "../../atbashy_glacier_demo_data/"
+data_path <- "../../riversCentralAsia_ExampleData/"
 ```
 
 ## Randolph glacier inventory
@@ -94,10 +92,10 @@ The Randolph Glacier Inventory (RGI) v6.0 [@rgi60] makes a consistent global gla
 
 ```{r, rgi, message=FALSE, warning=FALSE, fig.cap="DEM & Glacier outlines (light gray) of the demo basin.", out.width="90%"}
 
-dem <- raster(paste0(data_path, "GIS/16076_DEM.tif"))
-basin <- st_read(paste0(data_path, "GIS/16076_Basin_outline.shp"), quiet=TRUE)
+dem <- raster(paste0(data_path, "16076_DEM.tif"))
+basin <- st_read(paste0(data_path, "16076_Basin_outline.shp"), quiet=TRUE)
 
-rgi <- st_read(paste0(data_path, "GIS/16076_Glaciers_per_subbasin.shp"), 
+rgi <- st_read(paste0(data_path, "16076_Glaciers_per_subbasin.shp"), 
                quiet = TRUE) |> 
   st_transform(crs = crs(dem))
 
@@ -126,7 +124,7 @@ Two global glacier thickness datasets are currently publicly available: @farinot
 
 ```{r, message=FALSE, warning=FALSE, error=FALSE, fig.cap="Glacier thickness by Milan et al., 2022."}
 thickness <- raster(paste0(data_path, 
-                           "GLACIERS/Milan_glacier_thickness.tif"))
+                           "Milan_glacier_thickness.tif"))
 
 values(thickness)[values(thickness) <= 0] = NA
 
@@ -188,11 +186,12 @@ $$V=0.018484 \cdot A + 0.021875 \cdot A^{1.3521}\text{ }\text{ }\text{ for }\tex
 
 @hugonnet_accelerated_2021 provide annual estimates of glacier thinning rates for each glacier in the RGI v6.0 data set. A copy of the Hugonnet thinning rates is included in the download link above.
 
-The per-glacier time series of thinning rates is available from the [data repository](https://www.sedoo.fr/theia-publication-products/?uuid=c428c5b9-df8f-4f86-9b75-e04c778e29b9){target="_blank"} as described in the [github site](https://github.com/rhugonnet/ww_tvol_study){target="_blank"} linked under the code availability section of the [online paper](https://www.nature.com/articles/s41586-021-03436-z){target="_blank"} of @hugonnet_accelerated_2021.
+The per-glacier time series of thinning rates is available from the [data repository](https://www.sedoo.fr/theia-publication-products/?uuid=c428c5b9-df8f-4f86-9b75-e04c778e29b9){target="_blank"} as described in the [github site](https://github.com/rhugonnet/ww_tvol_study){target="_blank"} linked under the code availability section of the [online paper](https://www.nature.com/articles/s41586-021-03436-z){target="_blank"} of @hugonnet_accelerated_2021. The data is available in a compressed format and you will have to extract it before you can use it.
 
-```{r, thinning, message=FALSE, warning=FALSE, fig.cap = "Average glacier mass change by Hugonnet et al., 2021.", out.width="90%"}
+```{r, thinning, eval=FALSE, message=FALSE, warning=FALSE, fig.cap = "Average glacier mass change by Hugonnet et al., 2021.", out.width="90%"}
 
-hugonnet <- read_csv(paste0(data_path, "/GLACIERS/Hugonnet/dh_13_rgi60_pergla_rates.csv"))
+hugonnet <- read_csv(paste0(<path to your copy of the Hugonnet data>, 
+                            "dh_13_rgi60_pergla_rates.csv"))
 
 # Explanation of variables:
 # - dhdt is the elevation change rate in meters per year,
@@ -246,10 +245,10 @@ Glacier thinning rates can be viewed as net glacier mass change or glacier imbal
 
 The original data is available from the [data repository](https://zenodo.org/record/5119153#.Yfjv6-rMKF4){target="_blank"} linked in the [online version of the paper](https://www.nature.com/articles/s41467-021-23073-4){target="_blank"}.
 
-```{r, glacierDischarge, message=FALSE, warning=FALSE, fig.cap = "Glacier discharge derived from Miles et al., 2021.", out.width="90%"}
+```{r, glacierDischarge, eval=FALSE, message=FALSE, warning=FALSE, fig.cap = "Glacier discharge derived from Miles et al., 2021.", out.width="90%"}
  
-miles <- read_delim(paste0(data_path,
-                           "GLACIERS/Miles/Miles2021_Glaciers_summarytable_20210721.csv"),
+miles <- read_delim(paste0(<path to your copy of Miles glacier ablation rates>, 
+                           "Miles2021_Glaciers_summarytable_20210721.csv"),
                     show_col_types = FALSE, delim = ",") |> 
   dplyr::filter(RGIID %in% rgi$RGIId & VALID == 1)
 
