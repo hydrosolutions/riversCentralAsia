@@ -83,7 +83,7 @@ temperature is included.
 
 
 ## Related packages
-The hydraulic-hydrological modelling software RS MINERVE can be accessed through Common Language Runtime (CLR) directly from within R, thus the use of the RS MINERVE GUI can be avoided and multiple runs of large models can be speed up. The [github repository RSMinerveR](https://github.com/hydrosolutions/RSMinerveR){target="_blank"} includes examples of how to use CLR commands to use the Visual Basic interface with RS MINERVE documented in the [technical manual](https://crealp.github.io/rsminerve-releases/tech_scripts.html){target="_blank}. This functionality is recommended for advanced users of RS MINERVE only. 
+The hydraulic-hydrological modelling software RS MINERVE can be accessed through Common Language Runtime (CLR) directly from within R, thus the use of the RS MINERVE GUI can be avoided and multiple runs of large models can be speed up. The [GitHub repository RSMinerveR](https://github.com/hydrosolutions/RSMinerveR){target="_blank"} includes examples of how to use CLR commands to use the Visual Basic interface with RS MINERVE documented in the [technical manual](https://crealp.github.io/rsminerve-releases/tech_scripts.html){target="_blank}. This functionality is recommended for advanced users of RS MINERVE only. 
 
 There are a number of existing R packages available that support data preparation and  hydrological modelling [@slater_using_2019]. However, apart from *riversCentralAsia*, there is no R package to facilitate hydrological modelling specifically with RS MINERVE which is a powerful, accessible tool for water resources management in mountainous regions.  
 
@@ -116,7 +116,7 @@ source version).
 
 **Note** that **Windows** users require a working installation of
 <a href="https://cran.r-project.org/bin/windows/Rtools/"
-target="_blank">RTools</a> to install packages from github.
+target="_blank">RTools</a> to install packages from GitHub.
 
 You can install the development version from
 <a href="https://github.com/hydrosolutions/riversCentralAsia/"
@@ -133,7 +133,7 @@ make sure all dependencies integrate with the *riversCentralAsia* package
 as they should. The following step-by-step instructions explain how to
 do this:
 
-1.  Go to the [packages github
+1.  Go to the [packages GitHub
     repository](https://github.com/hydrosolutions/riversCentralAsia),
     click the green code button and select download zip. This will
     download a zip folder with the package code to your Download
