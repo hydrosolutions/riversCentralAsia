@@ -1,6 +1,9 @@
 
 <!-- README.md is generated from README.Rmd. Please edit that file -->
 
+[![DOI](https://joss.theoj.org/papers/10.21105/joss.04805/status.svg)](https://doi.org/10.21105/joss.04805)
+
+
 # riversCentralAsia
 
 ## Summary
